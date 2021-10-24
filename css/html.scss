@@ -153,12 +153,45 @@ li{list-style: none;}
         .content
         {
             padding: 20px 10px;
+            .article
+            {
+               padding: 0 10px;
+               padding-bottom: 20px;
+               margin-top: 10px;
+               font-size: 1.3em;
+               img
+               {
+                   margin: 20px 0;
+                   max-width: 100%;
+                //    width: 100%;
+               }
+               h2
+               {
+                   font-size: 28px;
+                   margin-bottom: 20px;
+               }
+                pre
+                {
+                    display: block;
+                    margin-top: 0;
+                    margin-bottom: 1rem;
+                    overflow:auto;
+                    font-size: .875em;
+                }
+            }
            .address
            {
                a
                {
                    font-size: 14px;
                    color: #979797;
+               }
+               p
+               {    
+                    margin-left: 10px;
+                    margin-top: 10px;
+                    font-size: 14px;
+                    color: #979797;
                }
            }
            .about
@@ -199,6 +232,10 @@ li{list-style: none;}
                             }
                         }
                        
+                   }
+                   a:hover
+                   {
+                       background-color: rgba(15, 15, 15, 0.1);
                    }
                   
                }
@@ -355,6 +392,17 @@ li{list-style: none;}
         }
     }
 
+}
+
+.line_center
+{
+    text-decoration: line-through;
+}
+.code
+{
+    display: block;
+    padding: 1em;
+    overflow-x: auto;
 }
 
 @media (max-width:1250px)
