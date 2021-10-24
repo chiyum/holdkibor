@@ -688,6 +688,8 @@ li{list-style: none;}
 }
 
 
+
+
 @media (max-width:580px) {
 
     .container
@@ -696,7 +698,23 @@ li{list-style: none;}
         {
             .img
             {
-                height: 45vh;
+                height: 40vh;
+            }
+        }
+    }
+    
+}
+
+
+@media (max-width:550px) {
+
+    .container
+    {
+        .main
+        {
+            .img
+            {
+                height: 37vh;
             }
         }
     }
@@ -711,7 +729,7 @@ li{list-style: none;}
         {
             .img
             {
-                height: 40vh;
+                height: 36vh;
             }
         }
     }
