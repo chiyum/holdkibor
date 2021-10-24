@@ -549,7 +549,7 @@ li {
   text-align: center;
   text-transform: uppercase;
   color: #222;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 600;
   -webkit-transition: 0.5s;
   transition: 0.5s;
@@ -718,17 +718,23 @@ li {
 
 @media (max-width: 580px) {
   .container .main .img {
-    height: 45vh;
+    height: 40vh;
+  }
+}
+
+@media (max-width: 550px) {
+  .container .main .img {
+    height: 37vh;
   }
 }
 
 @media (max-width: 520px) {
   .container .main .img {
-    height: 40vh;
+    height: 36vh;
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 490px) {
   .container .main .img {
     height: 35vh;
   }
