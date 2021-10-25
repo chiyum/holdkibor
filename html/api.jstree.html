@@ -74,10 +74,234 @@
                 <div class="article">
                     <h2>Jstree 基礎功能及操作介紹</h2>
                     <p>Jstree<span class="line_center">是一個真正的王國遊戲</span>，Jstree其實是一個樹狀的文件檔案管理的插件，又稱為樹元件。</p>
-                    <p>Jstree的用途極廣，不過我個人所使用途只有後端資料庫連接，並控制資料的排序的用途，基本介面大致如下:</p>
-                    <img src="../img/jstree.explain.png" alt="">
-                    <p>Jstree的交互性極強，搭配其提供的API使用的話，可以使用它提供的介面來操作後端的資料進行移動、刪除、修改、新增等動作。</p>
+                    <p>Jstree的用途多樣，可由使用者自訂義操作內容，可選擇僅觀看，亦可選擇可查詢可操作及修改。功能性的強大讓許多人使用此插件進行開發，Jstree的基本介面大致如下:</p>
+                    <img src="../img/jstree.explain.png" alt="示意圖">
+                    <p>雖然畫面看上去有些簡陋，但這些都是可以自訂義的，本身也有導入外部樣式的功能。</p>
+                    <p>Jstree的會被廣泛利用當然不是只有這點，其主要原因還是交互性，Jstree搭配其提供的API使用的話，可以使用它提供的介面來操作資料進行移動、刪除、修改、新增等動動作並同步更新於後端。
+                    </p>
                     <p>那麼接下來將會解釋基本的介紹與Jstree在前端可使用的一些功能及操作。</p>
+                    <h3>創建步驟</h3>
+                    <p>首先在使用jstree前須先導入它的CSS檔案，接著則是jQuery，因為Jstree主要是依附著jQuery進行開發的，最後才是載入Jstree的js檔</p>
+                    <img src="../img/jstree.img1.jpg" alt="載入一" style="height: 30px;">
+                    <p>CSS檔案<ion-icon name="arrow-up-outline"></ion-icon>
+                    </p>
+                    <img src="../img/jstree.img2.jpg" alt="載入二">
+                    <p>JS檔案<ion-icon name="arrow-up-outline"></ion-icon> 這邊須注意擺放順序及jQuery的版本，最起碼要在1.12.1以上。</p>
+                    <p>當檔案載入完成後於要使用的位置替Jstree創造個專屬id</p>
+                    <img src="../img/jstree.img3.jpg" alt="結構一">
+                    <p>接下來就是決定Jstree的樹結構及資料來源了，資料來源可以使用AJAX亦可以在編輯器直接輸入</p>
+                    <img src="../img/jstree.img4.jpg" alt="結構二">
+                    <p>這個是jstree所提供的範例檔，是最基本的jstree結構，先說data資料來源的部分，core這個屬性我們待會會提到。</p>
+                    <p>我們看第二個direct直接在編輯器輸入的範例。data是一個陣列，包住許多個物件，每個物件代表一個資料夾。</p>
+                    <p>第一行的字串是資料夾的名稱，也是整個選單的母資料夾，所有資料夾都是依附在它之下。</p>
+                    <p>接下來我們看向第二行的物件，物件內有4個屬性。</p>
+                    <p class="article_list">
+                        <span>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            id:代表的是這個資料夾獨有的id，不能重複。若使用者沒有輸入則由系統自動給予。
+                        </span>
+                        <span>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon> text:資料夾的名稱。
+                        </span>
+                        <span>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon> state:資料夾自訂義狀態，是否在載入時開啟或是否禁用等。
+                        </span>
+                        <span>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            children:資料夾層下的子資料夾，建立的方式與data一樣。
+                        </span>
+                        <span>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            parent:範例沒提到，不過除了使用children的方法建立子資料夾外，還可以透過parent屬性指定母資料夾是誰。
+                        </span>
+                        <span>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon> (這邊要填寫母資料夾的id)。
+                        </span>
+                        <span>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            type:自訂義種類，自訂義種類可以將是否禁用等設定寫入type中，這樣就只需要寫一次入type，不需要每一筆都寫上設定。
+                        </span>
+                    </p>
+                    <p>其次是AJAX，但個人我並不是使用範例所提供的方法，而是將回傳回來的資料置入變數中，接著放入data。若是有人嘗試過使用範例的方法且願意分享的話，再麻煩與我聯絡。</p>
+                    <h3>自訂義功能.結構類</h3>
+                    <h4>$.jstree.defaults.core</h4>
+                    <p>在基本的結構中我們可以看見core，它可以是結構的核心，資料依附它之下，同時也有一些對於tree設定的功能。接下來介紹的功能是core底下的功能。</p>
+                    <h5>$.jstree.defaults.core.animation 選單展開動畫</h5>
+                    <p>"animation": boolean or <span class="str2">毫秒</span> |
+                        默認 <span class="true">true</span>.200(毫秒) /禁用:<span class="false">false</span>
+                    </p>
+                    <h5>$.jstree.defaults.core.check_callback 更動與否</h5>
+                    <p>
+                        "check_callback": boolean //是否可以更動檔案的資料及順序
+                        <span class="true">true</span> 可 / <span class="false">false</span> 限制
+                    </p>
+                    <h5>$.jstree.defaults.core.themes 樣式設定</h5>
+                    <p>
+                        <span>條紋背景."stripes": boolean | <span class="true">true</span> 有 / <span
+                                class="false">false</span> 無</span>
+                        <br>
+                        <span>圖標顯示與否."icons": boolean | <span class="true">true</span> 顯示 / <span
+                                class="false">false</span> 無</span>
+                        <br>
+                        <span>父子節點連接線."dots": boolean | <span class="true">true</span> 連接 / <span
+                                class="false">false</span> 無</span>
+                        <br>
+                        <span>省略過長字串."ellipsis":boolean | <span class="true">true</span> 省略 / <span
+                                class="false">false</span> 無</span>
+                        <br>
+                        <span>//容器為固定寬度時才生效</span>
+                    </p>
+                    <h5>$.jstree.defaults.core.expand_selected_onload 加載時打開所有節點</h5>
+                    <p>"expand_selected_onload": boolean | <span class="true">true</span> 打開 / <span
+                            class="false">false</span> 不開</span></p>
+                    <h4>$.jstree.defaults.plugins 附加功能</h4>
+                    <p>Jstree有提供一些額外的附加功能，如右鍵選單、資料夾拖曳、搜尋等功能。若要啟用這些功能就必須在這個屬性內增加欲啟用的值</p>
+                    <p>範例如下:</p>
+                    <pre class="code">
+<span class="str">"plugins"</span>: [
+<span class="str">"contextmenu"</span>, <span class="str">"dnd"</span>,<span class="str">"search"</span>,
+<span class="str">"state"</span>, <span class="str">"type"</span>, <span class="str">"wholerow"</span>,
+],
+</pre>
+                    <p>依照順序分別是右鍵選單、拖曳、搜尋、狀態、種類、節點佔據整排，我們依序介紹。</p>
+                    <h4>$.jstree.defaults.contextmenu 右鍵選單</h4>
+                    <img src="../img/jstree.img5.jpg" alt="右鍵選單">
+                    <p>
+                        說明之前先解釋一下標題的那段代碼是甚麼意思，這是Jstree所呈現的代碼，代表的是物件的排序。jstree.defaults是樹結構本身，contextmenu則又是一個在它底下的物件。
+                    </p>
+                    <p>拿右鍵選單的例子來說，jstree.defaults是一個物件，contextmenu則是它的物件底下的屬性。
+                        所以要設置contextmenu的自訂義細節設定，那就要在contextmenu的值生成一個物件，在物件內輸入屬性及值。
+                    </p>
+                    <p>接下來進入重點，contextmenu的作用是在tree點擊右鍵時，會出現功能選單，選單內有提供複製、剪下、貼上、命名等功能。
+                        我會搭配move_node.jstree Event及get_json ([obj, options])將每次的更新列表取出並輸入指定資料庫。
+                    </p>
+                    <h5>$.jstree.defaults.contextmenu.items 選單自訂義</h5>
+                    <pre class="code">
+"contextmenu": {
+    <span class="str">"items"</span>:<span class="fn"> function(<span class="def">node</span>)</span> {
+    <span class="var">var</span> defaultItems = <span class="fn2">$.jstree.defaults.contextmenu.items()</span>;//抓取資料
+    defaultItems.create.label = <span class="str2">"新增資料夾"</span>;//更改屬性
+    defaultItems.rename.label = <span class="str2">"命名"</span>;
+    defaultItems.remove.label = <span class="str2">"刪除"</span>;
+    
+    // defaultItems.Rename.label =<span class="str2">'命名'</span>;//刪除屬性
+    // delete defaultItems.ccp; //刪除整個功能屬性
+    <span class="var">return</span> defaultItems; //將資料回傳給tree
+    }
+},
+</pre>
+                    <p>以上是對contextmenu的基本自訂義操作，除此之外也可以新增自訂義的功能上去。</p>
+                    <p>操作大致如下:</p>
+                    <pre class="code">
+"contextmenu": {
+    <span class="str">"items"</span>: </span>:<span class="fn"> function(<span class="def">node</span>)</span> {
+        <span class="var">var</span> tree = <span class="fn2">$("#tree").jstree(true)</span>;
+        <span class="var">return</span> {
+            <span class="str">"create"</span>: {
+                "label": <span class="str2">"新增"</span>,//名稱
+                "action": function (obj) {//新增的功能
+                    $node = tree.create_node($node);
+                    tree.edit($node);
+                }
+            },
+        }
+},
+</pre>
+                    <h4>$.jstree.defaults.contextmenu.show_at_node 選單對齊位置</h4>
+                    <p>"show_at_node":boolean | <span class="true">true</span> 貼齊節點 / <span
+                            class="false">false</span>貼齊鼠標</p>
+                    <h4>$.jstree.defaults.dnd 文檔/資料夾拖曳</h4>
+                    <p>這個功能是可以拖曳tree內的節點(文檔/資料夾)，更動他們的位置</p>
+                    <h5>$.jstree.defaults.dnd.copy 拖曳可否複製</h5>
+                    <p>拖曳時是否能複製."copy":boolean | <span class="true">true</span> 可 / <span class="false">false</span>否
+                        //案住crtl後拖曳。</p>
+                    <h4>$.jstree.defaults.checkbox 複選框</h4>
+                    <p>節點(資料夾)左邊會出現一個選取框，點選可以複選進行同步操作。</p>
+                    <h5>$.jstree.defaults.checkbox.three_state 級聯選取(父節點同步選取)</h5>
+                    <p>three_state:boolean | <span class="true">true</span> 可 / <span class="false">false</span>否
+                        //當點選子節點時，是否同布選取其父、祖節點</p>
+                    <h4>$.jstree.defaults.types</h4>
+                    <img src="../img/jstree.img6.jpg" alt="type">
+                    <p>可以替節點(資料夾)的物件增加一個種類，種類可以賦予節點(文件檔)各自的icon、子節點(子資料夾)的type限制、可容納最多幾個子節點等設定</p>
+                    <p>從現在開始為了方便文章的閱讀，資料夾/文檔我一律稱為節點。
+                        因為在jstree中，是資料夾還是節點都是由type或state所限制，畢竟jstree只是將資料給呈現出來並非實際的資料檔。使用者可以決定這個節點是否能增加子節點，也就是資料夾。
+                        或者它只是個檔案所以無法增加子節點。
+                    </p>
+                    <h5>$.jstree.defaults.types.type</h5>
+                    <p class="article_list">
+                        <span></ion-icon>子節點type限制."valid_children": ["default", "file"]
+                            //此範例是限制只有file及degault的type可以成為子節點</span>
+                        <span></ion-icon>最大子節點數量."max_children": 數量 | -1 無限</span>
+                        <span></ion-icon>圖示."icon":"./img/123.jpg" //節點左邊的icon圖示</span>
+                    </p>
+                    <h4>$.jstree.defaults.search 搜索</h4>
+                    <p>可以搜索jstree列表內的所有節點，這個必須搭配事件類的功能才能進行，後續事件類型會在提到一次。</p>
+                    <h3>自訂義功能.事件類</h3>
+                    <p>在使用功能前，我們必須指定是哪一個節點作用，所以我們要先建立個指定節點的function</p>
+                    <pre class="code">
+<span class="var">function</span> <span class="fn">getDOM()</span> {
+    <span class="var">let</span> ref = <span class="fn2">$('#tree').jstree(true)</span>;//指向tree
+    sel = <span class="fn2">ref.get_selected()</span>;//獲取選取的tree節點，也就是你在tree點擊時，會反藍的那一個就是你所指定的節點。
+    //get_selected() //<span class="true">true</span> 返回整個節點 <span class="false">false</span> 也就是默認則是返回id(陣列形式)，若有多個對象則返回多個id的陣列。
+    //sel = sel[0];
+    //單一則指定對象只有本身一個
+    //若不選擇若有多選項時則多選
+    <span class="var">return</span> sel; //return 以便後續使用
+}
+</pre>
+                    <h4>create_node 新增節點</h4>
+                    <p>型態:create_node(父節點,新節點賦予設定(如type),新節點位置])</p>
+                    <p>節點位置:可以設置first,last或指定位置</p>
+                    <pre class="code">
+<span class="var">function</span> <span class="fn">createNewfile()</span> {
+    <span class="var">let</span> addfile_Value = document.querySelector('.addFile input').<span class="fn2">value</span>//獲取輸入框的文字
+    <span class="var">let</span> ref = <span class="fn2">$('#tree').jstree(true)</span>;//獲取樹
+    <span class="var">let</span> DOM = <span class="fn2">getDOM()</span>;//獲取點選tree節點 
+    DOM = ref<span class="fn2">.create_node(DOM, { "type": "file" })</span>;//加入節點type
+    <span class="var">if</span> (DOM) {
+        ref.<span class="fn2">edit</span>(DOM,addfile_Value);//啟用編輯模式
+    };
+};
+</pre>
+                    <p>看到這裡可能有些人會疑惑，在getDOM不是已經取得節點了嗎?怎麼還要在獲取樹一次?其實是因為getDOM只是獲取節點的ID，要指定tree的節點還是需要先指定tree本身。</p>
+                    <p>ref.create_node(DOM, { "type": "file" }) ref是指定的樹.DOM是使用者點選獲取的樹的ID</p>
+                    <h4>delete_node() 刪除節點</h4>
+                    <p>型態:delete_node(指定節點)</p>
+                    <pre class="code">
+function del() { 
+    <span class="var">let</span> ref = <span class="fn2">$('#tree').jstree(true)</span>;//獲取樹
+    <span class="var">let</span> DOM = <span class="fn2">getDOM()</span>;//獲取點選tree節點 
+    ref.<span class="fn2">delete_node(<span class="def">DOM</span>)</span>;//指定ID執行刪除
+    //delete_node(欲刪除DOM)
+};</pre>
+                    <h4>edit() 命名節點</h4>
+                    <p>
+                        型態:edit(節點,新名稱)
+                        <br>
+                        //看到這邊基本也理解執行邏輯，較為簡單功能就不會有範例，若有不理解可以來信詢問。
+                    </p>
+                    <h4>get_json 取得更新後的data</h4>
+                    <p>型態:get_json(父元素,資料取得的細節設定)</p>
+                    <p>
+                        若沒有連接資料庫，那麼使用者即使再怎麼更動列表進行刪除、新增等動作，於重整後也不會儲存，因為沒有將更新後的資料儲存入資料庫，並於重啟後讀取。
+                        所以若是要儲存更動就需要將資料連接入資料庫。這邊會以localstoage做示範
+                    </p>
+                    <h5>儲存</h5>
+                    <pre class="code">
+function updata() {
+    let ref = $('#tree').jstree(true);//指向tree
+    let data = ref.get_json('#', { 'flat': true })//這邊的flat是只取data資料的物件，也就是說它會給你一個陣列，陣列內是每個節點的物件格式。
+    dataAry = JSON.stringify(data) //dataAry是儲存data的陣列，這邊是將data轉為字串後轉入塞入dataAry
+    localStorage.setItem('資料',dataAry)//將dataAry放入local  ex.已有function當重整時載入dataAry
+};</pre>
+                    <h5>取得</h5>
+                    <pre class="code">
+let dataAry = JSON.parse(localStorage.getItem('資料'));//先取得儲存的資料庫內容
+$('#tree').jstree({
+    "core": {
+        "data": dataAry,//將儲存的內容做為結構
+    },
+}</pre>
                 </div>
             </div>
         </div>
@@ -143,6 +367,8 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
+        <!-- <div class="gotop active"></div> -->
+        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

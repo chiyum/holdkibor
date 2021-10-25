@@ -1,0 +1,1997 @@
+jstree 操作說明:
+
+
+先說jstree的創立步驟:
+
+一.載入jstreeAPI、JQAPI，並在html中創建div並自訂義ID
+
+二.於js中創建tree結構(不須使用JqDocReady)
+
+  $('#tree').jstree({
+            "core": {
+               
+                "data": [
+                    { "id": "0", "parent": "#", "state": { "disabled": false, "opened": true, "selected": false }, "text": "選單" },
+                    { "id": "1", "parent": "0", "text": "選單1","type": "mytype"},
+                    { "id": "2", "parent": "0", "text": "選單2" },
+                    { "id": "3", "parent": "0", "text": "選單3" },
+                    { "id": "4", "parent": "0", "text": "選單4" },
+                    { "id": "5", "parent": "0", "text": "選單5" },
+                    { "id": "6", "parent": "5", "text": "選單6" },
+                    { "id": "7", "parent": "6", "text": "選單7" },
+                    { "id": "8", "parent": "6", "text": "選單8" },
+                    { "id": "11", "parent": "0", "text": "選單11(最底)" },
+
+                ], 
+            },
+        });
+
+以上是最基本的tree結構,
+core: 核心 必要存在
+data: 顯現的列表,有三種方式
+
+-----AJAX-----:
+
+$('#tree').jstree({
+	'core' : {
+		'data' : {
+			'url' : '/get/children/',
+			'data' : function (node) {
+				return { 'id' : node.id };
+			}
+		}
+	});
+
+
+--------------------------------------------
+直接創建:
+
+$('#tree').jstree({
+	'core' : {
+		'data' : [
+			'Simple root node',//根目錄名稱
+			{
+				'id' : 'node_2',//每個選單都有自己的ID,若是沒有輸入，系統會自動設定
+				'text' : 'Root node with options',//名稱
+				'state' : { 'opened' : true, 'selected' : true },//功能狀態
+				'children' : [ { 'text' : 'Child 1' }, 'Child 2']//子目錄/檔案
+                'parent':'#'//父資料層
+                'type':'自訂義type'//之後可以於"types"中設定自訂義的功能與icon圖示
+			}
+		]
+	}
+});
+
+
+      
+
+--------------------------------------------
+
+// function
+$('#tree').jstree({
+	'core' : {
+		'data' : function (obj, callback) {
+			callback.call(this, ['Root 1', 'Root 2']);
+		}
+	});
+
+
+--------------------------------------------
+
+-----自訂義功能-----:
+在jstree中有許多且不一樣的自訂義功能，共分為event事件及屬性設定，以下會一一介紹。
+
+
+屬性:
+在說明之前，先讓我們理解JStree官網中的功能的意思:
+
+$.jstree.defaults.core.data:
+
+$.jstree.defaults = tree主結構
+//而我們可以直接調用此代碼進行操作
+//如var a = $.jstree.defaults
+console.log(a)
+
+
+core = tree底下的屬性
+
+data = core 底下的屬性
+
+從上面的例子我們可以瞭解，若要設定更動data內的相關設定，就是得先在core的物件中放置一個data物件，之後再來設定。
+
+
+------tree內功能-----:
+($.jstree.defaults.plugins) 附加功能
+"plugins":[附加功能,附加功能二] //jstree本身有提供一些附加功能，在此激活後可以再開一個物件進行細節設定。
+以下為幾樣常用範例。
+範例:
+"plugins": ["contextmenu", "dnd", "search","state", "types", "wholerow"]
+-------------------------------------------------------------------------------------------------
+
+($.jstree.defaults.state) 狀態的設定
+"state":(暫無說明)
+//於plugins激活後才能生效
+-------------------------------------------------------------------------------------------------
+
+($.jstree.defaults.contextmenu) 右鍵選單 
+"contextmenu":{}//有一些複製貼上的基本功能
+//於plugins激活後才能生效
+
+ol.($.jstree.defaults.contextmenu.show_at_node) 選單貼齊位置
+"show_at_node":boolean
+true 貼齊節點 / false 貼齊鼠標
+
+($.jstree.defaults.contextmenu.items) 選單內容自訂義
+"label": 名稱
+"action": 操作function
+"icon": 圖標
+
+右鍵菜單的基本更改操作.
+
+ "contextmenu": {
+                "items": function(node) {
+                var defaultItems = $.jstree.defaults.contextmenu.items();//抓取資料
+                defaultItems.create.label = "新增資料夾";//更改屬性
+                defaultItems.rename.label = "命名";
+                defaultItems.remove.label = "刪除";
+                
+                // defaultItems.Rename.label ='命名';//刪除屬性
+                // delete defaultItems.ccp; 刪除屬性
+                return defaultItems; //將資料回傳給tree
+                }
+            },
+
+又或者可以自訂義.
+"contextmenu": {
+                "items": function ($node) {
+                    var tree = $("#tree").jstree(true);
+                    return {
+                        "Create": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "新增",//名稱
+                            "action": function (obj) {
+                                $node = tree.create_node($node);
+                                tree.edit($node);
+                            }
+                        },
+                        "Rename": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "重新命名",
+                            "action": function (obj) {
+                                tree.edit($node);
+                            }
+                        },
+                        "Remove": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "刪除",
+                            "action": function (obj) {
+                                tree.delete_node($node);
+                            }
+                        },
+                        "copy": {
+                            "separator_before": false,
+                            "separator_after": false,
+                            "label": "複製(尚未完成)", // 待查詢
+                            "action": function (obj) {
+                                tree.delete_node($node);
+                            }
+                        },
+
+                    };
+                }
+            },
+
+-------------------------------------------------------------------------------------------------
+($.jstree.defaults.dnd) 拖曳功能
+"dnd":{} //可以將資料拖曳，使位置變更。
+//於plugins激活後才能生效
+
+($.jstree.defaults.dnd.copy) 拖曳時複製與否 
+"copy":boolean //案住crtl後拖曳
+默認 true/ false 
+-------------------------------------------------------------------------------------------------
+
+($.jstree.defaults.checkbox) 選取多個節點
+"checkbox":{} 
+//於plugins激活後才能生效
+
+ref.toggle_checkboxes () 點選圖標切換
+
+
+
+($.jstree.defaults.checkbox.three_state) 連級選取
+three_state:boolean //選取子節點的同時父節點也一同選取
+true 連級 / false 只選擇點擊的選項
+
+-------------------------------------------------------------------------------------------------
+
+
+($.jstree.defaults.types) 型別種類
+"types":{}  //可自訂義icon和css及賦予限制
+
+
+
+($.jstree.defaults.types.valid_children) 限制子型別
+"valid_children": []//可以限制只接收(新增)子節點的型別
+範例:
+"valid_children": ["default", "file"],//以上述範例則是限制只有file及degault的type可以成為子級
+
+-------------------------------------------------------------------------------------------------
+
+($.jstree.defaults.search) 搜尋
+"search":{} //待說明
+//於plugins激活後才能生效
+
+
+-----core內的功能-----:
+($.jstree.defaults.core.animation) 選單展開動畫
+"animation": boolean or 毫秒 
+默認 ture 200(毫秒) /禁用:false 
+-------------------------------------------------------------------------------------------------
+  
+($.jstree.defaults.core.check_callback) 更動與否
+"check_callback": boolean //是否可以更動檔案的資料及順序
+true 可 / false 限制
+-------------------------------------------------------------------------------------------------
+
+($.jstree.defaults.core.error)
+"error":待說明 (操作失敗時回傳參數?
+-------------------------------------------------------------------------------------------------
+
+($.jstree.defaults.core.themes) 樣式設定
+"themes": boolean //基本的樣式設定，如父子層是否有線條連接等。
+
+($.jstree.defaults.core.themes.stripes) 條紋背景
+"stripes": boolean
+true 有 / false 無
+
+($.jstree.defaults.core.themes.dots) 父子節點連接線
+"dots": boolean
+true 有 / false 無
+
+($.jstree.defaults.core.themes.icons) 圖標顯示與否
+"icons": boolean
+true 有 / false 無
+
+($.jstree.defaults.core.themes.ellipsis) 省略過長字串
+"ellipsis":boolean //容器為固定寬度時才生效
+true 是 / false 否
+
+-------------------------------------------------------------------------------------------------
+
+($.jstree.defaults.core.expand_selected_onload) 加載時打開所有節點
+"expand_selected_onload": boolean
+true 是 / false 否
+
+
+event:
+
+說明:
+在jstree的教學中看到 像是changed.jstree Event 的event，就把它當成是click這種觸發事件使用就可以，
+差別在於觸發的時機不同以及需要使用jq的on作為載體。
+
+還有另一種event則是如同這種 edit (obj [, default_text, callback])，這個的話就是對指定的節點進行操作
+相比於偵測到事件時觸發，這種則是對於節點的獨立操作。
+
+範例:
+$(function () { 
+ $('#tree').on('model.jstree', function (e, x , y) {
+       console.log('新節點加入');
+    });
+});
+-------------------------------------------------------------------------------------------------
+
+model.jstree （ Event ⚡ ） 新節點加入時觸發
+$(function () { 
+$('#tree').on('model.jstree', function (e, nodes , array) {
+        console.log('新節點加入',nodes,array);
+    });
+});
+
+nodes:節點的資訊
+
+array:父節點資訊
+
+備註:注意，若需要取得參數，必須代入指定參數
+
+-------------------------------------------------------------------------------------------------
+move_node.jstree （ Event ⚡ ）節點移動時觸發
+$(function () { 
+         $('#tree').on('move_node.jstree', function (e,node,parent) {
+               console.log('移動',node,parent);
+            });
+        });
+
+node:新節點資訊
+
+parent:新父節點資訊
+-------------------------------------------------------------------------------------------------
+
+delete_node.jstree （ Event ⚡ ）刪除節點時觸發
+
+$('#tree').on('delete_node.jstree', function (e) {
+    console.log('刪除');
+});
+
+-------------------------------------------------------------------------------------------------
+create_node.jstree （ Event ⚡ ）創造節點時觸發
+
+$('#tree').on('create_node.jstree', function (e) {
+    console.log('刪除');
+});
+
+-------------------------------------------------------------------------------------------------
+rename_node.jstree （ Event ⚡ ）命名節點時觸發
+
+$('#tree').on('rename_node.jstree', function (e) {
+    console.log('移動');
+});
+
+備註:使用以上四樣操作時，可以寫個function將操作後所更動的data載入之料庫中，以下使用local作為範例:
+
+function updata() {
+    let ref = $('#tree').jstree(true);//指向tree
+    let data = ref.get_json('#', { 'flat': true })//取得最新的data陣列
+    dataAry = JSON.stringify(data) //dataAry是儲存data的變數，這邊是將data轉為字串後轉入塞入dataAry
+    localStorage.setItem('資料',dataAry)//將dataAry放入local  ex.已有function當重整時載入dataAry
+};
+
+-------------------------------------------------------------------------------------------------
+
+
+
+
+自定義功能:
+
+前置作業:
+首先得先指定tree及欲操作節點。
+let ref = $('#tree').jstree(true);//指向tree
+sel = ref.get_selected();//獲取選取的tree節點
+//get_selected() //true 返回整個節點 false and 默認則是返回id(陣列形式)，若有多個對象則返回多個id的陣列。
+
+範例:
+   function getDOM() {
+            let ref = $('#tree').jstree(true);//指向tree
+            sel = ref.get_selected();//獲取選取的tree節點
+            // sel = sel[0];
+            //單一則指定對象只有本身一個
+            //若不選擇若有多選項時則多選
+            return sel; //return 以便後續使用
+        };
+
+-------------------------------------------------------------------------------------------------
+
+創建新節點:
+create_node(父節點, 插入的type,插入位置,創建後調用的function,父節點加載參數?);
+ol.插入type可自訂義
+範例:
+
+ function createNewfile() {
+            let addfile_Value = document.querySelector('.addFile input').value
+            console.log(addfile_Value)
+            let ref = $('#tree').jstree(true);
+            let DOM = getDOM();//獲取點選tree節點 
+            DOM = ref.create_node(DOM, { "type": "file" });
+            //型態:create_node(父節點,[節點名稱,(有last,first)],function(創建後調用函式))
+            if (DOM) {
+                ref.edit(DOM,addfile_Value);//啟用編輯模式
+            };
+            addChoose()//輸入後關閉
+        };
+-------------------------------------------------------------------------------------------------
+
+刪除節點
+delete_node(指定節點) 
+
+
+範例:
+  function del() { 
+            let ref = $('#tree').jstree(true);
+            let DOM = getDOM();
+            ref.delete_node(DOM);//指定ID執行刪除
+            //delete_node(欲刪除DOM)
+            
+        };
+
+-------------------------------------------------------------------------------------------------
+
+編輯節點名稱(rename):
+edit(節點,新名稱)
+-------------------------------------------------------------------------------------------------
+
+
+
+介面更新後暫存的data:
+var v =$("#tree").jstree(true).get_json('#', { 'flat': true });
+//get_json(父元素,各種返回的細節)
+//flat 返回JSON格式 ture 是返回齊下子節點 /false 返回整個父元素本身
+
+更動(包含拖曳順序)都會data暫存更新，之後就只要使用get_json跑過，新的data就能取出並送出
+故，每一次的重整都得讓get_json跑過一次，可以嘗試再每次刪除新增等事件送出資料，或者統整後再送出。
+可以嘗試使用localstorage
+備註:使用get_json常常會先跑完，故如果要直接查詢須等全域其他function跑完。
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+留作備份，便於查閱。
+
+1. jsTree 核心功能（core functionality）
+
+1.1. $.jstree
+包含所有 jstree 相關的函數和變量，包括用於創建、訪問、維護實例的類和方法。
+
++
+
+1.2. $.jstree.version
+jstree 的版本號
+
++
+
+1.3. $.jstree.defaults
+包含用於創建新實例的默認配置
+
++
+
+1.4. $.jstree.defaults.plugins
+默認是[]。
+
++
+
+配置實例中使用的插件。是一個字符串數組，每個字符串是一個插件名。
+
++
+
+1.5. $.jstree.plugins
+存放所有已加載的插件（內部用）
+
++
+
+1.6. $.jstree.create (el [, options])
+創建一個 jstree 實例
+
++
+
+參數/返回	描述
+el	DOMElement jQuery String，要創建實例的元素，可以是jQuery對象或一個選擇器
+options	Object 此實例的配置（擴展自$.jstree.defaults）
+返回	jsTree 新的實例
+1.7. $.jstree.destroy ()
+從 DOM 中刪除 jstree 的所有痕跡，並銷燬所有的實例。
+
++
+
+1.8. $.jstree.core (id) - - private
+jstree 類的構造函數，僅用於內部。
+
++
+
+參數	描述
+id	Number 此實例的索引號（index）
+1.9. $.jstree.reference (needle)
+獲取一個已存在實例的引用。
+
++
+
+參數/返回	描述
+needle	DOMElement jQuery String
+返回	jsTree null 實例，若找不到實例則返回 null
+Examples
+
++
+
+// provided a container with an ID of "tree", and a nested node with an ID of "branch"
+// all of there will return the same instance
+$.jstree.reference('tree');
+$.jstree.reference('#tree');
+$.jstree.reference($('#tree'));
+$.jstree.reference(document.getElementByID('tree'));
+$.jstree.reference('branch');
+$.jstree.reference('#branch');
+$.jstree.reference($('#branch'));
+$.jstree.reference(document.getElementByID('branch'));
+1.10. $().jstree([arg])
+創建實例、獲取實例、在實例中調用命令。
+
++
+
+若當前節點（node）沒有關聯的實例，則會新建一個實例。新建實例時，將arg用於擴展$.jstree.defaults。 此時將沒有返回值（不會中斷鏈式操作）。
+
++
+
+若已存在實例，且arg是一個字符串，則此實例將執行arg中填的命令及命令參數。 若此命令有返回值，則返回此值（此命令函數可能會影響鏈式操作）。
+
++
+
+若已存在實例，且arg不是一個字符串，則返回此實例（類似$.jstree.reference）。
+
++
+
+其他情況，則無返回值，且不會中斷鏈式操作。
+
++
+
+參數/返回	描述
+arg	String Object
+返回	Mixed
+Examples
+
++
+
+$('#tree1').jstree(); // creates an instance
+$('#tree2').jstree({ plugins : [] }); // create an instance with some options
+$('#tree1').jstree('open_node', '#branch_1'); // call a method on an existing instance, passing additional arguments
+$('#tree2').jstree(); // get an existing instance (or create an instance)
+$('#tree2').jstree(true); // get an existing instance (will not create new instance)
+$('#branch_1').jstree().select_node('#branch_1'); // get an instance (using a nested element and call a method)
+1.11. $(':jstree')
+用於在實例中查找元素。
+
++
+
+參數/返回	描述
+返回	jQuery
+Examples
+
++
+
+$('div:jstree').each(function () {
+    $(this).jstree('destroy');
+});
+1.12. $.jstree.defaults.core
+存儲核心功能的所有默認配置。
+
++
+
+1.13. $.jstree.defaults.core.data
+數據配置。
+
++
+
+若值爲false，則 jstree 容器元素內的 HTML 將用於構建樹（這些元素應是一些包含子項的無序列表）。
+
++
+
+你也可以在這裏傳入一個 HTML 字符串 或 JSON 數字。
+
++
+
+還可以傳入一個 jQuery 的 AJAX 配置，jstree 會自動判斷響應的類型（JSON 或 HTML）來構建樹。
+
++
+
+除了標準的 jQuery AJAX 選項，這裏還可傳入函數給data和url。 這些函數將接收一個參數（加載的節點），返回的值作爲最終的配置。
+
++
+
+最後，還可傳入一個函數。此函數將接收 2 個參數：1 個是加載的節點，1 個是回調函數。 函數最後應執行回調函數。
+
++
+
+Examples
+
++
+
+// AJAX
+$('#tree').jstree({
+    'core' : {
+        'data' : {
+            'url' : '/get/children/',
+            'data' : function (node) {
+                return { 'id' : node.id };
+            }
+        }
+    });
+
+// direct data
+$('#tree').jstree({
+    'core' : {
+        'data' : [
+            'Simple root node',
+            {
+                'id' : 'node_2',
+                'text' : 'Root node with options',
+                'state' : { 'opened' : true, 'selected' : true },
+                'children' : [ { 'text' : 'Child 1' }, 'Child 2']
+            }
+        ]
+    }
+});
+
+// function
+$('#tree').jstree({
+    'core' : {
+        'data' : function (obj, callback) {
+            callback.call(this, ['Root 1', 'Root 2']);
+        }
+    });
+1.14. $.jstree.defaults.core.strings
+配置在樹整個過程中出現的文字。
+
++
+
+可以是一個對象，對象中的 key、value 對應你要替換的內容。
+
++
+
+可以是一個函數，此函數將接收一個參數（將用到的字符串），並應返回一個替代的字符串。
+
++
+
+Examples
+
++
+
+// function
+$('#tree').jstree({
+    'core' : {
+        'data' : function (obj, callback) {
+            callback.call(this, ['Root 1', 'Root 2']);
+        }
+    });
+1.15. $.jstree.defaults.core.check_callback
+當用戶想修改樹的結構時，此參數用於決定是否允許修改 或 如何修改。
+
++
+
+false，所有操作（創建 create、重命名 rename、刪除 delete、移動 move、複製 copy）都將被阻止。
+true，所有操作都被允許。
+函數，更詳細的邏輯控制。
+Examples
+
++
+
+$('#tree').jstree({
+    'core' : {
+        'check_callback' : function (operation, node, node_parent, node_position, more) {
+            // operation can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
+            // in case of 'rename_node' node_position is filled with the new node name
+            return operation === 'rename_node' ? true : false;
+        }
+    }
+});
+1.16. $.jstree.defaults.core.error
+出錯時（樹操作被阻止、AJAX 失敗等）的回調函數。 此回調函數將接收一個參數。
+
++
+
+1.17. $.jstree.defaults.core.animation
+打開、摺疊時的動畫過渡時間。
+
++
+
+默認：200
+false：禁用動畫過渡
+數字：單位 毫秒
+1.18. $.jstree.defaults.core.multiple
+是否允許節點多選。
+
++
+
+1.19. $.jstree.defaults.core.themes
+一個對象，用於配置主題。
+
++
+
+1.20. $.jstree.defaults.core.themes.name
+主題的名字（若爲false，則使用默認主題）
+
++
+
+1.21. $.jstree.defaults.core.themes.url
+主題對應的 CSS 文件的 URL。
+
++
+
+字符串：URL
+false：不加載額外的 CSS 文件（因爲你可在頁面手動包含主題的 CSS 文件）
+true：jstree 將嘗試自動加載主題 CSS 文件
+1.22. $.jstree.defaults.core.themes.dir
+所有主題的目錄。
+
++
+
+只有當url的值爲true時才生效。
+
++
+
+1.23. $.jstree.defaults.core.themes.dots
+boolean，是否顯示樹連接線。
+
++
+
+1.24. $.jstree.defaults.core.themes.icons
+boolean，是否顯示節點的圖標。
+
++
+
+1.25. $.jstree.defaults.core.themes.ellipsis
+boolean，節點名過長時是否顯示省略號。
+
++
+
+僅當容器是固定寬度時（fixed width）才生效。
+
++
+
+1.26. $.jstree.defaults.core.themes.stripes
+背景是否顯示間紋。
+
++
+
+1.27. $.jstree.defaults.core.themes.variant
+字符串（或false），指定主題的形態變化（前提是主題支持形態變化，如大小）。
+
++
+
+1.28. $.jstree.defaults.core.themes.responsive
+boolean（默認false），是否使用主題的響應式狀態（遇到小屏設備時）。
+
++
+
+1.29. $.jstree.defaults.core.expand_selected_onload
+boolean，決定是否在加載樹時打開所有選中的節點。
+
++
+
+1.30. $.jstree.defaults.core.worker
+默認true。
+
++
+
+當爲true時，將儘可能使用 web worker（譯註：理解爲多線程） 來解釋接收到的 JSON 數據， 這樣的好處是有較大的請求時，不容易使 UI 變卡頓。
+
++
+
+注意的是，使用 web worker 時，將慢約 30%。
+
++
+
+1.31. $.jstree.defaults.core.force_text
+boolean（默認false），強制將節點的 text 值解釋爲純文本。
+
++
+
+1.32. $.jstree.defaults.core.dblclick_toggle
+boolean（默認true），雙擊節點名時是否選擇（toggled）節點。
+
++
+
+1.33. plugin (deco [, opts]) - - private
+用於爲實例設置插件，僅內部使用。
+
++
+
+參數/返回	描述
+deco	String 插件名
+opts	Object 插件的配置
+返回	jsTree
+1.34. init (el, optons) - - private
+初始化實例，僅內部使用。
+
++
+
+參數/觸發	描述
+el	DOMElement jQuery String 將要成爲樹元素
+options	Object 實例的配置
+觸發器（Triggers）	init.jstree loading.jstree loaded.jstree ready.jstree changed.jstree
+1.35. init.jstree （ Event ⚡ ）
+當所有事件都已綁定後觸發。
+
++
+
+1.36. loading.jstree （ Event ⚡ ）
+在加載文本（loading text）已顯示，且在加載（loading）開始之前，觸發。
+
++
+
+1.37. destroy ()
+銷燬一個實例。
+
++
+
+參數	描述
+keep_html	Boolean 若爲true，樹容器將被清空，否則將保持原狀
+1.38. 創建節點原型（Create prototype node）
+1.39. teardown () - - private
+銷燬實例的其中一步，僅內部使用。
+
++
+
+1.40. bind () - - private
+綁定所有事件，僅內部使用。
+
++
+
+1.41. loaded.jstree （ Event ⚡ ）
+當根節點（root）第一次加載時觸發。
+
++
+
+1.42. ready.jstree （ Event ⚡ ）
+當所有節點都加載完畢時觸發。
+
++
+
+1.43. unbind () - - private
+銷燬實例的其中一步，僅內部使用。
+
++
+
+1.44. trigger (ev [, data]) - - private
+觸發一個事件，僅內部使用。
+
++
+
+參數	描述
+ev	String 要觸發的事件名稱
+data	Object 傳遞給事件的附加數據
+1.45. get_container ()
+返回擴展自 jQuery 的實例容器
+
+返回	描述
+返回	jQuery
+1.46. get_container_ul () - - private
+返回擴展自 jQuery 的主 UL 元素節點（樹實例容器中），僅內部使用。
+
++
+
+返回	描述
+返回	jQuery
+1.47. get_string (key) - - private
+獲取樹中用到的字符串（本地化），僅內部使用。
+
++
+
+參數/返回	描述
+key	String
+返回	String
+1.48. _firstChild (dom) - - private
+獲取 DOM 節點中的第一個子元素，僅內部使用。
+
++
+
+參數/返回	描述
+dom	DOMElement
+返回	DOMElement
+1.49. _nextSibling (dom) - - private
+獲取 DOM 節點的下一個兄弟節點，僅內部使用。
+
++
+
+參數/返回	描述
+dom	DOMElement
+返回	DOMElement
+1.50. _previousSibling (dom) - - private
+獲取 DOM 節點的上一個兄弟節點，僅內部使用。
+
++
+
+參數/返回	描述
+dom	DOMElement
+返回	DOMElement
+1.51. get_node (obj [, as_dom])
+根據輸入（子 DOM 元素、ID字符串、選擇器等）獲取節點的 JSON 形式數據（或 擴展自 jQuery 的 DOM 節點）。
+
++
+
+參數/返回	描述
+obj	mixed
+as_dom	Boolean
+返回	Object jQuery
+1.52. get_path (obj [, glue, ids])
+獲取節點的路徑。可能是
+
++
+
+一堆節點名稱
+一堆節點ID
+一堆節點名和 ID（或數組）
+參數/返回	描述
+obj	mixed 節點
+glue	String 若是字符串，則填間隔字符串（如/），若是一個假值（譯註），則返回數組
+ids	Boolean 若爲true則用節點ID 構建路徑，否則用節點名稱
+返回	mixed
+1.53. get_next_dom (obj [, strict])
+獲取obj節點的下一個可見節點，若strict爲true，則只可能返回兄弟節點。
+
++
+
+參數/返回	描述
+obj	mixed
+strict	Boolean
+返回	jQuery
+1.54. get_prev_dom (obj [, strict])
+獲取obj節點的前一個可見節點，若strict爲true，則只可能返回兄弟節點。
+
++
+
+參數/返回	描述
+obj	mixed
+strict	Boolean
+返回	jQuery
+1.55. get_parent (obj)
+獲取節點的父節點。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	String
+1.56. get_children_dom (obj)
+獲取節點的所有子節點（jQuery 集合）（節點必須是已渲染的）。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	jQuery
+1.57. is_parent (obj)
+判斷一個節點是否包含子節點。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.58. is_loaded (obj)
+判斷一個節點是否已加載（其子節點已可用）。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.59. is_loading (obj)
+判斷一個節點是否正在加載（正在拉取子節點）。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.60. is_open (obj)
+判斷一個節點是否已打開。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.61. is_closed (obj)
+判斷一個節點是否關閉狀態。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.62. is_leaf (obj)
+判斷一個節點是不是沒包含子節點。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.63. load_node (obj [, callback])
+加載一個節點（即使用 core.data 的設置來拉取子節點），支持傳入多個節點（數組形式）。
+
++
+
+參數/返回/觸發	描述
+obj	mixed
+callback	function 加載完畢的回調，將在實例的範圍中執行，並接收兩個參數：節點、boolean 狀態
+返回	Boolean
+觸發事件	load_node.jstree
+1.64. load_node.jstree （ Event ⚡ ）
+一個節點加載完畢後觸發。
+
++
+
+參數	描述
+node	Object 已加載的節點
+status	Boolean 是否加載成功
+1.65. _load_nodes (nodes [, callback]) - - private
+加載多個節點（數組）（只有出現在結構中，也會加載不可用的節點），僅內部使用。
+
++
+
+參數	描述
+node	array
+callback	function 加載完畢的回調，將在實例的範圍中執行，並接收 1 個參數：傳入的那些節點（數組）
+1.66. load_all ([obj, callback])
+加載所有仍未加載的節點。
+
++
+
+參數	描述
+node	mixed 加載節點下的所有節點，而非整棵樹的所有節點
+status	function 加載成功的回調
+觸發事件	load_all.jstree
+1.67. load_all.jstree （ Event ⚡ ）
+load_all執行完畢後觸發。
+
++
+
+參數	描述
+node	Object 已遞歸加載的節點
+1.68. _load_node (obj [, callback]) - - private
+真正處理一個節點的加載過程，僅內部使用。
+
++
+
+參數/返回	描述
+obj	mixed
+callback	function 加載完畢後執行此回調函數，此函數允許在實例範圍內，並將接收 1 個狀態參數（boolean）
+返回	Boolean
+1.69. _node_changed (obj [, callback]) - - private
+添加一個節點到將要重繪的節點列表中，僅內部使用。
+
++
+
+參數	描述
+obj	mixed
+1.70. _append_html_data (obj, data) - - private
+添加 HTML 內容到樹，僅內部使用。
+
++
+
+參數/觸發	描述
+obj	mixed 要添加到的節點
+data	String HTML 字符串
+觸發事件	model.jstree changed.jstree
+1.71. model.jstree （ Event ⚡ ）
+當新數據插入到樹模型（tree model）中時觸發。
+
++
+
+參數	描述
+nodes	Array 節點ID 數組
+parent	String 這些節點的父節點ID
+1.72. _append_json_data (obj, data) - - private
+添加 JSON 內容到樹，僅內部使用。
+
++
+
+參數/觸發	描述
+obj	mixed 要添加到的節點
+data	String JSON 對象字符串
+force_processing	Boolean 內部參數（無需設置）
+觸發事件	model.jstree changed.jstree
+1.73. _parse_model_from_html (d [, p, ps]) - - private
+從jQuery對象中解釋節點，並添加到樹的內存模型中，僅內部使用。
+
++
+
+參數/返回	描述
+d	jQueryjQuery對象
+p	String 父節點ID
+ps	Array 所有的父節點列表
+返回	String 將被添加到模型中的節點ID
+1.74. _parse_model_from_flat_json (d [, p, ps]) - - private
+從 JSON 對象中解釋節點（用於處理扁平數據，即無嵌套的子節點，但這些子節點擁有 ID 和 父節點ID）， 並添加到樹的內存模型中，僅內部使用。
+
++
+
+參數/返回	描述
+d	Object JSON 對象
+p	String 父節點ID
+ps	Array 所有的父節點列表
+返回	String 將被添加到模型中的節點ID
+1.75. _parse_model_from_json (d [, p, ps]) - - private
+從 JSON 對象中解釋節點，並添加到樹的內存模型中，僅內部使用。
+
++
+
+參數/返回	描述
+d	Object JSON 對象
+p	String 父節點ID
+ps	Array 所有的父節點列表
+返回	String 將被添加到模型中的節點ID
+1.76. _redraw () - - private
+重繪所有需要重繪的節點，僅內部使用。
+
++
+
+觸發	描述
+觸發事件	redraw.jstree
+1.77. redraw.jstree （ Event ⚡ ）
+當節點們重繪完畢後觸發。
+
++
+
+參數	描述
+nodes	array 已重繪的節點
+1.78. redraw ([full])
+重繪所有需要重繪的節點，或者 重繪整個樹的所有節點。
+
++
+
+參數	描述
+full	Boolean 若true則重繪整個樹的所有節點
+1.79. draw_children (node) - - private
+重繪單個節點的子節點，僅內部使用。
+
++
+
+參數	描述
+node	mixed 節點（將重繪其子節點）
+1.80. redraw_node (node, deep, is_callback, force_render) - - private
+重繪單個節點，僅內部使用。
+
++
+
+參數	描述
+node	mixed 將要重繪的節點
+deep	Boolean 是否也重繪子節點
+is_callback	Boolean 是否遞歸調用
+force_render	Boolean 是否也重繪父節點未打開的子節點
+1.81. open_node (obj [, callback, animation])
+打開一個節點，看到其子節點（原文：revaling its children）。 若此節點還未被加載，將先加載此節點，再打開。
+
++
+
+參數/觸發	描述
+obj	mixed 將要打開的節點
+callback	Function 節點打開完畢後的回調
+animation	Number 打開節點時的動畫過渡時間（毫秒）（覆蓋core.animation的設置），若爲false則禁用動畫效果
+觸發事件	open_node.jstree after_open.jstree before_open.jstree
+1.82. before_open.jstree （ Event ⚡ ）
+當一個節點即將被打開時觸發（if the node is supposed to be in the DOM, it will be, but it won't be visible yet）。
+
++
+
+參數	描述
+node	Object 將打開的節點
+1.83. open_node.jstree （ Event ⚡ ）
+當一個節點打開完畢時觸發（若有過渡動畫，此時動畫應該還沒完畢）。
+
++
+
+參數	描述
+node	Object 打開完畢的節點
+1.84. after_open.jstree （ Event ⚡ ）
+當一個節點打開完畢，且過渡動畫也已完畢時觸發。
+
++
+
+參數	描述
+node	Object 打開完畢的節點
+1.85. _open_to (obj) - - private
+打開節點的所有父節點（此時節點應已加載）
+
++
+
+參數	描述
+obj	mixed 需顯示的節點
+1.86. close_node (obj [, animation])
+關閉一個節點，並隱藏其子節點
+
++
+
+參數	描述
+obj	mixed 需關閉的節點
+animation	Number 關閉節點時的動畫過渡時間（毫秒）（覆蓋core.animation的設置），若爲false則禁用動畫效果
+觸發事件	close_node.jstree after_close.jstree
+1.87. close_node.jstree （ Event ⚡ ）
+當一個節點關閉完畢時觸發（若有過渡動畫，此時動畫應該還沒完畢）。
+
++
+
+參數	描述
+node	Object 關閉完畢的節點
+1.88. after_close.jstree （ Event ⚡ ）
+當一個節點關閉完畢，且過渡動畫也已完畢時觸發。
+
++
+
+參數	描述
+obj	mixed 關閉完畢的節點
+1.89. toggle_node (obj)
+切換節點的狀態，若已打開則關閉節點，若已關閉則打開節點。
+
++
+
+參數	描述
+obj	mixed 需切換狀態的節點
+1.90. open_all ([obj, animation, original_obj])
+打開一個節點或整棵樹的內所有節點，顯示其子節點。 若節點還沒加載，則先加載節點，完畢再打開節點。
+
++
+
+參數/觸發	描述
+obj	mixed 需遞歸打開的節點，若忽略則打開整棵樹的所有節點
+animation	Number 打開節點時動畫的過渡時間（毫秒），默認禁用動畫效果
+reference	jQuery 開始處理的節點（內部使用）
+觸發事件	open_all.jstree
+1.91. open_all.jstree （ Event ⚡ ）
+當open_all完畢時觸發。
+
++
+
+參數	描述
+node	Object 已打開的節點
+1.92. close_all ([obj, animation])
+關閉一個節點或整棵樹的所有節點（後面這句沒懂：revaling their children）。
+
++
+
+參數/觸發	描述
+obj	mixed 需遞歸關閉的節點，若忽略則關閉整棵樹的所有節點
+animation	Number 打開節點時動畫的過渡時間（毫秒），默認禁用動畫效果
+觸發事件	close_all.jstree
+1.93. close_all.jstree （ Event ⚡ ）
+當close_all完畢時觸發。
+
++
+
+參數	描述
+node	Object 關閉完畢的節點
+1.94. is_disabled (obj)
+檢查一個節點是否被禁用了（即不可被選中）。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.95. enable_node (obj)
+啓用一個節點（這樣節點纔可被選中）。
+
++
+
+參數/觸發	描述
+obj	mixed 需啓用的節點
+觸發事件	enable_node.jstree
+1.96. enable_node.jstree （ Event ⚡ ）
+當一個節點被啓用時觸發。
+
++
+
+參數	描述
+node	Object 需啓用的節點
+1.97. disable_node (obj)
+禁用一個節點（這樣節點不可被選中）。
+
++
+
+參數/觸發	描述
+obj	mixed 需禁用的節點
+觸發事件	disable_node.jstree
+1.98. disable_node.jstree （ Event ⚡ ）
+當一個節點被禁用時觸發。
+
++
+
+參數	描述
+node	Object 需禁用的節點
+1.99. is_hidden (obj)
+檢查一個節點是否被隱藏了。
+
++
+
+參數/返回	描述
+obj	mixed 節點
+返回	Boolean
+1.100. hide_node (obj)
+隱藏一個節點（仍在樹結構中，只是看不見了）。
+
++
+
+參數/觸發	描述
+obj	mixed 需隱藏的節點
+skip_redraw	Boolean 是否需要重繪，內部參數
+觸發事件	hide_node.jstree
+1.101. hide_node.jstree （ Event ⚡ ）
+當一個節點被隱藏時觸發。
+
++
+
+參數	描述
+node	Object 被隱藏的節點
+1.102. show_node (obj)
+顯示一個節點。
+
++
+
+參數/觸發	描述
+obj	mixed 需顯示的節點
+skip_redraw	Boolean 是否需要重繪，內部參數
+觸發事件	show_node.jstree
+1.103. show_node.jstree （ Event ⚡ ）
+當一個節點被顯示時觸發。
+
++
+
+參數	描述
+node	Object 顯示的節點
+1.104. hide_all ()
+隱藏所有節點。
+
++
+
+觸發	描述
+觸發事件	hide_node.jstree
+1.105. hide_all.jstree （ Event ⚡ ）
+當所有節點被隱藏時觸發。
+
++
+
+參數	描述
+nodes	Array 所有被隱藏節點的 ID 集合
+1.106. show_all ()
+顯示所有節點。
+
++
+
+觸發	描述
+觸發事件	show_all.jstree
+1.107. show_all.jstree （ Event ⚡ ）
+當所有節點被顯示時觸發。
+
++
+
+參數	描述
+nodes	Array 所有被顯示節點的 ID 集合
+1.108. activate_node (obj, e) - - private
+當用戶選中一個節點時被調用，僅內部使用。
+
++
+
+參數/觸發	描述
+obj	mixed 節點
+e	Object 相關的事件
+觸發事件	activate_node.jstree changed.jstree
+1.109. activate_node.jstree （ Event ⚡ ）
+當一個節點被用戶點擊或交互時觸發。
+
++
+
+參數	描述
+nodes	Object
+event	Object 觸發調用的原始事件（也可能是一個空對象）
+1.110. hover_node (obj) - - private
+當用戶鼠標移過節點時，使節點的狀態變爲鼠標經過狀態，僅內部使用。
+
++
+
+參數/觸發	描述
+obj	mixed
+觸發事件	hover_node.jstree
+1.111. hover_node.jstree （ Event ⚡ ）
+當用戶鼠標經過節點時觸發。
+
++
+
+參數	描述
+nodes	Object
+1.112. dehover_node (obj) - - private
+當用戶鼠標離開節點時，使移除節點的鼠標經過狀態，僅內部使用。
+
++
+
+參數/觸發	描述
+obj	mixed
+觸發事件	dehover_node.jstree
+1.113. dehover_node.jstree （ Event ⚡ ）
+當用戶鼠標離開節點時觸發。
+
++
+
+參數	描述
+nodes	Object
+1.114. select_node (obj [, supress_event, prevent_open])
+選擇一個節點。
+
++
+
+參數/觸發	描述
+obj	mixed 需選中的節點數組
+supress_event	Boolean 若爲true，將不觸發changed.jstree事件
+prevent_open	Boolean 若爲true，將不打開選中節點的父節點
+觸發事件	select_node.jstree changed.jstree
+1.115. select_node.jstree （ Event ⚡ ）
+當節點被選中時觸發。
+
++
+
+參數	描述
+nodes	Object
+selected	Array 已選中的節點
+event	Object 觸發本事件select_node的事件
+1.116. changed.jstree （ Event ⚡ ）
+當已選中的節點發生變化（選擇發生變化）時觸發。
+
++
+
+參數	描述
+nodes	Object
+action	Object 引起選擇發生變化的action
+selected	Array 當前的已選中的節點
+event	Object 觸發本事件changed_node的事件
+1.117. deselect_node (obj [, supress_event])
+不選中節點。
+
++
+
+參數/觸發	描述
+obj	mixed 若爲一個數組，則是需被不選中的節點列表
+supress_event	Boolean 若爲true，將不觸發changed.jstree事件
+觸發事件	deselect_node.jstree changed.jstree
+1.118. deselect_node.jstree （ Event ⚡ ）
+當節點被從選中變爲不選中狀態時觸發。
+
++
+
+參數	描述
+nodes	Object
+selected	Array 當前的已選中的節點
+event	Object 觸發本事件deselect_node的事件
+1.119. select_all ([supress_event])
+選中樹的所有節點。
+
++
+
+| 參數/觸發 | 描述 | | supress_event | Boolean 若爲true，將不觸發changed.jstree事件 | | 觸發事件 | deselect_node.jstree changed.jstree |
+
++
+
+1.120. select_all.jstree （ Event ⚡ ）
+當樹中所有節點都被選中時觸發。
+
++
+
+參數	描述
+selected	Array 當前的已選中的節點
+1.121. deselect_all ([supress_event])
+不選中樹中所有節點。
+
++
+
+參數/觸發	描述
+supress_event	Boolean 若爲true，將不觸發changed.jstree事件
+觸發事件	deselect_all.jstree changed.jstree
+1.122. deselect_all.jstree （ Event ⚡ ）
+當樹中所有節點狀態變爲不選中時觸發。
+
++
+
+參數	描述
+nodes	Object 之前的選中節點
+selected	Array 當前的已選中的節點
+1.123. is_selected (obj)
+檢查一個節點是否已被選中。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	Boolean
+1.124. get_selected ([full])
+獲取所有已選中的節點。
+
++
+
+參數/返回	描述
+full	mixed 若爲true則返回節點對象全部數據，否則只返回節點 ID 列表
+返回	Array
+1.125. get_top_selected ([full])
+獲取頂層的被選中節點。
+
++
+
+參數/返回	描述
+full	mixed 若爲true則返回節點對象全部數據，否則只返回節點 ID 列表
+返回	Array
+1.126. get_bottom_selected ([full])
+獲取底層的被選中節點。
+
++
+
+參數/返回	描述
+full	mixed 若爲true則返回節點對象全部數據，否則只返回節點 ID 列表
+返回	Array
+1.127. get_state () - - private
+獲取樹目前的狀態（之後可使用set_state(state)來恢復狀態），僅內部使用。
+
++
+
+返回	描述
+返回	Object
+1.128. set_state (state [, callback]) - - private
+設置樹的狀態，僅內部使用。
+
++
+
+參數/觸發	描述
+state	Object 要設置的狀態。此對象是傳引用，且 jstree 不會修改此對象
+callback	Function 可選，設置狀態完畢後的回調函數
+觸發事件	set_state.jstree
+1.129. set_state.jstree （ Event ⚡ ）
+當set_state完畢時觸發。
+
++
+
+1.130. refresh ()
+刷新樹，所有的節點都將重新加載，並觸發load_node。
+
++
+
+參數/觸發	描述
+skip_loading	Boolean 是否跳過加載動畫
+forget_state	Mixed 若爲true則將不可恢復原來的狀態，若爲一個函數（此函數將接收一個狀態參數）則此函數的結果將作爲狀態
+觸發事件	refresh.jstree
+1.131. refresh.jstree （ Event ⚡ ）
+當refresh完畢時觸發。
+
++
+
+1.132. refresh_node (obj)
+刷新一個節點（並重新加載其子節點，並觸發load_node）。
+
++
+
+參數/觸發	描述
+obj	Mixed 節點
+觸發事件	refresh_node.jstree
+1.133. refresh_node.jstree （ Event ⚡ ）
+當節點刷新完畢時觸發。
+
++
+
+參數	描述
+node	Object 已刷新的節點
+nodes	Array 已重新加載的節點 ID 列表
+1.134. set_id (obj, id)
+設置節點 ID。
+
++
+
+參數/返回/觸發	描述
+obj	mixed 節點
+id	String 新 ID
+返回	Boolean
+觸發事件	set_id.jstree
+1.135. set_id.jstree （ Event ⚡ ）
+當節點的 ID 變化完畢時觸發。
+
++
+
+參數	描述
+node	Object
+old	String 舊 ID
+1.136. get_text (obj)
+獲取節點名（text）
+
++
+
+參數/返回	描述
+obj	mixed 節點
+返回	String
+1.137. set_text (obj, val) - - private
+設置節點的名稱。僅內部使用。請使用rename_node(obj, val)
+
++
+
+參數/返回/觸發	描述
+obj	mixed 單個節點，或，多個節點組成的數組
+val	String 新名稱
+返回	Boolean
+觸發事件	set_text.jstree
+1.138. set_text.jstree （ Event ⚡ ）
+當節點的名稱變化完畢時觸發。
+
++
+
+參數	描述
+obj	Object
+text	String 新名稱
+1.139. get_json ([obj, options])
+獲取一個節點（或整棵樹）的 JSON 形式數據。
+
++
+
+參數/返回	描述
+obj	mixed
+options	Object
+options.no_state	Boolean 不包含狀態
+options.no_id	Boolean 不包含 ID
+options.no_children	Boolean 不包含子節點
+options.no_data	Boolean 不包含節點數據（node data）
+options.no_li_attr	Boolean 不包含LI元素的屬性attributes
+options.no_a_attr	Boolean 不包含A元素的屬性attributes
+options.flat	Boolean 返回扁平 JSON 數據，而不是嵌套數據
+返回	Object
+1.140. create_node ([par, node, pos, callback, is_loaded])
+創建一個新節點（不要和load_node搞混）。
+
++
+
+參數/返回/觸發	描述
+par	mixed 父節點（若是創建根節點請用#或null）
+node	mixed 新節點的數據（JSON 對象，或節點名字符串）
+pos	mixed 插入節點的位置（index），支持first和last，默認是last
+callback	Function 節點創建完畢後的毀回調函數
+is_loaded	Boolean 內部參數，用於檢測父節點是否已成功加載
+返回	String 新建節點的 ID
+觸發事件	model.jstree create_node.jstree
+1.141. create_node.jstree （ Event ⚡ ）
+當節點創建完畢時觸發。
+
++
+
+| node | Object | | parent | String 父節點 ID | | position | Number 新節點在父節點中的位置 |
+
++
+
+1.142. rename_node (obj, val)
+重命名節點。
+
++
+
+參數/返回/觸發	描述
+obj	mixed 節點，也可是一個數組，裏面的節點將重命名爲相同的名字
+val	String 新名稱
+返回	Boolean
+觸發事件	rename_node.jstree
+1.143. rename_node.jstree （ Event ⚡ ）
+當節點重命名完畢時觸發。
+
++
+
+| node | Object | | text | String 新名稱 | | old | Number 舊名稱 |
+
++
+
+1.144. delete_node (obj)
+刪除節點。
+
++
+
+參數/返回/觸發	描述
+obj	mixed 節點，也可是一個數組，將同時刪除多個
+返回	Boolean
+觸發事件	delete_node.jstree changed.jstree
+1.145. delete_node.jstree （ Event ⚡ ）
+當節點刪除完畢時觸發。
+
++
+
+| node | Object | | parent | String 父節點 ID |
+
++
+
+1.146. check (chk, obj, par, pos) - - private
+檢查此樹是否允許某種操作，僅內部使用。
+
++
+
+參數/返回	描述
+chk	String 操作名，可以是create_node rename_node delete_node copy_node move_node
+obj	mixed 節點
+par	mixed 父節點
+pos	mixed 插入的位置，或rename_node時的新名稱
+more	mixed 各種附加信息，如 DND 插件觸發 move_node 操作時，此值就是鼠標經過的節點
+返回	Boolean
+1.147. last_error ()
+獲取最後的錯誤信息。
+
++
+
+返回	描述
+返回	Object
+1.148. move_node (obj, par [, pos, callback, is_loaded])
+移動節點到新的父節點。
+
++
+
+參數/觸發	描述
+obj	mixed 需移動的節點（也可以是一個節點數組）
+par	mixed 新的父節點
+pos	mixed 插入節點的位置（除了整數值，還支持first last before after）默認是整數0
+callback	Function 節點移動完畢後的毀回調函數，接收 3 個參數：節點、新父節點、位置
+is_loaded	Boolean 內部參數，用於檢測父節點是否已成功加載
+skip_redraw	mixed 內部參數，是否重畫整棵樹
+instance	mixed 內部參數，檢測節點是否來自另一個樹實例
+觸發事件	move_node.jstree
+1.149. move_node.jstree （ Event ⚡ ）
+當節點移動完畢時觸發。
+
++
+
+| node | Object | | parent | String 父節點 ID | | position | String 節點在父節點中的位置 | | old_parent | String 舊的父節點 | | ol_position | String 舊的節點位置 | | is_multi | String 節點、新的父節點是否屬於不同的樹實例 | | old_instance| String 節點來自的樹實例 | | new_instance | String 新父節點來自的樹實例 |
+
++
+
+1.150. copy_node (obj, par [, pos, callback, is_loaded])
+複製節點到新的父節點。
+
++
+
+參數/觸發	描述
+obj	mixed 需複製的節點（也可以是一個節點數組）
+par	mixed 新的父節點
+pos	mixed 插入節點的位置（除了整數值，還支持first last before after）默認是整數0
+callback	Function 節點複製完畢後的毀回調函數，接收 3 個參數：節點、新父節點、位置
+is_loaded	Boolean 內部參數，用於檢測父節點是否已成功加載
+skip_redraw	mixed 內部參數，是否重畫整棵樹
+instance	mixed 內部參數，檢測節點是否來自另一個樹實例
+觸發事件	model.jstree copy_node.jstree
+1.151. copy_node.jstree （ Event ⚡ ）
+當節點複製完畢時觸發。
+
++
+
+| node | Object 已複製的節點 | | original | Object 原來的節點 | | parent | String 父節點 ID | | position | String 節點在父節點中的位置 | | old_parent | String 舊的父節點 | | ol_position | String 舊節點的位置 | | is_multi | String 節點、新的父節點是否屬於不同的樹實例 | | old_instance | String 節點來自的樹實例 | | new_instance | String 新父節點來自的樹實例 |
+
++
+
+1.152. cut (obj)
+剪切節點（之後需調用paste(obj)粘貼節點）。
+
++
+
+參數/觸發	描述
+obj	mixed 需剪切的節點（也可以是一個節點數組）
+觸發事件	cut.jstree
+1.153. cut.jstree （ Event ⚡ ）
+當節點添加到緩存區待移動時觸發。
+
++
+
+| node | Array |
+
++
+
+1.154. copy (obj)
+複製節點（之後需調用paste(obj)粘貼節點）。
+
++
+
+參數/觸發	描述
+obj	mixed 需複製的節點（也可以是一個節點數組）
+觸發事件	copy.jstree
+1.155. copy.jstree （ Event ⚡ ）
+當節點添加到緩存區待複製時觸發。
+
++
+
+| 參數 | 描述 | | node | Array |
+
++
+
+1.156. get_buffer ()
+獲取當前的緩存（緩存是一些待粘貼的節點）。
+
++
+
+返回	描述
+返回	Object 一個對象，包含：狀態mode（copy_node或move_node）、節點node（節點數組）、實例instance（樹實例）
+1.157. can_paste ()
+檢測緩存中是否有東西待粘貼。
+
++
+
+返回	描述
+返回	Boolean
+1.158. paste (obj [, pos])
+複製或移動之前剪切或複製的節點到新父節點中。
+
++
+
+參數/觸發	描述
+obj	mixed 新父節點
+pos	mixed 插入的位置（除了整數，也支持first last），默認值0
+觸發事件	paste.jstree
+1.159. paste.jstree （ Event ⚡ ）
+當粘貼操作完畢時觸發。
+
++
+
+參數	描述
+parent	String 接收粘貼節點的 ID
+node	Array 緩存中的節點列表
+mode	String 執行的操作，copu_node或move_node
+1.160. clear_buffer ()
+清除緩存（因複製、剪切操作產生的）。
+
++
+
+觸發	描述
+觸發事件	clear_buffer.jstree
+1.161. clear_buffer.jstree （ Event ⚡ ）
+當複製或剪切的緩存被清空完畢時觸發。
+
++
+
+1.162. edit (obj [, default_text, callback])
+使節點進入編輯模式（將出現一個input元素，用於重命名節點）。
+
++
+
+參數	描述
+obj	mixed
+default_text	String 默認名稱（若不填，或填一個空字符串，則默認爲節點目前的名稱）
+callback	Function 離開編輯框時將執行的回調函數，執行環境是實例內，將接收 3 個參數：節點、狀態（true則重命名成功，否則失敗）、Boolean值（用戶是否可取消編輯）。可通過.text獲取節點名
+1.163. set_theme (theme_name [, theme_url])
+設置主題。
+
++
+
+參數/觸發	描述
+theme_name	String 主題名
+theme_url	mixed 主題的 CSS 文件的 URL，若不填或false，則你需手動加載該文件，若true則將嘗試自動從core.theme.dir目錄中加載
+觸發事件	set_theme.jstree
+1.164. set_theme.jstree （ Event ⚡ ）
+當設置主題完畢時觸發。
+
++
+
+參數	描述
+theme	String 主題名
+1.165. get_theme ()
+獲取當前的主題名。
+
++
+
+返回	描述
+返回	String
+1.166. set_theme_variant (variant_name)
+設置主題的變體variant（如果變體存在的話）。
+
++
+
+參數	描述
+variant_name	String Boolean 主題的變體（若false，則移除當前的變體）
+1.167. show_stripes ()
+在樹容器背景中顯示間隔條紋（前提是當前主題支持）
+
++
+
+1.168. show_stripes.jstree （ Event ⚡ ）
+當間隔條紋顯示完畢時觸發。
+
++
+
+1.169. hide_stripes ()
+在樹容器背景中顯示間隔條紋。
+
++
+
+1.170. hide_stripes.jstree （ Event ⚡ ）
+當間隔條紋隱藏完畢時觸發。
+
++
+
+1.171. toggle_stripes ()
+消或隱樹容器背景中的間隔條紋。
+
++
+
+1.172. show_dots ()
+在樹容器中顯示連接線（前提是主題支持）
+
++
+
+1.173. show_dots.jstree （ Event ⚡ ）
+當連接線顯示時觸發。
+
++
+
+1.174. hide_dots ()
+在樹容器中隱藏連接線。
+
++
+
+1.175. hide_dots.jstree （ Event ⚡ ）
+當連接線隱藏時觸發。
+
++
+
+1.176. toggle_dots ()
+消或隱樹容器背景中的連接線。
+
++
+
+1.177. show_icons ()
+顯示節點的圖標。
+
++
+
+1.178. show_icons.jstree （ Event ⚡ ）
+當節點圖標顯示時觸發。
+
++
+
+1.179. hide_icons ()
+因此節點的圖標。
+
++
+
+1.180. hide_icons.jstree （ Event ⚡ ）
+當節點圖標隱藏時觸發。
+
++
+
+1.181. toggle_icons ()
+消或隱節點的圖標。
+
++
+
+1.182. show_ellipsis ()
+當節點名過長時，顯示過長的部分爲...。
+
++
+
+1.183. show_ellipsis.jstree （ Event ⚡ ）
+當節點名過長，顯示過長的部分爲...時觸發。（原文：triggered when ellisis is shown）
+
++
+
+1.184. hide_ellipsis ()
+當節點名過長，不縮略顯示。
+
++
+
+1.185. hide_ellipsis.jstree （ Event ⚡ ）
+當節點名過長，不縮略顯示時觸發。
+
++
+
+1.186. set_icon (obj, icon)
+設置節點的圖標。
+
++
+
+參數	描述
+obj	mixed
+icon	String 新的圖標名，可以是一個圖標的文件路徑，或 CSS 的 class 名。若使用圖標文件路徑，則應使用當前目錄作爲前綴./，否則都認爲是 CSS 類名
+1.187. get_icon (obj)
+獲取節點的圖標。
+
++
+
+參數/返回	描述
+obj	mixed
+返回	String
+1.188. hide_icon (obj)
+隱藏單個節點的圖標。
+
++
+
+參數/返回	描述
+obj	mixed
+1.189. show_icon (obj)
+顯示單個節點的圖標。
+
++
+
+參數/返回	描述
+obj
+
+
+
+
+{ "id": "0", "parent": "#", "state": { "disabled": false, "opened": true, "selected": false }, "text": "選單" },{ "id": "1", "parent": "0", "text": "群益數位" },{ "id": "2", "parent": "0", "text": "設計圖" },{ "id": "3", "parent": "0", "text": "施工圖" },{ "id": "3_0", "parent": "3", "text": "地基建設.jpg", "type": "jpg"},{ "id": "4", "parent": "0", "text": "契約書" },{ "id": "5", "parent": "0", "text": "廠商資訊" },{ "id": "6", "parent": "5", "text": "瑞展工程行" },{ "id": "6_0", "parent": "6", "text": "基本資料.pdf", "type": "pdf"},{ "id": "7", "parent": "5", "text": "漢堂建設" },{ "id": "7_0", "parent": "7", "text": "聯絡資訊.pdf", "type": "pdf"},{ "id": "8", "parent": "5", "text": "大宇建設" },
