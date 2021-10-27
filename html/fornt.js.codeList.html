@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/html.css">
+    <title>Holdkibor</title>
+    <link rel="shortcut icon" href="../img/logotitleIcon.png">
+    <meta name='description' content='Holdkibor本網為程式代碼分享交流及個人用，撰寫關於自身對程式語言心得及作品集' />
+    <meta property="og:title" content="HoldKibor Web程式語言分享網站">
+    <meta property="og:description" content="Holdkibor本網為程式代碼分享交流及個人用，撰寫關於自身對程式語言心得及作品集'">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chiyum.github.io/holdkibor/index.html">
+    <meta property="og:image" content="https://chiyum.github.io/holdkibor/img/logo.png">
+    <link href="../img/logo_icon.png" rel="apple-touch-icon" />
+    <meta name="keywords" content="Holdkibor, holdkibor, JQuery, Javascript, HTML, JS, CSS">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../img/logo.png" alt="logo">
+                    Holdkibor
+                </a>
+            </div>
+            <ul class="nav">
+                <li style="--i:1">
+                    <a href="../index.html" class="top">首頁</a>
+                    <div></div>
+                    <a href="../index.html" class="bottom">Home</a>
+                </li>
+                <li style="--i:2">
+                    <a href="./fornt.html" class="top">前端語言</a>
+                    <div></div>
+                    <a href="./fornt.html" class="bottom">front</a>
+                </li>
+                <li style="--i:3">
+                    <a href="./end.html" class="top">後端語言</a>
+                    <div></div>
+                    <a href="./end.html" class="bottom">back</a>
+                </li>
+                <li style="--i:4">
+                    <a href="./api.html" class="top">語言插件</a>
+                    <div></div>
+                    <a href="./api.html" class="bottom">API</a>
+                </li>
+                <li style="--i:5">
+                    <a href="./about.html" class="top">關於我們</a>
+                    <div></div>
+                    <a href="./about.html" class="bottom">about</a>
+                </li>
+            </ul>
+            <div class="mobile_btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="content">
+                <div class="address">
+                    <a href="./fornt.html">
+                        <ion-icon name="bookmarks-outline"></ion-icon>前端
+                    </a>
+                    <a href="./fornt.js.html">
+                        > JavaScript
+                    </a>
+                    <a href="./fornt.js.codeList.html">
+                        > code列表
+                    </a>
+                </div>
+                <div class="article">
+                    <h2>原生JScode簡介</h2>
+                    <p>此篇會逐一列出各種用途的code並簡易的附上說明。</p>
+                    <h3>指定DOM</h3>
+                    <pre class="code">
+    document.<span class="fn2">querySelectorAll(<span class="str">'.class / #id'</span>)</span> //取得所有元素並陣列化
+    document.<span class="fn2">querySelector(<span class="str">'.class / #id'</span>)</span> //取得一個元素，若有多個只會抓第一個
+    document.<span class="fn2">getElementById(<span class="str">'id'</span>)</span> //指定Id
+    document.<span class="fn2">getElementsByTagName(<span class="str">'標籤名稱'</span>)</span>//對應標籤 如h1等
+    document.<span class="fn2">getElementsByClassName(<span class="str">'class名稱'</span>)</span>//對應class名稱
+</pre>
+                    <h3>DOM的設定</h3>
+                    <pre class="code">
+    Variable.<span class="fn2">getAttribute</span>('屬性')//取屬性值 例如a裡面的href及class、id、data-type等
+    Variable.<span class="fn2">setAttribute</span>('屬性','屬性值')//賦予屬性值
+    Variable.<span class="fn2">classlist.add</span>('class')//新增個class於DOM上
+    variable.<span class="fn2">classlist.remove</span>('class')//移除指定DOM上的class
+    document.<span class="fn2">classList.toggle</span>('class名稱')//當DOM有這個class的話移除若沒有則新增 大概可以說是add及remove簡化版
+    Variable.<span class="fn">textContent</span> = '字串'//改變內容文字
+    variable.<span class="fn2">write</span>(' 這裡寫你要呈現的文字 ')//新增文字，類innerHTML，可賦予標籤
+    Variable.<span class="fn">innerHTNL</span> =//清空原先內容並加入文字or標籤
+    Variable.<span class="fn2">appendChild</span>(Variable)//上傳子節點(於最後)
+    會與<span class="var">let</span> Variable = document.<span class="fn2">createElement</span>('標籤')//新增標籤配合
+    先新增標籤變數，再上傳。
+    Variable.<span class="fn2">insertBefore</span>('標籤',位置)//上傳子節點並指定位置
+</pre>
+                    <h3>event相關</h3>
+                    <pre class="code">
+    e.<span class="fn">target</span>.dataset.自訂ID //取自訂義data的值
+    e.<span class="fn">target</span>.nodeName 取元素(標籤)名。都會是大寫
+    e.<span class="fn">target</span>.className 取class名
+    e.<span class="fn">target</span>.textContent 取點擊取得文字內容
+    e.<span class="fn">target</span>.value 取值(常用於input)
+    e.<span class="fn">target</span>.files//擷取input file的檔案
+    e.dataTransfer.files//擷取拖曳的檔案
+    e.<span class="fn2">stopPropagation</span>() 阻止冒泡事件。點擊區塊內只執行一種event
+    e.<span class="fn2">preventDefault</span>() 取消元素默認事件。例如a連結、右鍵設定選單
+    監聽事件種類:click點擊, change表單更動, input表單更動(與change相比，只要一更動就觸發),
+    keydown按下鍵盤、keyup放開鍵盤, drop拖動放下、dragover拖動時,
+    blur離開焦點, focus所在焦點, mousemove鼠標滑入觸發(類CSS的hover)
+    DOM.<span class="fn2">addEventListener</span>(<span class="str">'事件'</span>,<span class="fn">function</span>,false/ture)//監聽事件設定
+                    </pre>
+                    <h3>BOM</h3>
+                    <pre class="code">
+    window.history.<span class="fn2">forward()</span>//到有紀錄的下一頁
+    window.history.<span class="fn2">back()</span>//回到有紀錄的上頁
+    window.<span class="fn2">print()</span>//列印
+    window.<span class="fn2">href()</span>//前往網址
+    window.<span class="fn2">open(<span class="str">'網址'</span>)</span>//開新分頁並前往網址頁面(空值的話等於開新分頁)
+    window.<span class="fn">innerHeight</span>//網頁高度
+    window.<span class="fn">innerWidth</span>//網頁寬度
+    window.<span class="fn">outerHeight</span>//整個瀏覽器高度
+    window.<span class="fn">outerWidth</span>//整個瀏覽器寬度                    
+</pre>
+                    <h3>獲取節點</h3>
+                    <pre class="code">
+    DOM.<span class="fn">childNodes</span>//得到DOM的全部子節點
+    DOM.<span class="fn">parentNode</span>//得到DOM的父節點
+    DOM.<span class="fn">nextSbiling</span>//獲得DOM的下一個兄弟節點
+    DOM.<span class="fn">previousSbiling</span>//得到DOM的上一個兄弟節點
+    DOM.<span class="fn">firstChild</span>//獲得DOM的第一個子節點
+    DOM.<span class="fn">lastChild;</span>//獲得DOM的最後一個子節點                        
+                    </pre>
+                    <h3>AJAX</h3>
+                    <pre class="code">
+    <span class="var">let</span> xhr = new <span class="true">XMLHttpRequest()</span>;//建立連接請求
+    xhr.<span class="fn2">open</span>('get/post','網址',ture/false)//連線對象及作用
+    xhr.<span class="fn2">setRequestHeader</span>('Content-type','application/x-www-form-urlencoded')//設定傳送格式
+    // 發送表單類型的資料：('Content-Type','application/x-www-form-urlencoded')
+    // 發送 JSON 類型的資料：('Content-Type','application/json')
+    xhr.<span class="fn2">send</span>(內容)//上傳內容
+    xhr.<span class="fn2">onload</span> =<span class="fn">function</span>(){}//非同步時讀取資料用
+</pre>
+                    <h3>未分類code</h3>
+                    <pre class="code">
+    console.<span class="fn2">log</span>(欲顯示內容)在console中顯示
+    <span class="fn2">parseInt</span>(欲轉換內容)字串轉數字，不取小數點
+    <span class="fn2">parseFloat</span>()字串轉數字，含小數點
+    JSON.<span class="fn2">stringify</span>(欲轉換內容)轉字串
+    JSON.<span class="fn2">parse</span>(欲轉換內容)轉陣列
+    Object.<span class="fn2">freeze</span>//凍結變數內容(通常搭配const)
+    isNaN(value)//如果是NaN就回傳ture。空值亦可使用，可用在沒輸入任何東西的情況下
+    localStorage.<span class="fn2">getItem</span>("localName")//取出本地端localstorage
+    localStorage.<span class="fn2">setItem</span>("自定義localName",輸入的字串)//設定or加入localstorage
+    <span class="var">let</span> today = new Date()//取得目前時間 得先取得目前時間才可以用today.getHours等去取得細項
+    <span class="fn2">getDay()</span>取得星期, getFullYear()取得西元年, getMonth()取得月份,
+    <span class="fn2">getDate()</span>取得天數, getHours()取得小時
+    <span class="fn">offsetLeft</span>:區塊左邊界至父層邊界的距離
+    <span class="fn">offsetTop</span>:區塊頂端邊界至父層邊界的距離
+    <span class="fn">offsetWidth</span>:網頁可見區域寬(包括邊線的寬)
+    <span class="fn">offsetHeight</span>:網頁可見區域高 (包括邊線的寬)
+    <span class="fn">scrollHeight</span>: 獲取物件的滾動高度。
+    <span class="fn">scrollLeft</span>:設定或獲取位於物件左邊界和視窗中目前可見內容的最左端之間的距離
+    <span class="fn">scrollTop</span>:設定或獲取位於物件最頂端和視窗中可見內容的最頂端之間的距離
+    <span class="fn">scrollWidth</span>:獲取物件的滾動寬度
+</pre>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="contact">
+                <div class="logoFt">
+                    <a href="./idnex.html">
+                        <ion-icon name="star" class="icon"></ion-icon>
+                        <p>HoldKibor</p>
+                    </a>
+                </div>
+                <div class="massage">
+                    <a href="https://www.instagram.com/witcher0512/">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                        <p>Contact</p>
+                    </a>
+                </div>
+                <div class="mail">
+                    <a href="mailto:qcc870712@gmail.com">
+                        <ion-icon name="mail" class="icon"></ion-icon>
+                        <p>qcc870712@gmail.com</p>
+                    </a>
+                </div>
+            </div>
+            <div class="news">
+                <ul>
+                    <li>相關網站:</li>
+                    <li><a href="https://codepen.io/georgepray">CodePen</a></li>
+                    <li><a href="https://chiyum.github.io/testweb/">瑞展工程行</a></li>
+                    <li><a href="https://chiyum.github.io/restaurant/">ゆう海鮮 kaisen Yuu</a></li>
+                    <li><a href="https://chiyum.github.io/pesticide/">農藥稀釋比例計算網站</a></li>
+                </ul>
+                <p>
+                    <img src="../img/logoWhite.png" alt="logo">
+                    <br>
+                    <span>Copyright © 2021 Holdkibor.All rights reserved.</span>
+                    <span class="mobile_copyright">
+                        Copyright © 2021 Holdkibor.
+                        <br>
+                        All rights reserved.
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="mobile_nav">
+            <div class="close_nav">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </div>
+            <ul class="m_nav">
+                <li>
+                    <a href="../index.html" class="top" data-text="首頁">首頁</a>
+                </li>
+                <li>
+                    <a href="./fornt.html" class="top" data-text="前端語言">前端語言</a>
+                </li>
+                <li>
+                    <a href="./end.html" class="top" data-text="後端語言">後端語言</a>
+                </li>
+                <li>
+                    <a href="./api.html" class="top" data-text="語言插件">語言插件</a>
+                </li>
+                <li>
+                    <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
+                </li>
+        </div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="../js/html.js"></script>
+</body>
+
+</html>

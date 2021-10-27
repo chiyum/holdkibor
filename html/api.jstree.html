@@ -29,7 +29,7 @@
             </div>
             <ul class="nav">
                 <li style="--i:1">
-                    <a href="#" class="top">首頁</a>
+                    <a href="../index.html" class="top">首頁</a>
                     <div></div>
                     <a href="../index.html" class="bottom">Home</a>
                 </li>
@@ -236,7 +236,7 @@
                     </p>
                     <h4>$.jstree.defaults.search 搜索</h4>
                     <p>可以搜索jstree列表內的所有節點，這個必須搭配事件類的功能才能進行，後續事件類型會在提到一次。</p>
-                    <h3>自訂義功能.事件類</h3>
+                    <h3>自訂義功能.函式類</h3>
                     <p>在使用功能前，我們必須指定是哪一個節點作用，所以我們要先建立個指定節點的function</p>
                     <pre class="code">
 <span class="var">function</span> <span class="fn">getDOM()</span> {
@@ -289,19 +289,26 @@ function del() {
                     <h5>儲存</h5>
                     <pre class="code">
 function updata() {
-    let ref = $('#tree').jstree(true);//指向tree
-    let data = ref.get_json('#', { 'flat': true })//這邊的flat是只取data資料的物件，也就是說它會給你一個陣列，陣列內是每個節點的物件格式。
-    dataAry = JSON.stringify(data) //dataAry是儲存data的陣列，這邊是將data轉為字串後轉入塞入dataAry
-    localStorage.setItem('資料',dataAry)//將dataAry放入local  ex.已有function當重整時載入dataAry
+    <span class="var">let</span> ref = <span class="fn2">$('#tree').jstree(true)</span>;//指向tree
+    <span class="var">let</span> data = ref.get_json('#', { 'flat': true })//這邊的flat是只取data資料的物件，也就是說它會給你一個陣列，陣列內是每個節點的物件格式。
+    <span class="fn">dataAry</span> = JSON.<span class="fn2">stringify(<span class="fn">data</span>)</span> //dataAry是儲存data的陣列，這邊是將data轉為字串後轉入塞入dataAry
+    localStorage.<span class="fn2">setItem('資料',<span class="fn">dataAry</span>)</span>//將dataAry放入local  ex.已有function當重整時載入dataAry
 };</pre>
                     <h5>取得</h5>
                     <pre class="code">
-let dataAry = JSON.parse(localStorage.getItem('資料'));//先取得儲存的資料庫內容
-$('#tree').jstree({
-    "core": {
-        "data": dataAry,//將儲存的內容做為結構
-    },
-}</pre>
+    <span class="var">let</span> dataAry = JSON.<span class="fn2">parse</span>(localStorage.getItem('資料'));//先取得儲存的資料庫內容
+    $('#tree').jstree({
+        "core": {
+            <span class="str">"data"</span>: <span class="fn">dataAry</span>,//將儲存的內容做為結構
+        },
+    }</pre>
+                    <h3>自訂義功能.事件類</h3>
+                    <p>自訂義功能類還有一個最重要的類型，也就是事件(event)，Jstree已經有寫好一套觸發事件，當完成某個條件時即觸發，例如當進行節點移動時觸發。這點就可以用在刷新資料庫，讓移動的順序存入資料庫</p>
+                    <p>不過因為Jstree是依附著jQuery所開發，所以它的事件必須使用jQuery來使用</p>
+                    <pre class="code">
+
+</pre>
+以上是Jstree的入門介紹，後續有挖掘出新的知識會在上傳上來。
                 </div>
             </div>
         </div>
@@ -367,8 +374,9 @@ $('#tree').jstree({
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <!-- <div class="gotop active"></div> -->
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
