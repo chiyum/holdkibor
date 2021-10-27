@@ -416,16 +416,27 @@
                   alert('請確認上傳的檔案格式符合規範')
                   return
             };
-            // for(let i of doc){
-            //   if()
-            // }
-            for (let i = 0; i < doc.length; i++) {
-                          
+            //這編寫判斷式，先掃過檔名確定檔名無誤後再執行，否則跳錯誤並return
+            for(let i = 0; i < doc.length; i++){
               doc_return = doc[i];//檔案物件本身
               doc_return_name = doc[i].name;//抓取檔名
               str_length = doc_return_name.length;//抓取字數
               doc_return_type = doc[i].name.split('.');//分割字串
               doc_return_type = doc_return_type[doc_return_type.length - 1];//抓出副檔名
+              if(doc_return_type == 'jpeg'){
+                doc_return_name = doc_return_name.substring(0, str_length - 5);
+              }else if(doc_return_type == 'docx'){
+                doc_return_name = doc_return_name.substring(0, str_length - 5);
+              }else{
+                doc_return_name = doc_return_name.substring(0, str_length - 4);
+              }
+              if(doc_return_type == 'jpeg'||doc_return_type == 'jpg'||doc_return_type == 'png'||doc_return_type == 'gif'||doc_return_type == 'avi'||doc_return_type == 'mov'||doc_return_type == 'mp4'||doc_return_type == 'pdf'||doc_return_type == 'docx'||doc_return_type == 'xls'||doc_return_type == 'txt'||doc_return_type == 'zip'||doc_return_type == 'rar'){
+                console.log('通過')
+              }else{
+                alert('上傳的檔案中資料有錯誤，請確認上傳的檔案格式符合規範')
+                return
+              };
+
               if(doc_return_type == 'jpeg'){
                 doc_return_name = doc_return_name.substring(0, str_length - 5);
                 tree = ref.create_node(DOM,{ "type": "jpg"})
