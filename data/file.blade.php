@@ -417,7 +417,7 @@
                   return
             };
             //這編寫判斷式，先掃過檔名確定檔名無誤後再執行，否則跳錯誤並return
-            for(let i = 0; i < doc.length; i++){
+            for(let i =0;i<doc.length;i++){
               doc_return = doc[i];//檔案物件本身
               doc_return_name = doc[i].name;//抓取檔名
               str_length = doc_return_name.length;//抓取字數
@@ -436,15 +436,16 @@
                 alert('上傳的檔案中資料有錯誤，請確認上傳的檔案格式符合規範')
                 return
               };
-
+            }
+            for(let i = 0; i < doc.length; i++){
               if(doc_return_type == 'jpeg'){
-                doc_return_name = doc_return_name.substring(0, str_length - 5);
+                // doc_return_name = doc_return_name.substring(0, str_length - 5);//槓掉試試能不能成功執行
                 tree = ref.create_node(DOM,{ "type": "jpg"})
               }else if(doc_return_type == 'docx'){
-                doc_return_name = doc_return_name.substring(0, str_length - 5);
+                // doc_return_name = doc_return_name.substring(0, str_length - 5);
                 tree = ref.create_node(DOM,{ "type": "word"})
               }else{
-                doc_return_name = doc_return_name.substring(0, str_length - 4);
+                // doc_return_name = doc_return_name.substring(0, str_length - 4);
                 tree = ref.create_node(DOM,{ "type":doc_return_type})
               }
               ref.edit(tree,doc_return_name)//編輯檔名
