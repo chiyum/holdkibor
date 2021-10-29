@@ -26,4 +26,5 @@ window.addEventListener('scroll',function(){
         gotop.classList.add('active')
     }
 
-})
+});
+

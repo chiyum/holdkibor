@@ -47,7 +47,7 @@ function takeTurn(){
 }
 
 (function(){
-    setInterval('takeTurn();', 7000);
+    setInterval('takeTurn();', 10000);
 }())
 
 // 做法是每指定秒數執行taketurn()，而taketurn會偵測目前指定img_active，
@@ -63,3 +63,22 @@ $(document).ready(function () {
         $('.mobile_nav').toggleClass('active');
     })
 });
+
+
+//前往分頁
+let index_go_html = document.querySelectorAll('.content ul li');
+console.log(index_go_html);
+
+index_go_html[0].addEventListener('click',function(){
+    window.location.href = 'https://chiyum.github.io/holdkibor/html/fornt.html';
+});
+
+index_go_html[1].addEventListener('click',function(){
+    window.location.href = 'https://chiyum.github.io/holdkibor/html/end.html';
+});
+
+index_go_html[2].addEventListener('click',function(){
+    window.location.href = 'https://chiyum.github.io/holdkibor/html/api.html';
+});
+
+

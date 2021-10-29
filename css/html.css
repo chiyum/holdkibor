@@ -140,10 +140,6 @@ li {
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
   overflow: hidden;
-  -webkit-animation: slide_top 0.4s linear forwards;
-          animation: slide_top 0.4s linear forwards;
-  -webkit-animation-delay: calc(0.2s * var(--i));
-          animation-delay: calc(0.2s * var(--i));
 }
 
 .container .header .nav li .top {

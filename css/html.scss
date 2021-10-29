@@ -99,8 +99,9 @@ li{list-style: none;}
                 margin: 0 5px;
                 transition:all 0.3s ease;
                 overflow: hidden;
-                animation: slide_top 0.4s linear forwards;
-                animation-delay: calc(0.2s * var(--i));
+                // animation: slide_top 0.4s linear forwards;
+                // animation-delay: calc(0.2s * var(--i));
+                // 頻繁切換時會導致使用者體驗不佳，所以分頁的都先關閉。
                 .top
                 {
                     display: block;
