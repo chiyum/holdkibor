@@ -1,0 +1,419 @@
+物件:
+
+物件分為兩種建立方式:
+1.物件實字，也是最常使用的方式
+
+let i = {
+
+    content:'測試',
+    屬性:純值,
+
+}
+
+如以上顯示，這正是物件實字。
+
+2.建構式
+
+let i = new Object(Object)
+
+
+ex.物件不只可以加入字串數字，甚至可以加入另一個物件或陣列及function
+
+物件的取值，新增與刪除:
+
+取值十分的簡單，使用物件名稱為頭，接著在加上".屬性"後即可。
+console.log(i.content) //顯示"測試"
+
+第二種方式[]
+
+console.log(i['content'])//顯示"測試"
+不需要加"."，只需要在中括號內輸入字串形式的屬性名稱即可。
+
+
+兩者差異:
+要說明兩者差異得先說明物件的屬性名稱永遠都是字串型別。
+故使用第二種方式取值，只要[]內的字串是等於物件內的屬性名稱的字串的話
+那麼就可以成功取值
+文字說明有些難懂，用以下程式碼說明:
+
+let i = {
+
+    content:'測試'
+
+}
+
+let a = 'content'
+
+console.log(a['content'])//顯示測試
+console.log(a[a])//顯示測試
+
+兩個都顯示測試的道理很簡單，[]內偵測的就是物件內"屬性的字串"
+所以只要是字串==屬性，那麼就可觸發成功。
+換句話來說就是 a 此刻就等於 "content"這個字串，只是換個形式存在罷了。
+
+------------
+執行物件內的函式:
+其實方法與上面敘述的一樣，差別只是多一個()執行的括號
+
+let i = {
+
+    content:function(){
+
+        console.log('啟動測試')
+
+    }
+
+}
+
+i['content']() //顯示啟動測試
+i.content() //顯示啟動測試
+
+補充:因為物件屬性都顯示字串的關係，所以屬性名稱也可以使用特殊符號，不影響執行如*&$#等
+
+---------
+新增:
+
+與查詢的方式相同，只要輸入沒有的屬性及值，就會自動上傳:
+
+i.text = '我在做測試' //i這個物件就會自動上傳text:'我在做測試',這個屬性
+
+補充:但若是相同的屬性已經存在，卻還是賦予其純值，那原先的屬性就會被覆蓋掉
+
+
+刪除:
+
+在查詢方式前方新增 delete 即可刪除
+
+delete i.text;
+delete i['text'];
+
+
+---------
+
+純值與屬性:
+
+在瀏覽器之下，全域也就是window其實也是物件。(在node.js則是global，兩者不相干)
+而既然是物件自然就有屬性。
+
+今天假如我們在全域情況下var一個變數。
+這個變數並不是屬性，它是變數
+例如:
+
+let a = 1 ;//變數
+
+但是如果不var宣告而是直接賦予值，那它就是屬性
+
+b = 1 ;//屬性
+
+兩者查詢均會顯示在window的屬性內，但差別在於，屬性可以刪除，而變數則不行。
+
+delete a //還是會純在
+
+delete b //直接消失 undefind 
+之所以會顯示undefind 而非 not defind 則是因為物件本身還是存在的
+
+這邊就要提另一個點，若是去取物件本身沒有的屬性，亦是會顯示undefind而非is not defind
+
+
+純值:
+
+上面提到物件可以被賦予屬性，純值雖然有包裹物件，但它不行被賦予。
+除非使用建構式，但那就是把純值變成物件而已。
+
+let a = new string('字串')
+
+補充:除了七個原始型別外，其他都是物件型別包含陣列、function，它們都可被賦予屬性，
+只是沒什麼作用就是了。
+
+
+---------
+物件的特性:
+
+var a = 'hello'
+
+從上面的範例來說明，我們都知道是值賦予變數
+所以無論其他的變數如何取a的值然後變更，a依然是'hello'
+
+var a = hello;
+
+var b = a
+
+b = 'HI'
+
+console.log(a)//依然是'hello'
+///以上是純值賦予，稱為傳值
+///傳值是將A值複製到B成為B值，後續B值如何改都不會影響到A值
+
+但變數就不同了，若第二個變數取值並修改，原先的也會跟著變動。
+
+var a = {
+
+    content:'hello'
+
+}
+
+var b = a
+
+b.content = 'HI'
+
+console.log(a.content)//會是'HI'
+
+///以上是物件，稱為傳參考
+///傳參考與傳值的不同是"物件"，可以這麼說，物件是存在記憶體之中的。
+所以當我們使賦予物件給變數，其實是賦予物件的路徑。
+由此可知，AB兩個物件是共用的，所以改變B，自然的A也會跟著改變。
+不過若是又給B變數賦予新的物件，那麼他就會產生新的物件路徑，並不會取代A
+
+var a = {
+    content:'hello'
+}//
+
+var b = a
+
+b = {
+    content:'HI'
+}
+
+console.log(b.content)//顯示'HI'
+
+
+EX.物件內的物件:
+假設物件內有另一個物件，那麼裡面的物件也會新增一個路徑。
+
+
+傳參考附錄:
+
+假設今天物件的路徑指向自己，那麼將會導致無限輪迴，如同數學的除不盡。
+
+var a = {
+
+    x:1
+
+}
+
+a.y = a
+
+console.log(a)//此時的a內會有y這個屬性，
+值是a這個物件，當我們點開以後，又會顯示相同的物件，如此無限循環。
+
+
+補充邏輯運算子:
+邏輯運算子會回傳數值，所以假設試題如下:
+
+var a = 'hello'
+
+var b = a = 'HI'
+
+console.log(b)//會顯示'HI'，因為a會把數值回傳給b
+
+不管比對甚麼或賦予甚麼，邏輯運算子都會回傳值
+
+a === b //回傳false
+
+a === a //回傳ture
+
+a = 1 //回傳1
+
+
+以上範例延伸補充:
+假設以上範例改成物件會如何呢?
+
+
+var a = {x:1};
+
+var b = a;
+
+a.y = a = {x:2}
+
+console.log(a.y)//undefind
+console.log(b)//顯示a物件，並且內有x及y {x:1,y:{x:2}}
+
+之所以會如此首先有3大重點
+
+1.a = {x:2}是運算式
+運算式的特點是會回傳，所以a將{x:2}回傳給a.y
+
+2.a.y = a = {x:2}是同時賦予的
+（同時執行的概念）
+所以在新增及"賦予a.y原先a路徑"的同時，也在賦予a{x:2}
+同上概念，所以a = a.y = {x:2}也是相同結果
+a.y依舊是undefind
+
+3.a.y找的是原先的參考路徑。
+因為前面b已經先找到0x01的路徑，並不會在更動。
+所以當我們新增a.y = a = {x:2}的時候，
+b新增了y但同時a也變成了{x:2}的0x02的新物件，
+因此當我們在找a.y的時候才會找不到，所以b裡面才會有個y
+
+----------
+深層複製及淺層複製
+當我們要將物件複製而不是共用同個路徑時有兩個方法。
+
+1.淺層複製。淺層複製就是只複製屬性與值，但內若是有物件，則還是共用同一個物件。
+(shallow copy)
+
+一.for in的方式:
+
+var a ={
+
+    x:1,
+    z:{
+        x:2
+    },
+
+};
+
+var b = {};//先建立新物件也就是新的路徑
+
+for(var key in a){
+
+    b[key] = a[key]
+
+}
+
+說明: key指的是屬性，a則是物件。
+所以b[key] = a[key]就是把a的屬性都複製且賦予給予b
+
+
+補充:for in 及 for of 是for in用於遍歷物件，
+而for of 則用於遍歷value ，若非得使用則須搭配Object.keys()才可使用。
+但程式碼會太冗長，不如使用for in。
+
+二.JQuery方式
+
+var c = jQuery.extend({},指定物件);
+
+三.ES6寫法
+
+var d = Object.assign({},指定物件);
+
+
+2.深層複製。深層複製就是連物件內的物件也一同新建立路徑。
+做法是將物件轉成字串，在轉回物件，同時套入新的路徑內:
+
+var e = JSON.parse(JSON.stringify(a))
+
+
+-----------
+for in 補充:
+for in 用於物件key是純屬性
+若是用於陣列，那key就會是位置的代碼:
+
+a = ['安安','你好']
+for(var key in a){
+
+console.log(i)//會顯示0.1
+
+}
+
+若要取值則是
+
+for(var key in a){
+
+    console.log(a[key])//顯示安安,你好
+
+}
+//白話解釋就是遍歷a[]的數量。
+//以上範例為例與一般for 的差別在於省略了冗長的代碼，其他並無差別
+
+
+另外for in 亦可會歷遍自訂亦屬性。
+
+var a =['x']
+
+a.name = 'myName'
+
+for(var key in a){
+
+console.log(i)//會顯示x,name
+
+}
+
+
+-----------
+陣列:
+
+陣列除了使用array.push(內容)外
+還可以直接指定位置賦予
+array[位置] = '內容'
+
+但這邊要額外注意，若指定位置不是依序而是過跳過，
+那JS系統會直接補上空值，也就是undefined
+同時使用cosole.log查詢，空值並不會顯示
+
+-----------
+
+JSON:
+
+JSON的屬性是字串並且使用雙引號框起來""，無法使用雙引號。
+JSON傳入的是字串，所以需要用JSON.parse將字串物件化。
+
+EX.例如JQ.Vue等，使用AJAX時會自動將字串轉為物件，所以就不需要使用JSON.parse()
+
+
+
+屬性特徵是甚麼?(Object.defindproperty)
+正常情況下都不會去動用到屬性特徵。
+屬性的特稱分別有:
+1. 值
+2.可否寫入
+3.可否被刪除
+4.可否被列舉
+//列舉的意思是使用for in一一的去讀取值並且值被讀取到就稱為列舉。
+
+
+而可以適用Object.defindproperty()去定義調整屬性特徵
+型態:Object.defindproperty(指定物件,'指定物件的屬性',{參數})
+型態二:Object.defindproperty(指定物件,'指定物件的屬性',{
+    value:'值',
+    writable:boolean,//可否被寫入
+    configurable:boolean,//可否被刪除
+    enumerable:boolean,//可否被列舉
+    });
+
+在預設情況下都會是true，在修改特徵的時候並不需要所有屬性都列舉，只需要在參數的obj內寫入欲修改參數的屬性與值即可。
+另外也可使用此方式新增新的屬性。但這邊得特別注意，若使用禁止寫入只限定於指定obj內的屬性，若屬性的值是物件，值內的物件依然可以寫入
+
+
+若要大量修改的屬性特徵則是使用Object.defindproperties(物件,{
+    屬性一:{
+        value:'值',
+        writable:boolean,//可否被寫入
+        configurable:boolean,//可否被刪除
+        enumerable:boolean,//可否被列舉
+    },
+    屬性二:{
+        value:'值',
+        writable:boolean,//可否被寫入
+        configurable:boolean,//可否被刪除
+        enumerable:boolean,//可否被列舉
+    },
+    })
+
+物件延伸的功能 preventExtensions、seal、Freeze
+
+preventExtensions 防止擴充
+Object.preventExtensions(物件)//直接針對物件做限制
+console.log(Object.isExtensions(物件))//偵測是否可以被擴充,回傳boolean
+console.log(Object.getOwnpropertyDescriptor(物件,'屬性'))//偵測物件特徵,回傳boolean
+//不影響子物件
+
+seal 讓物件屬性無法新增刪除，但可以修改屬性值，同時特徵也無法更動 (封裝)
+//預設就有preventExtensions
+Object.seal(物件)
+console.log(Object.isSealed(物件))//偵測是否有被封裝,回傳boolean
+//不影響子物件
+
+freeze 凍結物件屬性及值
+//預設就有seal且無法調整值
+Object.freeze(物件);
+console.log(Object.isFrozen(物件))//偵測是否有被凍結,回傳boolean
+//不影響子物件
+
+
+屬性列舉與原型的關係
+Obj.hasOwnproperty('屬性')//確認物件是否有這個屬性存在
+
+當在新的物件新增屬性
+
+//未完待續

@@ -1,0 +1,323 @@
+
+首先我們先帶出AJAX的程式碼。
+
+let xhr = new XMLHttpRequest();
+        //建立請求
+        
+        xhr.open('get','https://api.kcg.gov.tw/api/service/Get/b4dd9c40-9027-4125-8666-06bef1756092',true);
+        //請求對象.功能
+
+        xhr.send(null);
+        //資料傳送，我方傳送空值後，對方接受指令後回傳
+
+        xhr.onload =function(){}
+        //非同步執行onload
+
+
+
+接下來我們一個一個來說明。
+
+
+一. let xhr = new XMLHttpRequest;
+這個步驟簡單來說是建立請求。但若沒有相關經驗，對於建立請求這個詞大概不是很明白。
+舉個簡單的例子說明，今天以藍芽為例子。
+我們都知道藍芽是需要開啟才能進行傳送或接收等操作，建立請求大概就是這個概念。
+今天你需要開啟，其他人才能傳送文件給你，今天你需要開啟才可以連接到耳機。
+而今天我們要傳送或接受資料，就要建立請求才能進行後續的操作。
+
+
+二.xhr.open('get','網址',true);
+格式:格式,讀取的網址,同步與非同步
+
+首先是格式，常用的格式有傳送(post)及接收(get)
+在使用藍芽的時候也會有傳送文件或接受文件的選項，基本為同個意思。
+依你的需求，看今天是要接受對方的資料，還是傳送資料給對方。
+
+讀取網址的部分想來大家都明白也就跳過了，這邊比較重要的是同步與非同步。
+同步與非同步是甚麼意思?作用又是甚麼呢?
+
+非同步(true):不會等資料回傳，就會讓程式碼繼續往下跑。
+//也就是說假設資料還沒回傳，但我卻使用console.log撈資料，此時會撈到空值。
+//通常會搭配onload來將已經先撈好的資料進行操作，也就是第四步。
+
+同步(false):等到資料回傳，才會繼續執行之後的程式碼。
+
+
+以正常的網頁來說會使用true，因為正常情況下傳輸的資料量是非常大的，
+畢竟不可能讓使用者畫面就卡在那，等資料回傳。
+
+三.xhr.send(null);
+資料傳送。很白話的一句話，大家都明白。
+在這邊比較會有疑問的是，我明明是要接收資料，為何我還要傳送?括號中間的null又是甚麼作用?
+其實大概是這個概念。
+今天我們開啟藍芽了，同時也選擇好要連接的對象了，所以下一步就是要發送與對方連接的請求對吧?
+send就是如此，假設我們今天是要取得資料，但我們也要與對方做連接，所以還是需要傳送連結的請求。
+而null就是空值的意思，取得資料以前還是得向對方發出請求，所以就傳了個空值給對方。
+也就是僅發送連接請求而已。
+
+除了取得以外，自然還會有傳送了。
+若是要傳送資料，除了將資料放入，send的括號內以外，還須先執行一個步驟，就是設定傳送的格式。
+
+xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+    // 發送表單類型的資料：('Content-Type','application/x-www-form-urlencoded')
+    // 發送 JSON 類型的資料：('Content-Type','application/json')
+
+以上是格式的範例。還有一點須注意，
+那就是格式不要輸入錯誤，
+格式輸入錯誤會導致不論你取得值是否正確，都會顯示錯誤的BUG
+
+
+四.xhr.onload =function(){}
+在上面提到，若要使用非同步但又想要撈的到資料，就需要使用到onload了。
+onload白話來說，就是當接收到回傳的資料後才會觸發我們所設定好的事件。
+例如今天設定了consolo.log(xhr.responseText)，
+那麼當有接收到xhr.responseText的後才會使consolo.log()這個代碼運行。
+//這個時候資料還是持續的再傳輸，只是先將已經回傳的的資料先使用。
+
+補充:responseText這個我們在後面會說明。
+
+----------
+AJAX代碼用意:
+
+我們在建立並且連接成功以後，可以使用consolo.log查詢連接內容。
+而在這些內容中，有許許多多的代碼，分別都有它的用意。
+今天我們挑幾個重點來說明。
+
+readyState(請求狀態):
+藍芽有連接成功、連接中、連接失敗三個狀態，在AJAX的時候也能夠查詢連接的狀態。
+
+readyState 請求狀態
+
+0 = 已經建立請求，但尚未連接網址
+//當你建立請求但尚未有後續操作時，通常會顯示0
+
+1 = 已經建立了open()，決定好了格式與連結的網址，但還未進行傳送。
+
+2 = 偵測到你已經建立傳送
+
+3 = loading中 資料還在傳輸中
+
+4 = 已經完成對接並且雙方都接收到完整的資料
+
+
+status 回傳資料狀態
+除了連接的狀態外，還有一個回傳資料的狀態。
+拿藍芽來比喻就是傳送資料是否有成功。
+今天只介紹兩個常用的狀態，而狀態分別是:
+
+200 = 資料回傳成功，有撈取到資料
+
+404 = 資料讀取錯誤，沒有撈取到資料。
+
+
+responseText(回傳的資料):
+
+AJAX回傳的資料都會在這個代碼內，所以若要調用資料便是從這個代碼。
+調用資料前，首先我們要先了解到使用AJAX傳送或接收到的資料都會是字串。
+因此接收到的responseText就是字串形式。
+若需使用則需要將字串給轉化，通常都會是轉成物件也就是JSON.parse()。
+例子.let data =JSON.parse(xhr.responseText);
+接著就可以依使用物件的方法，去調用資料。
+//這邊補充一點，物件的屬性為非英文，可以使用object['屬性名稱']來取得value
+
+cors 跨網域撈取資料設定:
+
+並不是所有的網址都可以做連接，若網址有設定無法跨網域撈取資料。
+以下網址可以偵測是否有設定cors:
+http://www.test-cors.org/
+
+
+
+---------
+以下為範例:
+
+
+    <h2>註冊</h2>
+        帳號:
+        <input type="email" name="account" id="emailVu">
+        <!-- name代表的是屬性，伺服端歸類資料用 -->
+        <!-- type無論是用text 或 email等的都不會影響到取的值。 -->
+        <br>
+        密碼:
+        <input type="password" name="password" id="passwordVu">
+        <br>
+        <input type="button" class="post" value="提交">
+        <!-- 可以用button或subimt，因是透過click事件 -->
+        <h2>登入</h2>
+        帳號:
+        <input type="text" class="accountId">
+        <br>
+        密碼:
+        <input type="text" class="passwordId">
+        <br>
+        <input type="submit" class="btuId">
+
+
+        let xhr = new XMLHttpRequest();
+//建立xhr
+
+-----JS-----
+
+
+let clickButton =document.querySelector('.post')
+clickButton.addEventListener('click',formPost,false)
+function formPost(e){
+    xhr.open('post','https://hexschool-tutorial.herokuapp.com/api/signup',true);
+    //連接伺服器 此得放在監聽內才不會出錯 每一次按下後跑一次流程
+
+    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded')
+    //設定傳送格式
+    // 發送表單類型的資料：('Content-Type','application/x-www-form-urlencoded')
+    // 發送 JSON 類型的資料：('Content-Type','application/json')
+    //注意格式不要輸入錯誤，格式輸入錯誤會導致不論你取得值是否正確，都會顯示錯誤的BUG
+
+    let account= document.querySelector('#emailVu').value;
+    let password = document.querySelector('#passwordVu').value;
+    xhr.send(`email=${account}&password=${password}`)
+    // 上面${}的用法可替代'+變數+' //抓取值後傳送
+    // xhr.send('eamil=add@gmail.com&password=123145')
+    xhr.onload =function(){
+        let str =JSON.parse(xhr.responseText)
+        //接受伺服端的回傳並陣列化
+        alert(str.message)
+    };
+    document.getElementById('emailVu').value=''
+    document.getElementById('passwordVu').value=''
+    //此為清空input提交後的字元，因用上面取得的變數會有BUG，無法清空。
+    //故直接取得節點清空。
+}
+
+//以下登入JSON方式
+
+let login = new XMLHttpRequest();
+
+let btu =document.querySelector('.btuId');
+btu.addEventListener('click',loginClick)
+function loginClick(e){
+    e.preventDefault();
+    let ac = document.querySelector('.accountId').value
+    let ps = document.querySelector('.passwordId').value
+    let str ={
+        email:ac,
+        password:ps
+    }
+    login.open('post','https://hexschool-tutorial.herokuapp.com/api/signin',true)
+    login.setRequestHeader('Content-Type','application/json')
+    login.send(JSON.stringify(str))
+    //因為數據庫是JSON是字串，所以物件要字串化
+    login.onload= function(){
+        let say = JSON.parse(login.responseText)
+        //跨網域傳來的是字串，故要轉陣列
+        alert(say.message)
+        //我們將資料傳送過去伺服端後，伺服端會判斷是trueORfalse來決定回傳給我們的字串是哪個
+    }
+
+}
+
+
+-----JSON範例-----
+帳號
+<input type="email"name="account" id="loginAccount"> <br>
+密碼
+<input type="password" name="password" id="loginPassword"><br>
+<input type="submit" value="送出" id="loginBtn">
+
+-----JS-----
+
+
+let loginBtn = document.querySelector("#loginBtn");
+let loginAccount = document.querySelector("#loginAccount");
+let loginPassword = document.querySelector("#loginPassword");
+loginBtn.addEventListener("click", login);
+function login(e) {
+  e.preventDefault(); //submit頁面會重刷一次，所以要取消預設動作
+  if (loginAccount.value.trim() === "" || loginPassword.value.trim() === "") {
+    alert("不可空白!!");
+    return;
+  }
+  let xhr = new XMLHttpRequest();
+  xhr.open("post", "https://hexschool-tutorial.herokuapp.com/api/signin", true);
+  xhr.setRequestHeader("Content-type", "application/json");
+  let data = {}; //儲存使用者輸入資訊的物件
+  data.email = loginAccount.value;
+  data.password = loginPassword.value;
+  let accountDatadata = JSON.stringify(data); //將要傳送的物件轉為字串
+  xhr.send(accountDatadata);
+
+  xhr.onload = function () {
+    let checkdata = JSON.parse(xhr.responseText);
+    alert(checkdata.message);
+  };
+  loginAccount.value = "";
+  loginPassword.value = "";
+}
+
+
+----------
+
+promise:
+
+常用於AJAX及非同步處理。
+在JQ之中，AJAX有許多的連線方法。
+以下介紹其中幾個方法。
+
+
+方法一.
+let data = {}//先建立空物件路徑，之後套入AJAX
+$.ajax({
+    url:網址路徑
+}).done(function(res/回傳後套入參數){
+   data = res.results
+   console.log(data)//顯示回傳內容的results
+})
+
+補充，以下方範例做說明:
+
+let data = {}
+$.ajax({
+    url:網址路徑
+}).done(function(res){
+   console.log(res)//顯示results內容
+   data = res.results
+})
+
+console.log(data)//顯示空物件
+
+之所以這個原因是因為，非同步會等程式碼執行完成後才執行，
+所以一定會等所有程式碼跑完才跑AJAX，不管AJAX傳輸速度多快。
+
+方法二.
+$.ajax({
+    url:網址路徑
+    datatype:'json'
+    success:function(data){
+        console.log(data)
+    }
+})
+
+success的用意是，當完成回傳後執行success的程式碼
+
+方法三.$ajax({
+    url:路徑,
+    method:請求方式(get/post...),
+    datatype:請求資料類型,
+    data:(如需傳送資料，資料設定於此。沒有則不需要此屬性)
+    success:function(res){
+        console.log(res)//回傳成功執行
+    },
+
+    error:function(err){
+        console.log(err)//回傳失敗執行
+    }
+})
+
+但是以上有幾個非同步的問題。
+1.回呼地獄
+//當若要再次執行，就得再把同樣的程式碼套入原先的程式碼中，也就是巢狀。
+
+2.寫法不一致
+
+3.無法同時執行(雖然JQ有寫法，但並不直覺)
+//都會等到程式碼執行完成後才接續執行，無法指定特定時間。
+
+所以為了避開以上及直覺得使用，那我們就得使用promise。

@@ -1,0 +1,580 @@
+SQL資料庫:
+在我們提到SQL語法前，我們得先了解資料庫的觀念。
+
+資料儲存必然會佔用空間，所以需要系統正規化的管理資料。
+一般來說，若是非系統化的管理資料，會有以下兩種情況:
+
+一.資料在同一個儲存格
+以訂單來說，一列存取格內有訂單編號,客戶資料,各類產品及金額
+但若是客戶點一百項產品，那樣會造成單一儲存格資料太多，以業界來說不會如此使用。
+(附圖)
+
+二.一樣產品一列儲存格。
+同個樣的資料，差別在於產品名稱。
+但這樣會導致資料太多，占用存取空間太多。
+(附圖)
+
+總結。為了避免以上兩點發生，所以需要使用關聯式資料庫來管理資料。
+
+關聯式資料庫:
+關聯式資料庫是將資料分類不同的表單。
+每個表單都會有一個主要的ID以及連接至其他表單的副ID。
+如此主要ID所占用的空間就只有其他副表單的ID，
+要新增或修改副表單內容，就只要修改副表單，主表單不需要再更改及新增，
+也就減少了空間的占用。
+(這邊附圖)
+
+
+表單稱為table，雖然說關聯式資料庫是將各個表單分開來，但他們是有預先定義好的關係
+拿以下圖來舉例:(附圖)
+
+訂單編號 客戶姓名  物流公司
+ A0001     XXX     C0001
+
+此張訂單內
+訂單明細為副表單，內以A0001為主，有其他的商品編號。
+物流公司也是副表單，此副表單內有物流公司的詳細資料。
+以上範例以訂單的編號為主。
+
+但若是在物流公司的表單內，就是以物流公司表單為主。
+這邊就得提到一個概念，主鍵與外來鍵。
+
+每個表單列都有屬於自己的一個ID，稱為主鍵，是有唯一性的。
+它代表著是那一列的資料，自然也不能夠是空值
+功能一來是可以查詢ID資料
+二來是可以與其他table建立關係，也稱為外來鍵。
+
+以上述表格來說明，上面總共分為一個主鍵及兩個副鍵
+
+訂單編號為主鍵，也就是代表著那一筆訂單內的資料
+其次為訂單明細，訂單明細雖然不再以上的列表中，但它其實是也是一個表單
+
+訂單明細ID 訂單標號 產品名稱 數量 金額
+  B0001     A0001   牛仔褲   1    3
+  B0002     A0001    短褲    2    5
+
+可以看到，訂單標號都是同一個，但每個明細也就是每個商品都有自己的ID也就是主鍵
+
+接著是物流公司
+
+物流公司ID 物流公司 電話
+  C0001     物流A    X
+  C0002     物流B    X
+
+物流公司的ID就有存取在A0001的表單中
+從上述可以看出來，每個table間的關聯，它其實是有個分別的。
+
+一對多:
+例如訂單編號，對應到訂單明細就有多筆資料，稱為一對多
+
+多對一:
+以物流公司來說，就是多對一
+多筆訂單，但都指向同一個物流公司，便稱為多對一。
+
+
+
+
+
+正規化:
+
+先說一下正規化好處有三點
+
+一.用來消除存取異常的處理方法
+
+二.避免重複浪費空間的情況
+
+三.使用資料庫時能夠有效率且更容易維護
+
+接下來介紹正規化要點:
+
+o.正規化有分成好幾個階段，但基本來說三個就夠了
+
+o.每個階段再進行之前須確認前一個階段已經完成
+
+o.正規化需要在資料庫設計階段就進行
+
+
+
+第一階段正規化(INF):
+
+o.確認主鍵。主鍵也能夠有多個欄位共同組成，每個欄位都要有和主鍵有相依的關係。
+//確認主鍵的意思是，確定是依哪個id為主。例如一筆訂單，就依訂單id為主。物流公司等其他為輔助
+//多個欄位組成主鍵。就是依兩個id為主，只有兩個id組合才能代表那一筆資料
+
+o.每個欄位只能有一個資料
+//好比說日期2021/9/20 ~ 2021/9/21
+//這邊應該分成兩筆，起始與結束。
+
+o.資料表中不能有多個意義相同的欄位
+//好比說簽核資料中分成一階主管、二階主管
+//不要將一階主管是一個欄位，二階是一個欄位
+(附圖)
+//總得來說就是資料是要往下不重複地疊加，而非往右擴充儲存格。
+
+
+
+第二正規化(2NF):
+(附圖)
+
+o.table中所有資料欄位都需要與主鍵有完全依賴關係
+//好比一筆訂貨資料中，客戶是跟訂單有相依關係。
+
+o.部分相依的欄位需要分割出去
+//部分相依是甚麼?好比上圖，產品跟訂單編號有關係嗎?它是跟產品ID有關係，所以稱為部分相依
+
+分割出去的介面:(附圖)
+
+如上圖，訂單被分為三個部分。產品ID、訂單明細、訂單資料
+
+
+第三正規化(3NF):
+(附圖)
+o.非主鍵欄位不能有相依關係
+//以上圖為例，手機號碼與訂單並沒有相依關係，所以需要把再次分割出來。
+//客戶資料為一個table、訂單資料內的客戶table的ID
+
+
+綜合上述上個正規化階段後產生出來的table為此:
+(附圖)
+說明:
+第一個欄位orderID為主鍵，其他的客人customerID(客人)/shopperID(物流)/EmployeeID(處理訂單員工)
+可以看得出來，主要table存的都是ID值，真正的資料儲存的都在各自的副table內，真正有相依的只有訂單日期
+
+
+附上pk(主鍵)fk(外來鍵)的圖表    
+
+
+
+
+MySQL指令:
+
+概念介紹完了，接下來就是實作的部分。
+先介紹SQL用途與方法
+
+用途.
+一.允許用戶撈取關連式資料庫的數據
+
+EX.雖然使用關連式資料庫會將資料分割到不同table，
+但是在觀看的時候會用J...整合成一張表單，方便觀看
+
+二.允許用戶定義資料庫中的數據
+例如.新增、修改、刪除資料庫中的table
+
+方法.
+
+SQL語法組共分為三類。
+
+o.DDL(data definition language)-資料語言定義
+//CREATE(建立)、ALTER(修改)、DROP(刪除)
+
+o.DML(data manipulation language)-資料操縱語言
+//SELECT,INSERT,UPDATE,DELETE
+
+o.DCL(data control language)-資料控制語言
+//GRANT,REVOKE (授權權限)
+
+---------
+
+
+DML:
+
+select 搜尋.
+型態範例:
+
+select * //select旁是接欄位名稱，如果是*則是全部欄位
+from orders //這邊如果已經選定資料庫，就不需要指定資料庫。
+where customersid = 3;
+
+
+ol.SQL的搜尋由select開始
+//搜尋都是使用select
+
+ol.from 資料庫.table名稱
+//資料庫名稱.table(表單)
+
+ol.where條件子句
+//例如，這個客戶消費的金額，或者性別等，只要指定的條件的都會顯示。
+
+
+注意:
+1.沒有from是單純列印(也就是顯現出來)
+
+2.資料大時盡量避免*
+//因為會造成server負載.loading效率降低。
+
+3.搜尋時加入條件增加搜尋效率
+
+4.語法大小寫都可以，不會有影響。(實戰中通常都使用小寫)
+
+---------
+
+
+as 命名:
+
+ol.as用途是用來指定(命名)欄位別名及表格別名
+//類似宣告變數，以簡化程式碼，此後在執行前只需輸入命名後的別名即可調用。
+型態:
+select 命名後表格名稱.欄位 as 命名的欄位名稱
+from 表格 as 命名表格名稱,表格2 as 命名表格名稱2
+where 命名後表格名稱.欄位 = 條件(可命名後的)   
+
+範例:
+select a.person as name
+from orders as a
+where a.person = 5
+
+
+補充:
+ol.其實as 是可以省略的 只要別名與原先的名字空一個即可。
+select 欄位 命名欄位
+ol.若有多個物件需要命名，使用,即可。
+
+---------
+
+運算子:
+也就是加減乘除，除了數字外也可用於欄位表格等。
+ol.加(+)
+ol.減(-)
+ol.乘(*)
+ol.除(/)
+
+範例:
+select price*2 
+form table
+//如此就是將price欄位內的所有數字*2
+
+比較運算子:
+ol.大於(>)
+ol.小於(<)
+ol.等於(=)
+ol.不等於(!=)
+
+範例:
+select price 
+form table
+where price > 30
+
+
+邏輯運算子:
+and (對應JS的&&) 
+or (對應JS的||)
+not (對應JS的!)
+
+範例:select *
+from table
+where (name = 'Amy' or name = 'John') //or需使用()框起來
+
+範例:select *
+from table
+where not name = 'Cindy'
+
+題目:
+找出在products表格
+categoryid欄位2及3
+price 10到20之間的資料
+
+解答:
+select *
+from products
+where (categoryid = 2 or categoryid = 3) 
+and price < 10
+and price > 20;
+
+---------
+join 加入:
+
+ol.目的是將多個table結合呈現
+ol.於where設定結合條件來執行
+
+型態:
+select *
+from a,b //選擇指定table
+where a.id = b.a_id // a的主鍵 搭配 a在b之中的外來鍵
+
+where的部分看型態這邊會比較難理解，這邊補充範例且進行說明。
+
+範例:
+select *
+from orders,orderdates //選擇指定table
+where orders.ordersid = orderdates.ordersid 
+// 將orders表單中的主鍵ID與 orderdates中的orders外來鍵id結合即可。
+
+說明:如此就可以將兩個表單合體呈現，而因為兩個表單合併，所以會有些重複的表單
+如圖:(附圖)
+這樣是正常的，因為分類是使用關聯式分類，但呈現是以此種方式呈現方便閱讀。
+
+----------
+insert 資料匯入:
+select 單元結束，接下來介紹資料匯入資料庫的insert
+型態:
+insert into table(欄位1,欄位2) //into後table為指定表單，()內的欄位1跟2是指定加入資料的欄位
+values (1,'data');//資料是依照上方欄位順序加入。例如1就是加入欄位1，data就是加入欄位2
+
+補充：在MySQL的mysql workbench中有個兩個案鍵。
+
+打勾案鍵(commit):再輸入完新增/刪除/修改程式碼後，按下打勾按鍵才會真正的輸入到資料庫中
+
+叉叉按鍵(rollback):同樣的，若是輸入完後按下叉叉，那就不會更動到資料
+
+一般在將資料庫輸入資料後，若是成功會執行commit
+若是發生錯誤失敗了，會有一連串的補救措施，也就是rollback
+大概率是在使用者輸入錯誤的資料後，執行rollback並回饋輸入資訊錯誤的回覆給予使用者
+
+----------
+update 更新(修改)資料:
+型態:
+update table
+set 指定欄位名稱 = '修改內容'
+where id = id號碼; // 指定儲存格加入上方修改內容的資料
+----------
+delete 刪除資料:
+型態:
+delete from table
+where id = id號碼; //指定儲存格刪除
+
+----------
+left/right join 查詢左/右側table的"所有紀錄":
+其實與join差別不大，重點在於"所有紀錄"。
+以join查詢的話只會找尋兩個table都有的資料
+但若以此搜尋，若另一方沒有相應資料，就顯示null
+
+那left及right的差異在於，是以哪個table為主
+如果是left 就是使用from的table為主下去查詢並顯現所有資料
+反之，若是right則是以join 那排的table為主，假設另一方沒有對應資料就是以null顯示
+型態:
+select *
+form table
+left join table2
+on table.id = table2.id
+
+----------
+order by 排序順序:
+型態:
+from table
+order by 欄位 desc(大到小/降冪)/asc(小到大/升冪)
+
+範例:
+select * 
+from products //指定table
+order by price desc //指定欄位及排序順序
+----------
+group by :
+搭配聚合函數使用sum(資料總和),COUNT(資料總筆數),AVG(計算欄位平均值)
+MAX(取得欄位最大值),MIX(取得欄位最小值)
+目的是將資料統整分群並整理。
+何謂分群?意思是相同資料合併成一筆稱為分群。
+整理的部分就是依聚合函數來決定整理成何種資料。
+例如，我今天想要飲料的總價格，那使用group by 就會將飲料合成一筆品項，並將價格加總。
+
+型式:
+select items,聚合函式()
+from list
+group by items;
+
+題目是。依訂單明細(orderdetails)列出產品ID、名稱、產品數量總和並且依據數量由高至低
+範例:
+select d.productid,p.productname,sum(price) sum
+//sun(price)後面的sum使用的是as命名
+//呈現的是d.productid及p.productname。這邊使用的是as命名
+
+from orderdetails d, products p 
+where d.productid = p.productid
+//這邊使用join及as將表單命名且合併
+
+group by d.productid
+//使用group by 將orderdetails內的productid相同欄位合成同一個，
+並且sum(price)將price給加總
+
+order by sum desc;
+//最後依照price的大小，由大至小排列
+
+補充:
+對於以上解釋及範例的理解可能還不是太清楚，以下可以參考。
+(附圖)
+現在要使用Group by並計算每一筆訂單的總金額是多少錢，SQL如下:
+select orderID as 訂單編號 , sum(total) as 總金額 
+from Orderdetial 
+group by orderID
+
+對orderID欄位group by，//也就是說將相同的名稱加總在一起
+將相同名稱的orderID中資料合再一起，
+並且計算出每筆orderID的total加總。 
+//因為使用了sum(total)所以會將相同名稱的數字做加總
+
+聚合函數詳解:
+https://rileylin91.github.io/2020/06/12/MSSQL-13-AggregateFunctions/
+----------
+having 過濾:
+類似JS的if只呈現有滿足條件的資料
+型態:
+select iteams, sum(price)//顯示sum及iteams
+from list //從list的表單中
+group by items //將表單內的相同iteam(欄位)合併成一筆
+having sum(price) > 50; //合併成的金額如果小於50就顯示
+
+----------
+like搭配%(百分比) 以字串尋找資料:
+型態:
+select *
+from table
+where 欄位 like 'C%';
+
+
+說明:%的意義是只要前方字串開頭的，都會抓取。
+而若是在字串前後方都加上%，例如'%C%'，那只要關鍵字有C的都會抓取。
+
+//通常用於搜尋，輸入框輸入後自動顯示的相關搜尋
+//前端設定好API串接後，後端使用此語法，
+在使用者輸入資訊時即時reture符合資料庫的資訊給使用者
+----------
+between 區間搜尋:
+型態:
+select *
+from table 
+where 欄位 between 1 and 10;
+
+說明:以上面型態的反例解釋就是找1-10區間的物件
+
+----------
+in 多個條件:
+in與or的作用其實是一樣的，差別在於in的語法較簡潔一些。
+
+型態:
+select *
+from table
+where 欄位 in(5,8);
+
+說明:抓取出欄位為5及8的資料
+//類似where (欄位 = 5 or 欄位 = 8)
+----------
+子查詢://(待完成)
+作用是在原先的抓取的範圍內再次抓取。
+作法其實就是將SQL語法以()包裹起來，置入原先的語法中。
+型態一:
+select *
+from (子查詢)
+where
+//至於from的子查詢的用途為
+在依據回傳的table內再次抓取
+
+
+型態二:
+select *
+from table
+where 欄位 in (子查詢)
+//這邊比較不一樣的是，此處是子查詢後回傳結果給where條件使用
+//假設子查詢的條件是數量超過50的品項，接著回傳給where
+//where就會在子查詢回傳的範圍內，再次抓取滿足條件的資料。
+
+型態三:
+select * (子查詢)
+from table
+//至於select後的子查詢可以搭配外部的table來使用
+
+以下使用範例進行講解:
+題目是使用orderdetails的資料，
+查詢出訂單明細ID與產品名稱。
+並且在select中置入子查詢，查詢產品名稱。
+範例.
+select d.orderdetailid,(select productname from products where productid = d.productid)
+//這邊在主語法只要顯示orderdetailid的欄位
+//接著子查詢products的表單中抓取productname欄位並且抓取外部的表單join
+//如此第一行就會抓取訂單明細ID(orderdetailid)，
+第二行則是與第一行ID相應的產品名稱(productname)。
+from orderdetails as d
+//這邊很簡單就是指定表單且as命名
+
+----------
+exists 判斷子查詢結果
+型態:
+select *
+from table
+where exists (子查詢)
+
+作用是判斷子查詢是否有結果，若有則回傳給where做使用，沒有則終止語法。
+相較與join的作法，效率會比較高一點。
+
+----------
+數學函氏庫:
+
+sum():
+型態:
+select sum(欄位)
+from table
+前面在group by 有提到，就是將欄位的總和加總。
+
+count()
+型態:
+select count(欄位)
+from table
+count的用意主要是計算欄位資料，欄位有多少筆資料，回傳的就是欄位筆數。
+
+distinct
+型態:
+select distinct 欄位
+form table
+作用是呈現不重複資料，假設指定欄位有多筆一樣資料，只會顯示
+通常使用distinct 欄位 接著至入count內做搭配使用。
+
+abs()
+顯示()內的絕對值
+
+round(num,n)
+num內小數點後，第n位四捨五入。
+
+truncate(num,n)
+num小數點後，第n位無條件捨去
+
+pow(x,y)
+x的y次方
+
+sqrt(num) 
+num的平根方
+
+----------
+日期函式庫:
+now()
+現在時間
+
+date_format(時間,格式字串)
+//取得要得格式
+範例:
+select date_format(now(),%y/%m);
+//取得現在的年與月
+
+
+date_add(時間,interval格式)
+範例:
+select date_add(now(),interval 1 day);
+將現在時間往後推一天
+
+dayofweek(時間)
+回傳週間的索引值，周日開始為1
+
+week(時間)
+週數
+
+dayofyear(時間)
+一年中的日數
+----------
+字串函式庫:
+substring(str,pos)擷取字串從pos(第幾位)位置開始
+substring(str,pos,數量)從pos開始擷取指定數量長度的字串//擷取後回傳到str
+concat(a,b)將a字串與b字串結合
+replace(a,cde,fgh)將a欄位或字串中的cde文字換成fgh文字
+----------
+
+
+
+暫存
+SELECT *
+FROM orders
+left join Employees
+on orders.EmployeeID = Employees.EmployeeID;
+
+insert into Employees(employeeid,lastname,firstname,birthdate,photo,notes)
+values(11,'強哥','大強哥',1987-07-12,EmpID11.pic,'強哥很棒')
+
+SELECT * 
+FROM employees e,orders o
+where o.employeeid = e.employeeid

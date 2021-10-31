@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>副檔名分割</title>
+</head>
+
+<body>
+    <input type="file" id="fileId" multiple="true">
+    <script>
+        let file = document.querySelector('#fileId');
+        file.addEventListener('change',file_get)
+        function file_get(e){
+            let get_file = e.target.files;//抓取的檔案
+            let file;
+            let fileAry =[];
+            for(let i of get_file){
+                file = filetype_groupby(i);//丟入函式分割副檔名並取得結果。 此時的i是filelist陣列中的file物件
+                fileAry.push(file);//將轉換完成的物件丟入陣列中儲存
+            };
+            console.log(fileAry);
+        };
+        //參數是代入的接收的檔案
+        function filetype_groupby(file){
+            let name = file.name.split('.');//分割字串
+            let type = name[name.length - 1];//抓出副檔名
+            name.pop();//移除副檔名
+            name = name.join('.');//將有以.分割的檔名復原
+            file = {
+                file: file,//檔案物件本身
+                name:name,//檔名
+                type:type//副檔名
+            };
+            return file;//回傳執行完成的結果
+        };
+    </script>
+</body>
+
+</html>

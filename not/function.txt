@@ -1,0 +1,476 @@
+此篇介紹關於function深入用法:
+
+首先函式其實也是一種物件，就跟全域window一樣。
+但function與其他物件不同:
+
+1.function有被呼叫的能力。
+呼叫就使指將建立好的function執行，便稱為呼叫。
+
+2.有自己的片段。{}稱為片段，在內所宣告的便稱為區域變數。
+
+
+function sayHI(){
+
+    console.log('HI')
+
+}
+
+
+sayHI()//這就叫呼叫。
+
+
+---------
+函式的回傳及參數的代入:
+
+除了表達式以外，函式也可以使用return回傳值。
+不管是變數，還是字串等等物件都可以回傳。
+
+
+function sayHI(person){
+
+    return 'HI! ' + person
+
+}
+
+var data = sayHI('小明')//這邊就將回傳的字串及代入的參數賦予給變數
+
+console.log(data)//顯示HI! 小明
+
+
+----------
+函式的陳述式及表達式:
+
+陳述式(具名函式):
+型態:function fnA(){}
+
+fnA()
+
+
+表達式(匿名函式):
+型態:var fnB = function(){}
+
+前面我們有說過，物件都有自己的參考路徑，而function身為物件，自然也有自己的參考路徑。
+所以表達式就是將函式的路徑賦予給予變數
+補充:但是無法將已經完成的function路徑賦予給變數
+照上面範例就是:var fnD = fnA(); 
+
+fnB()
+
+
+不是所有的表達式都是匿名函式:
+型態:var fnC = function fnD(){}
+
+
+var fnC = function fnD(){
+
+    console.log(fnX)
+
+}
+
+fnC()//會導向fnD的參考路徑
+
+此特性是只能在函式內被調用，若是在函式外使用fnD()將無法讀取到內容。
+
+----------
+
+此範例值得深思，可以參考一下。
+
+var num = 1
+
+var giveMeMoney = function giveMoreMoney(coin) {
+  num += 1;
+  console.log('執行 giveMeMoney', num, coin);
+  return coin > 100 ? coin : giveMoreMoney(num * coin);
+
+console.log(giveMeMoney(30));
+
+
+白話解釋:
+
+其實使用陳述式OR表達式都沒有差別，主要是函式內容。
+
+
+當我們代入30至coin這個參數時，num會+1也就變成2
+consolo.log會先顯示代入的參數及num的value
+接著return 三元運算式所計算出的value
+三元運算式的內容為當coin不小於100時，回傳coin
+但若小於100時，又再次執行giveMoreMoney並套入參數(num*coin)
+此時是在原先的giveMeMoney底下運行，所以coin自然是30
+num是父層變數所以可以取得，此時的num因為+1已為2
+2*30 = 60 //60還是不滿足條件，所以重複上面動作，直到滿足條件。
+最後60*3 =180
+180再套入giveMoreMoney條件有滿足>100，所也就回傳180這個值。
+
+補充:三元運算式就是if的else，前者if不滿足，就執行後者。
+
+----------
+立即函式(IIFE):
+型態:(function (){}());
+型態二:(function (){})();
+
+特點:
+一.立刻執行
+二.無法於函式外再次執行
+
+補充:api無法自動補上;，所以需要自己補上;
+補充二:函式可命名亦可不命名
+
+常用於限制變數的作用域。
+
+----------
+立即函數代入參數的方式:
+型態:(function(e){}(代入的參數))
+
+var a = (function(e){
+
+    console.log(e)
+    return e
+
+}('安安你好'))
+
+console.log(a)//顯示安安你好
+
+//立即函式同樣也可以使用表達式取得值
+
+--------
+立即函式傳遞變數方法:
+簡單來說就是透過物件的屬性。
+
+var a = {}
+
+(function(b){
+    b.content = '你好'
+}(a));
+
+
+(function(c){
+    console.log(c.content)//顯示你好
+}(a));
+
+通常是透過全域物件的方式:
+
+(function(global){
+    global.content = '你好'
+}(window));
+
+
+(function(c){
+    console.log(content)//顯示你好
+}());
+
+通常是運用在大型的框架上，如vue。
+
+
+
+---------
+參數:
+以下以範例進行說明:
+
+
+
+var globalVariable = '全域變數'
+
+var obj = {
+
+    aFunction:function(para){
+
+        var localVariable ='區域變數'
+        console.log(para,localVariable,arguments,this,globalVariable)
+    }
+
+}
+
+obj.aFunction('一段描述',2,3)
+
+一.我們的參數是para，但代入的參數有三個，系統只會取第一個
+二.arguments 無論傳入多少參數，都會接受並產生一個類陣列。
+
+補充說明:但若參數大於傳入的參數，那不足的數量將會以undefined做填補。
+
+
+----------
+
+function callName(a){
+    var a;
+    console.log(a)
+}
+
+callName('小明')//顯示小明
+
+在參數傳入之後就已經宣告好a這個屬性了，所以後面在宣告屬性是沒有用處的。
+除非在片段內賦予值:
+
+
+function callName(a){
+
+    a = '杰倫'
+    console.log(a)
+
+}
+
+callName('小明')//顯示杰倫
+
+
+----------
+以函式代入函式
+
+function fnA(fn){
+    fn('小明')
+}
+
+functionA(function(a){
+    console.log(a)//顯示小明
+})
+
+第二種~~~~
+
+callName(name){
+
+    console.log(name)
+
+}
+
+function fnA(fn){
+    fn('小明')
+}
+
+fnA(callName)//此時這裡不須代參數
+//顯示小明
+
+/////以上稱為callbackfunction
+
+----------
+
+arguments說明:
+
+callName(1,2,3,'4')
+
+function callName(a){
+    console.log(a.arguments)//顯示1及arguments陣列
+    for(let key in arguments){
+        console.log(arguments[key])//顯示1.2.3.4
+    }
+}
+
+
+of用法:
+
+function callName(a){
+    for(let key of arguments){
+        console.log(key)//顯示1.2.3.4
+    }
+}
+
+從以上可以看出來of的key是value，in的key是每個value的號碼
+
+之所以說arguments是類陣列是因為，它沒有陣列該有的包裹物件，如forEach等。
+
+
+----------
+
+closure 閉包:
+
+範例.
+function storeMoney(){
+    var money = 1000
+    return function(price){
+        money = money + price
+        return money
+    }
+}
+
+console.log(storeMoney())//這樣是執行var money = 1000的內容，並回傳子function的內容。
+console.log(storeMoney()(1000))//執行原function外也執行子function，所以回傳2000
+
+
+var mingMoney = storeMoney()
+console.log(mingMoney(100))//顯示1100
+console.log(mingMoney(100))//顯示1200
+console.log(mingMoney(100))//顯示1300
+
+var jayMoney = storeMoney()
+console.log(jayMoney(1000))//顯示1000
+console.log(jayMoney(1000))//顯示2000
+console.log(jayMoney(1000))//顯示3000
+
+以上稱為閉包。原理就是因為子function需要向父層抓取資料，因此資料的記憶體就不會被釋放掉。
+另外前面有說過function無法透過此方式賦予function的路徑給予變數。
+確實如此，因為function回傳(return)的是money這個變數及子function，
+也就是說賦予給變數money的value(1000)，以及子function。
+//這個1000並非是上面宣告的var給予的，而是子function所占用的。
+綜合上述加上子層會抓取父層變數且不釋放，
+所以數字才能不斷累加並且mingMoeny才能成為一個function
+
+補充:以上jayMoney = storeMoney()的用法，
+是將storeMoney所運算完成的結果回傳給jayMoney這個變數，並不是回傳function路徑。
+
+
+---------
+閉包進階:
+
+照慣例先上個範例:
+
+function arrfn(){
+    let arr =[]
+    for(var i =0;i<3;i++){//若這裡的var改成let就沒有問題，因為let的作用範圍至在for回圈內 
+        arr.push(function(){
+            console.log(i)
+        })
+    }
+    console.log(arr)//顯示三段函是
+    return arr
+}
+
+let fn = arrfn()
+
+fm[0]();//顯示3
+fm[1]();//顯示3
+fm[2]();//顯示3
+
+為甚麼都會顯示3呢?
+因為前面有說到，當子層function抓取父層變數資料時，那記憶體資料就不會釋放，
+所以i就會一直是3
+
+而若是不想要i取得的都是最後一個3，使用立即函式限制作用域即可:
+概念就是利用作用域來阻斷變數的傳遞。
+function arrfn(){
+    let arr =[]
+    for(var i =0;i<3;i++){
+            (function(j){
+                arr.push(function(){
+                console.log(i)
+            }(i))
+        })
+    }
+    console.log(arr)
+    return arr
+}
+
+let fn = arrfn()
+
+fm[0]();//顯示0
+fm[1]();//顯示1
+fm[2]();//顯示2
+
+
+或者是使用let
+
+
+function arrfn(){
+    let arr =[]
+    for(let i =0;i<3;i++){//若這裡的var改成let就沒有問題，因為let的作用範圍至在for回圈內 
+        arr.push(function(){
+            console.log(i)
+        })
+    }
+    console.log(arr)
+    console.log(i)//這邊是沒辦法取到i的，因為上面所述，i只限定於for的{}內
+    return arr
+}
+
+let fn = arrfn()
+
+fm[0]();//顯示0
+fm[1]();//顯示1
+fm[2]();//顯示2
+
+
+函式工廠:
+上面所提的，可以再加入參數修正，同時閉包概念被稱為函式工廠。
+
+function storeMoney(num){
+    var money = num || 1000 //在運算子的章節有提到,當||前方為真值時回傳num，若非真值直接回傳1000
+    return function(price){
+        money = money + price
+        return money
+
+    }
+}
+
+
+私有方法:
+在上面的概念下，分解成不同的方法，例如原先的數字增加，新增數字查詢及減。
+
+function storeMoney(num){
+    var money = num || 1000 
+    return { //回傳一個物件，接著再以所需抓取欲使用的屬性變數
+        increase:function(price){
+            money += price //不覆蓋掉原先的moeny將price的value與money的value做相加 
+        },
+        decrease:function(price){
+            money-= pirce //不覆蓋掉原先的moeny將price的value與money的value做相減 
+        },
+        value:function(){
+            return money
+        }
+    }
+}
+
+var mingMoney = storeMoney(100)//這邊是將100賦予給小明
+
+mingMoney.increase(100)//這邊是增加小明的moeny
+
+console.log(mingMoney.value())//這邊是查詢小明的money
+//這邊之所以用console.log是因為回傳回來的money被沒有變數可以呈現，
+所以使用console.log才可以看到回傳回來的money
+
+補充map的功能:(在六角學院JS核心篇的function常見陷阱)
+型態:陣列.map()
+用法有些類似foreach，差別在於會將陣列內的物件計算後回傳到陣列上
+範例一.
+var a = [1,2,3].map(function(iteam){
+    console.log(iteam)//顯示1,2,3，所以在這裡操作的值會套用到a的陣列上
+})
+
+範例二.
+var a = [1,2,3].map(function(iteam){
+    return 'a'+iteam //如此a陣列內的物件就會是a1,a2,a3
+})
+
+
+範例三.
+var a = ['1','2','3'].map(function(iteam){
+    return parseInt(iteam,10)//如此就會將陣列內的字串改為數字。
+})
+
+補充parseInt('字串',進位)
+parseInt的目的是將字串轉為數字，而默認是使用10進位，
+但怕有些瀏覽器不支持，所以可以在後方指定進位
+
+
+箭頭函式:
+
+使用箭頭函式之前我們先寫個傳統函式，待會來進行對比
+
+callName = function(person){
+    return '我是' + person;
+};
+
+以上函式為代入參數後回傳字串，那改成箭頭函式後會變成這樣
+
+callName = (person) => {
+    return '我是' + person;
+}
+型態:() => {}
+除此之外，當函式沒有其他內容為，只為單純表達式時，程式碼可以更精簡
+ex.甚麼是表達式?這邊補充一下，表達式就是會回傳的，都叫表達式 function 加上return, == 等
+
+callName = (person) => '我是' + person;
+
+看到這裡應該都覺得精簡到這裡差不多了吧?其實還可以在更精簡。當只有一個參數的時候就可以這樣寫
+
+callName = person => '我是' + person;
+但是得注意，若是沒有參數的話，()是不能省略的
+
+
+箭頭函式特點:
+
+1.沒有arguments這個參數 //也就是將傳入的參數以類陣列的方式呈現
+替代方案 callName = (...參數) => {
+    console.log(參數)
+}
+
+2.this的綁定是不同的 箭頭函式沒有自己的this
+//會使用外層作用域的this
+
+3.

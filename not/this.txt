@@ -1,0 +1,242 @@
+this:
+
+this的指定與如何調用有很大的關連，讓我們使用以下範例做講解:
+
+var name = '小明'
+
+function callname(){
+    console.log(this.name)
+}
+
+callname()//顯示小明
+
+題目.為何會顯示小明?
+A:我們都知道，JS就是一個物件稱全域，在全域內直接宣告的變數被稱為全域變數
+同時我們也理解作用域，子層找不到的變數會向外尋找，所以指向的就是全域的this的name了。
+
+重點:
+一.this本身就存在
+this在我們執行函式的時候就自己會產生，而this並不是指向函式本身，而是最近的可以調用的物件。
+而在以上的狀況，function指向的物件自然就是全域。
+
+二.this與函式如何宣告是沒有關連性，僅與調用(呼叫)方法有關係。
+
+三.嚴格模式下，簡易呼叫會有很大的改變
+
+
+調用方式:
+一.作為物件方法(最常用的方式)
+//僅需要注意在哪個物件下呼叫就可以。
+例如.object.fn()//那這個this就指向object本身
+範例.
+var name ='小明'
+
+function callname(
+    console.log(this.name)
+)
+
+var family ={
+    name:'杰倫'
+    callname:callname//調用外層的function
+}
+family.callname()//顯示杰倫
+
+範例二.
+此範例二接續上面的callname函式
+var family ={
+    name:'杰倫'
+    callname:callname,
+    ming:{
+        name:'小明',
+        callname:callname
+    }
+}
+
+family.ming.callname()//顯示小明
+在物件章節有說過，物件都有各自的路徑，而在family底下的ming已經是一個新路徑，
+所以在上面的呼叫方式中，callname指向的是ming這個路徑。
+
+範例三.
+var name = '小明'
+var family ={
+    name:'杰倫',
+    callname:function(){
+        console.log(this.name)
+    }
+}
+
+與原先的差別在於，直接在物件屬性內新增一個物件。
+
+family.callname()//杰倫
+
+var callname = family.callname;
+
+callname()//顯示小明
+//雖然還是指向同一個路徑的function，
+this是只管是在哪裡被執行的，所以在全域狀態下執行，指的this自然是全域
+
+二.簡易呼叫(絕大多數的方式)
+//不太建議使用this，盡可能不要使用。
+直接在全域變數下呼叫的this函式都是簡易呼叫(simple call)
+範例一.
+var name = '小明'
+function callname(){
+    console.log(this.name)
+}
+
+callname()//小明
+
+範例二.(延續var 的 name)
+
+IIFE
+(function(){
+    console.log(this.name);//小明
+    function callname(){
+        console.log(this.name);
+    }
+})
+
+callname()//小明
+
+補充:直接在全域下執行的函式并非式掛在全域物件底下，如window.function()
+總之只要知道記住，不管你呼叫的位置，而是呼叫的方式而定。
+object.function()//導向物件
+function()//導向全域
+
+
+範例三.callback
+
+function fnA(callback){
+    var money = 100;
+    reture callback(money)
+}
+
+fnA(function(money){
+    console.log(this.name,money+100)
+})
+
+
+範例四.
+
+var name ='小明'
+
+var family ={
+
+    name:'杰倫'
+    callname:function(){
+        setTimeout({
+            function(){
+                console.log(this.name)
+            }
+        },1000)
+    }
+}
+
+family.callname()//顯示小明
+setTimeout也是simple的一種。
+
+若是要用setTimeout但又想指向物件的話，可以這麼做:
+var family ={
+
+    name:'杰倫'
+    callname:function(){
+        var self =this; //slef可被稱vm或that
+        setTimeout({
+            function(){
+                console.log(self.name)
+            }
+        },1000)
+    }
+}
+
+三.bind,apply,call方式
+
+主題:(主題是通用的，以下範例都會拿主題來使用)
+var name = '小明'
+var family = {
+    name:'jay',
+}
+
+function fn(part1,part2){
+    console.log(this,1,2)
+}
+
+fn()//正常方式執行情況下顯示全域、1,2
+
+call:
+型態:函式.call(指定物件,參數)
+fn.call(family,1,2)//call的第一個參數是指定this，
+假設我指定的是family，那this的導向就是family這個物件
+所以顯示的會是jay。
+而後面兩個參數代入的則是function內的參數，也就是fn的part1,part2
+
+apply:
+型態:函式.apply(指定物件,[參數])
+apply與call差別在於，apply是以陣列代入。
+
+bind:
+型態:函式.bind(指定物件,參數) //與call相同的方法
+
+bind與前面兩個最大的差別在於，bind不會立刻執行。
+何時執行?當我們要調用它的時候才會執行。
+所以得先給它一個變數。
+
+var fnBind = fn.bind(family,'安安','你好')
+fnBind()//參數不用另外代入。如果在此代入不會有任何變化。
+//實際上它不是simple call 因為調用this的地方在前面宣告的時候已經決定了。
+
+補充:假設指定物件是純值而非object的話呢，純值會自動轉變為建構式的object(被封裝)
+但若只定物件是undefind/null的話，則導向全域
+
+
+四.new
+
+五.dom事件
+
+六.箭頭函式(ES6)
+
+
+嚴格模式:
+ol.加入'use strict'即可運作
+//本身是字串，所以屬於表達式。
+
+ol.並不會影響不支援嚴格模式的瀏覽器
+//有時候嚴格模式不支援其他瀏覽器，那執行結果會有所不同。
+ol.可依據執行環境設定 'use strict'
+//可以加在特定的函式內，依情況做調整。
+
+ol.透過拋出錯誤的方式消除一些安靜的錯誤(防止小錯誤)
+ol.禁止使用一些有可能被未來版本ECMscript定義的語法。
+
+型態:在函式前方加入'use strict'
+function fnA(){
+    'use strict';
+}
+
+舉例:
+function fnA(){
+    'use strict';
+    a = '小明'//會跳錯。就是上方說明的拋出錯誤
+    //因為這樣會成為屬性，而非變數。
+}
+
+補充:若是帶入undefiend則會導向全域，
+而盡量不要在簡易呼叫使用this的原因是因為
+概念就類似undefined導向全域。
+
+
+那之所以會提到嚴格模式是因為使用call、apply、bind代入非物件時，
+就不會自動轉成建構式的物件，而是保留原始的純值了。
+
+
+DOM:
+
+標籤.
+在DOM使用this，若直接至於標籤內則代表標籤本身。
+
+
+監聽.
+若是監聽的使用this的話，則this代表觸發事件的DOM
+
+補充:console.dir()
+可以了解元素的屬性(包裹物件)

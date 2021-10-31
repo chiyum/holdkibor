@@ -1,0 +1,409 @@
+快捷鍵//
+
+Ctrl + Shift + L 一次選取檔案內所有相同的文字
+js錯誤，當typeof "null"的時候，型別會顯示是object
+typeof保護措施是若沒有這個變數也會顯示Undefined
+
+alt + ctrl + 上下方向鍵 = 一次選擇多排選項
+
+//型別
+.toUpperCase()大寫
+.trim()空格刪除
+以上為部分包裹物件的用法。
+
+    當我們在建立原始型別，如字串string或是數字number的時候
+    系統就會自動替這些型別增加包裹物件。
+    而包裹物件就是可以對型別進行一些特定操作，如同上面:
+    大小寫轉換、刪除空白字元等。
+
+    而我們也可以自主轉化物件型別:
+    var a ='hi'
+    var e = new string(variable);
+    這稱為建構式型別的宣告，但盡量不要使用到這種方式，因為此時的e就會是一個物件
+    而非原本的字串型別，操作方法會不同(形同物件)
+
+
+    運算子(operator)//
+    除了===、!==之類的運算子
+    =號也算運算子
+
+    使用運算子的variable變數及string字串等就稱為運算元
+    例. a = 'b'  這時a及b都是運算元
+    而依據運算元的不同會分為1~3元的運算子
+    正常來說像上面的例子就是2元運算子
+    
+    運算子特性:會回傳結果 本身就像是函式 會去運算
+    例1 + 1 回傳2 而如上的賦予2m=元運算其實也是會回傳的
+
+    一元運算:
+
+        =   
+    運算元 運算子
+
+    delete 物件名稱   delete是刪除物件內容用的運算子  //typeof也算是一元運算子  
+    運算子 運算元
+
+    三元運算(條件運算子):
+    三元運算只有一個 
+    <? :>這兩個符號即是其中兩元
+    三元運算是有三個運算子及兩個運算元被稱為三元
+    例子:
+    (variable ? 'hello' ; 'hi')
+      判斷式      結果     結果  //這結果稱為表達式
+                                。可以想成因為要回傳表達出來，所以叫表達式。
+                                表達式的特性就是會回傳一個值
+
+    假設variable是ture回傳hello
+    假設variable是false回傳hi
+
+    var bmi =15
+    var b =(bmi<20) ? '過瘦' : '肥胖';
+    b =//結果就會是'肥胖'
+
+    a = 1 + 1 //上面提到過的運算子本身就類似函式，
+                它會先計算過再將值回傳2這個值再賦予到a上
+
+    但就算這樣寫它也只是二元運算子，因為它是先執行1+1這個二元運算
+    接下來才執行a=2的二元運算
+
+
+    優先性(precedence)與相依性(Associativiyt)
+    
+    優先性:
+    也就是運算子的執行順序 
+    (* /  >  + -  >  =)
+
+    乘除會優先執行再來才是加減
+    優先性較高的運算子會成為優先性較低的運算元:
+
+    a = 2 * 2 + 3 / 3
+
+    此時便*及/就等於+的運算元，
+    所以他們會先進行算式
+    2 * 2 =4
+    3 / 3 =1
+    再成為+的運算元
+    4 + 1 = 5
+    最後再執行賦予的算式
+    a = 5
+
+    相依性:
+    當優先性順序都相同，就會先從左邊依序執行
+    =(等號)則是相反，是由右至左
+  
+    由上面可以得知，運算完後會產生值，接續這個值再繼續下個運算
+
+    所以當 3> 2 > 1的時候 算式如下:
+    3 > 2 =true
+    true > 1
+    = false 
+
+    因優先性左至右先計算後回傳值true
+    true這個值再接續與1做計算並回傳值(結果)
+
+    true型別轉換會等於1 false則是0
+
+    等號:
+
+    var a = 1
+    var b = 2
+
+    a = b = 3
+    運算結果就會是
+    b = 3 //因為是表達式會回傳3
+    此時b運算完後就會是3
+    a = 3
+    最後a取得b與3運算完的結果。
+
+    a,b都會是3
+
+    並不是
+    b = 3
+    a = b
+    return 3
+
+    總結來說表達式的概念就是:
+    每個算式(表達式)都會回傳計算完的值，
+    接著再繼續把這個回傳的值進  行下一個運算，一直到最後結果
+
+
+    NaN == 不是一個數字  用typeof查詢的話會是number
+
+    嚴格相等有例外
+
+    NaN === NaN return false
+    -0 === +0 return true
+
+    寬鬆相等 兩個型別值都一樣也會回傳true
+
+    1 === '1' return true
+    
+    再寬鬆判斷式中true及false會轉為數值
+    true == 1  false == 0
+    EX.但字串的true/false是不會轉換成數字的，因為它會被認定為"字串"
+    只有數字才能被系統判定
+    false == '0' <<因為是數字所以被系統判定成功
+    Namber(null)雖然為0 null = 0
+    但其並判斷式並不會被轉為數字 
+    
+    而Namber(undefined)雖為NaN
+    但在判斷式中會自動轉為false
+    不過在寬鬆相等的情況下null == undefined 會return true
+
+    可以透過Number('數字') 將數字的字串轉數字
+
+    亦可16 = 15 + 1
+    因為=的優先順序比+低，15+1運算完後會等於=的運算元，再接續算式
+
+    !0 == 1  <<!等於不
+    !0 = true 
+    因為false 轉換型態為數字 = 0 
+    而不是false自然就是true了
+    而True = 1
+    所以 1 == !0
+    EX.undefined在判斷式中會被轉為布林值false
+    而在一開始變數還未賦予值之前，變數的值就是undefined
+    所以若是在還未賦予變數前將變數加入判斷式中，值就會是undefiend
+    所以轉換布林值就會是fales，所以單純在判斷式中加入undefiend==false
+    那{}就不會被執行。因判斷式如if()括號中回傳的值等於true才會執行{}內的代碼
+
+    var a 
+    if(!a){ //!表不是，所以判斷不是fales的話就等於true，
+              而判斷式若等於true就會執行{}的代碼
+        console.log('hi')
+    }    
+    a = 1
+
+    //最後console.log還是會成立，因為它在變數a還是undefined之前執行
+
+    物件與非物件比對//
+    物件與非物件轉換時會使用包裹物件做轉換
+    例.
+
+    Number([10])
+    10 == [10]
+    這時候系統就會自動使用包裹物件進行轉換
+
+    但物件內屬性是無法進行轉換的，因為轉換出來的文字會是[object Object]
+
+    物件與物件是無法做比對的 ex.陣列也是
+    {} == {}
+    [] == [] 
+    return false
+    因為位置不同。
+
+    但若是 
+    var a =[]
+    
+    var b = a
+
+    a == b 
+    return true
+
+    因為使用的陣列位置相等，而陣列與物件比對的並不是內容而是位置
+
+
+    truthy and falsy
+
+    truthy 真值 ==在轉換後為真的值就被稱為真值
+
+    falsy 假值 == false、undefined、""、null、NaN這些等，
+                  而因為判斷式為true就會執行，所以
+
+    當判斷式沒有比對值時()內是真值，就為true。
+
+    邏輯運算子:  && || !  邏輯運算子是表達式
+
+    &&:  A && B  
+    當第一個A為假值(false)的時候，它會直接回傳 
+    //大概就是a都沒通過了，那b也不需要偵測
+    //因為 &&是兩個值都得滿足才會是true
+    而當A為真值，它會回傳B，不管B是甚麼值
+
+    || C || D
+    當第一個C是真值的時後直接回傳，若是假值則會跳過並回傳D  
+    //也因為 ||特性是其中一個滿足即為true
+    //故C已經滿足了，D就沒有偵測的必要了。
+    真實例子.
+
+    if('A' || 'B' == 變數){
+        console.log('執行')
+    }
+    白話是這樣的:當字串A或B ==輸入變數時就執行console.log()
+    所以()執行過程是:
+    假設變數 = 'C'
+    A先判斷，不是C所以跳過
+    並回傳B
+    接下來B成為運算元在與變數(C)進行運算
+
+
+
+    實際用途:
+    當預設值為空值時會顯示NaN
+    若不想要讓NaN出現就可以使用||
+    
+    var originCash = 500;
+    function updateEasyCard(cash){
+        cash = cash||0;
+        //這段是當cash為空值時就等於是假值，所以就會回傳0
+        var money = cash + originCash;
+        console.log('我有'+money+'元')//假設cash為200 結果就會是700
+    }
+    不過假設cash為0就會被認定是假值(false)，所以會直接回傳第二個值，要避免這個狀況就用:
+    但其實以上的範例在某方面就足以使用，因為不輸入就是0。
+    
+    var originCash = 500;
+    function updateEasyCard(cash) {
+      cash = parseInt(cash);//把cash轉為數字
+      console.log(cash);
+     
+      cash = (cash || cash === 0)? cash: 500;
+      //這邊使用三元運算，ture回傳第一個選項，false則是二選項
+      //當cash是ture也就是真值，就直接回傳cash的值 例如 10
+      //又或是若cash是假值的話.例如NaN(沒有輸入)，也就回傳cash === 0進行判斷
+      //因為||特性就是當第一個true(真值)就會直接回傳，若是假值就會回傳第二個選項進行判斷 
+      //那麼當數字為0的時候也就符合 === 0 
+      (因已經於上面將cash宣告為數字了，所以在嚴格判定下就是數字0=數字0，也就回傳ture(0)
+      //那就會是true也就回傳第一個選項cash(0)
+      //想當然了，當沒有輸入(NaN)就回傳500
+      var money = cash + originCash;
+      console.log('我有 ' + money + ' 元');
+    }
+updateEasyCard(0);
+
+ex.但要注意，在||及&&邏輯運算子中是等於寬鬆判斷的
+所以就算使用 parseInt()它還是會回傳第二個選項
+ parseInt(0)||10 依這個範例來說就會回傳10
+
+
+ 補充:
+ 假設 3 || 2 && 1 || 0
+
+ 因為邏輯運算子是二元運算及優先性的關係，&&會先比對，結果如下:
+
+ 2 && 1 and特性第一個為真值就回傳第二個 故回1
+
+ 3 || 1 || 0
+
+接下來依照由左至右的特性
+
+3是真值，直接回傳3
+
+如果要好記，可以記成 || 第一個為true時回傳，否則回傳第二個
+反之 &&第一個是false時回傳，若為true回傳第二個
+
+大小於: < >
+
+大小於是寬鬆比對，所以亦會將型別轉型，而是由左至右比對的
+所以當 1000< 10000 < 10 = true
+因1000 < 10000 =true
+接下來 true(1) < 10 = true 故答案為true
+
+ex.字串與數字做相加，會被轉為字串
+
+BigInt()使用此包住數字或是在數字後加個n可以更精準的表達數字
+
+物件實字 Object Literals:
+透過以下方法輸入物件及屬性稱為物件實字
+
+let store = {  //物件實字
+
+    commodity:value,
+    customer:value,
+
+}
+
+
+物件建構式:
+
+let newStore = new Object(store)
+
+若是插入物件，就變成物件包裹物件，插入甚麼就變成什麼樣的包裹物件。
+
+
+-----------------
+for in 及 for of 差別
+
+let arr = ['a','b','c','d',{'e':'e_value','f':'f_value'}];
+
+for(let index in arr){
+    console.log(index);
+}
+// 0,1,2,3,4
+//---------------------------------------------------
+//若想要用for in 取value，也是可以
+for(let index in arr){
+    console.log(arr[index]);
+}
+//a,b,c,d,{'e':'e_value','f':'f_value'}
+//---------------------------------------------------
+//for in 會遍歷自定義屬性
+arr.name='myArray';
+for(let index in arr){
+    console.log(index);
+}
+// 0,1,2,3,4,name
+//若寫console.log(arr[index])，自定義的name則會印出其內容'myArray'
+//---------------------------------------------------
+//但用for of，則可以寫的更優雅。且不會遍歷自定義屬性
+for(let value of arr){
+    console.log(value);
+}
+//a,b,c,d,{'e':'e_value','f':'f_value'}
+
+前文可以看到for of修正了for in的問題，同時解決array中.forEach限制的continue、break
+
+但在JavaScript中，除了陣列，最常使用的就是object了！
+
+直接將for of套用在object中，卻發現直接報錯！因為object本身不是一個可迭代的對象，所以無法遍歷！
+
+這時候就要配合Object.keys()來做了
+
+let obj = {
+   a:'a_value',
+   b:'b_value', 
+   c:'c_value'
+}
+
+for(let key of Object.keys(obj)){
+    console.log(obj[key]);
+}
+//a_value,b_value,c_value
+
+但這樣寫就太過冗長，不如就直接用for in來做
+
+而這也是for in的主要工作
+
+for(let idx in obj){
+    console.log(obj[idx]);
+}
+//a_value,b_value,c_value
+
+
+若您的資料結構較複雜，有一堆object組合而成的陣列，想要遍歷陣列裡的物件的value
+
+這又該怎麼寫呢？
+
+就要結合for in跟for of了！
+
+let complexArray = [
+    {
+        name:'小明',
+        birth:'1995/07/01'
+    },
+    {
+        name:'小美',
+        birth:'1989/11/17'
+    },
+    {
+        name:'小帥',
+        birth:'1990/06/25'
+    }
+]
+
+for(let obj of complexArray){ //先遍歷出所有物件
+    for(let key in obj){ //再遍歷每一物件的key，取得value
+        console.log(obj[key]);
+    }
+}
+//小明,1995/07/01,小美,1989/11/17,小帥,1990/06/25   

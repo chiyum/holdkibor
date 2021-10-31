@@ -92,6 +92,20 @@
     Array.<span class="fn2">join('指定字串')</span>//將陣列中元素、物件以('指定字串連接')並且轉為字串
     Array.<span class="fn">length</span>//陣列數量總數
 </pre>
+                    <h3>物件相關</h3>
+                    <pre class="code">
+    Object.<span class="fn2">freeze</span>//凍結物件屬性及值(通常搭配const)
+    console.log(Object.isFrozen(物件))//偵測是否有被凍結,回傳boolean
+    Object.defindproperty(指定物件,'指定物件的屬性',{
+        value:'值',
+        writable:boolean,//可否被寫入
+        configurable:boolean,//可否被刪除
+        enumerable:boolean,//可否被列舉
+    });//物件的特徵修改
+    Object.preventExtensions(物件)//防止擴充(新增)屬性,直接針對物件做限制
+    console.log(Object.isExtensions(物件))//偵測是否可以被擴充,回傳boolean
+    console.log(Object.getOwnpropertyDescriptor(物件,'屬性'))//偵測物件特徵,回傳boolean
+</pre>
                     <h3>DOM的設定</h3>
                     <pre class="code">
     Variable.<span class="fn2">getAttribute</span>('屬性')//取屬性值 例如a裡面的href及class、id、data-type等
@@ -161,7 +175,6 @@
     <span class="fn2">parseFloat</span>()字串轉數字，含小數點
     JSON.<span class="fn2">stringify</span>(欲轉換內容)轉字串
     JSON.<span class="fn2">parse</span>(欲轉換內容)轉陣列
-    Object.<span class="fn2">freeze</span>//凍結變數內容(通常搭配const)
     isNaN(value)//如果是NaN就回傳ture。空值亦可使用，可用在沒輸入任何東西的情況下
     localStorage.<span class="fn2">getItem</span>("localName")//取出本地端localstorage
     localStorage.<span class="fn2">setItem</span>("自定義localName",輸入的字串)//設定or加入localstorage

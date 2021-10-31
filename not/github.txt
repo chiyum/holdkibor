@@ -1,0 +1,116 @@
+環境安裝；
+
+
+1.安裝git 使用git bash
+//mac 用iteam2
+
+
+
+指令部分: 
+
+
+查詢版本. git version
+
+移動路徑. cd 路徑
+//若本身要進入已經移動到的子選單內，那直接輸入子選單的資料夾名稱即可。
+//假設今天我在C槽，那我要進入C槽的子資料夾，那就直接輸入 cd 子資料夾名稱 即可
+ol.相關指令: cd .. 回到父層資料夾/ 
+ex.可透過拖動資料夾到git上，使自行產生路徑至輸入框
+ex.若要切換至其他槽，需再路徑前加上/
+
+顯示路徑資料 ls 
+//顯示目前資料夾所在的子資料夾及檔案
+
+新增檔案. touch 檔案名稱及副檔名 
+//在目前所在的資料夾新增 
+//範例 touch index.html
+
+新增資料夾. mldir 資料夾名稱 
+
+
+
+個人資訊新增及修改
+git config --global user.email "輸入email"
+git config --global user.name "輸入名稱" 
+git config --list //查詢
+
+
+版本控制:
+接下來說明版本控制的一系列操作
+但首先讓我們先了解指令及流程意義
+
+clone(下載遠端資料夾) -> add(上傳至索引) -> commit(更新至本地數據庫) -> push(上傳到遠端數據庫)
+
+
+建立遠端數據庫 clone
+一.在github建立repository
+
+二.下載遠端數據庫
+//git clone 網址
+ex.ssh及https的差別在於是否輸入帳密(或本身電腦已經儲存帳密)
+
+
+
+建立本地數據庫 
+
+建立 git init
+//會產生一個隱藏的git資料夾，版本控制都會自動記錄在其中 
+
+加入索引(建立版本) git add 檔案
+//若檔案的部分改成"."則將所有未加入的檔案加入索引 (git add .)
+
+檢查狀態 git status
+//檢查檔案是否加入索引
+//綠 已上傳 / 紅 未上傳
+//當檔案有修改，那就會顯示未上傳。
+
+更新到本地庫據庫 git commit -m '修改註記'
+
+
+更新到遠端數據庫(更新版本) git push
+
+git push 遠端數據庫 分支(branch)
+//範例 git push orugin master
+
+
+查詢commit資訊 git log
+//會產生個亂碼，那是版本自動產生的亂碼，代表此版本。
+
+忽略檔案 .gitignore 
+步驟:
+一.先新增 .gitignore 檔案到資料夾
+二.打開gitignore 將欲忽略的檔案連同附檔名一同輸入到gitignore的檔案內
+//*.副檔名 忽略所有此副檔名的檔案
+//"資料夾/" 亦可忽略資料夾 
+
+
+
+取消索引 git reset HEAD
+
+git reset HEAD //取消全部
+git reset HEAD 檔案//取消單一指定檔案
+
+
+還原commit(恢復到最新一版的舊版本)
+
+git checkout 檔案名稱
+
+$ git reset --hard //全部恢復到最新一版的commit
+
+
+團隊協作:
+
+流程:
+
+clone -> pull ->
+
+remote.
+
+git remote //查詢遠端數據庫名稱
+
+git remote rename //修改遠端數據庫名稱
+
+
+pull.
+
+git pull //下載遠端數據庫(commit紀錄)

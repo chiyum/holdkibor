@@ -1,0 +1,300 @@
+
+指定元素↓----------------------------------------------------------------------
+
+document.querySelectorAll('#ID/.class') 指定多個元素形成陣列
+document.querySelector('#ID/.class') 指定單一元素，若有多個只會指定第一個
+document.getElementById('ID') 以ID指定元素
+
+
+
+功能代碼↓----------------------------------------------------------------------
+
+變數=variable
+
+variable.oneclick = function() 變數點擊後觸發function
+
+variable.value 取得指定元素內的值。通常是input內的value
+
+variable.textContent ='字串' 修改元素文字 
+
+alert(變數/'字串') 彈跳文字視窗
+
+console.log(變數/'字串') 開發者模式中的console顯示(內容)
+
+type() 查詢()內屬於甚麼值，如number數字 object物件 array陣列等
+
+variable(陣列).push 將物件上傳陣列(一律上傳至最後)
+variable(陣列).splice(1,2)/(第幾筆開始,刪幾筆) 刪除物件
+variable(陣列).length 陣列內物件數量
+
+函式相關↓----------------------------------------------------------------------
+
+函示:function(參數){
+
+   	欲執行代碼
+
+	}
+
+    於function內宣告的變數及各類程式碼都會在觸發function後才出現並執行，
+在結束後銷毀。此舉為了減少占用效能。
+而()的參數我都稱之為代數，
+主要原因是在寫{}內寫功能代碼時，
+需要在()套入變數，但這個變數可以是不同的，所以先以參數替代下去寫，之後要執行在套入變數。
+例如.
+
+	function(iteam){
+
+	    return iteam+50
+
+	}
+
+    此時在iteam內輸入數字就會加上50
+
+    第二個功能則是使用event事件的時候需要搭配參數。
+    例如 參數.target 而使用event事件的參數都常規命名為e or event
+
+    return補充:
+        return 有兩個功用，一個是回傳指定變數or字串後
+        打斷return後區域變數內後續的代碼，通常搭配if(){return}來打斷後面代碼。
+        例.function(e){
+
+	if(e.target.nodeName !== 'A'){return}
+	console.log('安安')
+	//如此便會打斷console.log
+	//return確實可以傳空值，通常都像此例一樣使用
+
+	}
+
+	例2.function(e){
+
+	if(e.target.nodeName !== 'A'){
+		return 123
+		console.log('安安')
+		//如此只會回傳123 以下的console.log就不會執行
+	}	
+
+	}
+
+	以上就是兩個功能，打斷及回傳。以回傳變數等內容至父層接續執行後續代碼。
+
+
+陣列[{物件一},{content:2,},{content2:[10.11],},'字串',數字]
+指定陣列內物件  variable(陣列)[0] =指定物件一
+指定陣列內物件  variable(陣列)[1].content =指定第二個物件內的content
+指定陣列內物件  variable(陣列)[2].content2[0] =指定第三個物件內的content2內的10
+
+物件{
+
+	content:,
+	content2:function(){}
+	//在物件內的function亦可執行
+
+}
+
+
+if(){}
+if用意是若()內是ture就執行{}內的程式碼
+else if(){}則是前方if未滿足
+接著就判斷else if()內的條件是否成立ture
+ture才執行
+else{}則是上方if都未成立，此{}內的代碼一定會執行
+
+
+switch(){}
+switch用意是()內的變數若等於switch內的選項的話
+變執行選項內的代碼
+
+例子.
+
+let num =1
+
+switch(num){
+
+	case '1':
+	console.log('選到一')
+	break;
+	//break是中斷點，中斷代碼繼續向下執行。
+
+	case '2':
+	console.log('選到二')
+	break;
+
+	default://此代碼是當上方都沒有執行時，一定會執行
+	console.log('都沒有')
+	break;
+
+}
+
+for迴圈
+迴圈用意是，要讓程式重複執行幾次。
+
+for(let i=0;i<10;i++){執行程式碼}
+()內是for的固定公式
+()內的內容是(初始值;條件;更新狀態)
+較少會更動到初始值與更新狀態
+白話來說就是:
+當初始值是0，i就等於0
+而條件式當i小於10的時候執行
+執行i++ 而i++ / i+=1 / i=i+1 簡得來說就是+1
+也就是說當i小於10的時候執行1次
+執行1次的i就變成1依此類推直到i不再小於10的時候就不執行
+所以i執行了10次
+
+一般狀況下通常都只會到條件也就是次數的部分
+通常會搭配陣列使用，篩選出陣列內符合條件的物件
+
+例如.function(
+	
+	let str = 陣列.length 
+
+	for(let i=0;i<str;i++){
+	
+		if(陣列.小雞<=50){
+
+			console.log(陣列.農夫[i]+'有滿足條件')		
+			//依照陣列的數量，[i]迴圈就跑幾次
+			//加上if的話，在if內{}就只會篩選出滿足()條件的農夫[i]
+			//在console.log()內就只會顯現出小雞數量有小於50的農夫
+			//迴圈是跑過所有陣列，而if是篩選出跑過陣列中滿足條件的物件
+			//並將篩選過後的執行{}內的代碼
+		}
+		
+	 }
+
+	}
+
+
+其他↓----------------------------------------------------------------------
+
+
+加減乘除於JS內的符號 (加 +) (減 -) (乘 *)(除 /)
+
+運算子
+
+	等於 ==
+  
+        不等於 !=
+
+	非嚴謹模式可判斷字串內的數字
+	---非嚴謹模式---
+
+	等於 ===
+
+	不等於!==
+	嚴謹模式判斷嚴格，字串內文字就算等同於數字也會判斷成false
+	---嚴謹模式---
+
+邏輯運算子 
+
+	&& and
+
+	|| or
+
+	! not
+
+
+pre 自適應寬度
+word-wrap: break-word;
+white-space: pre-wrap;
+
+
+
+
+
+	//css
+
+	<head&gt
+    <meta charset="UTF-8"&gt
+    <title&gtHTML、CSS教學</title&gt
+
+    <link rel="shortcut icon" href="favicon.ico"&gt
+    <meta name='description' content='網站描述文字' /&gt
+
+
+    <meta property="og:title" content="FB的標題" /&gt
+    <meta property="og:description" content="FB的描述"&gt
+    <meta property="og:type" content="website" /&gt
+    <meta property="og:url" content="FB上的網址" /&gt
+    <meta property="og:image" content="FB的圖片" /&gt
+
+    <link href="圖片路徑" rel="apple-touch-icon" /&gt
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" /&gt
+
+    <link rel="stylesheet" href="CSS檔案路徑"&gt
+    <script type="text/javascript" src="JS檔案路徑"&gt</script&gt
+</head&gt
+
+
+
+&lt!DOCTYPE html&gt
+&lthtml lang="en"&gt
+&lthead&gt
+    &ltmeta charset="UTF-8"&gt
+    &ltmeta http-equiv="X-UA-Compatible" content="IE=edge"&gt
+    &ltmeta name="viewport" content="width=device-width, initial-scale=1.0"&gt
+    &lttitle&gtDocument&lt/title&gt
+&lt/head&gt
+&ltbody&gt
+    
+&lt/body&gt
+&lt/html&gt
+
+
+
+    &ltlink rel="shortcut icon" href="favicon.ico"&gt //標題圖示
+    &ltmeta name='description' content='網站描述文字' /&gt //於搜尋引擎看到的網站介紹
+
+
+    &ltmeta property="og:title" content="FB/line等軟體上的標題"&gt
+    &ltmeta property="og:description" content="FB/line等軟體上的描述"&gt
+    &ltmeta property="og:type" content="website"&gt //宣告這是網頁
+    &ltmeta property="og:url" content="FB/line等軟體上的網址"&gt
+   &ltmeta property="og:image" content="FB/line等軟體上的圖片"&gt
+
+    &ltlink href="圖片路徑" rel="apple-touch-icon" /&gt 放在手機捷徑的圖示
+
+
+    &ltlink rel="stylesheet" href="CSS檔案路徑"&gt //導入外部CSS樣式
+    &ltscript type="text/javascript" src="JS檔案路徑"&gt&lt/script&gt 導入外部Javascript
+
+
+	網頁可見區域寬：document.body.clientWidth
+網頁可見區域高：document.body.clientHeight
+網頁可見區域寬：document.body.offsetWidth (包括邊線的寬)
+網頁可見區域高：document.body.offsetHeight (包括邊線的寬)
+網頁正文全文寬：document.body.scrollWidth （帶滾動條寬）
+網頁正文全文高：document.body.scrollHeight （帶滾動條高）
+網頁被捲去的高：document.body.scrollTop
+網頁被捲去的左：document.body.scrollLeft
+網頁正文部分上：window.screenTop
+網頁正文部分左：window.screenLeft
+螢幕解析度的高：window.screen.height
+螢幕解析度的寬：window.screen.width
+螢幕可用工作區高度：window.screen.availHeight
+螢幕可用工作區寬度：window.screen.availWidth
+
+HTML精確定位:scrollLeft,scrollWidth,clientWidth,offsetWidth
+scrollHeight: 獲取物件的滾動高度。
+scrollLeft:設定或獲取位於物件左邊界和視窗中目前可見內容的最左端之間的距離
+scrollTop:設定或獲取位於物件最頂端和視窗中可見內容的最頂端之間的距離
+scrollWidth:獲取物件的滾動寬度
+offsetHeight:獲取物件相對於版面或由父座標 offsetParent 屬性指定的父座標的高度
+offsetLeft:獲取物件相對於版面或由 offsetParent 屬性指定的父座標的計算左側位置
+offsetTop:區塊頂端至父層邊界的距離
+event.clientX 相對文件的水平座標
+event.clientY 相對文件的垂直座標
+event.offsetX 相對容器的水平座標
+event.offsetY 相對容器的垂直座標
+document.documentElement.scrollTop 垂直方向滾動的值
+event.clientX document.documentElement.scrollTop 相對文件的水平座標 垂直方向滾動的量
+
+
+offsetTop:區塊頂端邊界至父層邊界的距離
+offsetLeft:區塊左邊界至父層邊界的距離
+offsetWidth:網頁可見區域寬(包括邊線的寬)
+offsetHeight:網頁可見區域高 (包括邊線的寬)
+scrollHeight: 獲取物件的滾動高度。
+scrollLeft:設定或獲取位於物件左邊界和視窗中目前可見內容的最左端之間的距離
+scrollTop:設定或獲取位於物件最頂端和視窗中可見內容的最頂端之間的距離
+scrollWidth:獲取物件的滾動寬度
