@@ -4,22 +4,20 @@
 
 
 @section('js')
-<script src="{{ asset('js/dashboard.js?20211001') }}"></script>
 <!-- 導入的JS -->
 <!-- 型態:<script src="{{ asset('js/檔名.js?每次更新後的日期or亂數') }}"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
         let b =`[{"id":"0","text":"選單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","state": { "disabled": false, "opened": false, "selected": false },"li_attr":{"id":"0"},"a_attr":{"href":"#","id":"0_anchor"},"data":{},"parent":"#","type":"file"},{"id":"1","text":"群益數位","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"1"},"a_attr":{"href":"#","id":"1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_1","text":"公司文檔","icon":"http://v2.volkssii.com/img/fileIcon/PDF.svg","li_attr":{"id":"j1_1"},"a_attr":{"href":"#","id":"j1_1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-10-20"},"parent":"1","type":"pdf"},{"id":"2","text":"設計圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"2"},"a_attr":{"href":"#","id":"2_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_2","text":"各樓層","icon":"http://v2.volkssii.com/img/fileIcon/PDF.svg","li_attr":{"id":"j1_2"},"a_attr":{"href":"#","id":"j1_2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-10-20"},"parent":"2","type":"pdf"},{"id":"3","text":"施工圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"3"},"a_attr":{"href":"#","id":"3_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_3","text":"一樓大廳","icon":"http://v2.volkssii.com/img/fileIcon/PDF.svg","li_attr":{"id":"j1_3"},"a_attr":{"href":"#","id":"j1_3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-10-20"},"parent":"3","type":"pdf"},{"id":"j1_4","text":"一樓大廳(圖)","icon":"http://v2.volkssii.com/img/fileIcon/PNG.svg","li_attr":{"id":"j1_4"},"a_attr":{"href":"#","id":"j1_4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-10-20"},"parent":"3","type":"png"},{"id":"4","text":"契約書","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"4"},"a_attr":{"href":"#","id":"4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"5","text":"廠商資訊","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"5"},"a_attr":{"href":"#","id":"5_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"6","text":"瑞展工程行","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6"},"a_attr":{"href":"#","id":"6_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"6_1","text":"報價單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6_1"},"a_attr":{"href":"#","id":"6_1_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"6","type":"file"},{"id":"j1_5","text":"大廳牆面切割","icon":"http://v2.volkssii.com/img/fileIcon/PNG.svg","li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":true,"disabled":false},"data":{"time":"2021-10-20"},"parent":"6_1","type":"png"},{"id":"7","text":"漢堂建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"7"},"a_attr":{"href":"#","id":"7_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"8","text":"大宇建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"8"},"a_attr":{"href":"#","id":"8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"}]`
         let dataAry = JSON.parse(localStorage.getItem('資料'))|| localStorage.setItem('資料',b);//若前者有資料，那取得資料。若沒有則取得後者。
-        if(dataAry == undefined){
-            window.location.reload()
+        if(dataAry == undefined){//若無資料重整
+            window.location.reload();
         };
         if(dataAry == 0){ //全刪後賦與值
           localStorage.setItem('資料',b)
-          window.location.reload()
+          window.location.reload();
         };
         //尚未建立資料庫，故先以locastorage替代。
         $('#tree').jstree({
@@ -229,7 +227,7 @@
               DOM = ref.create_node(DOM, doc_return[i].return_obj);//創造節點並賦予type
               ref.edit(DOM,addDocument_Value[i]);//啟用編輯模式
               DOM = ref.get_node(DOM);
-              DOM.data = {time:now,fack:'https://chiyum.github.io/holdkibor/img/jstree.png'}; 
+              DOM.data = {time:now,fack:'https://chiyum.github.io/holdkibor/img/jstree.png'}; //暫時載入假檔
               clickDom.click();//離開輸入框
             };
             addChoose();//輸入後關閉
@@ -287,11 +285,16 @@
             };
         };
         //tree刪除
-        function del() { 
+        function del(ary) { 
             let ref = $('#tree').jstree(true);
             let DOM = getDOM();
-            ref.delete_node(DOM);//指定ID執行刪除
-            //delete_node(欲刪除DOM)
+            if(DOM.length == 0 ){//不是點選資料夾的話
+              //del刪除
+              let active_length = get_targetId();//取得點選的檔案ID
+              ref.delete_node(active_length)
+            }else{
+              ref.delete_node(DOM);//指定ID執行刪除
+            };
             updata()//將檔案發送
         };
         // 更新tree
@@ -417,7 +420,7 @@
                   return
             };
             //這編寫判斷式，先掃過檔名確定檔名無誤後再執行，否則跳錯誤並return
-            for(let i =0;i<doc.length;i++){
+            for(let i = 0; i < doc.length; i++){
               doc_return = doc[i];//檔案物件本身
               doc_return_name = doc[i].name;//抓取檔名
               str_length = doc_return_name.length;//抓取字數
@@ -436,21 +439,20 @@
                 alert('上傳的檔案中資料有錯誤，請確認上傳的檔案格式符合規範')
                 return
               };
-            }
-            for(let i = 0; i < doc.length; i++){
+
               if(doc_return_type == 'jpeg'){
-                // doc_return_name = doc_return_name.substring(0, str_length - 5);//槓掉試試能不能成功執行
+                doc_return_name = doc_return_name.substring(0, str_length - 5);
                 tree = ref.create_node(DOM,{ "type": "jpg"})
               }else if(doc_return_type == 'docx'){
-                // doc_return_name = doc_return_name.substring(0, str_length - 5);
+                doc_return_name = doc_return_name.substring(0, str_length - 5);
                 tree = ref.create_node(DOM,{ "type": "word"})
               }else{
-                // doc_return_name = doc_return_name.substring(0, str_length - 4);
+                doc_return_name = doc_return_name.substring(0, str_length - 4);
                 tree = ref.create_node(DOM,{ "type":doc_return_type})
               }
               ref.edit(tree,doc_return_name)//編輯檔名
               tree = ref.get_node(tree)//將tree轉換物件
-              tree.data = {time:now}
+              tree.data = {time:now,fack:'https://chiyum.github.io/holdkibor/img/jstree.png'}//暫時載入假檔
               clickDom.click();//因為啟用編輯模式會使後續的新增失效，故使用.click取消，這樣跑下一次的迴圈時就不會阻擋新增。
               updata();//將資料儲存入數據庫
             };
@@ -551,6 +553,7 @@
         setTimeout(() => {
           right_list_update(0);
           // resetTree();
+          document.querySelector('.column').setAttribute('data-num',0);
           resetLeftHeight();
         }, 1000);
         //右欄點選進入子節點
@@ -616,6 +619,7 @@
           let ref = $('#tree').jstree(true);
           let dom = getDOM();//獲取點選tree節點
           dom = dom[0];
+          document.querySelector('.column').setAttribute('data-num',dom);
           console.log(dom)
           right_list_update(dom)
         };
@@ -632,20 +636,26 @@
             i.classList.remove('active');
           };
         };
-        function download_get_id(){//取得置入陣列的下載id
+
+        let get_targetId = () => {//取得有被點選的檔案
           let active_length = document.querySelectorAll('#documentList li .bottom');
-          let ref = $('#tree').jstree(true);
-          let down_data;
-          let data_open;
+          let down_data = [];
           for(let i = 0; i < active_length.length ;i++){//掃過所有.bottom 查看是否有active
-            console.log(i);
-            if(i.className =='bottom active'){
-              down_data.push(i.getAttribute('data-num'));//取得有active的id
-              // data_open = ref.get_node(down_data).data.fack;//取得data內的檔案資訊
-              // window.open(data_open);//開啟檔案的網址
+            if(active_length[i].className =='bottom active'){
+              down_data.push(active_length[i].getAttribute('data-num'));//取得有active的id
             };
           };
-          console.log(down_data);
+          return down_data;
+        }
+
+        function download_get_id(){//取得置入陣列的下載id
+          let active_length = get_targetId();//取得點選的檔案ID
+          let ref = $('#tree').jstree(true);
+          let data_open;
+          for(let i = 0; i < active_length.length ;i++){
+              data_open = ref.get_node(active_length[i]).data.fack;//取得data內的檔案資訊
+              window.open(data_open);//開啟檔案的網址
+          };
         };
         // document.oncontextmenu = function (e) {//右鍵取消 暫定如此 之後設計更細節的用法
         //     for (let i of list) {
@@ -658,7 +668,8 @@
           down_data.splice(0, down_data.length);//重新開始時清空資料
           let num = e.target.dataset.num;
           let dom = e.target;
-
+          let ref = $('#tree').jstree(true);
+          ref.deselect_all();
           // 多選id
           if(e.ctrlKey){
             if(dom.nodeName =='UL'){return}
@@ -670,7 +681,6 @@
                 }else{
                   dom.className='bottom active';
                 }
-                // dom.className='bottom active';
               }else if(dom.className =='top'){
                 //點到top
                 console.log('點到top')
@@ -679,7 +689,6 @@
                 }else{
                   dom.nextElementSibling.className='bottom active';
                 }
-                // dom.nextElementSibling.className ='bottom active';
               }else if(dom.nodeName == 'SPAN'){
                 //點到span
                 console.log('點到span')
@@ -688,7 +697,6 @@
                 }else{
                   dom.parentNode.parentNode.className='bottom active';
                 }
-                // dom.parentNode.parentNode.className ='bottom active';
               }else if(dom.nodeName == 'P'){
                 //點到p
                 console.log('點到p')
@@ -697,7 +705,6 @@
                 }else{
                    dom.parentNode.className = 'bottom active';
                 }
-                // dom.parentNode.className ='bottom active';
               }else if(dom.className =='title'){
                 //點到title class
                 console.log('點到title')
@@ -706,23 +713,17 @@
                 }else{
                   dom.parentNode.className = 'bottom active';
                 }
-                // dom.parentNode.className ='bottom active';
               }else if(dom.nodeName =='IMG'){
-                console.log('img');
                 if(dom.parentNode.nextElementSibling.className == "bottom active"){
                   dom.parentNode.nextElementSibling.className = 'bottom';
                 }else{
                   dom.parentNode.nextElementSibling.className = 'bottom active';
                 }
-                // dom.parentNode.nextElementSibling.className ='bottom active';
               };
           }else{
             //單選選擇id
             download_reset_active();//刪除all_active
             if(dom.nodeName =='UL'){return}
-            // console.log(num)
-            // console.dir(dom.parentNode)//父層
-            // console.log(dom)
             if(dom.className == "bottom"){
               //點選到bottom
               dom.className='bottom active';
@@ -739,14 +740,26 @@
               //點到title class
               dom.parentNode.className ='bottom active';
             }else if(dom.nodeName =='IMG'){
-              console.log('img')
               dom.parentNode.nextElementSibling.className ='bottom active';
             };
           };
         };
         window.onbeforeunload=function(e){//離開時關閉節點
           resetTree();
-        }
+        };
+        //右鍵開啟選單
+        document.querySelector('.column').oncontextmenu = (e) =>{
+          e.preventDefault(e);
+          console.log('啟動')
+          let menu = document.querySelector('.contextMenu');
+          menu.classList.toggle('active');
+          menu.style.left = (e.clientX - 100) + 'px';
+		      menu.style.top = (e.clientY - 55) + 'px';
+          console.log(e.clientY,',',e.clientX)
+        };
+
+
+
         // JQ
         // delete_node.jstree 刪除 / create_node.jstree 創建 / rename_node.jstree 命名 / move_node.jstree 移動 //  啟動後觸發事件
         $(function () { 
@@ -1436,6 +1449,31 @@
   font-size: 14px;
 }
 
+.main .contextMenu{
+  display: none;
+  position: absolute;
+  width: 168px;
+  height: 160px;
+  background: #ffffff;
+  z-index: 10;
+}
+
+.main .contextMenu li{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid rgba(22, 10, 10, 0.1);
+}
+
+.main .contextMenu.active{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .main .tip.active {
   display: none;
 }
@@ -1691,6 +1729,12 @@
 @section('wrapper-main')
 <!-- html -->
 <div class="main">
+        <ul class="contextMenu">
+          <li>命名</li>
+          <li>刪除</li>
+          <li>剪下</li>
+          <li>貼上</li>
+        </ul>
         <div class="tip active">
             <div class="loading active">
                 <div class="top">
@@ -1929,28 +1973,30 @@
 
 <!-- 待完成:
 
-  *重新寫一個參數代入file的function，將資料重整過後打回去。
 
   *單選檔案差提示窗
 
   緩急順序由上至下，排名越高越優先。
 
+    *右欄右鍵選單，進行刪除、剪下、貼上、命名
+    //偵測data-num並以此取得節點操作
+    //刪除好處理 命名則跳出個命名框 onchnge後取值改名
+    //但剪下貼上就比較麻煩一些，首先點選進入資料夾時，column要新增個data-num，這個data-num會是資料夾的id
+    //剪下的話就是取得右欄選取的檔案，貼上的話跳轉至欲貼上的資料夾，然後使用data-num取得id，使用move_node來移動。
+
     *檔案的版本控制/同text的情況下是覆蓋及新增新版本
     //右鍵節點的話可以跳出版本下載的選項
     //將上傳的檔案塞入data中
 
-    *左欄tree無法點選檔案類型一次跳到父節點，點選兩次則跳到父節點並開啟or下載?
-    //思路是這樣，當節點被選擇以後偵測type，type不是file的話，執行事件
-    //思路是這樣的：click點節點觸發點其父節點,dblclick的話開啟網址，連結後端後在data內會有資料，就連data，但目前沒有，就先用假資料塞入data
-
-    *右欄多點選取得id，並以id對接後端取得載點連接。(完成一半)
+    *右欄多點選取得id，並以id對接後端取得載點連接。(完成 待AJAX)
     //因為innerHTML後的標籤無法觸發事件，故得寫判斷式，並用物件屬性的方式塞入class
     //2021-10-21 已測試 是可以偵測active的，故可以執行。
 
-    *下載功能
-    //待後端
+    *下載功能 (完成 待JAJAX)
+    //跟後端溝通，當前端將檔案及列表陣列傳送至後端後，請後端將檔案加入data內，以此來使用版本更新等。
 
-    *jstree 設定預設不開啟
+    *jstree 設定預設不開啟 (一開始設置已完成，但是後續操作後會導致持續開啟待debug)
+    //離開時關閉可以生效，但開啟時又會自動打開
 
     *jstree檔名過長時改成...
 
@@ -1984,6 +2030,14 @@
     //同時簡單的整理了操作說明
 
     ---完成---
+
+    *左欄tree點選檔案類型跳到父節點(已完成) 
+    //思路是這樣，當節點被選擇以後偵測type，type不是file的話，執行事件
+    //思路是這樣的：click點節點觸發點其父節點,dblclick的話開啟網址，連結後端後在data內會有資料，就連data，但目前沒有，就先用假資料塞入data
+    //修改功能，無法雙擊下載，而是透過右邊點選後下載，之後右邊多出個右鍵點擊出現選單
+
+
+    *重新寫一個參數代入file的function，將資料重整過後打回去。(已完成)
 
      *判斷式重寫，以name後面的副檔名去判斷。(已完成)
     //分割後，檔案可以丟到data內，
