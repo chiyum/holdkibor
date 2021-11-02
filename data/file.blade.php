@@ -301,7 +301,6 @@
         function updata() {
             let ref = $('#tree').jstree(true);//指向tree
             let data = ref.get_json('#', { 'flat': true })
-            console.log(data);
             dataAry = JSON.stringify(data) //dataAry是儲存data的陣列，這邊是將data轉為字串後轉入塞入dataAry
             localStorage.setItem('資料',dataAry)//將dataAry放入local  ex.已有function當重整時載入dataAry
             resetLeftHeight();//維持頁面高度
@@ -439,7 +438,6 @@
                 alert('上傳的檔案中資料有錯誤，請確認上傳的檔案格式符合規範')
                 return
               };
-
               if(doc_return_type == 'jpeg'){
                 doc_return_name = doc_return_name.substring(0, str_length - 5);
                 tree = ref.create_node(DOM,{ "type": "jpg"})
@@ -483,8 +481,10 @@
           let str = '';
           let ref = $('#tree').jstree(true);
           let data = ref.get_json('#', { 'flat': true });
+          let files;
           for(let i of data){
             if(i.text.indexOf(value)>= 0 && i.type == 'file'){
+              files = ref.get_node(i).children.length;
               str+=`
                   <li data-type="${i.type}" data-num="${i.id}">
                         <div class="top" data-type="${i.type}" data-num="${i.id}">
@@ -495,7 +495,7 @@
                                 ${i.text}
                             </div>
                             <p data-type="file" data-num="${i.id}">
-                                <span>2021-10-06 </span>
+                                <span data-type="file">${files} files</span>
                             </p>
                         </div>
                     </li>
@@ -512,7 +512,7 @@
                                 ${i.text}
                             </div>
                             <p data-type="file" data-num="${i.id}">
-                                <span>${i.data.time} </span>
+                                <span data-type="doc">${i.data.time} </span>
                             </p>
                         </div>
                     </li>
@@ -550,12 +550,12 @@
             tip_finish.classList.add('active');
         };
         //  右欄顯示
-        setTimeout(() => {
-          right_list_update(0);
-          // resetTree();
-          document.querySelector('.column').setAttribute('data-num',0);
-          resetLeftHeight();
-        }, 1000);
+        // setTimeout(() => {
+        //   right_list_update(0);
+        //   // resetTree();
+        //   document.querySelector('.column').setAttribute('data-num',0);
+        //   resetLeftHeight();
+        // }, 1000);
         //右欄點選進入子節點
         list.addEventListener('dblclick',function(e){
           if(e.target.dataset.type !=='file'){
@@ -571,11 +571,14 @@
         },true);
         //帶入id去挑出data內的資料
         function right_list_update(id){
+          let ref = $('#tree').jstree(true);
+          let files;
           let str ='';
           let docStr = '';
           let data = JSON.parse(localStorage.getItem('資料'));
           for(let i of data){
             if(id == i.parent && i.type =='file'){
+              files = ref.get_node(i).children.length;
               str += `
                   <li data-type="${i.type}" data-num="${i.id}">
                         <div class="top" data-type="file" data-num="${i.id}">
@@ -586,7 +589,7 @@
                                 ${i.text}
                             </div>
                             <p data-type="file" data-num="${i.id}">
-                                <span>6 files </span>
+                                <span data-type="file">${files} files </span>
                             </p>
                         </div>
                     </li>
@@ -603,7 +606,7 @@
                                 ${i.text}
                             </div>
                             <p data-type="doc" data-num="${i.id}">
-                                <span>${i.data.time} </span>
+                                <span data-type="doc">${i.data.time} </span>
                             </p>
                         </div>
                     </li>`
@@ -620,7 +623,7 @@
           let dom = getDOM();//獲取點選tree節點
           dom = dom[0];
           document.querySelector('.column').setAttribute('data-num',dom);
-          console.log(dom)
+          // console.log(dom)
           right_list_update(dom)
         };
         //重啟時關閉選單
@@ -636,7 +639,6 @@
             i.classList.remove('active');
           };
         };
-
         let get_targetId = () => {//取得有被點選的檔案
           let active_length = document.querySelectorAll('#documentList li .bottom');
           let down_data = [];
@@ -646,8 +648,7 @@
             };
           };
           return down_data;
-        }
-
+        };
         function download_get_id(){//取得置入陣列的下載id
           let active_length = get_targetId();//取得點選的檔案ID
           let ref = $('#tree').jstree(true);
@@ -657,13 +658,7 @@
               window.open(data_open);//開啟檔案的網址
           };
         };
-        // document.oncontextmenu = function (e) {//右鍵取消 暫定如此 之後設計更細節的用法
-        //     for (let i of list) {
-        //         e.preventDefault();
-        //         i.classList.remove('active');
-        //     }
-        //     data.splice(0, data.length);//重新開始時清空資料
-        // }
+       
         function download_add_id(e){
           down_data.splice(0, down_data.length);//重新開始時清空資料
           let num = e.target.dataset.num;
@@ -748,20 +743,74 @@
           resetTree();
         };
         //右鍵開啟選單
+        let context_num;
+        let context_store_num;
         document.querySelector('.column').oncontextmenu = (e) =>{
           e.preventDefault(e);
-          console.log('啟動')
+          context_num = e.target.dataset.num;
+          // console.log(document.querySelector('.column').dataset.num);
+          // console.log(context_num);
+          document.querySelector('.rename').classList.add('active');//關閉命名彈窗
           let menu = document.querySelector('.contextMenu');
+          // if(e.target.dataset.type == undefined){
+          //   menu.classList.remove('active');//關閉menu
+          //   return
+          // };
           menu.classList.toggle('active');
-          menu.style.left = (e.clientX - 100) + 'px';
-		      menu.style.top = (e.clientY - 55) + 'px';
-          console.log(e.clientY,',',e.clientX)
+          menu.style.left = (e.clientX - 100) + 'px';//選單位至
+		      menu.style.top = (e.clientY - 55) + 'px';//選單位至
         };
-
-
-
+        document.onclick = (e) =>{
+          document.querySelector('.contextMenu').classList.remove('active');//關閉右鍵選單
+          if(e.target.className =='renameBtn'||e.target.dataset.rename == '0'){
+           return
+          };
+          document.querySelector('.rename').classList.add('active');//關閉命名彈窗
+        };
+        let contextMenuList = document.querySelectorAll('.contextMenu li');//右鍵選單選項
+        contextMenuList[0].onclick =()=>{
+          document.querySelector('.rename').classList.remove('active');//開啟命名彈窗
+        };
+        document.querySelector('#rename_cxl_btn').onclick = (e)=>{//關閉按鈕
+          document.querySelector('.rename').classList.add('active');//關閉命名彈窗
+        };
+        document.querySelector('#rename_add_btn').onclick =(e)=>{
+          let name = document.querySelector('#rename_newName_Id');
+          let ref = $('#tree').jstree(true);
+          ref.edit(context_num,name.value);
+          updata();
+          document.querySelector('#h2Id').click();
+          name.value = '';
+        };
+        contextMenuList[2].onclick =(e)=>{//貼上
+          let ref = $('#tree').jstree(true);
+          ref.move_node (context_store_num,context_num||document.querySelector('.column').dataset.num)
+        };
+        contextMenuList[1].onclick =(e)=>{//剪下
+          context_store_num = context_num;
+        };
+        contextMenuList[3].onclick =()=>{//刪除節點
+          let ref = $('#tree').jstree(true);
+          ref.delete_node(context_num);
+        };
+        // function hidedoc(){//消除所有檔案tree節點 使用者操作不便暫時不使用
+        //   let ref = $('#tree').jstree(true);
+        //   for(let i of dataAry){
+        //     if(i.type !='file'){
+        //       ref.hide_node(i)
+        //     };
+        //   };
+        // };
         // JQ
         // delete_node.jstree 刪除 / create_node.jstree 創建 / rename_node.jstree 命名 / move_node.jstree 移動 //  啟動後觸發事件
+        $(document).ready(function () {
+          setTimeout(() => {
+          right_list_update(0);
+          // resetTree();
+          document.querySelector('.column').setAttribute('data-num',0);
+          resetLeftHeight();
+        }, 1000);
+        });
         $(function () { 
          $('#tree').on('move_node.jstree', function (e,parent,node) {
                updata();
@@ -782,11 +831,14 @@
           $('#tree').on('select_node.jstree', function (e,node,selected) {//點擊一次跳到父層
               let ref = $('#tree').jstree(true);
                if(node.node.type != 'file'){
-                 ref.deselect_node(node.node.id);
-                 ref.select_node(node.node.parent);
-               }
+                let parent = node.node.parent;//父層id
+                setTimeout(() => {
+                  right_list_update(parent);
+                }, 0);
+               };
           });
         });
+
     </script>
 @endsection
 
@@ -1456,16 +1508,44 @@
   height: 160px;
   background: #ffffff;
   z-index: 10;
+  box-shadow: 1px 2px 2px 2px #c3c3c3;
 }
+
 
 .main .contextMenu li{
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-left:45px;
+  /* padding:0 10px; */
   width: 100%;
   height: 40px;
+  cursor: pointer;
+  /* border-left: 1px solid rgba(22, 10, 10, 0.1); */
+  /* border-bottom: 1px solid rgba(22, 10, 10, 0.1); */
+}
+
+.main .contextMenu li:hover{
+  background: #e8eff7;
+}
+
+.main .contextMenu li:nth-child(1){
   border-bottom: 1px solid rgba(22, 10, 10, 0.1);
 }
+
+.main .contextMenu li:nth-child(3){
+  border-bottom: 1px solid rgba(22, 10, 10, 0.1);
+}
+
+.main .contextMenu li span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 10px;
+  height: 100%;
+  border-left: 1px solid rgba(22, 10, 10, 0.1);
+}
+
 
 .main .contextMenu.active{
   display: flex;
@@ -1699,6 +1779,69 @@
   border-radius: 50%;
 }
 
+.main .right .column .rename.active{
+  display: none;
+}
+
+.main .right .column .rename{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  left:50%;
+  top:45%;
+  padding: 0 10px;
+  width: 275px;
+  height: 100px;
+  font-size:15px;
+  transform:translate(-50%,-50%);
+  border: 1px #bbb7b7 solid;
+  border-radius: 3px;
+  box-shadow: #969595 0.5px 0.5px 0.5px 0.5px;
+  background-color: white;
+  z-index: 10;
+}
+.main .right .column .rename input{
+  padding-left:2px;
+  width: 100%;
+  height: 23px;
+  border: 0.5px solid ;
+}
+
+.main .right .column .rename input:focus{
+  outline: none;
+}
+
+.main .right .column .rename p:nth-child(1){
+  position: relative;
+  top: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.main .right .column .rename p:nth-child(3){
+  position: relative;
+  bottom: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.main .right .column .rename p:nth-child(3) span{
+  margin:0 5px;
+  padding:5px 10px;
+}
+
+.main .right .column .rename p:nth-child(3) span:nth-child(1){
+  background-color: #efefef;
+}
+
+.main .right .column .rename p:nth-child(3) span:nth-child(2){
+  background-color: #04a6c8;
+}
+
+    
 
 @media (max-width: 1670px) {
   .main .left {
@@ -1730,10 +1873,10 @@
 <!-- html -->
 <div class="main">
         <ul class="contextMenu">
-          <li>命名</li>
-          <li>刪除</li>
-          <li>剪下</li>
-          <li>貼上</li>
+          <li class="renameBtn"><span>命名</span></li>
+          <li><span>剪下</span></li>
+          <li><span>貼上</span></li>
+          <li><span>刪除</span></li>
         </ul>
         <div class="tip active">
             <div class="loading active">
@@ -1782,7 +1925,7 @@
                                     <span onclick="add_document_cancel()">取消</span>
                                     <span id="documentBtnId">建立</span>
                                 </p>
-                                <input type="file" id="addFile" accept=".jpg,.jpeg,.png,.gif,.pdf,.txt,.zip,.rar,.docx,.xls,.mp4,.avi,.mov">
+                                <input type="file" id="addFile" accept=".jpg, .jpeg, .png, .gif, .pdf, .txt, .zip, .rar, .docx, .xls, .mp4, .avi, .mov">
                                 <!-- multiple="true" -->
                             </div>
                         </li>
@@ -1813,6 +1956,14 @@
                </div>
             </div>
             <div class="column">
+                <div class="rename active" data-rename='0'>
+                  <p data-rename='0'>重新命名 <i class="close" data-rename='0'><ion-icon name="close-outline"></ion-icon></i></p>
+                  <input type="text" id="rename_newName_Id" data-rename='0'>
+                  <p data-rename='0'>
+                    <span id="rename_cxl_btn" data-rename='0'>取消</span>
+                    <span id="rename_add_btn" data-rename='0'>確定</span>
+                  </p>
+                </div>
                 <div class="addIcon">
                   <div class="bg"></div>
                   <p>
@@ -1952,37 +2103,28 @@
 @endsection
 
 
-<!-- 110/10/06 基本版面完成，jstree置入完成 -->
-<!-- 110/10/07 卷軸滾動完成 -->
-<!-- 110/10/08 新建類別點選視窗完成 -->
-<!-- 110/10/12 jstree icon類別選擇完成-->
-<!-- 110/10/13 nav卷軸樣式修改完成 -->
-<!-- 110/10/14 上傳提示樣式完成-->
-<!-- 110/10/15 上傳提示完成-->
-<!-- 110/10/18 取消了nav transition以防止畫面跳動, 操作後將資料更新至資料庫, 完成輸出至右欄 -->
-<!-- 110/10/19 搜尋、列表點選顯示功能已完成，剩餘列表轉換 -->
-<!-- 110/10/20 拖曳上傳時在開啟的右欄列表資料夾上傳
-              //作法是再點選右欄時，左欄同步更新
-                拖曳上傳完，右欄待在原先的資料夾層
-              //作法是將一開始載入的主資料夾指令於updata刪除
--->
-<!-- 110/10/21 已完成右欄多選項取得樣本及右欄單點選改雙擊點選才能開啟子資料夾
-              //右欄單選已完成，預計禮拜五完成整體 -->
-<!-- 110/10/26 更新了左邊新增的副檔名選擇 -->
-
-
 <!-- 待完成:
 
+  *傳送資料為新增、修改、刪除
+  //資料格式
+  //{
+  //  id:,
+  //  parentId:父層id,
+  //  name:名稱,
+  //  type:檔案或資料夾,
+  //  extention:副檔名,
+  //  url:檔案網址
+  //}
+  //移動move 給新父id、移動id
+  //命名給id、name
+  //傳送使用axios
+  //先傳檔案，取得回傳url將url置入資料格式中再上傳一次資料庫
 
   *單選檔案差提示窗
 
   緩急順序由上至下，排名越高越優先。
 
-    *右欄右鍵選單，進行刪除、剪下、貼上、命名
-    //偵測data-num並以此取得節點操作
-    //刪除好處理 命名則跳出個命名框 onchnge後取值改名
-    //但剪下貼上就比較麻煩一些，首先點選進入資料夾時，column要新增個data-num，這個data-num會是資料夾的id
-    //剪下的話就是取得右欄選取的檔案，貼上的話跳轉至欲貼上的資料夾，然後使用data-num取得id，使用move_node來移動。
+    
 
     *檔案的版本控制/同text的情況下是覆蓋及新增新版本
     //右鍵節點的話可以跳出版本下載的選項
@@ -1992,7 +2134,7 @@
     //因為innerHTML後的標籤無法觸發事件，故得寫判斷式，並用物件屬性的方式塞入class
     //2021-10-21 已測試 是可以偵測active的，故可以執行。
 
-    *下載功能 (完成 待JAJAX)
+    *下載功能 (待完成 bug 只會下載一次 待JAJAX)
     //跟後端溝通，當前端將檔案及列表陣列傳送至後端後，請後端將檔案加入data內，以此來使用版本更新等。
 
     *jstree 設定預設不開啟 (一開始設置已完成，但是後續操作後會導致持續開啟待debug)
@@ -2001,6 +2143,7 @@
     *jstree檔名過長時改成...
 
     *檔案夾的子資料數量
+    //偵測parent數量
     
     *上傳中關閉網頁提示，預計是判斷是否再上傳，若在上傳時離開觸發提示
 
@@ -2030,6 +2173,12 @@
     //同時簡單的整理了操作說明
 
     ---完成---
+
+    *右欄右鍵選單，進行刪除、剪下、貼上、命名(已完成 待AJAX)
+    //偵測data-num並以此取得節點操作
+    //刪除好處理 命名則跳出個命名框 onchnge後取值改名
+    //但剪下貼上就比較麻煩一些，首先點選進入資料夾時，column要新增個data-num，這個data-num會是資料夾的id
+    //剪下的話就是取得右欄選取的檔案，貼上的話跳轉至欲貼上的資料夾，然後使用data-num取得id，使用move_node來移動。
 
     *左欄tree點選檔案類型跳到父節點(已完成) 
     //思路是這樣，當節點被選擇以後偵測type，type不是file的話，執行事件
