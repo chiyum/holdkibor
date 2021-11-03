@@ -622,8 +622,9 @@
           let ref = $('#tree').jstree(true);
           let dom = getDOM();//獲取點選tree節點
           dom = dom[0];
+          let type = ref.get_node(dom).type;
+          if(type !='file'){return}//若type不等於file的話，停止執行。
           document.querySelector('.column').setAttribute('data-num',dom);
-          // console.log(dom)
           right_list_update(dom)
         };
         //重啟時關閉選單
@@ -832,6 +833,7 @@
               let ref = $('#tree').jstree(true);
                if(node.node.type != 'file'){
                 let parent = node.node.parent;//父層id
+                document.querySelector('.column').setAttribute('data-num',parent);
                 setTimeout(() => {
                   right_list_update(parent);
                 }, 0);
@@ -1371,9 +1373,6 @@
 {
   background-color: #c6e6ff;
 }
-/* 修改了的地方 */
-
-/* 修改了的地方,完 */
 .main .right .column {
   position: relative;
   height: 100%;
@@ -1430,6 +1429,7 @@
   margin: 18px;
   width: 172px;
   height: 172px;
+  text-overflow:ellipsis;
   border-radius: 10px;
   cursor: pointer;
 }
@@ -2124,17 +2124,7 @@
 
   緩急順序由上至下，排名越高越優先。
 
-    
-
-    *檔案的版本控制/同text的情況下是覆蓋及新增新版本
-    //右鍵節點的話可以跳出版本下載的選項
-    //將上傳的檔案塞入data中
-
-    *右欄多點選取得id，並以id對接後端取得載點連接。(完成 待AJAX)
-    //因為innerHTML後的標籤無法觸發事件，故得寫判斷式，並用物件屬性的方式塞入class
-    //2021-10-21 已測試 是可以偵測active的，故可以執行。
-
-    *下載功能 (待完成 bug 只會下載一次 待JAJAX)
+    *下載功能 (待debug 只會下載一次)
     //跟後端溝通，當前端將檔案及列表陣列傳送至後端後，請後端將檔案加入data內，以此來使用版本更新等。
 
     *jstree 設定預設不開啟 (一開始設置已完成，但是後續操作後會導致持續開啟待debug)
@@ -2142,10 +2132,15 @@
 
     *jstree檔名過長時改成...
 
-    *檔案夾的子資料數量
-    //偵測parent數量
+    *檔案的版本控制/同text的情況下是覆蓋及新增新版本(暫時不加入)
+    //右鍵節點的話可以跳出版本下載的選項
+    //將上傳的檔案塞入data中
+
+    *右欄多點選取得id，並以id對接後端取得載點連接。(完成 待AJAX)
+    //因為innerHTML後的標籤無法觸發事件，故得寫判斷式，並用物件屬性的方式塞入class
+    //2021-10-21 已測試 是可以偵測active的，故可以執行。
     
-    *上傳中關閉網頁提示，預計是判斷是否再上傳，若在上傳時離開觸發提示
+    *上傳中關閉網頁提示，預計是判斷是否再上傳，若在上傳時離開觸發提示(待AJAX)
 
     *列表轉換選單及功能(已完成功能，轉換的部分先擱置)
     //這邊的思路是，當雙擊點開資料夾以後，取得data資料將data資料顯示在介面上
@@ -2173,6 +2168,9 @@
     //同時簡單的整理了操作說明
 
     ---完成---
+
+    *檔案夾的子資料數量(已完成)
+    //偵測parent數量
 
     *右欄右鍵選單，進行刪除、剪下、貼上、命名(已完成 待AJAX)
     //偵測data-num並以此取得節點操作

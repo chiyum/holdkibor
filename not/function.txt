@@ -466,11 +466,51 @@ callName = person => '我是' + person;
 箭頭函式特點:
 
 1.沒有arguments這個參數 //也就是將傳入的參數以類陣列的方式呈現
-替代方案 callName = (...參數) => {
+替代方案 callName = (...參數) => {//其餘參數
     console.log(參數)
 }
 
 2.this的綁定是不同的 箭頭函式沒有自己的this
 //會使用外層作用域的this
+//所以也沒辦法使用call, apply, bind
 
-3.
+3.沒有prototype 無法作為建構函式使用
+
+4.沒有加{}時可以直接回傳 = 後的值
+
+常見錯誤:
+
+*當使用精簡模式時無法直接使用{}回傳，若有需要則是需要加上()
+範例:
+fnobj = ()=>{value:'1'}; (X)錯誤
+fnobj = ()=>({value:'1'}); (O)正確
+因為若是用錯誤的方法就等於建立一個函式
+
+
+*當搭配||這種判斷式時不能直接使用箭頭函式
+範例:
+let num = 0;
+let numFn = num||()=> 1;  (X)錯誤
+let numFn = num||(()=> 1);  (O)正確
+
+*使用prototype盡量不要使用箭頭函式，可能會出錯
+
+
+實戰範例:
+
+.map是將陣列值更新後回傳
+範例:
+
+傳統函式
+let a =[1,2]
+let b = a.map(function(num){//參數就是陣列內的值
+    return num*2//這邊需要用return，若不使用則是undefined
+})
+
+箭頭函式
+let a =[1,2]
+let b = a.map( num=> num * 2);//當有參數且只使用回傳時可不使用()
+
+
+Array.from()//類陣列轉為陣列
+

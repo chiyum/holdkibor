@@ -66,45 +66,44 @@
                     <a href="./fornt.html">
                         <ion-icon name="bookmarks-outline"></ion-icon>前端
                     </a>
+                    <a href="./fornt.js.html">
+                        > CSS
+                    </a>
+                    <a href="./fornt.js.codeList.html">
+                        > text-overflow
+                    </a>
                 </div>
-                <ul>
-                    <li>
-                        <a href="#">
-                            <img src="../img/htmlList.jpg" alt="" class="htmlList">
-                            <div>
-                                <h2>HTML 列表</h2>
-                                <p>基礎的框架、編碼的意義、head內代碼的意義為何?HTML的相關資訊都在這。</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.css.html">
-                            <img src="../img/CSSList.jpg" alt="" class="cssList">
-                            <div>
-                                <h2>CSS 列表</h2>
-                                <p>transition與animation的差異性、字體的翻轉、相對絕對單位、position定位的利用以及CSS代碼的衝突，想了解都照過來。</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.html">
-                            <img src="../img/jslist.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>Javascript 列表</h2>
-                                <p>這邊是介紹JS的列表。內容包括AJAX的使用、if及return的搭配、各個迴圈in、of的使用方式及差異性，甚至會分享一些使用功能</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.vue.html">
-                            <img src="../img/vue.js.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>vue 列表</h2>
-                                <p>這邊會介紹關於vue3的用法以及個人學習vue3的心得。</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <div class="article">
+                    <h2>text-overflow簡介</h2>
+                    <p>text-overflow單獨使用是不會有任何反應的，除了需要限制容器寬度外，還需要搭配overflow:hidden;超出範圍隱藏以及white-space: nowrap;不換行才能使用。</p>
+                    <p>以下是程式碼跟範例:</p>
+                    <pre class="code">
+    <span class="fn">overflow</span>:hidden;//隱藏超出範圍的內容
+    <span class="fn">white-space</span>: nowrap;//強制不換行
+    <span class="fn">text-overflow</span>: ellipsis;//文字超出範圍後，多出的部分以...呈現
+</pre>
+                    <h5>三個參數都有設置:</h5>
+                    <div style="width: 200px;border: 1px solid;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                        文字測試12345678910
+                    </div>
+                    <p>以上是三個CSS都設置的樣式，接下來我們看少了text-overflow後會是怎麼樣</p>
+                    <h5>缺少了text-overflow:ellipsis:</h5>
+                    <div style="width: 200px;border: 1px solid;overflow: hidden;white-space: nowrap;">
+                        文字測試12345678910
+                    </div>
+                    <p>可以明顯的看出多出的文字是直接被強制隱藏起來，使用者看不到超出的文字</p>
+                    <h5>僅剩下 white-space: nowrap:</h5>
+                    <div style="width: 200px;border: 1px solid;white-space: nowrap;">
+                        文字測試12345678910
+                    </div>
+                    <p>當設置了不換行但內容超出範圍，正常情況下還是會顯現在畫面上。最後我們再來看看以上三個參數都沒有的樣式會是甚麼樣子</p>
+                    <div style="width: 200px;border: 1px solid;">
+                        文字測試12345678910
+                    </div>
+                    <p>若沒有高度限制，那內容便會自己換行。但是有高度限制的話，就會跟上一個範例一樣，內容超出區塊的範圍。</p>
+                    <br>
+                    <p>以上就是本次的介紹，希望本篇文章能夠幫到需要的朋友，若有相關問題歡迎洽詢！</p>
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -169,7 +168,9 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
