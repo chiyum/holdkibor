@@ -257,16 +257,16 @@ function login(e) {
 
 promise:
 
+Promise 是一個表示非同步運算的最終完成或失敗的物件。
 常用於AJAX及非同步處理。
 在JQ之中，AJAX有許多的連線方法。
 以下介紹其中幾個方法。
-
 
 方法一.
 let data = {}//先建立空物件路徑，之後套入AJAX
 $.ajax({
     url:網址路徑
-}).done(function(res/回傳後套入參數){
+}).done(function(res){//res是回傳後的參數
    data = res.results
    console.log(data)//顯示回傳內容的results
 })
@@ -280,11 +280,11 @@ $.ajax({
    console.log(res)//顯示results內容
    data = res.results
 })
-
 console.log(data)//顯示空物件
-
-之所以這個原因是因為，非同步會等程式碼執行完成後才執行，
+之所以這個原因是因為AJAX是非同步行為，非同步會等同步程式碼執行完成後才執行，
 所以一定會等所有程式碼跑完才跑AJAX，不管AJAX傳輸速度多快。
+這邊簡單說明同步與非同步
+非同步行為一律都會到所有的程式碼都執行完成以後才會執行，除了AJAX外，settimeout也是一個經典的例子。
 
 方法二.
 $.ajax({
@@ -314,10 +314,264 @@ success的用意是，當完成回傳後執行success的程式碼
 但是以上有幾個非同步的問題。
 1.回呼地獄
 //當若要再次執行，就得再把同樣的程式碼套入原先的程式碼中，也就是巢狀。
+範例:
+$.ajax({
+    url:網址路徑
+    datatype:'json'
+    success:function(data){
+        console.log(data)
+    }
+    $.ajax({
+        url:網址路徑
+        datatype:'json'
+        success:function(data){
+            console.log(data)
+        }
+    })
+})
 
-2.寫法不一致
+2.寫法不一致//就像上面範例，有許多的寫法。而這只是其中幾種寫法而已。
 
 3.無法同時執行(雖然JQ有寫法，但並不直覺)
 //都會等到程式碼執行完成後才接續執行，無法指定特定時間。
 
-所以為了避開以上及直覺得使用，那我們就得使用promise。
+
+為了避開以上及直覺得使用，那我們就得使用promise。
+promise可以在所有資料都傳送or接收完成後才進行下一步動作。
+其中axios則是其中一種常用的套件，接下來會對其進行介紹。
+
+範例:
+axios.get(url)//url代表的是要連接的網址 這個步驟就代表傳輸的動作了
+    .then((res)=>{
+        console.log(res);//res就是代入的參數
+    });
+
+
+
+當要避免回呼地獄時:
+
+axios.get(url)//url代表的是要連接的網址 這個步驟就代表傳輸的動作了
+    .then((res)=>{
+        console.log(res);//res就是代入的參數
+        return axios.get(url)//會回傳到下一個then
+    });
+    .them((res)=>{
+        console.log(res)//第二次
+    })
+
+
+當要同步執行:
+promise.all([axios.get(url),axios.get(url)])//同時發出請求
+    .them(([res1,res2])=>{
+        console.log(res1,res2)//兩次執行結果會同時回傳
+    })
+
+
+promise狀態
+
+promise總共有三個狀態未確認、已實現fulfilled(成功串接)、已否決rejected(串接失敗)
+
+在開始時會是pending也就是未確認狀態>接下來則是判斷是否成功串接
+
+成功>使用.then
+
+失敗>使用.catch
+
+
+promise 概念(實際上不會這樣寫，只是方便理解)
+
+const a = new promise((resolve,reject)=>{
+    resolve('success')//回傳結果，若這邊是空值則是會回傳pending
+    reject('error')//回傳reject及內容
+    //注意，一次只能回傳一個
+});
+
+a.then((res)=>{ //接收resolve的結果
+    console.log(res)//會回傳success
+});
+
+a.catch((res)=>{ //接收reject結果
+    console.log(res)//回傳error
+});
+
+
+
+實際promise用法
+
+function promiseFn(num){
+    執行順序1
+    return new promise((resolve,reject)=>{//建立promise實體並將promise回傳fn，使fn作為載體
+    執行順序2
+        setTimeout(()=>{//使用setTimeout的用意是使用非同步行為，當執行完成以後才回傳結果
+            if(num){//假設是真值就執行resolve
+                resolve('成功接收')
+            }else{
+                reject('接收失敗')
+            }
+        },10)
+    當所有程式碼都執行完成以後再執行setTimeout內容並且回傳
+    })
+}
+
+promiseFn(1);//真值
+
+.then((res)=>{//callback function 接收回傳值
+    console.log(res)//回傳成功接收
+})
+
+promiseFn(0);//假值
+
+.catch((res)=>{
+    console.log(res)//接收失敗
+})
+
+
+鍊式接法 promise chain:
+當要對回傳資料做二次處理時，就使用以下的方法:
+
+function promiseFn(num){
+    return new promise((resolve,reject)=>{//建立promise實體並將promise回傳fn，使fn作為載體
+        setTimeout(()=>{//使用setTimeout的用意是使用非同步行為，當執行完成以後才回傳結果
+            if(num){//假設是真值就執行resolve
+                resolve(`成功接收${num}`)
+            }else{
+                reject('接收失敗')
+            }
+        },10)
+    });
+};
+
+promiseFn(1)
+.then((res)=>{
+    console.log(res)//成功1
+    return promiseFn(2);//下一個then的結果
+})
+.then((res)=>{
+    console.log(res)//成功2
+})
+
+//須注意，當鍊式處理其中一個跳reject，那就會直接跳catch，後續的then就不會再執行
+另外catch後面也是可以接續.then的，但那就是新的一輪鍊式了
+
+
+.catch((res)=>{
+    console.log(res)//接收失敗
+    return promiseFn(5);
+})
+
+.then((res)=>{
+    console.log(res)//成功5
+})
+
+
+補充:
+
+.then 也可以接收失敗結果，方式如下:
+
+promiseFn(1)
+.then((res)=>{
+    console.log(res)//成功1
+}),(rej)=>{ //失敗結果
+    console.log(rej)//失敗
+}
+
+
+同時也可以使用鍊式接法:
+
+promiseFn(1)
+.then((res)=>{
+    console.log(res)//成功1
+    return promiseFn(1)//成功就執行
+}),(rej)=>{ //失敗結果
+    console.log(rej)//失敗
+    return promiseFn(2)//失敗就執行
+}
+
+.then((res)=>{
+    console.log(res)//若上面接收到的是resolve 則是成功1//若上面接收的是reject 成功2
+}),(rej)=>{ //失敗結果
+    console.log(rej)
+}
+
+
+promise常見的方法:
+//一同執行
+promise.all([promiseFn(1),promiseFn(2),promiseFn(3)]) //這邊的promise.all也同樣是上面我們所創立的promiseFn唷
+.then(res=>{
+    console.log(res)//['成功1','成功2','成功3']
+})
+//不管他們執行順序為何，都會一同回傳。
+//須注意的點是若其中一個失敗，那就會直接進入catch
+
+.catch(res=>{
+    console.log(res)//失敗
+})
+
+
+//一同執行但只會回傳第一個完成的結果，第一個回傳的失敗也就會進入.catch
+promise.rase([])
+
+
+
+
+promise與AJAX作法
+
+原生AJAX
+let url = '網址';
+
+let xhr = new XMLHttpRequest();
+
+xhr.open('get',url);
+
+xhr.sned(null);
+
+xhr.onload = ()=>{
+    if(xhr.status ==200){
+        //成功列出結果
+    }else{
+        //失敗
+    };
+};
+
+
+promise方法
+
+let url = '網址';
+
+function get(url){
+    return new promise((resolve,reject)=>{
+      
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('get',url);
+
+        xhr.sned(null);
+
+        xhr.onload = ()=>{
+            if(xhr.status ==200){
+                //成功
+                resolve(res.response)
+            }else{
+                //失敗
+                reject(res)
+            };
+        };
+    });
+};
+
+
+get(url);
+    .then((res)=>{
+        console.log(res)//response的內容
+        return get(url);
+    });
+    .then((res)=>{
+        console.log(res)//response的內容
+    });
+    .catch((res)=>{
+        console.log('res')
+    })
+
+
+之後若是要與遠端連線，只要傳入url就可以了
+
