@@ -91,6 +91,9 @@
     Array.<span class="fn2">pop()</span>//刪除陣列最後一筆並回傳陣列最後一筆
     Array.<span class="fn2">join('指定字串')</span>//將陣列中元素、物件以('指定字串連接')並且轉為字串
     Array.<span class="fn">length</span>//陣列數量總數
+    Array.<span class="fn2">concat</span>(array)//陣列串接
+    Strings.split('.')//將字串以('')中的字串做分割並組成陣列
+    //假設a.b.c 分割後就會是[a,b,c]
 </pre>
                     <h3>物件相關</h3>
                     <pre class="code">
@@ -133,7 +136,8 @@
     e.<span class="fn2">stopPropagation</span>() 阻止冒泡事件。點擊區塊內只執行一種event
     e.<span class="fn2">preventDefault</span>() 取消元素默認事件。例如a連結、右鍵設定選單
     監聽事件種類:click點擊, change表單更動, input表單更動(與change相比，只要一更動就觸發),
-    keydown按下鍵盤、keyup放開鍵盤, drop拖動放下、dragover拖動時,
+    keydown按下鍵盤、keyup放開鍵盤, drop拖動放下、dragover拖動時、dragstart開始拖動元素時觸發,
+    contextmenu點擊右鍵時, selectstart禁止框選文字,
     blur離開焦點, focus所在焦點, mousemove鼠標滑入觸發(類CSS的hover)
     DOM.<span class="fn2">addEventListener</span>(<span class="str">'事件'</span>,<span class="fn">function</span>,false/ture)//監聽事件設定
                     </pre>
@@ -170,6 +174,8 @@
 </pre>
                     <h3>未分類code</h3>
                     <pre class="code">
+    Strings.substring('開始位置','擷取幾個')//取出分割字串
+    //'apple' 使用substring(0,3)會等於 app
     console.<span class="fn2">log</span>(欲顯示內容)在console中顯示
     <span class="fn2">parseInt</span>(欲轉換內容)字串轉數字，不取小數點
     <span class="fn2">parseFloat</span>()字串轉數字，含小數點
