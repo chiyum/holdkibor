@@ -93,7 +93,10 @@
     Array.<span class="fn">length</span>//陣列數量總數
     Array.<span class="fn2">concat</span>(array)//陣列串接
     Array.<span class="fn2">from()</span>//類陣列轉為陣列
-    Strings.split('.')//將字串以('')中的字串做分割並組成陣列
+    Array.<span class="fn2">filter(<span class="def"><span class="var">function</span>(<span class="fn">iteams</span>){
+        console.log(<span class="fn">iteams</span>);//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到iteams
+    }</span>)</span>//取函式內的值並一一的代入參數中
+    Strings.<span class="fn2">split('.')</span>//將字串以('')中的字串做分割並組成陣列
     //假設a.b.c 分割後就會是[a,b,c]
 </pre>
                     <h3>物件相關</h3>

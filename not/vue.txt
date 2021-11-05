@@ -1,7 +1,7 @@
 
 JS前置觀念
 
-語法糖:
+---語法糖---:
 語法糖只是讓程式碼看起來更簡潔，與原先並不會有使用上的差異。
 在物件使用屬性都需要加分號:
 但在ES6以後
@@ -19,7 +19,7 @@ let obj = {
 
 除了function外，物件也可以直接代入，那麼屬性名稱就等於變數名稱，屬性值等於變數值
 
-陣列串接 
+陣列串接---
 以往來說會是 c = a陣列.concat(b陣列)
 但ES6可以使用更省事的方法
 
@@ -40,7 +40,7 @@ let c ={
 //類陣列轉為純陣列也可以使用相同方法
 
 
-預設值
+---預設值---
 現在參數也可以帶入預設值，假設今天有兩個參數，但使用者只代入一個那很有可能會出現bug
 let fn = (a,b)=>{
     return a + b
@@ -62,5 +62,392 @@ let fn = (a,b = 2)=>{
 };
 
 
+---this指向---
 
-this的指向觀念
+simple call
+
+範例:
+var someone = '全域';
+function callsomeone(){
+    console.log(this.someone);
+};
+
+callsomeone();//這個就叫做simple call 當前面沒有任何物件，就叫做simple call 又稱為簡易呼叫
+
+而this的指向跟怎麼定義它沒有關聯而是呼叫的方法。假設使用simple call 就是呼叫全域
+但若是使用object.callsomeone(),那就會指向前面的object內的內容。
+
+
+var obj = {
+    someone:'物件',
+    callsomeone //將上面宣告的函式放進來
+};
+
+obj.callsomeone()//顯示物件
+
+
+物件內的物件呼叫
+
+var obj2 = {
+    someone:'物件外',
+    callsomeone //將上面宣告的函式放進來
+    obj = {
+        someone:'物件內',
+        callsomeone //將上面宣告的函式放進來
+    };
+};
+
+obj2.obj.callsomeone()//顯示物件內
+
+
+常見陷阱
+
+
+var obj = {
+    someone:'物件',
+    fn(){
+        callsomeone();//它其實也算simple call 但平常並不會這樣使用
+        //注意這裡，callsomeone前面並沒有任何物件
+    }
+};
+
+obj.fn()//顯示全域
+
+
+var obj = {
+    someone:'物件4',
+    fn(){
+        setTimeout(()=>{
+            console.log(this.someone)
+        });
+    },
+};
+
+obj.fn()//顯示全域 原因是setTimeout是在全域下執行而非object
+
+補充:若是在事件觸發後，this通常代表觸發的元素本身
+總結:this的指向跟調用(呼叫)的方法有關
+
+
+
+---箭頭函式---
+
+特點:除了語法糖外，特點就是它沒有自己的this
+範例:
+let obj = {
+    callName:function(){
+        console.log(this);//顯示物件本身
+        setTimeout(()=>{
+            console.log(this)//在傳統函式中會指向window，但若是使用箭頭函式則會跟著父層指向相同，在這個範例中也就是指向物件。
+        }),
+    }
+}
+
+obj.callName();
+
+
+常見陷阱
+let name = 全域;
+let obj = {
+    name:'小明',
+    callName:()=>{
+        console.log(name);
+    }
+}
+
+obj.callName()//顯示全域。與傳統函式不同，前面說到箭頭函式會跟著父層指向相同。但在這個範例中obj內的callname外層並沒有函式，準確地來說它的外層函式就是全域，所以這個this就指向全域。
+
+
+let name = 全域;
+let obj = {
+    name:'小明',
+    callMe(){
+        let callName = ()=>{
+            console.log(this.name);
+        };
+        callName();
+    },
+};
+
+obj.callMe()//顯示小明 因為在callname外層的函式是傳統函式，也就是指向物件本身，而箭頭函式則是跟隨外層函式來定義this。理所當然地也就跟著callMe的this定義。
+
+
+
+
+---元件結構---
+所謂元件結構就是將一個功能所運用到的所有內容都放在一個物件中，包含函式、儲存的資料等
+基本的元件結構有:
+1.資料
+2.方法、觸發器
+3.生命週期
+
+
+const click ={
+    data:[],
+    function(){
+
+    },//若是要渲染HTML結構，盡量在一個function內
+    init(){//稱為生命週期，一開始載入後所要執行的函式
+        this.function
+    }
+}
+
+
+範例:
+const click ={
+    data:[],
+    fn(){
+        console.log('安安你好')
+    },
+    init(){//稱為生命週期，一開始載入後所要執行的函式，通常是開發者自訂義
+        this.fn();
+    },
+}
+click.init()
+
+
+---物件、陣列、函式傳參考---
+
+在我們創立一個物件的時候，其實並非是像純值(如字串、布林)一樣將值賦予到變數上，而是將物件的位置傳給變數。
+
+當我們新增一個物件就相當於在網頁的儲存區建立物件。而當我們要取用物件時就會自動導向物件的路徑。
+好比賦予變數物件，讓我們從以下範例解釋。
+
+let a = {x:1};
+//在這操作中瀏覽器共做了兩件事
+1.在瀏覽器的儲存區中新增{x:1}的物件
+2.將儲存區的物件路徑賦予到a
+
+所以當我們使用console.log(a)時，其實是從a這個路徑瀏覽{x:1}這個物件。
+由此可知，當我們同時賦予兩個變數一樣的物件時，他們的路徑都是一樣的，其中一個物件屬性及值更動，另一個也會同步。
+
+let a= {x:1};
+
+let b = a;
+
+b.x = '2';
+
+console.log(a.x)//顯示2
+
+須知注意:
+但是我們得注意，當我們又新增了一個{}時，就等同於又新增了一個路徑，就算裡面內容相同也並非是同一個路徑。
+範例:
+
+let a = {x:1};
+
+let b = {x:1};
+
+console.log(a===b)//回傳false
+
+
+淺深層複製
+
+當我們要複製物件內容但又不共用同一個參考路徑時該怎麼做呢?
+有兩個方法，淺層及深層。
+
+淺層:
+淺層就是複製物件內的值與屬性，但屬性的值內若有物件，那這個物件還是共用同個路徑的。
+let a = {
+    y:'1',
+    x:{
+        z:1
+    }
+};
+
+let b = Object.assign({},a);//方法一
+let c = {...a}//方法二
+
+//按照上面的範例來說，a跟b還是共用同一個x物件路徑
+
+
+深層:
+深層拷貝就不會有共用路徑的問題，而是會創造一個新的物件
+原理很簡單，就是將物件內的所有內容都轉為字串，再從字串轉為物件。
+
+
+let a = {
+    y:'1',
+    x:{
+        z:1
+    }
+};
+
+let b = JSON.parse(JSON.stringify(a));
+
+
+
+promise
+
+promise 嚴格來說是為了解決非同步語法難以建構以及管理的問題。
+簡單來說就是在所有資料都處理好以後，再接續執行下一步。
+常用於AJAX，當處理完所有傳送及取得的程序以後，再來接續進行下一步的渲染等動作。
+經典使用promise的AJAX處理套件為axios
+
+promise會先建立一個建構式
+
+const promise_Set = (status)=>{//套入狀態
+    return new Promise(resolve,reject)=>{
+        setTimeout(()=>{//讓此程式碼最後執行
+            if(status){//當狀態為true時
+                resolve('成功')//resolve的參數代入成功
+            }else{
+                reject('失敗')//reject的參數代入失敗
+            }
+        })
+    }
+}
+
+promise_Set(true);//狀態套入
+    .then((res)=>{//這裡的res參數，就會是resolve內的('成功')
+        console.log(res)
+    })
+    .catch((rej)=>{
+        console.log(rej)//同上會是reject的('失敗')
+    })
+
+
+promise串接
+promise_Set(true)
+.then((res)=>{//這裡的res參數，就會是resolve內的('成功')
+        console.log(res)
+        return promise_Set(true)//當在此使用return時，下一個.then/.catch就會是此promise_Set(true)所回傳的結果
+    })
+.then((res)=>{
+    console.log(res);
+})
+
+元件中使用promise
+
+const a = {
+    data:{}
+    init(){//這邊若是要用this需要使用傳統函式，因為箭頭函式this是隨著父層函式的this而定義
+        promise_Set(true)
+        .then(res=>{
+            this.data.res = res;//在data元件中新增res的屬性及值
+        })
+        .catch((rej)=>{
+            alert('傳送失敗');
+        })
+    }
+}
+
+a.init();
+
+
+
+使用axios搭配promise
+
+axios.get('url')//url代表連接網址
+    .then((res)=>{
+        console.log(res)//res回傳的資料
+    }) //axios內建就有promise所以可以不用建構直接使用
+    .catch((rej)=>{
+        console.log(rej.response)//回傳失敗的資料
+        console.log('串接失敗')
+    })
+
+post方法補充: axios.post('url',{傳送的內容});
+
+
+
+---ES模組---
+
+ES步驟:
+
+1.於模組化的script上加上type="module"
+
+2.匯出匯入觀念
+匯入跟匯出有很大的關連，所以我們先說明匯出。
+
+匯出(js)//僅在js進行
+
+匯出又分成預設跟具名匯出
+
+預設匯出: export default
+//每個檔案只能有一個
+
+
+具名匯出: export const xxx = ...
+//每個檔案有多個
+而匯出可以同時匯出具名及預設
+
+
+
+匯入(html,js)//在html or js進行
+既然有預設匯出，自然也又預設匯入及具名匯入
+
+預設匯入 import 自訂名稱 from 檔案
+
+具名匯入{具名名稱} from 檔案
+
+
+匯出入方法
+
+匯出用法
+1.新建個匯出JS檔案
+
+2.填上匯出程式碼
+export default {//默認
+    ...程式碼
+}
+
+export const abc{//具名
+    ...程式碼
+}
+
+匯入用法
+
+1.在要匯入的檔案中導入
+
+import fn from './...路徑'//默認
+
+import{abc} from './all.js'
+
+
+此時fn就等於你寫在匯入JS檔案內的那一個function or obj or ary or 變數
+
+2.使用
+接下來就看你是匯入甚麼，就照原先的方法使用即可。
+
+
+
+匯入有兩種方式:
+單一匯入、全部匯入
+
+比較建議單一匯入，因為全部匯入錯誤難以發現
+單一匯入就是個別匯入
+全部顧名思義就是不管有多少個匯出，一次接受一次匯入
+
+
+單一:
+
+inport {a,b} from '路徑'
+//匯入a及b匯出
+
+
+全部:
+
+import * as all from '路徑'
+//as 是賦予到一個變數的名稱上 all就是那個物件的名稱
+
+
+sideEffect.js(沒有包含匯出的檔案):
+也就是沒有使用export的內容，其實也可以進行匯入
+
+inport '路徑' //直接導入即可
+
+
+
+實戰:
+
+先說明每一個 type="module"的作用域是各自獨立的。
+也就是說假設有兩個script都有綁type="module"並且有匯入。
+但我在第一個匯入的檔案，在第二個是無法使用的
+
+
+ESM
+網路上找的到的CDN的網址上若有ESM字樣基本上都可以使用import的方式匯入
+
+inport {} from 'CDN網址'
+
+直接使用
