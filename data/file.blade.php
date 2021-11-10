@@ -95,14 +95,21 @@
                 defaultItems.create.label = "新增資料夾";
                 defaultItems.create.action = function(){
                   let ref = $('#tree').jstree(true);
-                  let DOM = getDOM(); 
+                  let DOM = getDOM();
+                  if(ref.get_node(DOM).type !='file'){
+                    alert('請確認新增位置為資料夾')
+                    return
+                  }; 
                   DOM = ref.create_node(DOM, { "type": "file" });
                   if (DOM) {
                       ref.edit(DOM);
                   };
                 };
-                defaultItems.rename.label = "命名";//命名
+                defaultItems.rename.label = "重新命名";//命名
                 defaultItems.remove.label = "刪除";
+                defaultItems.remove.action = ()=>{
+                  del();
+                };
                 defaultItems.ccp.label = "編輯";
                 defaultItems.ccp.submenu.cut.label = "剪下";
                 defaultItems.ccp.submenu.paste.label = "貼上";
@@ -163,8 +170,9 @@
                 addfile.classList.remove('active');
                 addDocument.classList.add('active');
             }else if(e.target === Documentbtn){//點的是新增檔案選項
-                addDocument.classList.remove('active');
+                // addDocument.classList.remove('active');
                 addfile.classList.add('active');
+                doc_add();
             };
         };
         //點非區塊關閉視窗
@@ -211,53 +219,85 @@
             updata();//將檔案發送
             addfile_Value.value = '';
         };
-        let addDocument = document.querySelector('#documentBtnId');//子視窗中新增檔案鍵
-        addDocument.addEventListener('click',createNewdocument);
-        function createNewdocument() { //新增檔案節點 
-            // console.log(doc_return);
-            let clickDom = document.querySelector('#h2Id');
-            let addDocument_Value = document.querySelector('.addDocument input').value
-            let ref = $('#tree').jstree(true);
-            let DOM = getDOM();//獲取點選tree節點
-            if(doc_return == undefined||doc_return == ''){//判斷是否已上傳檔案
+        //開啟檔案選擇
+        let add_input = document.createElement('input');//新增標籤
+        add_input.setAttribute('type',`file`);//型別新增
+        add_input.setAttribute('multiple',true);//功能新增
+        add_input.setAttribute('id','doc_add_btn');//id新增
+        add_input.style.display = 'none';//隱藏標籤
+        document.body.appendChild(add_input);//上傳標籤
+        function doc_add(e){
+          add_input.click();//觸發
+        };
+
+        document.querySelector('#doc_add_btn').addEventListener('change',doc_add_accept);
+        function doc_add_accept(e){
+          let files = this.files;
+          let ref = $('#tree').jstree(true);
+          let DOM = getDOM();//獲取點選tree節點
+          if(files == undefined||doc_return == ''){//判斷是否已上傳檔案
                 alert('請先上傳檔案');
                 return;
-            };
-            if(addDocument_Value == ''|| addDocument_Value == undefined){//檔名輸入偵測
-              alert('請輸入檔名');
+          };
+          let result = filesize_check(files);
+          if(result == false){
+              return
+          }
+          files = filetype_groupby(files);
+          for(let i of files){
+            if(i.type == 'jpeg'||i.type == 'jpg'||i.type == 'png'||i.type == 'gif'||i.type == 'avi'||i.type == 'mov'||i.type == 'mp4'||i.type == 'pdf'||i.type == 'docx'||i.type == 'xls'||i.type == 'txt'||i.type == 'zip'||i.type == 'rar'||i.type == 'xlsx'){
+              // 副檔名正確
+            }else{
+              alert('請確認上傳檔案符合規範');
               return;
+            }//錯誤返回
+          }
+          if(DOM.length == 0||ref.get_node(DOM).type!=='file'){//當沒指定時指定父層
+            ref.select_node(document.querySelector('.column').getAttribute('data-num'));
+            ref.open_node(document.querySelector('.column').getAttribute('data-num'));
+            DOM = document.querySelector('.column').getAttribute('data-num');
+          };
+          let tree;
+          for(let i of files){
+            if(i.type=='jpeg'){
+              tree = ref.create_node(DOM,{ "type": "jpg","text":i.name});
+            }else if(i.type=='xlsx'){
+              tree = ref.create_node(DOM,{ "type": "xls","text":i.name});
+            }else if(i.type=='docx'){
+              tree = ref.create_node(DOM,{ "type": "word","text":i.name});
+            }else{
+              tree = ref.create_node(DOM,{ "type": i.type,"text":i.name});
             };
-            if(DOM.length == 0||ref.get_node(DOM).type!=='file'){//當沒指定時指定父層
-              ref.select_node(document.querySelector('.column').getAttribute('data-num'));
-              ref.open_node(document.querySelector('.column').getAttribute('data-num'));
-              DOM = document.querySelector('.column').getAttribute('data-num');
-            }; 
-            addDocument_Value = addDocument_Value.split(',');//分割字串
-            for(let i = 0 ; i < doc_return.length;i++){
-              DOM = getDOM();//重新賦予刷新的DOM
-              doc_return[i].return_obj['text'] = addDocument_Value[i];
-              DOM = ref.create_node(DOM, doc_return[i].return_obj);//創造節點並賦予type
-              // ref.edit(DOM,addDocument_Value[i]);//啟用編輯模式
-              DOM = ref.get_node(DOM);
-              DOM.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/PNG.svg'};//暫時載入假檔
-              clickDom.click();//離開輸入框
-            };
-            addChoose();//輸入後關閉
-            updata();//資料輸入及重整右邊介面
-            document.querySelector('#addFile').setAttribute('data-text','');//顯示第一個欲上傳檔名
-            document.querySelector('.addDocument input').value = '';
-            document.querySelector('.tip').classList.remove('active');//上傳中彈窗
-            document.querySelector('.loading').classList.remove('active');
-            setTimeout(function(){close_tipLoading()},60000)//一定時間到後自動關閉
-            let files_number = document.querySelectorAll('.file_length');//彈窗數字
-            for(let i of files_number){
-              i.innerHTML = doc_return.length;
-            };
-            doc_return = '';//reset
+            tree = ref.get_node(tree)//將tree轉換物件
+            tree.data = {time:now,fack:'https://v2.volkssii.com/img/sidebar_logo/01.svg'}//暫時載入假檔
+          }
+          updata();//將資料儲存入數據庫
+          document.querySelector('.tip').classList.remove('active');//上傳中彈窗
+          document.querySelector('.loading').classList.remove('active');
+          setTimeout(function(){close_tipLoading()},160000);//一定時間到後自動關閉
+          let files_number = document.querySelectorAll('.file_length');//彈窗數字
+          for(let i of files_number){
+            i.innerHTML = files.length;
+          };
+          tip_list_update(files);//代入整個file，顯示上傳檔案
         };
-        function add_document_cancel(){//取消上傳檔案
-          document.querySelector('#addFile').setAttribute('data-text',`${''}`);//顯示第一個欲上傳檔名
-          document.querySelector('.addDocument input').value = '';
+        function tip_list_update(file){
+          let str = '';
+          for(let i of file){
+            if(i.type == 'jpeg'){//這邊判斷式假設黨名為以下，則更改type好讓icon可以顯示
+              i.type = 'jpg'
+            }else if(i.type == 'docx'){
+              i.type = 'word'
+            }else if(i.type =='xlsx'){
+              i.type = 'xls'
+            }
+            str +=  `<div>
+                        <p><img src="{{ asset('img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon">${i.name}</p>
+                        <p></p>
+                     </div>`
+          };
+          document.querySelector('.tip .loading .bottom').innerHTML = str;
+          console.log(document.querySelector('.tip .loading .bottom'));
         };
         function add_file_cancel(){//取消上傳檔案
           document.querySelector('.addFile input').value = '';
@@ -287,8 +327,9 @@
                 i.return_obj = {"type": "word"};
               }else if(doc_return_type == 'jpeg'){
                 i.return_obj = {"type": "jpg"};
-              }
-              else{
+              }else if(doc_return_type == 'xlsx'){
+                i.return_obj = {"type": "xls"};
+              }else{
                 i.return_obj = {"type": doc_return_type};
               };
             };
@@ -307,8 +348,17 @@
         function del(ary) { 
             let ref = $('#tree').jstree(true);
             let DOM = getDOM();
-            if(DOM.length == 0 ){//不是點選資料夾的話
-              //del刪除
+            if(DOM[0]==0){
+              alert('主選單不可刪除');
+              return;
+            }
+            if(confirm('確定要刪除檔案嗎?')==true){//跳提示
+                console.log('刪除成功')
+            }else{
+                console.log('刪除失敗')
+                return
+            };
+            if(DOM.length == 0 ){//沒有選擇節點的話
               let active_length = get_targetId();//取得點選的檔案ID
               ref.delete_node(active_length)
             }else{
@@ -399,10 +449,10 @@
             if(right.clientHeight > left.clientHeight){
               left.style['height'] = right.clientHeight + 'px';
               document.querySelector('#tree').style['height'] = right.clientHeight + 'px';
-            }
+            }//錨點
             else if(right.clientHeight < 1000){
-              left.style['height'] = 100 +'vh';
-              document.querySelector('#tree').style['height'] = 100 +'vh';
+              left.style['height'] = 86.5 +'vh';
+              document.querySelector('#tree').style['height'] = 81.5 +'vh';
             };
         };
         //說明:判斷是判斷左邊的高弱小於右邊的話，與右同高。
@@ -418,6 +468,10 @@
           e.preventDefault();
         });
         body.addEventListener('drop',function(e){
+          e.preventDefault();
+          column.classList.remove('active');
+        });
+        body.addEventListener('dragend',function(e){
           e.preventDefault();
           column.classList.remove('active');
         });
@@ -449,6 +503,11 @@
                   alert('請確認上傳的檔案格式符合規範')
                   return
             };
+            let result = filesize_check(doc);
+            if(result == false){
+                console.log('上傳失敗')
+                return
+            }
             //這編寫判斷式，先掃過檔名確定檔名無誤後再執行，否則跳錯誤並return
             for(let i = 0; i < doc.length; i++){
               doc_return = doc[i];//檔案物件本身
@@ -456,14 +515,14 @@
               str_length = doc_return_name.length;//抓取字數
               doc_return_type = doc[i].name.split('.');//分割字串
               doc_return_type = doc_return_type[doc_return_type.length - 1];//抓出副檔名
-              if(doc_return_type == 'jpeg'){
+              if(doc_return_type == 'jpeg'||doc_return_type == 'xlsx'){
                 doc_return_name = doc_return_name.substring(0, str_length - 5);
               }else if(doc_return_type == 'docx'){
                 doc_return_name = doc_return_name.substring(0, str_length - 5);
               }else{
                 doc_return_name = doc_return_name.substring(0, str_length - 4);
               }
-              if(doc_return_type == 'jpeg'||doc_return_type == 'jpg'||doc_return_type == 'png'||doc_return_type == 'gif'||doc_return_type == 'avi'||doc_return_type == 'mov'||doc_return_type == 'mp4'||doc_return_type == 'pdf'||doc_return_type == 'docx'||doc_return_type == 'xls'||doc_return_type == 'txt'||doc_return_type == 'zip'||doc_return_type == 'rar'){
+              if(doc_return_type == 'jpeg'||doc_return_type == 'jpg'||doc_return_type == 'png'||doc_return_type == 'gif'||doc_return_type == 'avi'||doc_return_type == 'mov'||doc_return_type == 'mp4'||doc_return_type == 'pdf'||doc_return_type == 'docx'||doc_return_type == 'xls'||doc_return_type == 'txt'||doc_return_type == 'zip'||doc_return_type == 'rar'||doc_return_type == 'xlsx'){
                 // console.log('通過')
               }else{
                 alert('上傳的檔案中資料有錯誤，請確認上傳的檔案格式符合規範')
@@ -475,6 +534,9 @@
               }else if(doc_return_type == 'docx'){
                 // doc_return_name = doc_return_name.substring(0, str_length - 5);
                 tree = ref.create_node(DOM,{ "type": "word","text":`${doc_return_name}`})
+              }else if(doc_return_type == 'xlsx'){
+                // doc_return_name = doc_return_name.substring(0, str_length - 5);
+                tree = ref.create_node(DOM,{ "type": "xls","text":`${doc_return_name}`})
               }else{
                 // doc_return_name = doc_return_name.substring(0, str_length - 4);
                 tree = ref.create_node(DOM,{ "type":doc_return_type,"text":`${doc_return_name}`})
@@ -491,7 +553,8 @@
             for(let i of files_number){
               i.innerHTML = doc.length;
             };
-           
+            doc = filetype_groupby(doc);//分割檔名附檔名//之後應該會拿這邊的資料AJAX
+            tip_list_update(doc);
             // 目前就差擷取檔案後AJAX傳送出去以及當檔案上傳成功後回傳跳出提示彈窗。
         });
         //搜尋左欄部分
@@ -506,7 +569,7 @@
           let value = document.querySelector('#searchValueId').value;
           if(!value){return}//空值return
           ref.search(value);//搜尋jstree列表
-          searchRight(value);
+          searchRight(value.toUpperCase());
           resetLeftHeight();//重整列表高
         };
         function searchRight(value){//search因為要偵測字，所以無法代入update
@@ -514,9 +577,9 @@
           let str = '';
           let ref = $('#tree').jstree(true);
           let data = ref.get_json('#', { 'flat': true,"no_state":true});
-          console.log(data)
           let files;
           for(let i of data){
+            i.text = i.text.toUpperCase();//強制轉大寫
             if(i.text.indexOf(value)>= 0 && i.type == 'file'){
               files = ref.get_node(i).children.length;
               str+=`
@@ -538,7 +601,6 @@
             if(i.text.indexOf(value)>= 0 && i.type !='file'){
               docStr+=`
                   <li data-type="doc" data-num="${i.id}">
-                    <a href="${i.icon}" data-lightbox="comment-1">
                         <div class="top" data-type="doc" data-num="${i.id}">
                             <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="doc" data-num="${i.id}">
                         </div>
@@ -550,7 +612,6 @@
                                 <span data-type="doc">${i.data.time} </span>
                             </p>
                         </div>
-                    </a>
                   </li>`
             };
           };
@@ -626,7 +687,6 @@
             if(id == i.parent && i.type !=='file'){
               docStr += `
                     <li data-type="doc" data-num="${i.id}">
-                      <a href="${i.icon}" data-lightbox="comment-1">
                         <div class="top" data-type="doc" data-num="${i.id}">
                             <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="doc" data-num="${i.id}">
                         </div>
@@ -638,7 +698,6 @@
                                 <span data-type="doc">${i.data.time} </span>
                             </p>
                         </div>
-                      </a>
                     </li>`
             };
           };
@@ -657,6 +716,23 @@
         //   document.querySelector('.column').setAttribute('data-num',dom);
         //   right_list_update(dom)
         // };
+        document_List.addEventListener('dblclick',(e)=>{
+          if(e.target.dataset.type !='doc'){return};//非doc取消執行
+          let id = e.target.dataset.num;
+          let ref = $('#tree').jstree(true);
+          id = ref.get_node(id);
+          let a = document.createElement('a');
+          a.setAttribute('href',`${id.icon}`)
+          a.setAttribute('data-lightbox','comment-2')
+          a.style.display ='none';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          select_num =0;
+        });
+          
+
+
         //關閉選單
         function resetTree(){
           let ref = $('#tree').jstree(true);
@@ -685,9 +761,13 @@
           let DOM = getDOM();
           let data_open;
           for(let i = 0; i < DOM.length ;i++){
-              data_open = ref.get_node(DOM[i]).data.fack;//取得data內的檔案資訊
-              // window.open(data_open);
-              download(data_open,ref.get_node(DOM[i]).text);
+            if(ref.get_node(DOM[i]).type =='file'){//判斷點選節點是否為forder，是的話return
+              console.log(ref.get_node(DOM[i]).type)
+              return
+            };
+            data_open = ref.get_node(DOM[i]).data.fack;//取得data內的檔案資訊
+            // window.open(data_open);
+            download(data_open,ref.get_node(DOM[i]).text);
           };
         };
 
@@ -855,7 +935,7 @@
             });
           //移動
           $('#tree').on('delete_node.jstree', function (e,parent,node) {
-              updata();
+            updata();
           });
           //刪除
           $('#tree').on('create_node.jstree', function (e,parent,node) {
@@ -902,15 +982,16 @@
                   select_num =0;
                };
           });
-          $('#close_all_id').click(()=>{
-            let ref = $('#tree').jstree(true);
-            ref.close_all(0);
-          });
-          $('#open_all_id').click(()=>{
-            let ref = $('#tree').jstree(true);
-            ref.open_all(0);
-          });
+          // $('#close_all_id').click(()=>{
+          //   let ref = $('#tree').jstree(true);
+          //   ref.close_all(0);
+          // });
+          // $('#open_all_id').click(()=>{
+          //   let ref = $('#tree').jstree(true);
+          //   ref.open_all(0);
+          // });
         });
+        
     </script>
 @endsection
 
@@ -985,13 +1066,15 @@
   -webkit-box-shadow: 1px 0px 3px 3px #8b8585;
           box-shadow: 1px 0px 3px 3px #8b8585;
   /* overflow:hidden; */
+  min-height:86.5vh;
 }
-
+/* 左邊錨點 */
 .main .left #tree {
   position: relative;
   padding-top: 10px;
   /* min-height: 100vh;
   height: 100%; */
+  min-height:81.5vh;
   overflow:scroll;
 }
 
@@ -1339,6 +1422,7 @@
   z-index: 0;
   width: 76.2%;
   width: calc(100%-392px);
+  height: 86.5vh;
 }
 
 .main .right .right_nav.active {
@@ -1463,10 +1547,11 @@
   height: 100%;
   padding-left: 30px;
   padding-top: 6px;
+  height: 100vh;
   background-color: #f2f2f2;
+  overflow:auto;
 }
-
-
+/* 右邊錨點 */
 .main .right .column .addIcon{
   position: absolute;
   width: 200px;
@@ -1788,20 +1873,34 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  width: 100%;
+  /* height: 42px; */
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 0 0 5px 5px;
+}
+
+.main .tip .loading .bottom div{
+  display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 0 20px;
+  margin:1px 0;
+  padding: 5px 0;
   width: 100%;
-  height: 42px;
-  background: #ffffff;
-  border-radius: 0 0 5px 5px;
+  /* background: rgba(11, 11, 11, 0.05); */
+  border-radius: 5px;  
 }
 
-.main .tip .loading .bottom p {
+
+.main .tip .loading .bottom div p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1813,18 +1912,18 @@
           justify-content: center;
 }
 
-.main .tip .loading .bottom p img {
+.main .tip .loading .bottom div p img {
   width: 22px;
   height: 22px;
   margin-right: 5px;
 }
 
-.main .tip .loading .bottom p:nth-child(1) {
+.main .tip .loading .bottom div p:nth-child(1) {
   color: black;
   font-weight: bolder;
 }
 
-.main .tip .loading .bottom p:nth-child(2) {
+.main .tip .loading .bottom div p:nth-child(2) {
   position: relative;
   width: 20px;
   height: 20px;
@@ -1858,7 +1957,7 @@
   }
 }
 
-.main .tip .loading .bottom p:nth-child(2)::before {
+.main .tip .loading .bottom div p:nth-child(2)::before {
   content: '';
   position: absolute;
   top: 4px;
@@ -1973,8 +2072,18 @@
                     <p class="tip_close"><ion-icon name="close-outline"></ion-icon></p>
                 </div>
                 <div class="bottom">
-                    <p><img src="{{ asset('img/fileIcon/file.svg') }}" alt="icon"><span class="file_length">1</span>個檔案</p>
-                    <p></p>
+                    <div>
+                      <p><img src="{{ asset('img/fileIcon/XLS.svg') }}" alt="icon">2021.12.1廣弘報價單</p>
+                      <p></p>
+                    </div>
+                    <div>
+                      <p><img src="{{ asset('img/fileIcon/XLS.svg') }}" alt="icon">2021.12.1廣弘報價單</p>
+                      <p></p>
+                    </div>
+                    <div>
+                      <p><img src="{{ asset('img/fileIcon/XLS.svg') }}" alt="icon">2021.12.1廣弘報價單</p>
+                      <p></p>
+                    </div>
                 </div>
             </div>
             <div class="finish active">
@@ -2013,7 +2122,7 @@
                                     <span onclick="add_document_cancel()">取消</span>
                                     <span id="documentBtnId">建立</span>
                                 </p>
-                                <input type="file" id="addFile" accept=".jpg, .jpeg, .png, .gif, .pdf, .txt, .zip, .rar, .docx, .xls, .mp4, .avi, .mov">
+                                <input type="file" id="addFile" accept=".jpg, .jpeg, .png, .gif, .pdf, .txt, .zip, .rar, .docx, .xls, .mp4, .avi, .mov, .xlsx">
                                 <!-- multiple="true" -->
                             </div>
                         </li>
@@ -2057,7 +2166,7 @@
                   <p>
                     欲上傳，請將檔案拖曳至此!
                     <br>
-                    限定格式: jpg .jpeg .png .gif .pdf .txt .zip .rar .docx .xls .mp4 .avi .mov 
+                    限定格式: jpg .jpeg .png .gif .pdf .txt .zip .rar .docx .xls .xlsx .mp4 .avi .mov 
                   </p>
                 </div>
                 <h2 id="h2Id">檔案夾</h2>

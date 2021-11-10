@@ -174,8 +174,9 @@ obj.callMe()//顯示小明 因為在callname外層的函式是傳統函式，也
 
 
 
----元件結構---
+---元件結構(關注點分離/MVVM)---
 所謂元件結構就是將一個功能所運用到的所有內容都放在一個物件中，包含函式、儲存的資料等
+依所需情況調用及觸發，每一個屬性都各自獨立但卻又相關，所以稱為關注點分離。
 基本的元件結構有:
 1.資料
 2.方法、觸發器
@@ -451,3 +452,83 @@ ESM
 inport {} from 'CDN網址'
 
 直接使用
+
+
+
+
+觀念都理解了，正式進入vue的教學。
+
+首先vue的概念就是對應元件結構
+{
+    data:[儲存的資料]
+    render()//渲染HTML的function(事件觸發)
+    init()//載入時所執行的動作(生命週期)
+    //假設今天要使用這個元件結構，就從呼喊init這個function就會執行。
+}
+
+只是vue都幫你把以上的事情都做好了，基本上只需要在指定標籤加上指定屬性，vue就會幫你做渲染
+
+
+vue 環境設置
+於瀏覽器安裝vue開發者工具套件
+網址:https://headwayapp.co/vue-js-devtools-changelog/timeline-and-api-166716
+//注意一定要從這安裝beta版本，可能是設定問題正式版沒辦法使用。
+
+在開發者工具中可以找到vue的介面
+    介面左邊會有一個根元件，點選，右邊會有data的資料庫。
+    後面開發的話都會以這個根元件為主，階梯式的呈現在介面上
+
+載入vue cdn放在head內 //這邊要注意版本，目前教學為3
+
+<script src="https://unpkg.com/vue@next"></script>
+
+
+
+---定義元件---
+型態:
+Vue.createApp({//定義元件
+
+  data(){
+    return{
+      //資料庫
+    }
+  }
+}).mount('DOM')// 執行元件    
+
+範例及解說:
+Vue.createApp({//使用vue時都會先使用createAPP，類似JQ的ready
+  data() {//定義一個資料儲存區 需注意的點是這邊的data是一個函式，資料是用return的方式回傳
+    return {
+      counter: 0,
+      text: '這裡有一段文字123'
+    }
+  }
+}).mount('#app')//到mount之前，元件及資料儲存的定義就已經完成，mount則是輸出內容
+
+
+第二課 
+
+完整vue定義
+型態說明:
+
+<div> {{value}} </div>//顯示123
+<input type="buttom" v-on:click="click"> //當DOM要觸發methods裡面的方法時，於標籤內輸入v-on:觸發事件="function" ex.這邊不需要再加個中括號了()
+
+
+const app = {
+    data(){//資料儲存區 ex.這邊一定要是函式
+        return{
+            value:'123'//通過{{屬性}}，可以將值給渲染到瀏覽器上
+        }
+    }
+    created(){生命週期 更改data內容
+        this.value = '456'//這邊之所以抓地到data的值是因為使用了return，return後的內容就會被proxy攔截。簡單來說就是return後內容父層抓地到
+    }
+    methods:{//方法(事件觸發) ex.會是一個物件
+
+        click(){
+            console.log('安安')
+        }        
+
+    }
+}
