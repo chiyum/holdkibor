@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>v-for使用方式</title>
+    <style>
+      .list1
+      {
+        padding-left: 50px;
+      }
+      .list2
+      {
+        padding-left: 100px;
+      }
+      .list3
+      {
+        padding-left: 150px;
+      }
+      .list4
+      {
+        padding-left: 200px;
+      }
+      .list2.active
+      {
+        display: none;
+      }
+      .list3.active
+      {
+        display: none;
+      }
+      .list4.active
+      {
+        display: none;
+      }
+      .hide
+      {
+        display: none;
+      }
+    </style>
+</head>
+<body>
+    <ul id="v_mainId">
+      <li v-for="i in product" :key="i.id" v-bind:class="i.class" :class="{hide:i.onStock}">
+        <!-- 
+          v-bind:class除了可以取資料內的class使用 v-bind:class ="i.class"外
+          還可以使用false或true來決定要不要套用指定class
+          用法為:
+          v-bind:class="{'class名稱':true or false}"//這邊的true or false可以套用資料，而要動態改變true or false 可以使用inputcheckbox。
+          //這邊注意，目前測試是無法套用資料內的值的
+          i.class (X)
+          class名稱(O)
+        -->
+        <p v-bind:data="i.id">{{i.name}}{{i.onStock}}</p>
+        <p v-bind:data="i.id">{{i.unit}}</p>
+        <p v-bind:data="i.id">{{i.price}}</p>
+        <p v-bind:data="i.id">{{i.quantity}}</p>
+        <p v-bind:data="i.id">{{i.total}}</p>
+        <p v-bind:data="i.id">{{i.profit}}</p>
+        <p v-bind:data="i.id">{{i.materials}}</p>
+        <p v-bind:data="i.id">{{i.manpower}}</p>
+        <p v-bind:data="i.id">{{i.manage}}</p>
+        <p v-bind:data="i.id">{{i.device}}</p>
+        <input type="checkbox" v-model="i.onStock">
+        <!-- 
+          套上v-model vue會自動忽略原生checkbox的應用並在勾選時回傳true 反之。
+        -->
+      </li>
+    </ul>
+    <script>
+    
+    const table_data =[
+    {
+      id:'a',
+      name:'電氣工程',
+      child_id:'a_0',
+      class:'list1',
+      onStock:false
+    },
+    {
+      id:'a_0',
+      name:'A_低壓配電盤設備工程',
+      child_id:'a_01',
+      class:'list2',
+      onStock:false
+    },
+    {
+      id:'a_01',
+      name:'(一)_P1.P1-1台電受電箱',
+      child_id:['a_02','a_03','a_04','a_05'],
+      class:'list3'
+    },
+    {
+      parentid:'a_01',
+      id:'a_02',
+      name:'1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',
+      unit:'座',  
+      price:1727,
+      quantity:2, 
+      total: 3454,
+      profit:'',
+      materials:'',
+      manpower:'',
+      manage:'',
+      device:'',
+      class:'list4',
+      onStock:false
+    },
+    {
+      parentid:'a_01',
+      id:'a_03',
+      name:'NBF 3P 400AF 400AT 380V 30KA',
+      unit:'只',  
+      price:121,
+      quantity:11590, 
+      total: 1402390,
+      profit:'',
+      materials:'',
+      manpower:'',
+      manage:'',
+      device:'',
+      class:'list4',
+      onStock:false
+    },
+    {
+      parentid:'a_01',
+      id:'a_04',
+      name:'NBF 3P 400AF 400AT 380V 30KA',
+      unit:'只',  
+      price:181,
+      quantity:8721, 
+      total: 1578501,
+      profit:'',
+      materials:'',
+      manpower:'',
+      manage:'',
+      device:'',
+      class:'list4',
+      onStock:false
+    },
+    {
+      parentid:'a_01',
+      id:'a_05',
+      name:'NBF 3P 400AF 400AT 380V 30KA',
+      unit:'只',  
+      price:421,
+      quantity:2869, 
+      total: 1207849,
+      profit:'',
+      materials:'',
+      manpower:'',
+      manage:'',
+      device:'',
+      class:'list4',
+      onStock:false
+    },
+  ]
+
+    
+    Vue.createApp({
+      data(){
+        return{
+          product:[],
+        }
+      },
+      created(){
+        this.product = table_data;
+      },
+      methods:{
+        hide(){
+          
+        }
+      },
+    }).mount('#v_mainId')
+
+    </script>
+</body>
+</html>

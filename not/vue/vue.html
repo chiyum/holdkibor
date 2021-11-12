@@ -21,12 +21,24 @@
         <!-- 第二課 -->
     <div class="two">
         <input type="button" value="按我觸發" v-on:click="click">
-        <!-- 使用v-on:觸發事件="函式" ex.不需要() -->
+        <!-- 使用v-on:觸發事件="函式" ex.不需要() 但也可以有 -->
         {{value}}
     </div>
 
+        <!-- 第三課 -->
+    <div class="three">
+        {{pic}}
+        <input type="button" value="按下打招呼" v-on:click="addimg">
+        <!-- 事件觸發 v-on -->
+        <img v-bind:src="pic.img" alt="圖片">
+        <!-- 輸出屬性綁定 -->
+
+        <input type="text" v-model="pic.img" id="value">
+        <!-- 輸入綁定 -->
+    </div>
 
     <script>
+
         Vue.createApp({//定義元件 這邊注意大小寫，單字打錯就會報錯
             data(){//建立data資料儲存區
                 return {
@@ -57,6 +69,27 @@
             },
         }
         Vue.createApp(test).mount('.two');//要記得使用createApp.mount()這個方法讓vue生成
+
+        // 第三課
+
+        Vue.createApp({
+            data(){
+                return {
+                    pic:{//return的資料庫內也可以有多個物件喔
+                        name:'照片路徑',
+                        img:''
+                    }
+                }
+            },
+            methods:{
+
+                addimg(){
+                   alert()
+                }
+
+            }
+        }).mount('.three')
+
 
     </script>
 </body>

@@ -484,9 +484,9 @@ vue 環境設置
 
 
 
----定義元件---
+---第一課定義元件---
 型態:
-Vue.createApp({//定義元件
+Vue.createApp({//定義元件 也就是vue的起手式，類似jq的$(doc).ready
 
   data(){
     return{
@@ -494,26 +494,32 @@ Vue.createApp({//定義元件
     }
   }
 }).mount('DOM')// 執行元件    
+//這邊的mount是將這個元件給綁定到指定的DOM
+
 
 範例及解說:
-Vue.createApp({//使用vue時都會先使用createAPP，類似JQ的ready
-  data() {//定義一個資料儲存區 需注意的點是這邊的data是一個函式，資料是用return的方式回傳
+Vue.createApp({//使用vue時都會先使用createApp，上面有提到類似JQ的ready
+  data() {//定義一個資料儲存區 需注意的點是這邊的data是一個函式，資料是用return的方式回傳。這個作法的用意是使用原生JS內件的proxy功能，讓物件內的其他函式可以使用this.屬性調用
     return {
       counter: 0,
       text: '這裡有一段文字123'
     }
   }
-}).mount('#app')//到mount之前，元件及資料儲存的定義就已經完成，mount則是輸出內容
+}).mount('#app')//到mount之前，元件及資料儲存的定義就已經完成，mount則是綁定DOM
 
 
-第二課 
+---第二課完整vue定義及事件--- 
 
-完整vue定義
 型態說明:
 
-<div> {{value}} </div>//顯示123
-<input type="buttom" v-on:click="click"> //當DOM要觸發methods裡面的方法時，於標籤內輸入v-on:觸發事件="function" ex.這邊不需要再加個中括號了()
+<div> {{value}} </div>//顯示123 這邊是輸入資料路徑。
+簡單的說明一下資料路徑
+當我們需要調用data()這個資料庫內的路徑時，data所回傳的就是一個物件，並不需要使用data.value的方式呼叫，因為當data()將{}回傳時，{}就已經是app這個物件內的值了。
+總得來說就是只需要使用要調用時只需要使用return{}物件內的值就可以了。
+假設你物件內的值是物件，你要取用物件內的物件，就使用原生js的物件呼叫方法即可。
 
+
+<input type="buttom" v-on:click="click"> //當DOM要觸發methods裡面的方法時，於標籤內輸入v-on:觸發事件="function" ex.這邊不需要再加個中括號了()
 
 const app = {
     data(){//資料儲存區 ex.這邊一定要是函式
@@ -527,8 +533,181 @@ const app = {
     methods:{//方法(事件觸發) ex.會是一個物件
 
         click(){
-            console.log('安安')
+            console.log('安安');
         }        
+    }
+}
+
+事件型態:
+HTML
+<div v-on:事件="function名稱">按鈕</div>
+//因為已經綁定在區塊中了，所以不需要再使用物件方法呼叫
+methods.click (X)
+click (O)//不需要加入()
+
+第三課 雙向綁定
+
+v-model 綁定到資料輸入區並與其同步，只要資料輸入區改變or v-model的內容改變，兩者都會同步 (綁定一)
+
+當定義一個元件以後，若是要將input取得的資料輸入進資料庫需要使用v-model
+相當於原生.value /JQ.val()的概念。
+
+型態:
+HTML
+<input v-model="資料庫物件名稱.屬性名稱">//已經綁定在區塊內，所以就直接使用資料路徑即可
+
+
+
+v-bind: 綁定輸出到HTML屬性上 (綁定二)
+v-bind可以資料酷的輸出到指定的HTML屬性上
+型態:
+HTML
+<img bind:src="資料庫名稱.屬性名稱"
+
+稱為雙向綁定的原因是兩者已經同步，當有一方改變，另一方也會同步改變。
+
+
+
+第四課 導入外部資料進資料區
+
+說明:
+
+let obj = {//外部資料 不管外部資料是甚麼形式。陣列 or 物件等都一樣可以導入
+    a:123,
+
+}
+
+
+const = add{
+    data(){
+        return{
+            data:{
+                
+            }
+        }
+    },
+    created(){//當我們要使用外部資料進行渲染時，就在生命週期這邊導入外部資料，這邊在一開始載入vue的時候就會執行
+        this.data = obj//如此在載入vue時，外部的資料就會導入到指定的路徑
+        //這邊要注意this本身就已經代表data，所以這個data是return物件內的data屬性喔
+    }
+    method:{
 
     }
 }
+
+Vue.createApp(add).mount('#id')
+
+
+---第五課 將資料傳入資料庫---
+因為v-model的特性是雙向綁定，所以假設我們每一次觸發事件都要新增一筆不一樣的資料要怎麼處理呢?
+範例解說如下:
+
+ <div id="app">
+        帳號:
+        <input type="text" v-model="temp.account">
+        <!-- v-model有個特點 假設指定路徑內沒有該屬性，那會自動新增這個屬性 -->
+        <br>
+        密碼:
+        <input type="text" v-model="temp.password">
+        <br>
+        <button type="button" v-on:click="add_userdata">送出</button>
+        <!-- 這邊type要使用button 否則預設定義是submit -->
+        導入的帳密:{{temp.account}},{{temp.password}}
+        <br>
+        userdata內容:{{userdata}}
+    </div>
+    <script>
+       Vue.createApp({
+            data(){
+                return{
+                    userdata:[],
+                    temp:{}
+                }
+            },
+            created(){
+                this.userdata = JSON.parse(localStorage.getItem('user'));//從local端取得資料
+            },
+            methods:{
+                add_userdata(){
+                    this.temp.id = new Date().getTime();//此行目的產生唯一性id 從這邊也可以有v-model的特效，物件內沒該屬性會自動新增 就跟原生JS一樣
+                    this.userdata.push(this.temp);//將目前temp的內容上傳至userdata這個陣列內
+                    this.temp = {};//清空
+                    this.update();//輸入至local端
+                },
+                update(){
+                    // localStorage.setItem('user',JSON.stringify(this.userdata))
+                    localStorage.setItem('user',JSON.stringify(this.userdata))
+                }
+            },
+        }).mount('#app');
+        //順便提一下原生的方法 取得DOM.value > 輸入資料庫and localstorage > 用innerHTML渲染網頁 
+    </script>
+
+
+---第五課使用v-for將多筆資料渲染到網頁---
+
+v-for這個屬性的功能類似使用for迴圈累積文字並渲染到網頁上，只是這個操作更直覺簡潔。
+型態:
+指定DOM上 v-for="自訂義名稱 in 資料路徑(陣列或物件)"
+//這個就類似for in的方法 但還是有些不同
+//v-for的原理是這樣的，它會掃過資料路徑的物件或陣列
+//接著使用者就可以使用{{自訂義名稱.屬性}}(自訂義名稱代表物件或陣列內的值)將內容給呈現到畫面上
+//使用者這邊只要輸入一次即可，當你在HTML的標籤上輸入一次{{}}，就會自動將資料路徑內的所有值都呈現在畫面上
+
+
+多說無益，直接看範例:
+
+先看script code
+  <ul id="app">
+        <li>
+            <img src="./根元件.png" alt="" style="width: 50px;border: 1px solid;">
+            <p>商品一</p>
+        </li>
+        <li v-for="i in products" :key="i.id" >
+            <!-- 
+                型態:v-for="自訂義名稱 in 資料路徑(物件/陣列) v-for會自動讀取指定路徑的所有內容"
+                接著v-for要放到想要複製的區塊上，只要放上來子DOM也會一同執行for
+                這邊補充key用意，是要讓每個渲染出來的區塊有唯一性，方便之後操作
+            -->
+            <img v-bind:src="i.url" alt="商品圖" style="width: 50px;border: 1px solid;">
+            <!-- 因為會v-for會一一的複製指定DOM，所以子內容的v-bind也會跟著一一改變跟渲染 -->
+            <p>{{i.name}}</p>
+            <!-- 文字同上說明 -->
+        </li>
+    </ul>
+
+    <script>
+      
+        const products = [//導入的資料
+            {
+                id:'1',
+                name:'商品二',
+                url:'https://chiyum.github.io/myPage/img/formalLogoNb.png'
+            },
+            {
+                id:'2',
+                name:'商品三',
+                url:'https://chiyum.github.io/holdkibor/img/logo.png'
+            },
+        ];
+
+        Vue.createApp({
+            data(){
+                return{
+                    products:[],//先建立個空物件，等啟動後導入資料
+                };
+            },
+            created(){
+                this.products = products;//載入時導入外部資料
+            },
+            method:{
+
+            }
+        }).mount('#app');//綁定區塊
+
+        //輸入完往HTML繼續
+
+    </script>
+
+
+補充:會使用key="iteam.id"是要補上唯一值，這在後面章節會介紹。

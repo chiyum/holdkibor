@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代入點擊dom的this v-on代入參數</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        *
+        {
+            padding: 0;
+            margin: 0;
+        }
+        li
+        {
+            list-style: none;
+        }
+
+        .main
+        {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .main .list
+        {
+            padding: 10px;
+            width: 50%;
+            /* height: 100vh; */
+            min-height: 100vh;
+            border-right: 2px solid #c3c3c3;
+        }
+
+        .main .list li
+        {
+            border-bottom: 1px solid #c3c3c3;
+        }
+
+        .main .list li img
+        {
+            width: 300px;
+        }
+
+        .main .btn
+        {
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main" id="mainId">
+        <ul class="list">
+            渲染列表
+            <li v-for="i in product":key="i.id">
+                <img v-bind:src="i.url" alt="">
+                {{i.text}}
+                <button type="button" v-on:click="edit(i)">編輯</button>
+                <!-- 
+                    當要取得點選的那筆資料，就在函式代入當筆資料
+                    如上面顯示deit(i)，會使用i是因為我用v-for，在for渲染資料時就會將那筆資料給帶入
+                    就類似原生的 onclick="console.log(this)"，this代表的是這個DOM
+                    vue代表的則是資料，因為vue是透過資料來渲染頁面，當資料更動，頁面也會同時更動
+                -->
+            </li>
+        </ul>
+        <div class="btn">
+        <input type="text" v-model="temp.url" placeholder="輸入圖片網址">
+        <br>
+        <input type="text" v-model="temp.text" placeholder="輸入文字">
+        <br>
+        <button type="button" v-on:click="update">更新</button>temp的id:{{temp.id}}
+        </div>
+    </div>
+    <script>
+
+
+        const data = [
+            {
+                text:'文字測試',
+                url:'https://chiyum.github.io/holdkibor/img/vue.js.jpg'
+            },
+        ]
+
+
+        Vue.createApp({
+            data(){
+                return{
+                    temp:{},
+                    product:[]
+                }
+            },
+            created(){
+                this.temp = data[0];
+            },
+            methods:{
+                edit(iteam){//使用參數代入資料本身
+                    this.temp ={...iteam};//使用淺層複製的原因是 代入的資料本身會是與資料庫綁定的，當使用者還在輸入，畫面就會更動，使用體驗差。
+                    //此行目的是將原先的資料取得並置入輸入框讓其綁定temp
+                    // this.temp =iteam;//可以嘗試使用看看
+                },
+                update(){
+                    if(!this.temp.id){//是新增就不會有id，那就變新增
+                        this.temp.id = new Date().getTime();//創造唯一性id
+                        //temp已經綁定HTML輸入框，所以這邊不需要取得
+                        this.product.push(this.temp);
+                    }else{//有id則修正
+                        this.product.forEach((iteam,i) => { ///這邊使用for 去列出所有product iteam 代表每個物件本身 i代表物件在陣列內的順序編號
+                            if(iteam.id == this.temp.id){
+                                //前者的iteam.id 是product使用for逐一列出的所有物件內的id , 後者的this.temp.id則是目前temp所取到的id。
+                                //這邊的作用是為了要取得屬於欲修改資料在product陣列中的順序編號
+                                this.product[i] = this.temp;//此時的i就會是屬於那個id在product陣列中的順序編號。而這個動作就是將temp資料給覆蓋上去
+                            };
+                        });
+                    }
+                    this.temp = {};//最後不管是新增or修改清空temp資料(input輸入框)
+                }
+            },
+        }).mount('#mainId');
+    </script>
+</body>
+</html>

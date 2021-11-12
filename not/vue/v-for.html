@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>v-for使用方式</title>
+</head>
+<body>
+    <ul id="app">
+        <li>
+            <img src="./根元件.png" alt="" style="width: 50px;border: 1px solid;">
+            <p>商品一</p>
+        </li>
+        <li v-for="i in products" :key="i.id" >
+            <!-- 
+                型態:v-for="自訂義名稱 in 資料路徑(物件/陣列) v-for會自動讀取指定路徑的所有內容"
+                接著v-for要放到想要複製的區塊上，只要放上來子DOM也會一同執行for
+                這邊補充key用意，是要讓每個渲染出來的區塊有唯一性，方便之後操作
+            -->
+            <img v-bind:src="i.url" alt="商品圖" style="width: 50px;border: 1px solid;">
+            <!-- 因為會v-for會一一的複製指定DOM，所以子內容的v-bind也會跟著一一改變跟渲染 -->
+            <p>{{i.name}}</p>
+            <!-- 文字同上說明 -->
+        </li>
+    </ul>
+    <script>
+      
+        const products = [//導入的資料
+            {
+                id:'1',
+                name:'商品二',
+                url:'https://chiyum.github.io/myPage/img/formalLogoNb.png'
+            },
+            {
+                id:'2',
+                name:'商品三',
+                url:'https://chiyum.github.io/holdkibor/img/logo.png'
+            },
+        ];
+
+        Vue.createApp({
+            data(){
+                return{
+                    products:[],//先建立個空物件，等啟動後導入資料
+                };
+            },
+            created(){
+                this.products = products;//載入時導入外部資料
+            },
+            method:{
+
+            }
+        }).mount('#app');//綁定區塊
+
+        //輸入完往HTML繼續
+
+    </script>
+</body>
+</html>

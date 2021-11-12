@@ -11,7 +11,7 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script>
-        let b =`[{"id":"0","text":"選單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"0"},"a_attr":{"href":"#","id":"0_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"#","type":"file"},{"id":"1","text":"群益數位","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"1"},"a_attr":{"href":"#","id":"1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_10","text":"公司聯絡資訊","icon":"https://v2.volkssii.com/img/fileIcon/WORD.svg","li_attr":{"id":"j1_10"},"a_attr":{"href":"#","id":"j1_10_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/JPG.svg"},"parent":"1","type":"word"},{"id":"2","text":"設計圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"2"},"a_attr":{"href":"#","id":"2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_8","text":"一樓大廳","icon":"https://v2.volkssii.com/img/fileIcon/PNG.svg","li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PDF.svg"},"parent":"2","type":"png"},{"id":"j1_9","text":"客房布局","icon":"https://v2.volkssii.com/img/fileIcon/XLS.svg","li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PDF.svg"},"parent":"2","type":"pdf"},{"id":"3","text":"施工圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"3"},"a_attr":{"href":"#","id":"3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_6","text":"地基鋪設","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PNG.svg"},"parent":"3","type":"jpg"},{"id":"4","text":"契約書","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"4"},"a_attr":{"href":"#","id":"4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"5","text":"廠商資訊","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"5"},"a_attr":{"href":"#","id":"5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"6","text":"瑞展工程行","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6"},"a_attr":{"href":"#","id":"6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"6_1","text":"報價單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6_1"},"a_attr":{"href":"#","id":"6_1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"6","type":"file"},{"id":"j1_5","text":"大廳牆面切割","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PNG.svg"},"parent":"6_1","type":"jpg"},{"id":"7","text":"漢堂建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"7"},"a_attr":{"href":"#","id":"7_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"8","text":"大宇建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"8"},"a_attr":{"href":"#","id":"8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"}]`
+        let b =`[{"id":"0","text":"選單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"0"},"a_attr":{"href":"#","id":"0_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"#","type":"file"},{"id":"1","text":"群益數位","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"1"},"a_attr":{"href":"#","id":"1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_10","text":"公司聯絡資訊","icon":"https://v2.volkssii.com/img/fileIcon/WORD.svg","li_attr":{"id":"j1_10"},"a_attr":{"href":"#","id":"j1_10_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/JPG.svg"},"parent":"1","type":"word"},{"id":"2","text":"設計圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"2"},"a_attr":{"href":"#","id":"2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_8","text":"一樓大廳","icon":"https://v2.volkssii.com/img/fileIcon/PNG.svg","li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PDF.svg"},"parent":"2","type":"png"},{"id":"j1_9","text":"客房布局","icon":"https://v2.volkssii.com/img/fileIcon/XLS.svg","li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PDF.svg"},"parent":"2","type":"xls"},{"id":"3","text":"施工圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"3"},"a_attr":{"href":"#","id":"3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_6","text":"地基鋪設","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PNG.svg"},"parent":"3","type":"jpg"},{"id":"4","text":"契約書","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"4"},"a_attr":{"href":"#","id":"4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"5","text":"廠商資訊","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"5"},"a_attr":{"href":"#","id":"5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"6","text":"瑞展工程行","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6"},"a_attr":{"href":"#","id":"6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"6_1","text":"報價單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6_1"},"a_attr":{"href":"#","id":"6_1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"6","type":"file"},{"id":"j1_5","text":"大廳牆面切割","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PNG.svg"},"parent":"6_1","type":"jpg"},{"id":"7","text":"漢堂建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"7"},"a_attr":{"href":"#","id":"7_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"8","text":"大宇建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"8"},"a_attr":{"href":"#","id":"8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"}]`
         let dataAry = JSON.parse(localStorage.getItem('資料'))|| localStorage.setItem('資料',b);//若前者有資料，那取得資料。若沒有則取得後者。
         if(dataAry == undefined){//若無資料重整
             window.location.reload();
@@ -239,6 +239,7 @@
                 alert('請先上傳檔案');
                 return;
           };
+          // let result = filesize_check(files,100000,200000,5);
           let result = filesize_check(files);
           if(result == false){
               return
@@ -248,7 +249,7 @@
             if(i.type == 'jpeg'||i.type == 'jpg'||i.type == 'png'||i.type == 'gif'||i.type == 'avi'||i.type == 'mov'||i.type == 'mp4'||i.type == 'pdf'||i.type == 'docx'||i.type == 'xls'||i.type == 'txt'||i.type == 'zip'||i.type == 'rar'||i.type == 'xlsx'){
               // 副檔名正確
             }else{
-              alert('請確認上傳檔案符合規範');
+              alert('請確認上傳檔案符合規範，可上傳檔案有jpg .jpeg .png .gif .pdf .txt .zip .rar .docx .xls .xlsx .mp4 .avi .mov');
               return;
             }//錯誤返回
           }
@@ -500,10 +501,11 @@
               DOM[0] = document.querySelector('.column').getAttribute('data-num');
             };
             if(doc.length == 0){//第一層檢測，上傳的是否是檔案
-                  alert('請確認上傳的檔案格式符合規範')
+                  alert('請確認上傳的檔案格式符合規範。可上傳檔案有:jpg .jpeg .png .gif .pdf .txt .zip .rar .docx .xls .xlsx .mp4 .avi .mov')
                   return
             };
             let result = filesize_check(doc);
+            // let result = filesize_check(doc,100000,200000,5);
             if(result == false){
                 console.log('上傳失敗')
                 return
@@ -525,7 +527,7 @@
               if(doc_return_type == 'jpeg'||doc_return_type == 'jpg'||doc_return_type == 'png'||doc_return_type == 'gif'||doc_return_type == 'avi'||doc_return_type == 'mov'||doc_return_type == 'mp4'||doc_return_type == 'pdf'||doc_return_type == 'docx'||doc_return_type == 'xls'||doc_return_type == 'txt'||doc_return_type == 'zip'||doc_return_type == 'rar'||doc_return_type == 'xlsx'){
                 // console.log('通過')
               }else{
-                alert('上傳的檔案中資料有錯誤，請確認上傳的檔案格式符合規範')
+                alert('上傳的檔案中資料有錯誤，請確認上傳的檔案格式符合規範。可上傳檔案有:jpg .jpeg .png .gif .pdf .txt .zip .rar .docx .xls .xlsx .mp4 .avi .mov')
                 return
               };
               if(doc_return_type == 'jpeg'){
@@ -587,12 +589,12 @@
                         <div class="top" data-type="${i.type}" data-num="${i.id}">
                             <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="${i.type}" data-num="${i.id}">
                         </div>
-                        <div class="bottom" data-type="${i.type}" data-num="${i.id}">
-                            <div class="title" data-type="${i.type}" data-num="${i.id}">
+                        <div class="bottom" data-type="${i.type}" data-num="${i.id}" title="${i.text}">
+                            <div class="title" data-type="${i.type}" data-num="${i.id}" title="${i.text}">
                                 ${i.text}
                             </div>
-                            <p data-type="file" data-num="${i.id}">
-                                <span data-type="file">${files} files</span>
+                            <p data-type="file" data-num="${i.id}" title="${i.text}">
+                                <span data-type="file" title="${i.text}">${files} files</span>
                             </p>
                         </div>
                     </li>
@@ -604,12 +606,12 @@
                         <div class="top" data-type="doc" data-num="${i.id}">
                             <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="doc" data-num="${i.id}">
                         </div>
-                        <div class="bottom" data-type="doc" data-num="${i.id}">
-                            <div class="title" data-type="doc" data-num="${i.id}">
+                        <div class="bottom" data-type="doc" data-num="${i.id}" title="${i.text}">
+                            <div class="title" data-type="doc" data-num="${i.id}" title="${i.text}">
                                 ${i.text}
                             </div>
-                            <p data-type="file" data-num="${i.id}">
-                                <span data-type="doc">${i.data.time} </span>
+                            <p data-type="file" data-num="${i.id}" title="${i.text}">
+                                <span data-type="doc" title="${i.text}">${i.data.time} </span>
                             </p>
                         </div>
                   </li>`
@@ -671,14 +673,14 @@
               str += `
                   <li data-type="${i.type}" data-num="${i.id}">
                         <div class="top" data-type="file" data-num="${i.id}">
-                            <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="file" data-num="${i.id}">
+                            <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="file" data-num="${i.id}" title="${i.text}">
                         </div>
-                        <div class="bottom" data-type="file" data-num="${i.id}">
-                            <div class="title" data-type="file" data-num="${i.id}">
+                        <div class="bottom" data-type="file" data-num="${i.id}" title="${i.text}">
+                            <div class="title" data-type="file" data-num="${i.id}" title="${i.text}">
                                 ${i.text}
                             </div>
-                            <p data-type="file" data-num="${i.id}">
-                                <span data-type="file">${files} files </span>
+                            <p data-type="file" data-num="${i.id}" title="${i.text}">
+                                <span data-type="file" title="${i.text}">${files} files </span>
                             </p>
                         </div>
                     </li>
@@ -690,12 +692,12 @@
                         <div class="top" data-type="doc" data-num="${i.id}">
                             <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="doc" data-num="${i.id}">
                         </div>
-                        <div class="bottom" data-type="doc" data-num="${i.id}">
-                            <div class="title" data-type="doc" data-num="${i.id}">
+                        <div class="bottom" data-type="doc" data-num="${i.id}" title="${i.text}">
+                            <div class="title" data-type="doc" data-num="${i.id}" title="${i.text}">
                                 ${i.text}
                             </div>
-                            <p data-type="doc" data-num="${i.id}">
-                                <span data-type="doc">${i.data.time} </span>
+                            <p data-type="doc" data-num="${i.id}" title="${i.text}">
+                                <span data-type="doc" title="${i.text}">${i.data.time} </span>
                             </p>
                         </div>
                     </li>`
@@ -1876,10 +1878,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 20px;
-  width: 100%;
-  /* height: 42px; */
+  /* padding: 0 20px; */
   padding: 10px;
+  width: 100%;
+  max-height:89.5vh;
+  overflow: auto;
+  /* height: 42px; */
   background: #ffffff;
   border-radius: 0 0 5px 5px;
 }

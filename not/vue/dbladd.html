@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>雙向綁定</title>
+</head>
+<body>
+    <div id="app">
+        {{data.text}}
+        {{data.src}}
+        <!-- 使用{{資料路徑}}將資料以文字顯示到指定區塊 -->
+        <input type="text" v-model="data.src">
+        <!-- 使用v-model="資料路徑"綁定同步更新資料庫的內容 -->
+        <img v-bind:src="data.src">
+        <!-- 使用v-bind:屬性="資料路徑" 綁定資料庫將資料同步輸入上src屬性上 -->
+    </div>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    data:{
+                        text:'文字測試',
+                        src:'網址測試'
+                    }
+                }
+            },
+        }).mount('#app')
+    </script>
+</body>
+</html>
