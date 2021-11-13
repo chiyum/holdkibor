@@ -1,0 +1,2 @@
+visibility: hidden; 與opacity:0 的差異在於，
+前者隱藏起來後，是可以點擊到其他區塊的
