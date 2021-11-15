@@ -19,13 +19,15 @@
       child_id:'a_0',
       class:'table_list1',
       parent_icon:'aboveAll_hide',
-      onStock:true,
-      icon_onStock:false,
-      hide:false,
-      isOpen_Stock:false,
+      onStock:true,//是否有icon
+      icon_onStock:false,//子元素隱藏icon
+      hide:false,//收合時顯示與否
+      isOpen_Stock:false,//收合時icon翻轉
+      isSearch:false,
     },
     {
       id:'a_0',
+      parentid:'a',
       name:'A_低壓配電盤設備工程',
       child_id:'a_01',
       class:'table_list2',
@@ -34,9 +36,11 @@
       icon_onStock:false,
       hide:true,
       isOpen_Stock:false,
+      isSearch:false,
     },
     {
       id:'a_01',
+      parentid:'a_0',
       name:'(一)_P1.P1-1台電受電箱',
       child_id:['a_02','a_03','a_04','a_05'],
       class:'table_list3',
@@ -45,25 +49,27 @@
       icon_onStock:false,
       hide:true,
       isOpen_Stock:false,
+      isSearch:false,
     },
     {
       parentid:'a_01',
       id:'a_02',
-      name:'1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',
-      unit:'座',  
-      price:1727,
-      quantity:2, 
-      total: 3454,
-      profit:'',
-      materials:'',
-      manpower:'',
-      manage:'',
-      device:'',
-      class:'table_list4',
-      onStock:false,
-      icon_onStock:true,
-      main_onStock:true,
-      hide:true,
+      name:'1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',//名稱
+      unit:'座', //單位
+      price:1727,//價格
+      quantity:2, //數量
+      total: 3454,//複數
+      profit:'',//利潤
+      materials:'',//物料
+      manpower:'',//人力
+      manage:'',//管理
+      device:'',//設備
+      class:'table_list4',//list階梯序
+      onStock:false,//子元素不會有箭頭icon
+      icon_onStock:true,//隱藏icon
+      main_onStock:true,//隱藏後推padding-left:10px與上層對齊
+      hide:true,//收合時顯示與否
+      isSearch:false,
     },
     {
       parentid:'a_01',
@@ -83,6 +89,7 @@
       icon_onStock:true,
       main_onStock:true,
       hide:true,
+      isSearch:false,
     },
     {
       parentid:'a_01',
@@ -102,6 +109,7 @@
       icon_onStock:true,
       main_onStock:true,
       hide:true,
+      isSearch:false,
     },
     {
       parentid:'a_01',
@@ -121,6 +129,7 @@
       icon_onStock:true,
       main_onStock:true,
       hide:true,
+      isSearch:false,
     },
     // 
     {
@@ -133,9 +142,11 @@
       icon_onStock:false,
       hide:false,
       isOpen_Stock:false,
+      isSearch:false,
     },
     {
       id:'b_0',
+      parentid:'b',
       name:'A_低壓配電盤設備工程',
       child_id:'b_01',
       class:'table_list2',
@@ -144,9 +155,11 @@
       icon_onStock:false,
       hide:true,
       isOpen_Stock:false,
+      isSearch:false,
     },
     {
       id:'b_01',
+      parentid:'b_0',
       name:'(一)_P1.P1-1台電受電箱',
       child_id:['b_02','b_03','b_04','b_05'],
       class:'table_list3',
@@ -155,6 +168,7 @@
       icon_onStock:false,
       hide:true,
       isOpen_Stock:false,
+      isSearch:false,
     },
     {
       parentid:'b_01',
@@ -174,6 +188,7 @@
       icon_onStock:true,
       main_onStock:true,
       hide:true,
+      isSearch:false,
     },
     {
       parentid:'b_01',
@@ -193,6 +208,7 @@
       icon_onStock:true,
       main_onStock:true,
       hide:true,
+      isSearch:false,
     },
     {
       parentid:'b_01',
@@ -212,6 +228,7 @@
       icon_onStock:true,
       main_onStock:true,
       hide:true,
+      isSearch:false,
     },
     {
       parentid:'b_01',
@@ -231,8 +248,9 @@
       icon_onStock:true,
       main_onStock:true,
       hide:true,
+      isSearch:false,
     },
-  ]
+  ];
 // vue
 
 Vue.createApp({
@@ -240,41 +258,145 @@ Vue.createApp({
     return{
       product:[],
       text:'測試文字',
-    }
+      temp_search:'',
+    };
   },
   created(){
     this.product = table_data;
+    this.listColor_reset();
   },
   methods:{
     toggle_child(iteam){
-        if(typeof(iteam.child_id)=='object'){//若有多個子元素
-          for(let i of iteam.child_id){
-            this.product.forEach((data,j)=>{
-              if(i == data.id){
-                if(this.product[j].hide == true){
-                  this.product[j].hide = false;
-                  iteam.isOpen_Stock = true
-                }else{
-                  this.product[j].hide = true;
-                  iteam.isOpen_Stock = false
-                }
-              };
-            });
-          };
-        }else{
-          this.product.forEach((data,j)=>{
-            if(iteam.child_id == data.id){
-              if(this.product[j].hide==true){
-                this.product[j].hide = false
-                iteam.isOpen_Stock = true
-              }else{
-                this.product[j].hide = true
-                iteam.isOpen_Stock = false
-              };
+      //展開開關
+      // iteam是點選的元素本身
+      if(typeof(iteam.child_id)=='object'){//若有多個子元素
+        for(let i of iteam.child_id){
+          //這邊的 i 是iteam的各個子元素
+          this.product.forEach((data,j)=>{//掃過整個檔案
+            if(i == data.id){//找尋對應id
+              //這邊的data是product的所有物件 i則是對應的順序
+              if(this.product[j].hide == true){//隱藏則開啟
+                this.product[j].hide = false;//子元素開啟
+                iteam.isOpen_Stock = true;//父元素icon翻轉
+              }else{//若為開啟狀態則隱藏
+                this.product[j].hide = true;//子元素隱藏
+                iteam.isOpen_Stock = false; //父元素icon翻轉
+              }
             };
           });
         };
+      }else{//只有一個子元素
+        this.product.forEach((data,j)=>{
+          if(iteam.child_id == data.id){
+            if(this.product[j].hide==true){
+              this.product[j].hide = false
+              iteam.isOpen_Stock = true
+            }else{
+              this.product[j].hide = true
+              iteam.isOpen_Stock = false
+            };
+          };
+        });
+      };
+      setTimeout(() => {
+        //當父元素關閉，子元素也關閉
+        this.product.forEach((data,j)=>{
+          if(data.hide == true){//第一層判斷是否為關閉狀態
+            if(typeof(data.child_id)=='object'){//抓出關閉狀態的子元素
+              for(let i of data.child_id){
+                // console.log(i +'關閉狀態的子元素(物件)');
+                this.product.forEach((res,k)=>{
+                  if(res.id == i){
+                    this.product[k].hide = true
+                  }
+                })
+              };
+            }else{
+              // console.log(data.child_id + '關閉狀態的子元素');
+              this.product.forEach((res,k)=>{
+                  if(res.id == data.child_id){
+                    this.product[k].hide = true
+                  }
+              });
+            }
+          }
+        });
+      }, 0);
+        //li顏色重整
+        this.listColor_reset();
     },
+    listColor_reset(){
+      setTimeout(() => {
+        let temp_ary = [];
+        let li = document.querySelectorAll('.table_main ul li');
+        for(let i = 0;i<li.length;i++){
+          if(li[i].className!='aboveAll_hide'){//判斷是否為隱藏，若隱藏則不加入轉換名單中
+            //就算只抓取非隱藏起來的DOM，他們在陣列中的順序也是不會改變的，所以需要想辦法抓取新的順序
+            //抓取歸抓取但還是不能打亂原先的順序，因此在抓取新的順序並賦予值以後，還需要賦予以後讓他們回歸並套用新的樣式
+            temp_ary.push(li[i]);
+          };     
+        };
+        temp_ary.forEach((data,i)=>{
+          if(i % 2 ==0){ //透過餘數去偵測每個li的順序
+            //餘數為0為偶數
+            data.style['background'] = '#ffffff';
+            data.style['transition'] = 'all 0.4s';
+          }else{
+            data.style['background'] = '#cdcdcd';
+            data.style['transition'] = 'all 0.4s';
+          };
+        });
+        //目前發現的問題是，掃for迴圈時，抓不到開啟的那一些元素，所以使用settimeout解決
+      }, 10);
+    },
+    open_all(){
+      this.product.forEach((data,i)=>{
+        this.product[i].hide = false
+        this.listColor_reset();
+      })
+    },
+    search(){
+      let value = this.temp_search;
+      let math_ary = [];
+      //打開並將含有關鍵字的li變更樣式
+      this.product.forEach((data,i)=>{
+        this.product[i].isSearch = false;
+        if(data.name.indexOf(value)>=0 ){//indexOf的用法是型態是:array.indexOf(關鍵字),若有符合關鍵字會回傳0，那麼在if底下array中有符合的都可以抓取出來
+          this.product[i].isSearch = true;
+          this.product[i].hide = false;
+          math_ary.push(this.product[i].parentid)
+        };
+      });
+      console.log(math_ary + '抓到的')
+
+      math_ary.forEach((data,g)=>{
+        let test;
+        this.product.forEach((iteams,o)=>{
+          if(data==iteams.id){
+            this.product[o].hide= false;
+            if(this.product[o].parentid){
+              console.log(this.product[o].parentid)
+            }
+          }
+        })
+      })
+
+      //這邊應該寫一個開啟父層的專屬function，若偵測到有父層執行一次，就不會這樣跑迴圈地獄
+
+      // for(let o=0;o<this.product.length;o++){
+
+        
+      //   if(math_ary[o] == this.product[o].id){
+      //     console.log(math_ary[o]);
+      //     this.product[o].hide = false;
+      //     if(this.product[o].parentid){
+      //       console.log(this.product[o].parentid);
+      //     };
+      //   };
+      // }
+      
+      this.listColor_reset();
+    }
   },
 }).mount('#v_mainId')
 
@@ -293,21 +415,28 @@ Vue.createApp({
         document.querySelectorAll('.table_main input');
         for(let i of document.querySelectorAll('.table_main input')){
           i.classList.remove('hide');
-        }
+        };
+        for(let i of document.querySelectorAll('.table_data_right')){
+          i.classList.add('hide')
+        };
       },
       change_data_end(){
         document.querySelectorAll('.table_main input');
         for(let i of document.querySelectorAll('.table_main input')){
           i.classList.add('hide');
-        }
-      }
-    }
-  }
+        };
+        for(let i of document.querySelectorAll('.table_data_right')){
+          i.classList.remove('hide');
+        };
+      },
+    },
+  };
+
 table_data_operate.created();
 const methods = table_data_operate.methods;
 document.querySelector('#editId').addEventListener('click',table_data_operate.methods.change_data);
 document.querySelector('#edit_endId').addEventListener('click',table_data_operate.methods.change_data_end);
-document.onkeyup = (e)=>{
+document.onkeyup = (e)=>{//當按下enter後關閉編輯模式
   if(e.keyCode == '13'){
     methods.change_data_end();
   };
@@ -629,13 +758,11 @@ li {
   margin: 0;
   padding: 0;
   width: 5.83%;
+  white-space: nowrap;
 }
 
 .main .list .table_title .title_list .title_list_bottom p span {
-  position: absolute;
-  bottom: 0;
-  left: 32px;
-  font-size: 12px;
+  font-size: .9em;
 }
 
 .main .list .table_main {
@@ -713,12 +840,11 @@ li {
   top: 0;
   left: 0;
   width: 100%;
-  height: 24px;
+  height: 100%;
+  text-align: center;
+  border: 1.5px solid #717171;
+  background: rgba(255, 255, 255, 0);
   z-index: 1;
-}
-
-.main .list .table_main ul li:nth-child(odd) {
-  background-color: #cdcdcd;
 }
 
 .icon_blue {
@@ -782,6 +908,10 @@ li {
   -webkit-transition: all 0.15s;
   transition: all 0.15s;
 }
+
+.search_result {
+  color: red !important;
+}
 /*# sourceMappingURL=tender.css.map */
 </style>
 @endsection
@@ -810,14 +940,14 @@ li {
                     </select>
                     <span class="select_icon"><ion-icon name="caret-down-outline"></span>
                 </li>
-                <li>
+                <li v-on:click="open_all">
                     全展開<ion-icon name="help-circle-outline" class="opne_icon"></ion-icon>
                 </li>
             </ul>
             <ul class="head_right">
                 <li id="editId"><ion-icon name="create"></ion-icon>編輯</li>
                 <li id="edit_endId"><ion-icon name="cloud-upload"></ion-icon>儲存</li>
-                <li><ion-icon class="search_icon" name="search"></ion-icon><input type="text" class="search"></li>
+                <li><ion-icon class="search_icon" name="search" v-on:click="search"></ion-icon><input type="text" class="search" v-model="temp_search"></li>
             </ul>
         </div>
         <div class="list">
@@ -835,20 +965,20 @@ li {
                  <p>單價</p>
                  <p>數量</p>
                  <p>複價</p>
-                 <p>利潤<span>(%)</span></p>
-                 <p>物料<span>(%)</span></p>
-                 <p>人力<span>(%)</span></p>
-                 <p>管理<span>(%)</span></p>
-                 <p>設備<span>(%)</span></p>
+                 <p>利潤(%)</p>
+                 <p>物料(%)</p>
+                 <p>人力(%)</p>
+                 <p>管理(%)</p>
+                 <p>設備(%)</p>
                </div>
              </div>
            </div>
            <div class="table_main">
              <ul>
-               <li v-for="i in product" :key="i.id" v-bind:class="{aboveAll_hide:i.hide}" :title="i.name">
+               <li v-for="i in product" :key="i.id" v-bind:class="{aboveAll_hide:i.hide,search_result:i.isSearch}" :title="i.name">
                    <div class="table_name" v-bind:class="i.class" >
                    <i v-bind:class="{opne_icon_active:i.isOpen_Stock}">
-                    <ion-icon name="caret-forward-outline" v-bind:class="{icon_blue:i.onStock}":class="{aboveAll_hide:i.icon_onStock}" class="table_name_icon"  v-on:click="toggle_child(i)">
+                    <ion-icon name="caret-forward-outline" v-bind:class="{icon_blue:i.onStock,aboveAll_hide:i.icon_onStock}" class="table_name_icon"  v-on:click="toggle_child(i)">
                     </ion-icon>
                    </i>
                    <span v-bind:class="{table_list_main:i.main_onStock}">@{{i.name}}</span>
@@ -858,13 +988,14 @@ li {
                       <p>@{{i.price}}</p>
                       <p>@{{i.quantity}}</p>
                       <p>@{{i.total}}</p>
-                      <p>@{{i.profit}}<input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.profit"></p>
-                      <p>@{{i.materials}}<input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.materials"></p>
-                      <p>@{{i.manpower}}<input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.manpower"></p>
-                      <p>@{{i.manage}}<input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.manage"></p>
-                      <p>@{{i.device}}<input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.device"></p>
+                      <p><span class="table_data_right">@{{i.profit}}</span><input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.profit"></p>
+                      <p><span class="table_data_right">@{{i.materials}}</span><input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.materials"></p>
+                      <p><span class="table_data_right">@{{i.manpower}}</span><input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.manpower"></p>
+                      <p><span class="table_data_right">@{{i.manage}}</span><input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.manage"></p>
+                      <p><span class="table_data_right">@{{i.device}}</span><input type="text" class="hide" v-bind:class="i.parent_icon" v-model="i.device"></p>
                     </div>
                 </li>
+                <!-- <li class="table_none"></li>
                 <li class="table_none"></li>
                 <li class="table_none"></li>
                 <li class="table_none"></li>
@@ -887,39 +1018,22 @@ li {
                 <li class="table_none"></li>
                 <li class="table_none"></li>
                 <li class="table_none"></li>
-                <li class="table_none"></li>
-                <li class="table_none"></li>
+                <li class="table_none"></li> -->
              </ul>
            </div>
         </div>
     </div>
 @endsection
-<!-- tr是每一層，內的td,th是層內的每一格 ex.th是標題 -->
-<!--
-    資料來源 
-    data來源是後端，主要以呈現為主
-    可開啟層設置一個icon，當點擊icon時display:block展開下子層
-    偵測每層的td子孫元素有幾個，接著推padding or margin及是否置入icon
--->
-
-<!-- 
-  補充選單:當打開子選單時，去判斷class狀態 or parentid/childid，假設沒childid class賦予child推擠padding or 統一以list1.2.3.4...去做每層的推擠，在渲染時就給予其class
-  或是可以考慮若已經到達子層，listclass賦予+1
--->
-
-<!-- 
-    rwd
-    這版若是說要使用rwd的話，只能縮左邊的大小，然後超出範圍的字使用...取代。
--->
-
-<!-- 
-    操作功能跟跟rwd先做出來，資料怎麼取，怎麼輸出排後位。
-    僅讓list向下卷軸滾動
-    整個table則是左右
--->
 
 <!-- 
 
-  若是有多個標單資料，只要在切換時將新的陣列資料導入product即可。
+  未完成:
+  標單切換
+  // 將接收到的資料加入id等基本vue操作資料
+  並套入product內即可
 
+  搜尋模式
+  //找資料之後bg/color改樣式
+
+  全展開
  -->
