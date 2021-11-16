@@ -268,6 +268,18 @@ li {
   line-height: 1.5;
 }
 
+.container .main .content .article p a {
+  color: #61aeee;
+}
+
+.container .main .content .article p a:link {
+  color: #61aeee;
+}
+
+.container .main .content .article p a:visited {
+  color: #61aeee;
+}
+
 .container .main .content .address a {
   font-size: 14px;
   color: #979797;
@@ -302,6 +314,26 @@ li {
   padding: 20px 0;
   height: 80vh;
   border-top: 1px #d6d6d6 solid;
+  background: url(../img/about.img2.jpg);
+  background-size: cover;
+}
+
+.container .main .content .about img {
+  top: 15%;
+  width: 25%;
+  min-width: 350px;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+.container .main .content .about p {
+  margin-top: 100px;
+  padding: 10px;
+  width: 50%;
+  font-size: 1.5em;
+  border-radius: 10px;
+  background-color: white;
+  text-align: center;
 }
 
 .container .main .content ul {
@@ -561,6 +593,64 @@ li {
   color: #c678dd;
 }
 
+.text_loading {
+  position: relative;
+  width: 115px;
+  white-space: nowrap;
+  letter-spacing: 3px;
+  -webkit-animation: typing 8s steps(6) infinite;
+          animation: typing 8s steps(6) infinite;
+  overflow: hidden;
+}
+
+@-webkit-keyframes typing {
+  0%, 90%, 100% {
+    width: 0;
+  }
+  30%, 60% {
+    width: 115px;
+  }
+}
+
+@keyframes typing {
+  0%, 90%, 100% {
+    width: 0;
+  }
+  30%, 60% {
+    width: 115px;
+  }
+}
+
+.text_loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 80%;
+  background-color: #000;
+  -webkit-animation: loading_text 0.8s steps(3) infinite;
+          animation: loading_text 0.8s steps(3) infinite;
+}
+
+@-webkit-keyframes loading_text {
+  0%, 75% {
+    opacity: 1;
+  }
+  76%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes loading_text {
+  0%, 75% {
+    opacity: 1;
+  }
+  76%, 100% {
+    opacity: 0;
+  }
+}
+
 @media (max-width: 1500px) {
   .container .main .content ul li a img {
     width: 40%;
@@ -629,6 +719,9 @@ li {
   .container .main .content h1 {
     margin-top: 50px;
   }
+  .container .main .content .about p {
+    width: 70%;
+  }
 }
 
 @media (max-width: 820px) {
@@ -691,11 +784,26 @@ li {
   .container .main .content ul li a img {
     height: 200px;
   }
+  .container .main .content .about img {
+    position: relative;
+    top: 30px;
+  }
+  .container .main .content .about p {
+    position: relative;
+    width: 90%;
+    bottom: 30px;
+  }
 }
 
 @media (max-width: 400px) {
   .container .main .content ul li a img {
     height: 180px;
+  }
+  .container .main .content .about img {
+    min-width: 300px;
+  }
+  .container .main .content .about p {
+    width: 85%;
   }
 }
 /*# sourceMappingURL=html.css.map */

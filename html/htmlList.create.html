@@ -63,42 +63,50 @@
         <div class="main">
             <div class="content">
                 <div class="address">
-                    <a href="./api.html">
-                        <ion-icon name="bookmarks-outline"></ion-icon>插件API
+                    <a href="./htmlList.html">
+                        <ion-icon name="bookmarks-outline"></ion-icon>HTML
                     </a>
+                    <a href="./htmlList.create.html">
+                        > HTML基礎架構
+                    </a>
+                    <p>2021-11-16</p>
                 </div>
-                <ul>
-                    <li>
-                        <a href="./api.jstree.html">
-                            <img src="../img/jstree.img.jpg" alt="" class="htmlList">
-                            <div>
-                                <h2>Jstree文件檔案管理插件</h2>
-                                <p>
-                                    Jstree其實是一個樹狀的文件檔案管理的插件，又稱為樹元件。用途極廣，可以與端資料庫連接，並可對資料進行控制，
-                                    做出新增、修改、刪除、排序等動作...
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../img/codeimg6.jpg" alt="" class="cssList">
-                            <div>
-                                <h2>ionicons</h2>
-                                <p>還在煩惱下載不到icon或是icon不符合自己滿意的大小嗎?試試著款API吧!</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../img/codeimg4.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>尚未開放</h2>
-                                <p class="text_loading">文章建構中</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <div class="article">
+                    <h2>HTML基本架構介紹</h2>
+                    <p>廢話不多說我們直接看code及註解介紹</p>
+                    <pre class="code">
+    &lt!DOCTYPE html&gt //宣告這是HTML網頁
+    &lthtml lang="en"&gt//宣告頁面主體語言
+    &lthead&gt
+        &ltmeta charset="UTF-8"&gt//編碼格式
+        &ltmeta http-equiv="X-UA-Compatible" content="IE=edge"&gt//兼容IE
+        &ltmeta name="viewport" content="width=device-width, initial-scale=1.0"&gt//自適應版面大小
+        &lttitle&gtDocument&lt/title&gt//網頁標題
+        //最基礎的架構↑
+    
+        &ltlink rel="shortcut icon" href="favicon.ico"&gt //標題圖示
+        &ltmeta name='description' content='網站描述文字' /&gt //於搜尋引擎看到的網站介紹
+    
+        &ltmeta property="og:title" content="FB/line等軟體上的標題"&gt
+        &ltmeta property="og:description" content="FB/line等軟體上的描述"&gt
+        &ltmeta property="og:type" content="website"&gt //宣告這是網頁
+        &ltmeta property="og:url" content="FB/line等軟體上的網址"&gt
+        &ltmeta property="og:image" content="FB/line等軟體上的圖片"&gt
+        &ltmeta name="keywords" content="Holdkibor, holdkibor, JQuery, Javascript, HTML, JS, CSS"&gt
+        //給予搜尋引擎的關鍵字 使用者搜尋關鍵字就可以找到你的網頁
+    
+        &ltlink href="圖片路徑" rel="apple-touch-icon" /&gt 放在手機捷徑的圖示
+    
+        &ltlink rel="stylesheet" href="CSS檔案路徑"&gt //導入外部CSS樣式
+    &lt/head&gt
+    &ltbody&gt
+        顯現的內容
+        &ltscript type="text/javascript" src="JS檔案路徑"&gt&lt/script&gt 導入外部JavaScript
+    &lt/body&gt
+    &lt/html&gt
+
+</pre>
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -163,7 +171,9 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

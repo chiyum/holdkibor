@@ -221,6 +221,18 @@ li{list-style: none;}
                 p
                 {
                     line-height: 1.5;
+                    a
+                    {
+                        color: #61aeee;
+                    }
+                    a:link
+                    {
+                        color: #61aeee;
+                    }
+                    a:visited
+                    {
+                        color: #61aeee;
+                    }
                 }
             }
            .address
@@ -252,6 +264,29 @@ li{list-style: none;}
                 padding: 20px 0;
                 height: 80vh;
                 border-top: 1px #d6d6d6 solid;
+                background: url(../img/about.img2.jpg);
+                background-size: cover;
+
+                img
+                {
+                    // position: relative;
+                    top: 15%;
+                    width: 25%;
+                    min-width: 350px;
+                    border: 1px solid white;
+                    border-radius: 50%;
+                }
+
+                p
+                {
+                    margin-top: 100px;
+                    padding: 10px;
+                    width: 50%;
+                    font-size: 1.5em;
+                    border-radius: 10px;
+                    background-color: white;
+                    text-align: center;
+                }
            }
            ul
            {
@@ -507,6 +542,54 @@ li{list-style: none;}
     color: #c678dd;
 }
 
+.text_loading
+{
+    position: relative;
+    width: 115px;
+    white-space: nowrap;
+    letter-spacing: 3px;
+    // color: #c3c3c3;
+    animation: typing 8s steps(6) infinite; 
+    overflow: hidden;
+}
+
+@keyframes typing {
+    
+    0%,90%,100%{
+        width: 0;
+    }
+    30%,60%
+    {
+        width: 115px;
+    }
+
+}
+.text_loading::before
+{
+    content:'';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 1px;
+    height: 80%;
+    background-color: #000;
+    animation: loading_text 0.8s steps(3) infinite;
+}
+
+@keyframes loading_text 
+{
+
+    0%,75%
+    {
+        opacity: 1;
+    }
+    76%,100%
+    {
+        opacity: 0;
+    }
+
+}
+
 @media (max-width:1500px)
 {
     .container
@@ -626,7 +709,13 @@ li{list-style: none;}
                 {
                     margin-top: 50px;
                 }
-                
+                .about
+                {
+                    p
+                    {
+                        width: 70%;
+                    }
+                }
             }
         }
 
@@ -785,6 +874,20 @@ li{list-style: none;}
                         }
                     }
                 }
+                .about
+                {
+                    img
+                    {
+                        position: relative;
+                        top: 30px;
+                    }
+                    p
+                    {
+                        position: relative;
+                        width: 90%;
+                        bottom: 30px;
+                    }
+                }
             }
         }
     }
@@ -810,6 +913,17 @@ li{list-style: none;}
                             }
                            
                         }
+                    }
+                }
+                .about
+                {
+                    img
+                    {
+                        min-width: 300px;
+                    }
+                    p
+                    {
+                        width: 85%;
                     }
                 }
             }

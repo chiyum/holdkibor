@@ -63,42 +63,64 @@
         <div class="main">
             <div class="content">
                 <div class="address">
-                    <a href="./api.html">
-                        <ion-icon name="bookmarks-outline"></ion-icon>插件API
+                    <a href="./fornt.html">
+                        <ion-icon name="bookmarks-outline"></ion-icon>前端
                     </a>
+                    <a href="./fornt.js.html">
+                        > JavaScript
+                    </a>
+                    <a href="./fornt.js.AJAX.html">
+                        > AJAX基礎介紹
+                    </a>
+                    <p>2021-11-16</p>
                 </div>
-                <ul>
-                    <li>
-                        <a href="./api.jstree.html">
-                            <img src="../img/jstree.img.jpg" alt="" class="htmlList">
-                            <div>
-                                <h2>Jstree文件檔案管理插件</h2>
-                                <p>
-                                    Jstree其實是一個樹狀的文件檔案管理的插件，又稱為樹元件。用途極廣，可以與端資料庫連接，並可對資料進行控制，
-                                    做出新增、修改、刪除、排序等動作...
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../img/codeimg6.jpg" alt="" class="cssList">
-                            <div>
-                                <h2>ionicons</h2>
-                                <p>還在煩惱下載不到icon或是icon不符合自己滿意的大小嗎?試試著款API吧!</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="../img/codeimg4.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>尚未開放</h2>
-                                <p class="text_loading">文章建構中</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <div class="article">
+                    <h2>原生AJAX簡介</h2>
+                    <p>這邊介紹基礎的AJAX給學習者認識</p>
+                    <p>
+                        AJAX是一個網頁傳輸技術，在實戰中不會是單純只有前端的部分，基本上八九不離十會需要套用外部資料，甚至需要將資料傳輸到伺服器。
+                    </p>
+                    <p>
+                        由此可知AJAX的重要性，可以AJAX是前端必備的技能。
+                    </p>
+                    <p>
+                        AJAX可以很複雜也可以很簡單，簡單的就是使用他人建立好的API，取得資料並渲染。複雜的如檔案傳輸等。
+                    </p>
+                    <p>當然，今天只是基礎介紹所以並不會提到複雜的操作，那麼開始進入正題吧。</p>
+                    <p>在原生AJAX中，會有很多段程式碼及步驟，所以我們直接上程式碼並同時以註解說明</p>
+                    <pre class="code">
+    <span class="var">let</span> xhr = new <span class="true">XMLHttpRequest()</span>;
+    //建立請求
+    //建立請求好比開啟藍芽
+    
+    xhr.<span class="fn2">open</span>('get','https://api.kcg.gov.tw/api/service/Get/b4dd9c40-9027-4125-8666-06bef1756092',true);
+    //請求對象,功能,同步與否
+    //既然使用藍芽，那就一定會有對象及請求的內容，是要接收還是要傳送
+    //這邊只介紹get取得,post傳送
+
+    xhr.<span class="fn2">send</span>(null);
+    //資料傳送，我方傳送空值後，對方接受指令後回傳
+    //看到這裡你可能很疑惑，傳送null空值是甚麼意思?其實這邊可以理解，你都設定好傳送對象及內容了，那接下來自然就是發送出請求了。
+    //重點在於發送這部分，這個send若無傳送值，也就是傳送空值，那麼它的目的就僅僅是要與後端伺服器做連接，讓伺服器知道你要來要資料了。
+    
+    xhr.<span class="fn2">onload</span> = function(){}
+    //非同步執行onload
+    //當後端伺服器接收到你請求資料的消息，那麼它就會回傳資料給你
+    //而所謂同步與非同步是:
+    //同步會等所有資料都傳送完成以後才會接著跑傳送完成後的程式碼
+    //非同步是，只要接收到指定的資料，其他資料沒跑完沒關係，就接著執行。
+    //通常來說會是使用非同步，因為實戰中傳輸的資料有可能會是以gb在傳送，使用同步會導致使用者的畫面就卡在那，其他程式碼都不會有動作直到資料全部接收完成。
+                
+</pre>
+<p>以上大概都介紹完成了，但其實在傳送之前需要設定格式，格式如下:</p>
+                <pre class="code">
+    xhr.<span class="fn2">setRequestHeader</span>('Content-type','application/x-www-form-urlencoded');
+    // 發送表單類型的資料：('Content-Type','application/x-www-form-urlencoded');
+    // 發送 JSON 類型的資料：('Content-Type','application/json');
+    //<span class="true">記得!!</span>這個設定格式要設置在傳送之前。
+</pre>
+                <p>至於實戰的部分可以參考我寫的<a href="https://codepen.io/georgepray/pen/jOmzBxM">codePen</a>，上面有我個人的註解</p>
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -163,7 +185,9 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

@@ -381,6 +381,7 @@ Vue.createApp({
       text:'測試文字',
       temp_search:'',
       project_select:'成大瑞豪機電工程',
+      btnName:'全展開',
     };
   },
   created(){
@@ -389,6 +390,7 @@ Vue.createApp({
   },
   methods:{
     toggle_child(iteam){
+      this.serach_reset();//reset搜尋樣式
       //展開開關
       // iteam是點選的元素本身
       if(typeof(iteam.child_id)=='object'){//若有多個子元素
@@ -403,19 +405,21 @@ Vue.createApp({
               }else{//若為開啟狀態則隱藏
                 this.product[j].hide = true;//子元素隱藏
                 iteam.isOpen_Stock = false; //父元素icon翻轉
-              }
+              };
             };
           });
         };
       }else{//只有一個子元素
         this.product.forEach((data,j)=>{
+          
           if(iteam.child_id == data.id){
+            
             if(this.product[j].hide==true){
-              this.product[j].hide = false
-              iteam.isOpen_Stock = true
+              this.product[j].hide = false;
+              iteam.isOpen_Stock = true;
             }else{
-              this.product[j].hide = true
-              iteam.isOpen_Stock = false
+              this.product[j].hide = true;
+              iteam.isOpen_Stock = false;
             };
           };
         });
@@ -429,7 +433,8 @@ Vue.createApp({
                 // console.log(i +'關閉狀態的子元素(物件)');
                 this.product.forEach((res,k)=>{
                   if(res.id == i){
-                    this.product[k].hide = true
+                    // this.product[k].isOpen_Stock = false;//父元素icon翻轉
+                    this.product[k].hide = true;
                   }
                 })
               };
@@ -437,10 +442,12 @@ Vue.createApp({
               // console.log(data.child_id + '關閉狀態的子元素');
               this.product.forEach((res,k)=>{
                   if(res.id == data.child_id){
-                    this.product[k].hide = true
+                    // this.product[k].isOpen_Stock = false;//父元素icon翻轉
+                    this.product[k].hide = true;
                   }
               });
             }
+            this.children_icon_close();
           }
         });
       }, 0);
@@ -472,16 +479,33 @@ Vue.createApp({
       }, 10);
     },
     open_all(){//全展開
-      this.product.forEach((data,i)=>{
-        this.product[i].hide = false//所有列表取消隱藏
-        if(typeof(this.product[i].child_id) != undefined){
-          this.product[i].isOpen_Stock = true;//父元素icon翻轉
-        };
-        this.listColor_reset();//渲染條文背景
-      })
+      console.log('展開觸發')
+      if(this.btnName =='全展開'){
+        this.btnName = '全收折';
+        this.product.forEach((data,i)=>{
+          this.product[i].hide = false//所有列表取消隱藏
+          if(typeof(this.product[i].child_id) != undefined){
+            this.product[i].isOpen_Stock = true;//父元素icon翻轉
+          };
+        })
+      }else{
+        this.btnName = '全展開';
+        this.product.forEach((data,i)=>{
+          if(!data.parentid){
+            this.product[i].isOpen_Stock = false;//父元素icon翻轉
+          }else{
+            this.product[i].hide = true//所有列表取消隱藏
+            this.product[i].isOpen_Stock = false;//父元素icon翻轉
+          }
+        });
+      }
+      this.listColor_reset();//渲染條文背景
     },
     search(){
       let value = this.temp_search; //抓取的關鍵字
+      if(value == ''){
+        return //若為空值不反應
+      };
       let brother = [];
       //打開並將含有關鍵字的li變更樣式
       this.product.forEach((data,i)=>{
@@ -490,7 +514,7 @@ Vue.createApp({
         //if的前者為搜尋小寫，後者搜尋大寫，讓使用者不管輸入大小寫都搜尋的到內容
           this.product[i].isSearch = true;//更改含有關鍵字的樣式
           this.product[i].hide = false;//取消隱藏
-          this.search_parent(this.product[i].parentid);
+          this.search_parent(this.product[i].parentid);//套入父層id
           brother.push(this.product[i].parentid); 
         };
       });
@@ -506,13 +530,23 @@ Vue.createApp({
     search_parent(iteam){ //這邊代入的iteam是該層id
       this.product.forEach((data,i)=>{
         if(data.id == iteam){
-          this.product[i].hide = false;//開啟父層id
-          this.product[i].isOpen_Stock = true;//父元素icon翻轉
-          this.product[i].parentid ? this.search_parent(this.product[i].parentid): console.log('無父層')
+          this.product[i].hide = false;//開啟
+          this.product[i].isOpen_Stock = true;//icon翻轉
+          this.product[i].parentid ? this.search_parent(this.product[i].parentid): console.log('無父層');//若有父層，將父層套入執行一次function
         }
       });
     },
-    chose_project(){
+    children_icon_close(){//這邊只會套入child_id 純值
+
+      this.product.forEach((data,i)=>{//掃過所有物件
+        if(data.hide == true){//若是隱藏狀態
+          if(!this.product[i].isOpen_Stock){return};//若沒有值則return
+          this.product[i].isOpen_Stock = false;//icon轉為正
+        };
+      });
+      
+    },
+    chose_project(){//切換專案
       setTimeout(() => {
         let project = this.project_select;
         //使用settimeout原因是因為此function執行速度大於input跳轉，若沒使用則會偵測到上一個選擇
@@ -525,11 +559,16 @@ Vue.createApp({
           case '瑞展切割鑽孔工程':
             this.product = table_data2;
             break;
-
-        }
+        };
+        this.serach_reset();//reset搜尋樣式
         this.listColor_reset();//渲染條文列表
       }, 0);
-    }
+    },
+    serach_reset(){
+      this.product.forEach((data,i)=>{
+          this.product[i].isSearch = false;//reset搜尋樣式
+      })
+    },
   },
 }).mount('#v_mainId')
 
@@ -1076,7 +1115,7 @@ li {
                     <span class="select_icon"><ion-icon name="caret-down-outline"></span>
                 </li>
                 <li v-on:click="open_all">
-                    全展開<ion-icon name="help-circle-outline" class="opne_icon"></ion-icon>
+                    @{{btnName}}<ion-icon name="help-circle-outline" class="opne_icon"></ion-icon>
                 </li>
             </ul>
             <ul class="head_right">
