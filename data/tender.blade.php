@@ -251,6 +251,127 @@
       isSearch:false,
     },
   ];
+
+  const table_data2 =[
+    {
+      id:'a',
+      name:'切割工程',
+      child_id:'a_0',
+      class:'table_list1',
+      parent_icon:'aboveAll_hide',
+      onStock:true,//是否有icon
+      icon_onStock:false,//子元素隱藏icon
+      hide:false,//收合時顯示與否
+      isOpen_Stock:false,//收合時icon翻轉
+      isSearch:false,
+    },
+    {
+      id:'a_0',
+      parentid:'a',
+      name:'A_各樓層管路連接工程',
+      child_id:'a_01',
+      class:'table_list2',
+      parent_icon:'aboveAll_hide',
+      onStock:true,
+      icon_onStock:false,
+      hide:true,
+      isOpen_Stock:false,
+      isSearch:false,
+    },
+    {
+      id:'a_01',
+      parentid:'a_0',
+      name:'(一)_P1.P1-愛在七期專案',
+      child_id:['a_02','a_03','a_04','a_05'],
+      class:'table_list3',
+      parent_icon:'aboveAll_hide',
+      onStock:true,
+      icon_onStock:false,
+      hide:true,
+      isOpen_Stock:false,
+      isSearch:false,
+    },
+    {
+      parentid:'a_01',
+      id:'a_02',
+      name:'1_CASE 600W*2000H*600D SPHC 2.0預測進出管路切割',//名稱
+      unit:'座', //單位
+      price:1727,//價格
+      quantity:2, //數量
+      total: 3454,//複數
+      profit:'',//利潤
+      materials:'',//物料
+      manpower:'',//人力
+      manage:'',//管理
+      device:'',//設備
+      class:'table_list4',//list階梯序
+      onStock:false,//子元素不會有箭頭icon
+      icon_onStock:true,//隱藏icon
+      main_onStock:true,//隱藏後推padding-left:10px與上層對齊
+      hide:true,//收合時顯示與否
+      isSearch:false,
+    },
+    {
+      parentid:'a_01',
+      id:'a_03',
+      name:'NBF 3P 400AF 400AT 380V 30KA',
+      unit:'只',  
+      price:121,
+      quantity:11590, 
+      total: 1402390,
+      profit:'',
+      materials:'',
+      manpower:'',
+      manage:'',
+      device:'',
+      class:'table_list4',
+      onStock:false,
+      icon_onStock:true,
+      main_onStock:true,
+      hide:true,
+      isSearch:false,
+    },
+    {
+      parentid:'a_01',
+      id:'a_04',
+      name:'NBF 3P 400AF 400AT 380V 30KA',
+      unit:'只',  
+      price:181,
+      quantity:8721, 
+      total: 1578501,
+      profit:'',
+      materials:'',
+      manpower:'',
+      manage:'',
+      device:'',
+      class:'table_list4',
+      onStock:false,
+      icon_onStock:true,
+      main_onStock:true,
+      hide:true,
+      isSearch:false,
+    },
+    {
+      parentid:'a_01',
+      id:'a_05',
+      name:'NBF 3P 400AF 400AT 380V 30KA',
+      unit:'只',  
+      price:421,
+      quantity:2869, 
+      total: 1207849,
+      profit:'',
+      materials:'',
+      manpower:'',
+      manage:'',
+      device:'',
+      class:'table_list4',
+      onStock:false,
+      icon_onStock:true,
+      main_onStock:true,
+      hide:true,
+      isSearch:false,
+    },
+  ];
 // vue
 
 Vue.createApp({
@@ -259,6 +380,7 @@ Vue.createApp({
       product:[],
       text:'測試文字',
       temp_search:'',
+      project_select:'成大瑞豪機電工程',
     };
   },
   created(){
@@ -349,53 +471,60 @@ Vue.createApp({
         //目前發現的問題是，掃for迴圈時，抓不到開啟的那一些元素，所以使用settimeout解決
       }, 10);
     },
-    open_all(){
+    open_all(){//全展開
       this.product.forEach((data,i)=>{
-        this.product[i].hide = false
-        this.listColor_reset();
+        this.product[i].hide = false//所有列表取消隱藏
+        this.listColor_reset();//渲染條文背景
       })
     },
     search(){
-      let value = this.temp_search;
-      let math_ary = [];
+      let value = this.temp_search; //抓取的關鍵字
+      let brother = [];
       //打開並將含有關鍵字的li變更樣式
       this.product.forEach((data,i)=>{
-        this.product[i].isSearch = false;
+        this.product[i].isSearch = false;//將前一次的樣式reset
         if(data.name.indexOf(value)>=0 ){//indexOf的用法是型態是:array.indexOf(關鍵字),若有符合關鍵字會回傳0，那麼在if底下array中有符合的都可以抓取出來
-          this.product[i].isSearch = true;
-          this.product[i].hide = false;
-          math_ary.push(this.product[i].parentid)
+          this.product[i].isSearch = true;//更改含有關鍵字的樣式
+          this.product[i].hide = false;//取消隱藏
+          this.search_parent(this.product[i].parentid);
+          brother.push(this.product[i].parentid); 
         };
       });
-      console.log(math_ary + '抓到的')
+      brother.map( x =>{ //此處x是關鍵字的父層，目的是要開啟關鍵字的同層
+        this.product.forEach((data,i)=>{
+          if(data.parentid == x){//若父層為同id
+            this.product[i].hide = false;//開啟
+          };
+        });  
+      });
+      this.listColor_reset();//渲染條文列表
+    },
+    search_parent(iteam){ //這邊代入的iteam是該層id
+      this.product.forEach((data,i)=>{
+        if(data.id == iteam){
+          this.product[i].hide = false;//開啟父層id
+          this.product[i].isOpen_Stock = true;//父元素icon翻轉
+          this.product[i].parentid ? this.search_parent(this.product[i].parentid): console.log('無父層')
+        }
+      });
+    },
+    chose_project(){
+      setTimeout(() => {
+        let project = this.project_select;
+        //使用settimeout原因是因為此function執行速度大於input跳轉，若沒使用則會偵測到上一個選擇
+        switch(project){
 
-      math_ary.forEach((data,g)=>{
-        let test;
-        this.product.forEach((iteams,o)=>{
-          if(data==iteams.id){
-            this.product[o].hide= false;
-            if(this.product[o].parentid){
-              console.log(this.product[o].parentid)
-            }
-          }
-        })
-      })
+          case '成大瑞豪機電工程':
+            this.product = table_data;
+            break;
+          
+          case '瑞展切割鑽孔工程':
+            this.product = table_data2;
+            break;
 
-      //這邊應該寫一個開啟父層的專屬function，若偵測到有父層執行一次，就不會這樣跑迴圈地獄
+        }
 
-      // for(let o=0;o<this.product.length;o++){
-
-        
-      //   if(math_ary[o] == this.product[o].id){
-      //     console.log(math_ary[o]);
-      //     this.product[o].hide = false;
-      //     if(this.product[o].parentid){
-      //       console.log(this.product[o].parentid);
-      //     };
-      //   };
-      // }
-      
-      this.listColor_reset();
+      }, 0);
     }
   },
 }).mount('#v_mainId')
@@ -935,8 +1064,9 @@ li {
                     <h2>選擇標單</h2>
                 </li>
                 <li>
-                    <select name="project" id="projectId">
+                    <select name="project" id="projectId" v-model="project_select" v-on:input="chose_project">
                         <option value="成大瑞豪機電工程">成大瑞豪機電工程</option>
+                        <option value="瑞展切割鑽孔工程">瑞展切割鑽孔工程</option>
                     </select>
                     <span class="select_icon"><ion-icon name="caret-down-outline"></span>
                 </li>
@@ -947,7 +1077,7 @@ li {
             <ul class="head_right">
                 <li id="editId"><ion-icon name="create"></ion-icon>編輯</li>
                 <li id="edit_endId"><ion-icon name="cloud-upload"></ion-icon>儲存</li>
-                <li><ion-icon class="search_icon" name="search" v-on:click="search"></ion-icon><input type="text" class="search" v-model="temp_search"></li>
+                <li><ion-icon class="search_icon" name="search" v-on:click="search"></ion-icon><input type="text" class="search" v-model="temp_search" v-on:keyup.enter="search"></li>
             </ul>
         </div>
         <div class="list">
