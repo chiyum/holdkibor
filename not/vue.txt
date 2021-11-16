@@ -545,12 +545,22 @@ HTML
 methods.click (X)
 click (O)//不需要加入()
 
+補充:v-on事件有:
+click 觸發
+keyup 鍵盤  keyup這邊比較特殊,因為鍵盤有多個按鍵，所以keyup的v-on型態是這樣: v-on:keyup.enter ="function"
+//其中enter為按鍵的縮寫，只要是按下enter都會觸發。
+//縮寫類型有 .enter, .tab, .delete(包含刪除跟退格鍵), .esc, .space, .up, .down, .left(滑鼠左鍵), .right(滑鼠右鍵)
+//按鍵縮寫好像也能直接輸入key代碼(待確認) 
+input 只要input的值有改變就會觸發 與原生用法差不多(change,input)
+
+
 第三課 雙向綁定
 
 v-model 綁定到資料輸入區並與其同步，只要資料輸入區改變or v-model的內容改變，兩者都會同步 (綁定一)
 
 當定義一個元件以後，若是要將input取得的資料輸入進資料庫需要使用v-model
 相當於原生.value /JQ.val()的概念。
+//亦可取得select的value
 
 型態:
 HTML
@@ -577,7 +587,6 @@ let obj = {//外部資料 不管外部資料是甚麼形式。陣列 or 物件�
 
 }
 
-
 const = add{
     data(){
         return{
@@ -596,7 +605,6 @@ const = add{
 }
 
 Vue.createApp(add).mount('#id')
-
 
 ---第五課 將資料傳入資料庫---
 因為v-model的特性是雙向綁定，所以假設我們每一次觸發事件都要新增一筆不一樣的資料要怎麼處理呢?
@@ -717,7 +725,27 @@ v-for這個屬性的功能類似使用for迴圈累積文字並渲染到網頁上
 
 今天可以使用狀態來決定是否要顯示視窗
 
+  Vue.createApp({
+            data(){
+                return{
+                    products:[],//先建立個空物件，等啟動後導入資料
+                    isShow:false
+                };
+            },
+            created(){
+                this.products = products;//載入時導入外部資料
+            },
+            method:{
+                show(){
+                    this.isShow = true;
+                }
+            }
+        }).mount('#app');//綁定區塊
 
+
+<button type="button" v-on:click="show">按鈕</buttom>
+<ul v-if="isShow">//若isShow為true就會顯示，反之。
+</ul>
 
 ex.跟v-if很像的有v-bind:class=""
 除了可以將要裝上的class貼上外，還可以使用狀態判斷的方法來決定是否要添加class

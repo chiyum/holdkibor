@@ -94,24 +94,31 @@
     Array.<span class="fn2">concat</span>(array)//陣列串接
     Array.<span class="fn2">from()</span>//類陣列轉為陣列
     Array.<span class="fn2">filter(<span class="def"><span class="var">function</span>(<span class="fn">iteams</span>){
+        <span class="var">return</span> iteams == 1;//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到iteams
+    }</span>)</span>//取函式內的值並一一的代入參數中 會回傳符合的陣列
+    Array.<span class="fn2">map(<span class="def"><span class="var">function</span>(<span class="fn">iteams</span>){
         console.log(<span class="fn">iteams</span>);//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到iteams
-    }</span>)</span>//取函式內的值並一一的代入參數中
+    }</span>)</span>//與filter相似 差別是原先陣列內有幾個值或物件就回傳相同的數量
+    Array.<span class="fn2">forEach(<span class="def"><span class="var">function</span>(<span class="fn">iteams</span>,<span class="fn">i</span>){
+        console.log(<span class="fn">iteams</span>);//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到iteams
+                            //而i這個參數則是值在陣列內的順序編號 呈上拿a來舉例就是 Array[1]
+    }</span>)</span>//與前兩者的差別是純執行不會回傳任何值
     Strings.<span class="fn2">split('.')</span>//將字串以('')中的字串做分割並組成陣列
     //假設a.b.c 分割後就會是[a,b,c]
 </pre>
                     <h3>物件相關</h3>
                     <pre class="code">
     Object.<span class="fn2">freeze</span>//凍結物件屬性及值(通常搭配const)
-    console.log(Object.isFrozen(物件))//偵測是否有被凍結,回傳boolean
-    Object.defindproperty(指定物件,'指定物件的屬性',{
-        value:'值',
-        writable:boolean,//可否被寫入
-        configurable:boolean,//可否被刪除
-        enumerable:boolean,//可否被列舉
-    });//物件的特徵修改
-    Object.preventExtensions(物件)//防止擴充(新增)屬性,直接針對物件做限制
-    console.log(Object.isExtensions(物件))//偵測是否可以被擴充,回傳boolean
-    console.log(Object.getOwnpropertyDescriptor(物件,'屬性'))//偵測物件特徵,回傳boolean
+    console.log(Object.<span class="fn2">isFrozen(物件)</span>)//偵測是否有被凍結,回傳boolean
+    Object.<span class="fn2">defindproperty(指定物件,'指定物件的屬性',<span class="str2">{</span>
+        <span class="fn">value:</span>'值',
+        <span class="fn">writable:</span>boolean,//可否被寫入
+        <span class="fn">configurable:</span>boolean,//可否被刪除
+        <span class="fn">enumerable:</span>boolean,//可否被列舉
+        <span class="str2">}</span>)</span>;//物件的特徵修改
+    Object.<span class="fn2">preventExtensions(物件)</span>//防止擴充(新增)屬性,直接針對物件做限制
+    console.log(Object.<span class="fn2">isExtensions(物件)</span>)//偵測是否可以被擴充,回傳boolean
+    console.log(Object.<span class="fn2">getOwnpropertyDescriptor(物件,'屬性')</span>)//偵測物件特徵,回傳boolean
 </pre>
                     <h3>DOM的設定</h3>
                     <pre class="code">
@@ -176,10 +183,15 @@
     xhr.<span class="fn2">send</span>(內容)//上傳內容
     xhr.<span class="fn2">onload</span> =<span class="fn">function</span>(){}//非同步時讀取資料用
 </pre>
+                    <h3>字串相關</h3>
+                    <pre class="code">
+Strings.<span class="fn2">toLowerCase()</span>//字串轉小寫
+Strings.<span class="fn2">toUpperCase()</span>//字串轉大寫
+Strings.<span class="fn2">substring('<span class="str2">開始位置</span>','<span class="str2">擷取幾個</span>')</span>//取出分割字串
+//'apple' 使用substring(0,3)會等於 app
+</pre>
                     <h3>未分類code</h3>
                     <pre class="code">
-    Strings.substring('開始位置','擷取幾個')//取出分割字串
-    //'apple' 使用substring(0,3)會等於 app
     console.<span class="fn2">log</span>(欲顯示內容)在console中顯示
     <span class="fn2">parseInt</span>(欲轉換內容)字串轉數字，不取小數點
     <span class="fn2">parseFloat</span>()字串轉數字，含小數點
@@ -188,6 +200,7 @@
     isNaN(value)//如果是NaN就回傳ture。空值亦可使用，可用在沒輸入任何東西的情況下
     localStorage.<span class="fn2">getItem</span>("localName")//取出本地端localstorage
     localStorage.<span class="fn2">setItem</span>("自定義localName",輸入的字串)//設定or加入localstorage
+    <span class="fn2">setTimeout</span>(() => {欲執行程式碼},毫秒)//延遲執行 ex.這邊使用箭頭函式可以使用傳統函式取代
     <span class="var">let</span> today = new Date()//取得目前時間 得先取得目前時間才可以用today.getHours等去取得細項
     <span class="fn2">getDay()</span>取得星期, getFullYear()取得西元年, getMonth()取得月份,
     <span class="fn2">getDate()</span>取得天數, getHours()取得小時
@@ -199,6 +212,7 @@
     <span class="fn">scrollLeft</span>:設定或獲取位於物件左邊界和視窗中目前可見內容的最左端之間的距離
     <span class="fn">scrollTop</span>:設定或獲取位於物件最頂端和視窗中可見內容的最頂端之間的距離
     <span class="fn">scrollWidth</span>:獲取物件的滾動寬度
+    <span class="fn2">typeof</span>(內容)
 </pre>
                 </div>
             </div>

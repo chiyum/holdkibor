@@ -486,7 +486,8 @@ Vue.createApp({
       //打開並將含有關鍵字的li變更樣式
       this.product.forEach((data,i)=>{
         this.product[i].isSearch = false;//將前一次的樣式reset
-        if(data.name.indexOf(value)>=0 ){//indexOf的用法是型態是:array.indexOf(關鍵字),若有符合關鍵字會回傳0，那麼在if底下array中有符合的都可以抓取出來
+        if(data.name.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toUpperCase())>=0 ){//indexOf的用法是型態是:array.indexOf(關鍵字),若有符合關鍵字會回傳0，那麼在if底下array中有符合的都可以抓取出來
+        //if的前者為搜尋小寫，後者搜尋大寫，讓使用者不管輸入大小寫都搜尋的到內容
           this.product[i].isSearch = true;//更改含有關鍵字的樣式
           this.product[i].hide = false;//取消隱藏
           this.search_parent(this.product[i].parentid);
