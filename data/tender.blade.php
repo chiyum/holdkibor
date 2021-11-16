@@ -474,6 +474,9 @@ Vue.createApp({
     open_all(){//全展開
       this.product.forEach((data,i)=>{
         this.product[i].hide = false//所有列表取消隱藏
+        if(typeof(this.product[i].child_id) != undefined){
+          this.product[i].isOpen_Stock = true;//父元素icon翻轉
+        };
         this.listColor_reset();//渲染條文背景
       })
     },
@@ -523,7 +526,7 @@ Vue.createApp({
             break;
 
         }
-
+        this.listColor_reset();//渲染條文列表
       }, 0);
     }
   },
@@ -594,6 +597,7 @@ li {
   margin: 0 10px;
   margin-bottom: -9px;
   width: 99%;
+  min-width: 1100px;
   height: calc(85.8vh);
   overflow: hidden;
   background-color: white;
