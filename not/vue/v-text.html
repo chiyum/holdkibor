@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+
+</head>
+<body>
+
+    <div id="wrap">
+        {{`${b}`}}
+        <input type="range" min="100" max="1000" v-model="size">//卷軸條 拉的時候可以調動數字。 因為我們已經在使用size綁定卷軸條，同時resizeurl的圖片大小綁定size，所以只要卷軸條一更動，圖片size也會變動
+        <img :src="resizeUrl" :data-size="b">
+    </div>
+    <script>
+
+        let a = '杰倫'
+        Vue.createApp({
+            data(){
+                return{
+                    b:size,
+                    size:200,
+                    url:'https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:1900/https://www.filepicker.io/api/file/frc9FG65Q72GqZQOWd2s',
+                    resizeUrl:`https://process.fs.teachablecdn.com/ADNupMnWyR7kCWRvm76Laz/resize=width:${900}/https://www.filepicker.io/api/file/frc9FG65Q72GqZQOWd2s`,
+                }
+            }
+        }).mount('#wrap')
+
+    </script>
+</body>
+</html>

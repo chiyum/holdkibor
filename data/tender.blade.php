@@ -24,6 +24,7 @@
       hide:false,//收合時顯示與否
       isOpen_Stock:false,//收合時icon翻轉
       isSearch:false,
+      unit:'',  
     },
     {
       id:'a_0',
@@ -37,6 +38,7 @@
       hide:true,
       isOpen_Stock:false,
       isSearch:false,
+      unit:'',  
     },
     {
       id:'a_01',
@@ -50,6 +52,7 @@
       hide:true,
       isOpen_Stock:false,
       isSearch:false,
+      unit:'',  
     },
     {
       parentid:'a_01',
@@ -119,6 +122,7 @@
       price:421,
       quantity:2869, 
       total: 1207849,
+      unit:'只',  
       profit:'',
       materials:'',
       manpower:'',
@@ -143,6 +147,7 @@
       hide:false,
       isOpen_Stock:false,
       isSearch:false,
+      unit:'',  
     },
     {
       id:'b_0',
@@ -156,6 +161,7 @@
       hide:true,
       isOpen_Stock:false,
       isSearch:false,
+      unit:'',  
     },
     {
       id:'b_01',
@@ -169,6 +175,7 @@
       hide:true,
       isOpen_Stock:false,
       isSearch:false,
+      unit:'',  
     },
     {
       parentid:'b_01',
@@ -264,6 +271,7 @@
       hide:false,//收合時顯示與否
       isOpen_Stock:false,//收合時icon翻轉
       isSearch:false,
+      unit:'',  
     },
     {
       id:'a_0',
@@ -277,6 +285,7 @@
       hide:true,
       isOpen_Stock:false,
       isSearch:false,
+      unit:'',  
     },
     {
       id:'a_01',
@@ -290,6 +299,7 @@
       hide:true,
       isOpen_Stock:false,
       isSearch:false,
+      unit:'',  
     },
     {
       parentid:'a_01',
@@ -469,10 +479,10 @@ Vue.createApp({
           if(i % 2 ==0){ //透過餘數去偵測每個li的順序
             //餘數為0為偶數
             data.style['background'] = '#ffffff';
-            data.style['transition'] = 'all 0.4s';
+            // data.style['transition'] = 'all 0.4s';
           }else{
             data.style['background'] = '#cdcdcd';
-            data.style['transition'] = 'all 0.4s';
+            // data.style['transition'] = 'all 0.4s';
           };
         });
         //目前發現的問題是，掃for迴圈時，抓不到開啟的那一些元素，所以使用settimeout解決
@@ -510,8 +520,8 @@ Vue.createApp({
       //打開並將含有關鍵字的li變更樣式
       this.product.forEach((data,i)=>{
         this.product[i].isSearch = false;//將前一次的樣式reset
-        if(data.name.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toUpperCase())>=0 ){//indexOf的用法是型態是:array.indexOf(關鍵字),若有符合關鍵字會回傳0，那麼在if底下array中有符合的都可以抓取出來
-        //if的前者為搜尋小寫，後者搜尋大寫，讓使用者不管輸入大小寫都搜尋的到內容
+        if(data.unit.indexOf(value.toUpperCase())>=0||data.unit.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toUpperCase())>=0){//indexOf的用法是型態是:array.indexOf(關鍵字),若有符合關鍵字會回傳0，那麼在if底下array中有符合的都可以抓取出來
+        //if的前者為搜尋小寫，後者搜尋大寫，讓使用者不管輸入大小寫都搜尋的到內容 ex.搜尋必須要每個物件都有此屬性，否則會報錯
           this.product[i].isSearch = true;//更改含有關鍵字的樣式
           this.product[i].hide = false;//取消隱藏
           this.search_parent(this.product[i].parentid);//套入父層id

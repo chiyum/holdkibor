@@ -69,36 +69,23 @@
                     <a href="./fornt.js.html">
                         > JavaScript
                     </a>
+                    <a href="./fornt.js.AJAX.html">
+                        > JQuery回到頂端 goTop
+                    </a>
+                    <p>2021-11-16</p>
                 </div>
-                <ul>
-                    <li>
-                        <a href="./fornt.js.codeList.html">
-                            <img src="../img/codeimg.jpg" alt="" class="htmlList">
-                            <div>
-                                <h2>code 列表</h2>
-                                <p>這邊簡略的整理原生JS的code並且提供簡易介紹以供使用。</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.AJAX.html">
-                            <img src="../img/codeimg5.jpg" alt="" class="cssList">
-                            <div>
-                                <h2>原生AJAX介紹</h2>
-                                <p>本篇介紹入門款原生AJAX及相關資訊。最基本的POST、GET及操作原理...</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.gotop.html">
-                            <img src="../img/codeimg2.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>JQuery回到頂端</h2>
-                                <p>此編篇為JQuery回到頂端用法</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <div class="article" style="height: 45.3vh;">
+                    <h2>原生AJAX簡介</h2>
+                    <p>這篇為JQuery回到頂端的使用方法</p>
+                    <pre class="code">
+    $('指定DOM').click(function(e){//觸發click事件
+        e.preventDefault() //取消默認事件
+        $('html,body').animate({scrollTop:0},毫秒)
+        //animate是讓()內的動作產生動畫,而scrollTop:被滾動的高度0，也就是畫面回到最上方
+    })                  
+</pre>
+                    <p>若無理解需求，直接複製並修改指定DOM即可</p>
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -163,7 +150,9 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
