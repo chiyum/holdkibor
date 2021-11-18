@@ -1139,20 +1139,299 @@ ol.資料綁定v-model 與表單:
 
 
     4.checkbox複選使用:
-    
+        checkbox複選框的使用就需要使用到value這個屬性
+        以下以範例來說明:
 
+        data(){
+            return{
+                chose_ary:[],//複選使用是綁定到到陣列
+            }
+        }
+
+        <input type="checkbox" value="標籤一" v-model="chose_ary">
+        <input type="checkbox" value="標籤二" v-model="chose_ary">
+        <input type="checkbox" value="標籤三" v-model="chose_ary">
+        //三個是綁定同一個陣列，所以選擇以後value會加入陣列內
+
+        {{ chose_ary.join(' ') }}//讓chose_ary每個值的間隔加入空白並渲染
+
+
+    5.radio 單選框
+        checkbox與radio差別在於radio只能選擇一個，當你的v-model綁定同一個資料路徑時，選擇其中一個選項，另一個就會取消選擇
+        所以回傳到資料的值只會有一個，我們直接看範例:
+
+        data(){
+            return{
+                chose:'',//value為字串
+            }
+        }
+
+        <input type="checkbox" value="標籤一" v-model="chose">
+        <input type="checkbox" value="標籤二" v-model="chose">
+        <input type="checkbox" value="標籤三" v-model="chose">
+        //三個綁定同一個資料路徑
+
+        {{ chose }}//當我選擇標籤一，那其他被選擇的選項就會消失。接著當我在選擇標籤二，那原本選擇的標籤一會在消失，chose的值會改為標籤二
+
+    6.select 單選
+        select雖底下有很多的option，但v-model是綁在select上的。
+        接著每個option都有各自的value。
+        當select選擇option時，value會傳到資料庫中
+        範例:
+
+            data(){
+                return{
+                    chose:'',//value為字串
+                }
+            }
+
+            <select v-model="chose">
+                <option value="三民區s">三民區</option>
+                <option value="小港區s">小港區</option>
+                <option value="琴雅區s">琴雅區</option>
+            </select>
+
+            //當使用者點選三民區時，value三民區s會傳送到chose內
         
+        select搭配v-for:
+
+            data(){
+                return{
+                    data:[
+                        {
+                            name:'小明'
+                        },
+                        {
+                            name:'杰倫'
+                        },
+                    ]
+                }
+            }
+
+            <select v-model="chose">
+                <option v-for="iteam in data" :key="iteam.name" :value="iteam.name">{{ iteam.name }}</option>//這邊注意若是沒有加上value，那麼回傳的值會是option內的文字。
+            </select>
+        
+        補充:在select使用v-model時，因為資料原先是空字串，所以若是不選擇時。預設的select是空值。若是要顯示預設文字，那就新增一筆option標籤 並新增value的屬性
+        //注意這邊的value是原生而非v-bind的
+        //同時若是這個預設文字只要純顯示而非可以點選，就在這個option當中加入disable屬性即可
+        範例:
+        <option value="" disabled >請選擇人名</option>
+        //value空值即可
 
 
+    7.select多選
+        select多選其實跟checkbox很像，基本上差別不大，只是顯示的方式不同而已。
+        以下是用範例進行解說
+
+        data(){
+                return{
+                    chose_ary:[],//為陣列形式
+                }
+        }
+
+
+        <select v-model="chose_ary" multiple>//只需要加上multiple即可
+            <option value="三民區">三民區</option>
+            <option value="小港區">小港區</option>
+            <option value="琴雅區">琴雅區</option>
+        </select>
+
+
+        {{ chose_ary }}
+        //顯示為一個[]，當選擇三民區 會呈現["三民區"]。
+        //再點選小港區 顯示["三民區","小港區"]。依此類推
+
+
+
+ol.v-on
+    v-on雖然可以觸發資料更動，但大部分比較少會使用到。多數情況都是與methos做綁定，透過methos再來更動data。
+    v-on跟v-bind一樣都有縮寫形式，但兩者的縮寫形式是不同的
+    v-on的縮寫形式是"@"
+    範例:
+    <button type="button" v-on:click="function"><button> 原先
+    <button type="button" @click="function"><button> 縮寫
+
+
+    1.使用代入參數的方法決定哪個布林值要轉換:
+        在還未學習到這個方式前，我個人轉換的方式如下:
+            change(){
+                this.isShow = false
+            }
+            or
+            change(){
+                this.data.box = this.data.box ? false : true;
+            }
+        但其實可以使用代入參數的方法就不需要建立如此多的methods了
+        範例:
+            change(key){
+                this[key] = !this[key];
+                //邏輯就是讓代入資料路徑代入key，所以就是變成 this.[資料路徑]
+                //而這個this[資料路徑]等同於this.資料路徑 也是其中一種物件屬性的指定方法
+                //也就是說假設上面的key的值若原本是false，那就改為相反的。false的相反就是true。反之，true的相反是false。 
+            }
+
+    2.v-on綁定原生DOM事件:
+        其實v-on:click就是綁定原生的事件。
+        click本身就是原生的事件
+        addEventListener('click',function,同步與否)
+        下面會介紹搭配vue使用的事件用法
+
+        submit事件
+        submit事件是當form表單符合的條件後就會觸發
+        範例:
+
+        <form v-on:submit.prevent="function">//這邊使用了.prevent的修飾符，這個修飾符的作用是取消本身預設的作用 form本身預設的作用就是submit
+
+            <input type="text" v-model="name">//因為裡面只有一個input 若這一個input被寫入內容並離開焦點時 就等於符合了條件
+            <button>送出</button>//button若是不加上type原先就有submit的功效。然後因為是在form內，所以當form綁定了function，裡面的button也會綁定
+
+        </form> 
+
+        動態事件:
+        v-on可使用動態綁定。何謂動態綁定?你可以依照資料庫的資料決定你的標籤要綁定哪一種事件
+        範例:
+
+        data(){
+            event:'click'
+        }
+        method:{
+            sayhi(){
+                console.log('哈囉')
+            }
+        }
+
+        <button type="button" @[event]="sayhi">送出</button>
+        //通過修改event的資料，可以改變觸發的事件
+        //不過在實戰中比較少用到這個動態事件
+
+
+        動態物件的方法:
+        除了多個 v-on外
+        還可以使用動態物件的方法在同一個標籤綁定多個事件
+        範例:
+        <button type="button" @="{
+
+            mousedown:function, //mousedown 為按下觸發事件
+            mouseup: change,  //mouseup 為放開觸發事件
+            事件:function,
+
+        }">送出</button>
+        //使用這個方法要注意，這個方法沒有辦法代入參數
+
+
+    v-on DOM事件處理技巧:
+        在原生JS內，只要觸發事件，事件都會回傳資料
+            function(e){
+                console.log(e);//回傳的資料
+            }
+        //在這裡面有包含你點擊的座標等等資料
+        vue很多事件若在原生JS實現的話，內都要運用這些資料才能處理。
+        而今天這邊要介紹如何使用這些資料
+
+        若function有參數
+        倘若我們function有參數，但又需要接收回傳的資料時該怎麼做?
+        範例:
+            function click(iteam,e){
+                console.log(iteam,e);
+            }
+
+        <button type="button" v-on:click="click('代入的參數',$event)">按下</button>//只要在參數後加上$event 那這個就會是e的參數
+
+        取得原生input的內容:
+
+            function get(e){
+                let value = e.target.value;//原生的取得value的寫法
+            }
+            <input type="text" @change="get">//注意，這邊是沒有綁定v-model的。如此當失去焦點後，get這個function就可以取到input內使用者輸入的資料
+
+        監聽案件事件:
+
+        function up(e){
+            let code = e.keyCode;//keyCode是使用者按下的數字對應號碼
+        }
+
+
+        <input type="text" @keyup="up">//因為使用keyup，所以在每一次使用者按下按鍵時我們都能取得使用者按下的按鍵對應的號碼
 
 
 
 ol.修飾符(modifiers)
-修飾符基本上來說就是扶助指令運作
+    修飾符基本上來說就是扶助指令運作，用於v-model or v-on上
+    那修飾符的位置都是在指令的後方
+    範例:v-model.xxx="" //xxx為修飾符放置位置
 
-ol.縮寫
-vue指令其實可以使用@縮寫來替代
-如:
-v-on:click="click"
-可以縮寫成:
-@click="click"
+    1.v-model修飾符
+        首先我們先介紹v-model
+        v-model修飾符有三個 lazy(延遲),number(純數值),trim(修剪)
+        備註:這邊在使用修飾符之前記得要開啟vetools
+
+        1.lazy 延遲:
+            綁定lazy的用處是不會馬上綁定，當失去焦點時才會綁定。就有些類似原生的input、與change的差別
+            也就是說當加入了lazy，input的值在修改時並不會馬上更動資料庫的資料，而是等到失去焦點時才會套用到資料庫的資料當中
+            //失去焦點的意思是指當你點到非這個input時，那就是失去焦點。點到input的時就是在焦點內。
+            範例:
+                <input type="text" v-model.lazy="data">
+
+        2.number 數值
+            這個修飾符的功用是讓輸入框輸入的資料轉為數字而非是字串，常用於取得計算資料中
+            //注意:使用這個功能並非就是強制使用者只能輸入數字，使用者輸入字串依然可以輸入。所以可以搭配input type的number使用
+            範例:
+                <input type="number" v-model.number="data">
+        
+        3.trim
+            有時候當我們需要取得值不能有空白時，那就可以使用trim。trim可以將兩側的所有空白值都消除後才將資料傳送至資料庫。
+            //注意 只有兩邊的空白消除，若字串中間有空白還是會有空白內容
+            //原生strings.trim()的效果
+
+    2.v-on修飾符
+
+        按鍵修飾符:
+
+            別名修飾:
+            所謂別名修飾就是當按下特定的按鍵時才會觸發
+            常用的共有這幾個種類:
+            .enter, .tab, .delete, .esc, .space, .up, .down,
+            範例:
+            <input type="text" @keyup.enter="function">
+
+
+            組合觸發:
+            當我們需要有多個按鍵組合起來才能觸發時，就在多加一個修飾符
+            <input type="text" @keyup.shift.enter="function">
+            
+            特定案件:
+            其實與別名差不多，別名是常見的按鍵，那特定就是指定的鍵盤按鍵
+            <input type="text" @keyup.h="function">//按下鍵盤上的h才會觸發
+
+
+        滑鼠修飾符:
+            當我們使用click事件按下滑鼠時，都會觸發click事件，但若是只要特定鍵，如右鍵有反應，那就需要搭配相關修飾符
+            //這就類似原生contextmenu事件
+
+
+            .left//左鍵觸發
+            .right//右鍵觸發
+            .middle//中鍵觸發
+
+            範例:
+                <div @click.right="function"><div>
+
+        事件修飾符:
+            事件修飾符最常出現的就是.prevent 這個就是原生function內的e.defaultPrevent() 取消預設事件
+            很多事件都有屬於它原本的預設事件，e.defaultPrevent()就是阻止預設事件觸發的代碼
+            從這方面我們就可以知道事件修飾符的功用了，以下開始介紹:
+
+            .stop 調用e.stopPropagation 這個是阻止冒泡(防止向外尋找)
+            //這個也就是說當不會觸發點選的區塊父層的事件
+
+            .capture 事件由外而內查找 稱捕獲/捕捉
+
+            .self 只會觸發自己的事件 也就是不會向內也不會向外觸發子父層的事件
+
+            .once 只觸發一次回調 白話說就是只會觸發一次
+            //原生的 function once(){}
+            //buttonEl.addEventListener('click', function (e) {
+                console.log('綁定一次');
+            },{once: true});
+
