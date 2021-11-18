@@ -758,176 +758,177 @@ v-bind:class="{class名稱:路徑狀態}"//若路徑狀態回傳為false則不�
 
 
 ---vue指令(directive)---
-所謂指令就是v-if, v-model, {{}}等這些操作被稱為指令
+    所謂指令就是v-if, v-model, {{}}等這些操作被稱為指令
 
 
-指令又分為三個部分: 資料相關、渲染方法、事件綁定
+    指令又分為三個部分: 資料相關、渲染方法、事件綁定
 
-1.資料相關:就是會操作到資料區塊的指令，如v-model
+    1.資料相關:就是會操作到資料區塊的指令，如v-model
 
-2.渲染方法:顧名思義就是渲染網頁相關，例如v-if, v-for, v-show
+    2.渲染方法:顧名思義就是渲染網頁相關，例如v-if, v-for, v-show
 
-3.事件綁定: v-on @...等這些事件綁定的操作
+    3.事件綁定: v-on @...等這些事件綁定的操作
 
-雖然前面已經介紹過部分的操作了，但只不過是大略介紹，以下將會進行詳解。
+    雖然前面已經介紹過部分的操作了，但只不過是大略介紹，以下將會進行詳解。
 
 
 ol.v-text and {{}}(Mastache)
 
-v-text 與{{}}其實是一樣的效果
-差別在於v-text是在指定標籤上渲染文字
+    v-text 與{{}}其實是一樣的效果
+    差別在於v-text是在指定標籤上渲染文字
 
-{{}}則是在{{}}在哪，就在哪裡渲染
+    {{}}則是在{{}}在哪，就在哪裡渲染
 
 
-一般實戰來說用到{{}}的機率更多
-但v-text有個好處就是可以隨著依附的標籤進行css的更動
-範例:
-<em v-text="name"></em>//如此v-text渲染出來的文字就會是em自帶的斜體
+    一般實戰來說用到{{}}的機率更多
+    但v-text有個好處就是可以隨著依附的標籤進行css的更動
+    範例:
+    <em v-text="name"></em>//如此v-text渲染出來的文字就會是em自帶的斜體
 
 ol.v-html 
 
-基本上與原生的innerHTML標籤是一樣的，給予標籤的字串後會自動判別標籤並將標籤轉為dom
-範例:
+    基本上與原生的innerHTML標籤是一樣的，給予標籤的字串後會自動判別標籤並將標籤轉為dom
+    範例:
 
-data(){
-    return{
-        name:<p>測試文字</p>
+    data(){
+        return{
+            name:<p>測試文字</p>
+        }
     }
-}
 
-<div v-html="name"><div>//之後就會產生一個p標籤及"測試文字"的字串
+    <div v-html="name"><div>//之後就會產生一個p標籤及"測試文字"的字串
 
-不過基本上是不建議使用這個方式，因為會有XSS攻擊
+    不過基本上是不建議使用這個方式，因為會有XSS攻擊
 
 ol.v-once 單次渲染
-當我們只想要讓網頁在一開始的時候渲染，之後資料更動時不會跟著更動的話就可以使用v-once
-範例:
-<p v-once> {{ name }} <p>// v-once只需這樣寫在標籤上即可 如此不管後面資料怎麼變動，在標籤內的資料只會受到第一次渲染的影響，後續都不會再改變
+    當我們只想要讓網頁在一開始的時候渲染，之後資料更動時不會跟著更動的話就可以使用v-once
+    範例:
+    <p v-once> {{ name }} <p>// v-once只需這樣寫在標籤上即可 如此不管後面資料怎麼變動，在標籤內的資料只會受到第一次渲染的影響，後續都不會再改變
 
     進階使用:
 
-    樣板字面值:
-    在{{}}中其實可以使用js的樣板字面值，與JS內運用完全一樣，只需要在{{}}加入``即可
-    範例:
-    {{`你好安安`}}//這樣的話並不會發生顯示{{`你好安安`}}的錯誤，而是會渲染你好安安這個純字串
-    {{ `${name}對我說你好` }}//當然也可以插入變數，但是注意，${}內只能插入vue內的資料，在外部的資料是無法讀取的，會顯示undefind
+        樣板字面值:
+            在{{}}中其實可以使用js的樣板字面值，與JS內運用完全一樣，只需要在{{}}加入``即可
+            範例:
+            {{`你好安安`}}//這樣的話並不會發生顯示{{`你好安安`}}的錯誤，而是會渲染你好安安這個純字串
+            {{ `${name}對我說你好` }}//當然也可以插入變數，但是注意，${}內只能插入vue內的資料，在外部的資料是無法讀取的，會顯示undefind
 
-    表達式:
-    {{ name.toUpperCase() }}//亦可直接在{{}}內進行表達式 toUpperCase()的用法是原生JS 目的是將字串轉為大寫
-    {{ `題目:1 + 1 = ` 1+1   }}//可以直接在{{}}內進行JS的運算 也是表達式的一種
-    {{ isOpen?'早安': '午安' }}//更可以使用三元運算子
+        表達式:
+            {{ name.toUpperCase() }}//亦可直接在{{}}內進行表達式 toUpperCase()的用法是原生JS 目的是將字串轉為大寫
+            {{ `題目:1 + 1 = ` 1+1   }}//可以直接在{{}}內進行JS的運算 也是表達式的一種
+            {{ isOpen?'早安': '午安' }}//更可以使用三元運算子
 
-    呼叫函式:
-    {{ say() }}//既然都可以使用表達式了，呼叫使用function當然也不再話下 這邊注意，不需要像外面呼叫一樣使用this，直接使用function即可
+        呼叫函式:
+            {{ say() }}//既然都可以使用表達式了，呼叫使用function當然也不再話下 這邊注意，不需要像外面呼叫一樣使用this，直接使用function即可
 
-    顯示{{}}:
-    假設說想要顯示{{}}，而不是要使用顯示資料的功能。那就在{{}}的標籤加入v-pre即可
-    範例:
-    <p v-pre>{{ name }}</p>  //會顯示{{ name }}
+        顯示{{}}:
+            假設說想要顯示{{}}，而不是要使用顯示資料的功能。那就在{{}}的標籤加入v-pre即可
+            範例:
+            <p v-pre>{{ name }}</p>  //會顯示{{ name }}
 
 
 
 ol.v-for
-v-for 可以用於物件or陣列，會掃過陣列、物件的所有值
-型態:v-for = "自訂義名稱 in 指定陣列or物件"
-此時的自訂義名稱就是每次跑過的值，假設今天有個範例是這樣的:
+    v-for 可以用於物件or陣列，會掃過陣列、物件的所有值
+    型態:v-for = "自訂義名稱 in 指定陣列or物件"
+    此時的自訂義名稱就是每次跑過的值，假設今天有個範例是這樣的:
 
 
-    let test = [
-        {
-            name:'小明'
-        },
-        {
-            name:'杰倫'
-        },
-    ]
+        let test = [
+            {
+                name:'小明'
+            },
+            {
+                name:'杰倫'
+            },
+        ]
 
-    <li v-for="iteam in test">
-        {{ iteam.name }}//iteam就是每次跑過的物件，name就是每次跑過物件的屬性
-    </li>
+        <li v-for="iteam in test">
+            {{ iteam.name }}//iteam就是每次跑過的物件，name就是每次跑過物件的屬性
+        </li>
 
-    除此之外，v-for在自訂義名稱還有個索引值 索引值就是陣列or物件的值的位置順序
-    類似forEach(data,i){}其中data是內容，i是索引值
-    型態:v-for = "(自訂義名稱,自訂義索引值) in 指定陣列or物件"
-    按照上面的範例:
+        除此之外，v-for在自訂義名稱還有個索引值 索引值就是陣列or物件的值的位置順序
+        類似forEach(data,i){}其中data是內容，i是索引值
+        型態:v-for = "(自訂義名稱,自訂義索引值) in 指定陣列or物件"
+        按照上面的範例:
 
 
-    <li v-for="(iteam,key) in test">
-        {{key}} / {{ iteam.name }} //以第一個小明的物件來說明，小明所在的這個物件的索引值就是test[0];
-    </li>
+        <li v-for="(iteam,key) in test">
+            {{key}} / {{ iteam.name }} //以第一個小明的物件來說明，小明所在的這個物件的索引值就是test[0];
+        </li>
 
-    注意事項:若今天是以物件跑回圈，那麼key會是屬性名稱。同樣以小明來說明，key就是name
+        注意事項:若今天是以物件跑回圈，那麼key會是屬性名稱。同樣以小明來說明，key就是name
 
 
     純數值迴圈:
-    v-for除了帶陣列物件外，還可以使用數字
-    型態:v-for = "自訂義名稱 in 數字"
-    那麼自訂義名稱就會是數字1開頭一直跑到指定數字(含)結束
-    範例:
-     <li v-for="iteam in 5">
-        {{ iteam }} //那麼iteam就會從1跑到5
-    </li>
 
-    觀念:
-    每個v-for擁有同個父元素時，子元素必須要有獨特的key，重複的key會造成渲染錯誤
-    甚麼叫渲染錯誤?而且可能會有人疑惑可是當沒有加上key時他還是照原本的順序跑耶，這個渲染錯誤是偶爾才會出現的bug嗎?
+        v-for除了帶陣列物件外，還可以使用數字
+        型態:v-for = "自訂義名稱 in 數字"
+        那麼自訂義名稱就會是數字1開頭一直跑到指定數字(含)結束
+        範例:
+         <li v-for="iteam in 5">
+            {{ iteam }} //那麼iteam就會從1跑到5
+        </li>
 
-    其實不是。拿上面的例子來說:
+        觀念:
+        每個v-for擁有同個父元素時，子元素必須要有獨特的key，重複的key會造成渲染錯誤
+        甚麼叫渲染錯誤?而且可能會有人疑惑可是當沒有加上key時他還是照原本的順序跑耶，這個渲染錯誤是偶爾才會出現的bug嗎?
 
-    <li v-for="(iteam,key) in test">
-        {{ iteam.name }} 
-        <input type="text">//假設今天我在這邊輸入1234的字串
-    </li>
-    然後我再改變test的順序，讓小明在後
-    那麼就算小明的文字被渲染到杰倫底下了，這個我輸入1234的字串依然會在原地。
-    這說明甚麼?說明只是資料的順序調換了，網頁並沒有重新渲染，這個就是所謂的渲染錯誤。
-    而為了讓input是綁定資料的就需要加上個key
-    那key是甚麼?有人會是使用gettiem在原先的物件內創造個獨一無二的數字id，有人則是會用原本屬性就有的值，如小明跟杰倫就是不同的值
-    這兩者都可以，只是要記住一點，這個值是得獨一無二的，若是有多個小明，那key就會重複。
+        其實不是。拿上面的例子來說:
 
-    正確的輸入key:
+        <li v-for="(iteam,key) in test">
+            {{ iteam.name }} 
+            <input type="text">//假設今天我在這邊輸入1234的字串
+        </li>
+        然後我再改變test的順序，讓小明在後
+        那麼就算小明的文字被渲染到杰倫底下了，這個我輸入1234的字串依然會在原地。
+        這說明甚麼?說明只是資料的順序調換了，網頁並沒有重新渲染，這個就是所謂的渲染錯誤。
+        而為了讓input是綁定資料的就需要加上個key
+        那key是甚麼?有人會是使用gettiem在原先的物件內創造個獨一無二的數字id，有人則是會用原本屬性就有的值，如小明跟杰倫就是不同的值
+        這兩者都可以，只是要記住一點，這個值是得獨一無二的，若是有多個小明，那key就會重複。
 
-    <li v-for="iteam in test" v-bind:key="iteam.name">
-        {{ iteam.name }} 
-        <input type="text">//假設今天我在這邊輸入1234的字串
-    </li>
+        正確的輸入key:
 
-    
-    v-for + template
-    有時候會遇到一個狀況，我們需要在兩個不同的節點加入一筆資料，那該怎麼做?
+        <li v-for="iteam in test" v-bind:key="iteam.name">
+            {{ iteam.name }} 
+            <input type="text">//假設今天我在這邊輸入1234的字串
+        </li>
 
-    狀況範例:
-    <table>
-        <tr>
-            <th rowspan="2">1</th>
-            <td colspan="2">
-            飯糰
-            </td>
-        </tr>
-        <tr>
-            <td>30</td>
-        </tr>
-    </table>
 
-    可以看到2個tr為不同節點，若要在td內輸出資料，v-for好像沒辦法使用
-    那此時就可使用template這個標籤:
+        v-for + template
+        有時候會遇到一個狀況，我們需要在兩個不同的節點加入一筆資料，那該怎麼做?
 
-     <table>
-        <template v-for="iteam in test">
+        狀況範例:
+        <table>
             <tr>
                 <th rowspan="2">1</th>
                 <td colspan="2">
-                {{iteam.name}}
+                飯糰
                 </td>
             </tr>
             <tr>
-                <td>{{iteam.money}}</td>
+                <td>30</td>
             </tr>
-        </template>
-    </table>
+        </table>
 
-    如此父元素就會是template而非tr了
+        可以看到2個tr為不同節點，若要在td內輸出資料，v-for好像沒辦法使用
+        那此時就可使用template這個標籤:
+
+         <table>
+            <template v-for="iteam in test">
+                <tr>
+                    <th rowspan="2">1</th>
+                    <td colspan="2">
+                    {{iteam.name}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{iteam.money}}</td>
+                </tr>
+            </template>
+        </table>
+
+        如此父元素就會是template而非tr了
  
 
 
@@ -995,7 +996,153 @@ ol.v-bind 屬性
 
 
 
-ol.樣式切換 
+ol.樣式切換 v-bind:class運用
+    最基本的使用方式有兩種:
+
+
+    data(){
+        return{
+            class:'className',//這邊class以字串型式
+            isShow:false,//這個屬性(key)的值為布林值
+        }
+    }
+
+    1.搭配資料庫給予class
+    範例:
+    <p v-bind:class="class"></p>//這邊class為資料庫中的路徑
+    如此當vue渲染這個標籤時就會套用指定路徑的class
+
+    2.依照布林值選擇觸發與否
+    範例:
+    <p v-bind:class="{className:isShow}"></p>
+    //這邊className則是class的名稱 isShow則是布林值
+    //因為我isShow是true所以會套用這個class
+    //ex.className就是屬性(key),值是布林值但也可以使用判斷式
+    //這邊須注意，這邊的className是不能從資料庫取得的，只能輸入你所命名的class名稱
+
+        進階使用:
+        上面的介紹是使用物件方式來選擇是否套用class，但其實也有陣列的方式。
+        不過物件方式還沒完全介紹完，這邊先介紹物件的部分。
+        
+            套用多個class:
+            既然是物件了，那當然可以擁有多個key與值
+            範例:
+            <p v-bind:class="{className:isShow,className2:isShow2}"></p>
+            //兩個class可以同時使用同個布林值路徑也可以不同。
+
+
+        className若有 "-"這個文字:
+
+        我們在:class套入class名稱的時候，class是不可以有-這個名稱的。
+        這是因為我們套入的是物件，若要解決這個方式就是將key值變為字串就可以到解決。
+        範例:
+         <p v-bind:class="{'class-Name':isShow}"></p> 
+
+
+        多個class放在同一個物件中:
+        當你有多個class想要放在同一個標籤，卻又覺得在標籤內的屬性太長了怎麼辦?
+        這時就可以將class給套入物件中
+
+        data(){
+            return{
+                objClass:{
+                    'class-Name':true,//無法使用資料路徑的布林值
+                    className:fasle,//但可以直接輸入判斷式，若有需求就直接在mathods使用this.objClass.className = false or true 改變即可
+                }
+            }
+            change(){
+                this.data.box = this.data.box ? false : true;//這邊使用toggle的方式
+            }
+        }
+
+        <p v-bind:class="objClass"></p>//直接將物件名稱帶進來即可 
+
+
+        陣列寫法:
+        如果說物件方式是使用判斷式來選擇是否要套用class，那陣列方式就是可以選擇套用多個class
+        範例:
+        <p v-bind:class="[className,className2,className3]"></p>//這邊className就是你所命名的class名稱
+        效果就跟原生的class="className className2 className3"是一樣的效果
+        當然也可以使用在data資料庫中寫好陣列並直接將陣列路徑套用到:class=""中即可。
+        //這邊與物件一樣，差別在物件形式與陣列形式而已，就不做示範。
+
+
+        操作行內樣式(style):
+        操作style跟class的方式其實觀念是差不多的，只有操作上有些許差異
+        操作方式有三種:
+
+        
+        1.在標籤上撰寫:
+        上面所說過因為我們套入的是物件，所以不能有"-"這個符號，所以我們在寫style時，若原先的css文字中有"-"。
+        那麼我們必須使用小駝峰的方式撰寫。
+        甚麼是小駝峰?拿background-color來說，就是抽掉"-"，並在原先-後的第一個英文數字改成大寫
+        background-color = backgroundColor 
+        範例:
+        <p v-bind:style="{backgroundColor:'red'}"></p>//記得這邊值是字串
+        //key是代入style的屬性:值是代入相對應的值
+
+
+        2.從資料取得物件
+        style同樣可以從資料路徑中取得，在資料路徑中使用key與值的方式與在標籤上撰寫是一樣的，必須使用小駝峰形式
+        範例:
+        data(){
+            return{
+                objStyle:{
+                    backgroundColor:'red',
+                    fontSize:'12px'
+                },
+            };
+        },
+
+
+        <p v-bind:style="objStyle"></p>//記得這邊值是字串
+
+        3.陣列方式撰寫style:
+        其實使用陣列方式撰寫style，就是將上面撰寫的物件方式給加到陣列內套用而已
+        範例:
+        <p v-bind:style="[objStyle,{backgroundColor:'black',},objStyle2]"></p>//記得這邊值是字串
+
+
+ol.資料綁定v-model 與表單:
+    v-model在對應每個input type所產生的效果是不一樣的，以下我們來一一介紹:
+    
+    1.type="text"類型 不管是password 還是search類型，只要是與text相同的都是這個種類:
+        這類綁定v-model的話，不管是資料庫還是標籤兩邊的資料更動是同步的
+        範例:
+        data(){
+            return{
+                text:'',
+                checkbox:false,
+                checkbox2:''
+            }
+        }
+
+        <input type="text" v-model="text">
+        //如此只要input輸入文字，資料庫那邊也會更新。
+        //若資料庫刪除文字，input也會跟著刪除。
+
+    2.綁定到checkbox(複選框)時:
+        如果是綁定單一(單選)checkbox的話，當使用者點選時會回傳true，反之則是false
+
+
+        <input type="checkbox" v-model="checkbox">//套用上面的data資料庫
+
+        <p>{{ checkbox ? 答對了: 答錯了 }}</p>//通過三元運算子呈現不同的字串內容
+
+    3.checkbox單選延伸:
+        如同上面的結果，除了使用三元運算子以外，還有另一種用法
+        
+        
+        <input type="checkbox" v-model="checkbox2" true-value="答對了"  false-value="答錯了">邏輯是這樣的，當checkbox回傳true時，回傳給資料庫checkbox2的值是true-value的內容，反之。
+
+        <p>{{ checkbox2}}</p>//通過三元運算子呈現不同的字串內容
+
+
+    4.checkbox複選使用:
+    
+
+        
+
 
 
 
