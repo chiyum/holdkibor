@@ -985,7 +985,7 @@ ol.v-bind 屬性
     v-bind亦可動態的加入屬性
 
     <input type="text" :[type]]>
-    <input type="button" value="切換" v-on:click=" type = type === 'disabled' ? 'readonly':'disabled' ">
+    <input type="button" value="切換" v-on:click=" type = type === 'disabled' ? 'readonly':'disabled' " v:bind:disabled="true or flase">//除了資料路徑外，還可以使用表達式 布林值來決定屬性是否存在
     //這段v-on的邏輯是 資料路徑(type)的值 = 如果資料路徑(type) === disabled的話返回readonly給資料路徑，否則返回disabled給資料路徑
     //首先 判斷右邊type這個資料值是否為disabled，是的話就返回readonly回來，否的話就返回disabled
     //接著返回到右邊type的值再賦予給type
@@ -993,6 +993,7 @@ ol.v-bind 屬性
     //所以前面多一個 = 是為了要將回傳的值賦予到type上面
 
     備註:disabled是禁用input, readonly則是只能讀不能寫
+    
 
 
 

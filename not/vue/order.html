@@ -19,11 +19,16 @@
             list-style: none;
         }
 
+        body
+        {
+            overflow-x: hidden;
+        }
+
         .wrap {
             padding: 50px 10%;
             width: 100vw;
             min-height: 100vh;
-            /* overflow: hidden; */
+           
         }
 
         .wrap h1 {
@@ -35,6 +40,7 @@
 
         .main {
             width: 100%;
+            
         }
 
         .main .order {
@@ -409,22 +415,22 @@
                     </div>
                     <div id="orderUI">
                         <p>數量</p>
-                        <input type="number" class="quantity" v-model.number="order_obj_temp.quantity">
+                        <input type="number" class="quantity" v-model.number="order_obj_temp.quantity" min="0">
                         <p>冰塊</p>
                         <span>
-                            <input type="radio" class="chose_btn" value="正常冰" v-model="order_obj_temp.ice">
+                            <input type="radio" class="chose_btn" value="正常冰" v-model="order_obj_temp.ice" :disabled="order_obj_temp.isHot">
                             正常冰
                         </span>
                         <span>
-                            <input type="radio" class="chose_btn" value="少冰" v-model="order_obj_temp.ice">
+                            <input type="radio" class="chose_btn" value="少冰" v-model="order_obj_temp.ice" :disabled="order_obj_temp.isHot">
                             少冰
                         </span>
                         <span>
-                            <input type="radio" class="chose_btn" value="微冰" v-model="order_obj_temp.ice">
+                            <input type="radio" class="chose_btn" value="微冰" v-model="order_obj_temp.ice" :disabled="order_obj_temp.isHot">
                             微冰
                         </span>
                         <span>
-                            <input type="radio" class="chose_btn" value="去冰" v-model="order_obj_temp.ice">
+                            <input type="radio" class="chose_btn" value="去冰" v-model="order_obj_temp.ice" :disabled="order_obj_temp.isHot">
                             去冰
                         </span>
                         <span>
@@ -438,19 +444,19 @@
                             全糖
                         </span>
                         <span>
-                            <input type="radio" class="chose_btn" value="七分" v-model="order_obj_temp.sugar">
+                            <input type="radio" class="chose_btn" value="七分" v-model="order_obj_temp.sugar" :disabled="order_obj_temp.isAllSugar">
                             七分
                         </span>
                         <span>
-                            <input type="radio" class="chose_btn" value="半糖" v-model="order_obj_temp.sugar">
+                            <input type="radio" class="chose_btn" value="半糖" v-model="order_obj_temp.sugar" :disabled="order_obj_temp.isAllSugar">
                             半糖
                         </span>
                         <span>
-                            <input type="radio" class="chose_btn" value="三分" v-model="order_obj_temp.sugar">
+                            <input type="radio" class="chose_btn" value="三分" v-model="order_obj_temp.sugar" :disabled="order_obj_temp.isAllSugar">
                             三分
                         </span>
                         <span>
-                            <input type="radio" class="chose_btn" value="無糖" v-model="order_obj_temp.sugar">
+                            <input type="radio" class="chose_btn" value="無糖" v-model="order_obj_temp.sugar" :disabled="order_obj_temp.isAllSugar">
                             無糖
                         </span>
                         <p>加料</p>
@@ -545,8 +551,8 @@
                         </li>
                     </ul>
                     <div class="list_bill">
-                        <p>訂單成立時間:<span>2021/11/19 下午:1:36:49</span></p>
-                        <p>餐點數:<span>1</span></p>
+                        <p>訂單成立時間:<span>{{bill_time}}</span></p>
+                        <p>餐點數:<span>{{bill_length}}</span></p>
                         <p>付款狀態:<span>未付款</span></p>
                     </div>
                 </div>
@@ -662,7 +668,7 @@
                 ispearl: false,
                 isCoconut: false,
                 isHot: false,
-                isAllSugar: false,
+                isAllSugar: true,
             },
             {
                 name: '薑母茶(熱飲)',
@@ -670,7 +676,7 @@
                 price: 50,
                 ispearl: false,
                 isCoconut: false,
-                isHot: false,
+                isHot: true,
                 isAllSugar: false,
             },
 
@@ -696,23 +702,25 @@
                     products: [],
                     order_obj_temp: {
 
-                        id:'',
-                        name:'',
+                        id:'',//飲料專屬編號
+                        name:'',//飲料名稱
                         quantity: '',//數量
                         price: '',//價格
                         ice: '',//冰塊
                         sugar: '',//甜度
-                        toppings: [],
-                        isShow:true,
-                        isHot:'',
-                        isAllSugar:'',
-                        ex:'',
-                        total:'',
-                        
+                        toppings: [],//加料
+                        isShow:true,//未點選前禁止區塊
+                        isHot:'',//僅限熱飲
+                        isAllSugar:'',//僅限甜度
+                        ex:'',//備註
+                        total:'',//總價(加料的單價及杯數總和)
                     },
-                    order_ary_temp: [],
-                    bill_total: [],
-                    price_total: '',
+                    order_ary_temp: [],//訂單明細
+                    price_total: '',//訂單明細價格
+                    bill_total: [],//訂單生存
+                    bill_time:'',//訂單time
+                    bill_length:'',
+                    
                 }
             },
             created() {
@@ -720,13 +728,18 @@
             },
             methods: {
                 chose_product(iteam) {//選擇飲品
-                    console.log(iteam)
+                    console.log(iteam);
                     this.order_obj_temp.isShow = false;
                     this.order_obj_temp.name = iteam.name;//名稱匯入
                     this.order_obj_temp.price = iteam.price;//價格匯入
                     this.order_obj_temp.ice = '正常冰';//預設
                     this.order_obj_temp.sugar = '全糖';//預設
                     this.order_obj_temp.isHot = iteam.isHot;
+                    if(iteam.isHot){
+                        this.order_obj_temp.ice = '熱';//若為熱的則指定熱
+                    }else if(iteam.isAllSugar){
+                        this.order_obj_temp.sugar ='全糖'; //若為不可調整甜度，就全糖
+                    }
                     this.order_obj_temp.isAllSugar = iteam.isAllSugar;
                 },
                 joinlist(){//加入訂單內
@@ -734,12 +747,14 @@
                         this.order_obj_temp.quantity = 1;
                     };//若無選擇杯數，預設一杯
                     let total ='';
+                    let length='';
                     this.order_obj_temp.id = new Date().getTime();//飲品編號
                     this.order_obj_temp.price = this.order_obj_temp.toppings.length * 5 + this.order_obj_temp.price;//加料及飲料加總單價
                     this.order_obj_temp.total = this.order_obj_temp.price * this.order_obj_temp.quantity;//單價 * 杯數 總價
                     this.order_ary_temp.push(this.order_obj_temp);//加入訂單列表
                     this.order_ary_temp.forEach(data => { 
                         total = parseInt(data.total) + parseInt(total ? total: 0);
+                        // length = parseInt(data.quantity) + parseInt(quantity ? quantity: 0);
                         //這邊邏輯是，因為for是有多少值就跑多少次，所以我跑一次total = 是讓每一次的數字+到total中
                         //所以我第二次跑的時候，情況是這樣的 第二次的資料 + 第一次的資料
                         //第三次跑的時候，第一次+第二次的資料 加上 第三次的資料
@@ -747,8 +762,9 @@
                         //所以上面的程式碼邏輯是這樣的 total(舊資料) = data.total(新資料) + total(舊資料);
                         //白話說就是我先將舊資料跟新資料加總，之後再覆蓋掉原先total上的舊資料
                         //原本打算適用total += parseInt(data.total) 但這樣會有bug 因為total並非是數字而是字串
-                        console.log(data.total)
+                        //其實這樣的做法與與現在執行的程式碼原理是一樣的。
                     });
+                    // this.order_ary_temp.push(length);
                     this.price_total = total;//總價格加總
                     //reset
                     this.order_obj_temp = {
@@ -767,9 +783,30 @@
                     };
                 },
                 footBill(){
+                    if(!this.order_ary_temp[0]){
+                        alert('請先選擇飲品再進行結帳');
+                        return;
+                    };
+
+                    let length = '';
+                    this.order_ary_temp.forEach(data =>{
+                        length = parseInt(data.quantity) + parseInt(length ? length: 0);
+                    });
                     this.bill_total = [...this.order_ary_temp];
+                    this.bill_length = length;
                     this.order_ary_temp = [];
                     this.price_total = '';
+                    this.bill_time = this.date_get(this.bill_time);
+                },
+                date_get(iteam){    
+                        let today = new Date();
+                        let year = today.getFullYear();
+                        let month = today.getMonth();
+                        let day = today.getDate();
+                        let hour = today.getHours();
+                        let min = today.getMinutes();
+                        let sec = today.getSeconds();
+                        return iteam = `${year}/${month+1}/${day}_${hour}:${min}:${sec}`
                 },
             },
 
