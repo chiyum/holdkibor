@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>飲料下訂 vue實作</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        .wrap {
+            padding: 50px 10%;
+            width: 100vw;
+            min-height: 100vh;
+            /* overflow: hidden; */
+        }
+
+        .wrap h1 {
+            margin-bottom: 30px;
+            font-weight: 500;
+            font-size: 2.5em;
+            color: #6c757d;
+        }
+
+        .main {
+            width: 100%;
+        }
+
+        .main .order {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+
+        .main .order .column {
+            width: 30%;
+            height: 100%;
+            border: 1px solid #c3c3c3;
+        }
+
+        .main .order .column li {
+            padding: 10px 20px;
+            line-height: 1.4;
+            border-bottom: 1px solid #c3c3c3;
+            background: #ffffff;
+            cursor: pointer;
+        }
+
+        .main .order .column li p {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .main .order .column li:hover {
+            background: #f8f9fa;
+        }
+
+        .main .order .shop {
+            position: relative;
+            left: 10px;
+            margin: 0 auto;
+            /* padding: 15px 20px; */
+            width: 68%;
+            height: 100%;
+
+        }
+
+        .main .order .shop .tip {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background: rgba(10, 10, 10, 0.5);
+            z-index: 10;
+        }
+
+        .main .order .shop div {
+            position: relative;
+            padding: 15px 20px;
+            border: 1px solid #c3c3c3;
+            background: #ffffff;
+        }
+
+        .main .order .shop div p {
+            margin: 15px 0;
+        }
+
+        .main .order .shop div p:nth-child(1) {
+            margin-top: 5px;
+        }
+
+        .main .order .shop div .quantity {
+            padding: 10px;
+            width: 100%;
+            height: 38px;
+            border-radius: 5px;
+            border: 1px solid #c3c3c3;
+        }
+
+        .main .order .shop div .quantity:focus {
+            outline: 3px solid #c2dbfe;
+        }
+
+        .main .order .shop div span {
+            margin-right: 15px;
+        }
+
+        .main .order .shop div span input {
+            position: relative;
+            top: 2px;
+            height: 16px;
+            width: 16px;
+        }
+
+        .main .order .shop div textarea {
+            padding: 10px;
+            width: 100%;
+            height: 70px;
+            border-radius: 5px;
+        }
+
+        .main .order .shop div textarea:focus {
+            font-size: 1.05em;
+            outline: 3px solid #c2dbfe;
+        }
+
+
+        .main .order .shop .btn {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 0;
+            border: none;
+        }
+
+        .main .order .shop .btn button {
+            padding: 5px 0;
+            width: 49%;
+            font-size: 1.05em;
+            border: 1px solid #0d6efd;
+            border-radius: 5px;
+            background: none;
+            cursor: pointer;
+        }
+
+        .main .order .shop .btn button:nth-child(1) {
+            color: #0d6efd;
+        }
+
+        .main .order .shop .btn button:nth-child(1):hover {
+            color: #ffffff;
+            background: #0d6efd;
+        }
+
+        .main .order .shop .btn button:nth-child(2) {
+            color: #ffffff;
+            background: #0d6efd;
+        }
+
+        .main .order .shop .btn button:nth-child(2):hover {
+            background: #045adb;
+        }
+
+        .main .order .shop .order_list {
+            margin-top: 10px;
+            /* height: 500px; */
+        }
+
+        .main .order .shop .order_list ul li {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #c3c3c3;
+        }
+
+        .main .order .shop .order_list ul li .bill {
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+
+
+
+        .main .order .shop .order_list ul li:nth-child(1) {
+            padding: 0;
+            border-bottom: 1.5px solid;
+        }
+
+
+        .main .order .shop .order_list ul li .bill p {
+            margin: 0;
+            padding: 5px;
+        }
+
+        .main .order .shop .order_list ul li .bill p:nth-child(1) {
+            width: 20%;
+        }
+
+        .main .order .shop .order_list ul li .bill p:nth-child(2) {
+            width: 15%;
+        }
+
+        .main .order .shop .order_list ul li .bill p:nth-child(3) {
+            width: 12%;
+        }
+
+        .main .order .shop .order_list ul li .bill p:nth-child(4) {
+            width: 12%;
+        }
+
+        .main .order .shop .order_list ul li .bill p:nth-child(5) {
+            width: 12%;
+            text-align: center;
+        }
+
+        .main .order .shop .order_list ul li .bill p:nth-child(6) {
+            width: 12%;
+            text-align: center;
+        }
+
+        .main .order .shop .order_list ul li .bill p:nth-child(7) {
+            width: 17%;
+            text-align: center;
+        }
+
+        .main .order .shop .order_list ul li:nth-child(1) p:nth-child(7) {
+            text-align: center;
+        }
+
+        .main .order .shop .order_list ul li .ex {
+            width: 100%;
+            margin: 0;
+            padding: 0 5px;
+            font-size: .9em;
+            color: #6c757d;
+            overflow: hidden;
+            overflow-wrap: anywhere;
+            border: none;
+        }
+
+        .main .order .shop .order_list ul li .ex span {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+
+        .main .order .shop .order_list .price {
+            padding: 0;
+            margin: 0;
+            text-align: right;
+            border: none;
+            padding: 10px 0;
+        }
+
+        .main .order .shop .order_list .price span {
+            margin: 0;
+            padding: 3px;
+        }
+
+        .main .order .shop .order_list button {
+            padding: 3px;
+            width: 100%;
+            font-size: .9em;
+            color: #ffffff;
+            background: #6c757d;
+            cursor: pointer;
+        }
+
+        .main .order .shop .order_list button:hover {
+            background: #646d74;
+        }
+
+
+        .list {
+            margin-top: 15px;
+            padding: 10px 20px;
+            width: 100%;
+            background: #f8f9fa;
+        }
+
+        .list div {
+            padding: 10px;
+            background: #ffffff;
+        }
+
+        .list div .list_bill {
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        .list div ul li {
+
+            border-bottom: 1px solid #c3c3c3;
+            /* padding: ; */
+
+        }
+
+        .list div ul li .ex {
+            padding: 0;
+            margin: 0;
+        }
+
+        .list div ul li .bill {
+            display: flex;
+            align-items: center;
+            padding: 5px 0;
+        }
+
+        .list div ul li:nth-child(1) {
+            border-bottom: 1.5px solid;
+        }
+
+        .list div ul li .bill p {
+            padding: 5px 0;
+        }
+
+        .list div ul li .bill p:nth-child(1) {
+            width: 20%;
+        }
+
+        .list div ul li .bill p:nth-child(2) {
+            width: 12%;
+        }
+
+        .list div ul li .bill p:nth-child(3) {
+            width: 12%;
+        }
+
+        .list div ul li .bill p:nth-child(4) {
+            width: 12%;
+            /* overflow: auto; 若要使用rwd */
+            /* white-space: nowrap; */
+        }
+
+        .list div ul li .bill p:nth-child(5) {
+            width: 12%;
+            text-align: center;
+
+        }
+
+        .list div ul li .bill p:nth-child(6) {
+            width: 12%;
+            text-align: center;
+
+        }
+
+        .list div ul li .bill p:nth-child(7) {
+            width: 17%;
+            text-align: center;
+        }
+
+        .list div ul li .ex {
+            width: 100%;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            padding: 0;
+            font-size: .9em;
+            color: #6c757d;
+            overflow: hidden;
+            overflow-wrap: anywhere;
+            border: none;
+        }
+
+        .list div ul li .ex span {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+
+
+        .title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>Vue訂單下訂實作</h1>
+        <div class="main">
+            <div class="order">
+                <ul class="column">
+                    <li v-for="iteam in products" :key="iteam.name" @click="chose_product(iteam)">
+                        <p>{{iteam.name}}</p>
+                        <p><span>{{iteam.name_english}}</span><span>NT${{iteam.price}}</span></p>
+                    </li>
+                </ul>
+                <div class="shop">
+                    <div class="tip" v-if="order_obj_temp.isShow">
+                        請先選取飲料
+                    </div>
+                    <div id="orderUI">
+                        <p>數量</p>
+                        <input type="number" class="quantity" v-model.number="order_obj_temp.quantity">
+                        <p>冰塊</p>
+                        <span>
+                            <input type="radio" class="chose_btn" value="正常冰" v-model="order_obj_temp.ice">
+                            正常冰
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="少冰" v-model="order_obj_temp.ice">
+                            少冰
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="微冰" v-model="order_obj_temp.ice">
+                            微冰
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="去冰" v-model="order_obj_temp.ice">
+                            去冰
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="熱" v-model="order_obj_temp.ice">
+                            熱
+                        </span>
+
+                        <p>甜度</p>
+                        <span>
+                            <input type="radio" class="chose_btn" value="全糖" v-model="order_obj_temp.sugar">
+                            全糖
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="七分" v-model="order_obj_temp.sugar">
+                            七分
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="半糖" v-model="order_obj_temp.sugar">
+                            半糖
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="三分" v-model="order_obj_temp.sugar">
+                            三分
+                        </span>
+                        <span>
+                            <input type="radio" class="chose_btn" value="無糖" v-model="order_obj_temp.sugar">
+                            無糖
+                        </span>
+                        <p>加料</p>
+                        <span>
+                            <input type="checkbox" v-model="order_obj_temp.toppings" value="珍珠">
+                            珍珠
+                        </span>
+                        <span>
+                            <input type="checkbox" v-model="order_obj_temp.toppings" value="粉條">
+                            粉條
+                        </span>
+                        <span>
+                            <input type="checkbox" v-model="order_obj_temp.toppings" value="小粉圓">
+                            小粉圓
+                        </span>
+                        <span>
+                            <input type="checkbox" v-model="order_obj_temp.toppings" value="椰果">
+                            椰果
+                        </span>
+                        <span>
+                            <input type="checkbox" v-model="order_obj_temp.toppings" value="芋頭">
+                            芋頭
+                        </span>
+                        <p>備註</p>
+                        <textarea name="Text1" rows="4" v-model="order_obj_temp.ex">
+                        </textarea>
+                        <div class="btn">
+                            <button type="button">取消</button>
+                            <button type="button" @click="joinlist">加入</button>
+                        </div>
+                    </div>
+                    <div class="order_list">
+                        <ul>
+                            <li>
+                                <div class="bill">
+                                    <p class="title">品項</p>
+                                    <p class="title">冰塊</p>
+                                    <p class="title">甜度</p>
+                                    <p class="title">加料</p>
+                                    <p class="title">單價</p>
+                                    <p class="title">數量</p>
+                                    <p class="title">小計</p>
+                                </div>
+                            </li>
+                            <li v-for="i in order_ary_temp">
+                                <div class="bill">
+                                    <p class="title">{{i.name}}</p>
+                                    <p>{{i.ice}}</p>
+                                    <p>{{i.sugar}}</p>
+                                    <p>{{i.toppings.join(',')}}</p>
+                                    <p>{{i.price}}</p>
+                                    <p>{{i.quantity}}</p>
+                                    <p>{{i.total}}</p>
+                                </div>
+                                <div class="ex">
+                                    <span>備註</span>:{{i.ex}}
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="price">共:NT$<span>{{ price_total}}</span>元</div>
+                        <button @click="footBill">產生訂單</button>
+                    </div>
+                </div>
+            </div>
+            <div class="list">
+                <div>
+                    <ul>
+                        <li>
+                            <div class="bill">
+                                <p>品項</p>
+                                <p>冰塊</p>
+                                <p>甜度</p>
+                                <p>加料</p>
+                                <p>單價</p>
+                                <p>加料</p>
+                                <p>小計</p>
+                            </div>
+                        </li>
+                        <li v-for="iteam in bill_total">
+                            <div class="bill">
+                                <p class="title">{{iteam.name}}</p>
+                                <p>{{iteam.ice}}</p>
+                                <p>{{iteam.sugar}}</p>
+                                <p>{{iteam.toppings.join(',')}}</p>
+                                <p>{{iteam.price}}</p>
+                                <p>{{iteam.quantity}}</p>
+                                <p>{{iteam.total}}</p>
+                            </div>
+                            <div class="ex">
+                                <span>備註</span>:{{iteam.ex}}
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="list_bill">
+                        <p>訂單成立時間:<span>2021/11/19 下午:1:36:49</span></p>
+                        <p>餐點數:<span>1</span></p>
+                        <p>付款狀態:<span>未付款</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        const products_data = [
+            {
+                name: '奶茶',
+                name_english: 'milk tea',
+                price: 45,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '珍珠奶茶',
+                name_english: 'pearl milk tea',
+                price: 50,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '椰果奶茶',
+                name_english: 'Coconut Milk Tea',
+                price: 50,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '鮮奶茶',
+                name_english: 'Milk Tea',
+                price: 50,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '珍珠鮮奶茶',
+                name_english: 'pearl Milk Tea',
+                price: 55,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '椰果鮮奶茶',
+                name_english: 'Coconut Milk Tea',
+                price: 55,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '蜜香紅茶',
+                name_english: 'Black Tea',
+                price: 30,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '高山青茶',
+                name_english: 'Green Tea',
+                price: 30,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '茉莉綠茶',
+                name_english: 'Green Tea',
+                price: 30,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '黃金烏龍',
+                name_english: 'Oolong Tea',
+                price: 30,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '蜜香紅茶',
+                name_english: 'Black Tea',
+                price: 30,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '冬瓜茶(糖固定)',
+                name_english: 'Winter Melon Tea',
+                price: 30,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+            {
+                name: '薑母茶(熱飲)',
+                name_english: 'Ginger tea',
+                price: 50,
+                ispearl: false,
+                isCoconut: false,
+                isHot: false,
+                isAllSugar: false,
+            },
+
+        ]
+
+        window.onresize = ()=>{ //畫面調整時
+            resetUI();
+        };
+
+        //tip大小調整
+        resetUI();
+        function resetUI(){
+            let order = document.querySelector('#orderUI');
+            let tip = document.querySelector('.tip');
+            tip.style['width'] = order.offsetWidth + 'px';
+            tip.style['height'] = order.offsetHeight + 'px';
+        };
+
+
+        Vue.createApp({
+            data() {
+                return {
+                    products: [],
+                    order_obj_temp: {
+
+                        id:'',
+                        name:'',
+                        quantity: '',//數量
+                        price: '',//價格
+                        ice: '',//冰塊
+                        sugar: '',//甜度
+                        toppings: [],
+                        isShow:true,
+                        isHot:'',
+                        isAllSugar:'',
+                        ex:'',
+                        total:'',
+                        
+                    },
+                    order_ary_temp: [],
+                    bill_total: [],
+                    price_total: '',
+                }
+            },
+            created() {
+                this.products = products_data;
+            },
+            methods: {
+                chose_product(iteam) {//選擇飲品
+                    console.log(iteam)
+                    this.order_obj_temp.isShow = false;
+                    this.order_obj_temp.name = iteam.name;//名稱匯入
+                    this.order_obj_temp.price = iteam.price;//價格匯入
+                    this.order_obj_temp.ice = '正常冰';//預設
+                    this.order_obj_temp.sugar = '全糖';//預設
+                    this.order_obj_temp.isHot = iteam.isHot;
+                    this.order_obj_temp.isAllSugar = iteam.isAllSugar;
+                },
+                joinlist(){//加入訂單內
+                    if(this.order_obj_temp.quantity == 0||this.order_obj_temp.quantity ==''||!this.order_obj_temp.quantity){
+                        this.order_obj_temp.quantity = 1;
+                    };//若無選擇杯數，預設一杯
+                    let total ='';
+                    this.order_obj_temp.id = new Date().getTime();//飲品編號
+                    this.order_obj_temp.price = this.order_obj_temp.toppings.length * 5 + this.order_obj_temp.price;//加料及飲料加總單價
+                    this.order_obj_temp.total = this.order_obj_temp.price * this.order_obj_temp.quantity;//單價 * 杯數 總價
+                    this.order_ary_temp.push(this.order_obj_temp);//加入訂單列表
+                    this.order_ary_temp.forEach(data => { 
+                        total = parseInt(data.total) + parseInt(total ? total: 0);
+                        //這邊邏輯是，因為for是有多少值就跑多少次，所以我跑一次total = 是讓每一次的數字+到total中
+                        //所以我第二次跑的時候，情況是這樣的 第二次的資料 + 第一次的資料
+                        //第三次跑的時候，第一次+第二次的資料 加上 第三次的資料
+                        //提示 JS的賦予是這樣的total(舊資料) = total(舊資料)
+                        //所以上面的程式碼邏輯是這樣的 total(舊資料) = data.total(新資料) + total(舊資料);
+                        //白話說就是我先將舊資料跟新資料加總，之後再覆蓋掉原先total上的舊資料
+                        //原本打算適用total += parseInt(data.total) 但這樣會有bug 因為total並非是數字而是字串
+                        console.log(data.total)
+                    });
+                    this.price_total = total;//總價格加總
+                    //reset
+                    this.order_obj_temp = {
+                        id:'',
+                        name:'',
+                        quantity: '',//數量
+                        price: '',//價格
+                        ice: '',//冰塊
+                        sugar: '',//甜度
+                        toppings: [],
+                        isShow:true,
+                        isHot:'',
+                        isAllSugar:'',
+                        ex:'',
+                        total:'',
+                    };
+                },
+                footBill(){
+                    this.bill_total = [...this.order_ary_temp];
+                    this.order_ary_temp = [];
+                    this.price_total = '';
+                },
+            },
+
+        }).mount('.main')
+
+    </script>
+</body>
+
+</html>

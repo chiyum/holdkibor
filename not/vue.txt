@@ -1166,7 +1166,7 @@ ol.資料綁定v-model 與表單:
             }
         }
 
-        <input type="checkbox" value="標籤一" v-model="chose">
+        <input type="checkbox" value="標籤一" v-model="chose">//這邊value不需要用v-bind
         <input type="checkbox" value="標籤二" v-model="chose">
         <input type="checkbox" value="標籤三" v-model="chose">
         //三個綁定同一個資料路徑
