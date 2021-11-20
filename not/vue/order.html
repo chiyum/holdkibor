@@ -390,11 +390,45 @@
             white-space: nowrap;
         }
 
-
-
         .title {
             font-weight: bold;
         }
+
+
+        @media (max-width:860px) {
+            
+
+            .main .order
+            {
+                flex-direction: column;
+            }
+            .main .order .column
+            {
+                width: 100%;
+            }
+
+            .main .order .shop
+            {
+                width: 100%;
+                left: 0;
+            }
+
+        }
+
+        @media (max-width:550px) {
+            
+          .wrap{
+              width: 100vw;
+              padding: 10px;
+              overflow-x: hidden;
+          }
+          .wrap h1{
+              text-align: center;
+              font-size: 1.5em;
+          }
+
+        }
+
     </style>
 </head>
 
@@ -410,13 +444,13 @@
                     </li>
                 </ul>
                 <div class="shop">
-                    <div class="tip" v-if="order_obj_temp.isShow">
+                    <div class="tip" v-show="order_obj_temp.isShow">
                         請先選取飲料
                     </div>
                     <div id="orderUI">
                         <p>數量</p>
                         <input type="number" class="quantity" v-model.number="order_obj_temp.quantity" min="0">
-                        <p>冰塊</p>
+                        <p  >冰塊</p>
                         <span>
                             <input type="radio" class="chose_btn" value="正常冰" v-model="order_obj_temp.ice" :disabled="order_obj_temp.isHot">
                             正常冰
@@ -438,7 +472,7 @@
                             熱
                         </span>
 
-                        <p>甜度</p>
+                        <p id="step2">甜度</p>
                         <span>
                             <input type="radio" class="chose_btn" value="全糖" v-model="order_obj_temp.sugar">
                             全糖
@@ -553,7 +587,7 @@
                     <div class="list_bill">
                         <p>訂單成立時間:<span>{{bill_time}}</span></p>
                         <p>餐點數:<span>{{bill_length}}</span></p>
-                        <p>付款狀態:<span>未付款</span></p>
+                        <p id="step3">付款狀態:<span>未付款</span></p>
                     </div>
                 </div>
             </div>
@@ -728,6 +762,13 @@
             },
             methods: {
                 chose_product(iteam) {//選擇飲品
+                    if(document.querySelector('.wrap').offsetWidth < 860){//當使用手機模式時跳轉下一個步驟 
+                        document.querySelector('#step2').scrollIntoView({
+                            block:'center', 
+                            behavior:'smooth', 
+                            inline:'center'
+                        });
+                    };
                     console.log(iteam);
                     this.order_obj_temp.isShow = false;
                     this.order_obj_temp.name = iteam.name;//名稱匯入
@@ -746,6 +787,13 @@
                     if(this.order_obj_temp.quantity == 0||this.order_obj_temp.quantity ==''||!this.order_obj_temp.quantity){
                         this.order_obj_temp.quantity = 1;
                     };//若無選擇杯數，預設一杯
+                    if(document.querySelector('.wrap').offsetWidth < 860){ //當使用手機模式時跳轉下一個步驟 
+                      document.querySelector('#step3').scrollIntoView({
+                          block:'center', 
+                          behavior:'smooth', 
+                          inline:'center'
+                      });
+                    };
                     let total ='';
                     let length='';
                     this.order_obj_temp.id = new Date().getTime();//飲品編號
@@ -787,7 +835,6 @@
                         alert('請先選擇飲品再進行結帳');
                         return;
                     };
-
                     let length = '';
                     this.order_ary_temp.forEach(data =>{
                         length = parseInt(data.quantity) + parseInt(length ? length: 0);
@@ -799,14 +846,14 @@
                     this.bill_time = this.date_get(this.bill_time);
                 },
                 date_get(iteam){    
-                        let today = new Date();
-                        let year = today.getFullYear();
-                        let month = today.getMonth();
-                        let day = today.getDate();
-                        let hour = today.getHours();
-                        let min = today.getMinutes();
-                        let sec = today.getSeconds();
-                        return iteam = `${year}/${month+1}/${day}_${hour}:${min}:${sec}`
+                    let today = new Date();
+                    let year = today.getFullYear();
+                    let month = today.getMonth();
+                    let day = today.getDate();
+                    let hour = today.getHours();
+                    let min = today.getMinutes();
+                    let sec = today.getSeconds();
+                    return iteam = `${year}/${month+1}/${day}_${hour}:${min}:${sec}`
                 },
             },
 
