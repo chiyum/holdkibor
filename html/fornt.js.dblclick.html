@@ -69,68 +69,34 @@
                     <a href="./fornt.js.html">
                         > JavaScript
                     </a>
+                    <a href="./fornt.js.dblclick.html">
+                        > 使用click事件完成dblclick事件
+                    </a>
+                    <p>2021-11-22</p>
                 </div>
-                <ul>
-                    <li>
-                        <a href="./fornt.js.codeList.html">
-                            <img src="../img/codeimg.jpg" alt="" class="htmlList">
-                            <div>
-                                <h2>code 列表</h2>
-                                <p>這邊簡略的整理原生JS的code並且提供簡易介紹以供使用。</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.AJAX.html">
-                            <img src="../img/codeimg5.jpg" alt="" class="cssList">
-                            <div>
-                                <h2>原生AJAX介紹</h2>
-                                <p>本篇介紹入門款原生AJAX及相關資訊。最基本的POST、GET及操作原理...</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.gotop.html">
-                            <img src="../img/codeimg2.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>JQuery回到頂端</h2>
-                                <p>此編篇為JQuery回到頂端用法</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.gotop2.html">
-                            <img src="../img/gotop.png" alt="" class="jsList">
-                            <div>
-                                <h2>原生JS回到頂端</h2>
-                                <p>既然JQuery都可以有回到頂端的動畫及功能，那麼原生的JS沒道理不能夠完成吧?來看看原生JS提供的方法吧!</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.fontAry.html">
-                            <img src="../img/codeimg7.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>檔名副檔名分割的方法</h2>
-                                <p>
-                                    當使用&linput type="file"&gt這個標籤時，所取得的檔名會是包含副檔名的名稱，當需要將附檔名及檔名都個別取出時，
-                                    就需要將其分割，此章介紹兩種方法。
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.dblclick.html">
-                            <img src="../img/codeimg_dblcklick.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>使用click事件完成dblclick事件</h2>
-                                <p>
-                                    我自己在開發時曾經遇到過想使用dblclick事件卻因為與插件使用的API衝突的困擾發生。所以自己鑽研了一個以click的方式完成dblclick事件...
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <div class="article">
+                    <h2>使用click事件完成dblclick事件</h2>
+                    <p>我自己在開發時曾經遇到過想使用dblclick事件卻因為與插件使用的API衝突的困擾發生。</p>
+                    <p>為了使自己能夠使用api完成自己想要的功能，所以就自己就花了點時間研究出這個變相的方法來</p>
+                    <pre class="code">
+
+    <span class="var">let</span> select_num = <span class="str2">0</span>;//首先在全域先定義個0來當作判斷的工具。
+
+    <span class="var">function</span> dblclick(){
+        <span class="fn">select_num++</span>;//觸發事件後讓select_num +1
+        setTimeout(() => {/200毫秒後select_num歸零
+            <span class="fn">select_num</span> = <span class="str2">0</span>;
+        }, <span class="str2">200</span>);
+        if(select_num == <span class="str2">2</span>){//若在兩百毫秒內再次觸發事件，那個select_num就會因為++而從1變成2
+            //當select_num說明了在兩百毫秒內連續觸發了兩次事件，若用在click上就等於滑鼠雙擊了兩次
+            //這正是dblclick事件，在if這邊就可以寫上你雙擊後所要觸發的功能。
+            <span class="fn">select_num</span> = <span class="str2">0</span>;
+        }
+    }
+</pre>
+<p>以上就是今天所分享的使用click事件來完成dblclick事件，若有疑問可以與我聯絡。</p>
+                   
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -195,7 +161,9 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

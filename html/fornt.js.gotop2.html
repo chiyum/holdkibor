@@ -69,68 +69,39 @@
                     <a href="./fornt.js.html">
                         > JavaScript
                     </a>
+                    <a href="./fornt.js.gotop2.html">
+                        > 原生JS回到頂端
+                    </a>
+                    <p>2021-11-22</p>
                 </div>
-                <ul>
-                    <li>
-                        <a href="./fornt.js.codeList.html">
-                            <img src="../img/codeimg.jpg" alt="" class="htmlList">
-                            <div>
-                                <h2>code 列表</h2>
-                                <p>這邊簡略的整理原生JS的code並且提供簡易介紹以供使用。</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.AJAX.html">
-                            <img src="../img/codeimg5.jpg" alt="" class="cssList">
-                            <div>
-                                <h2>原生AJAX介紹</h2>
-                                <p>本篇介紹入門款原生AJAX及相關資訊。最基本的POST、GET及操作原理...</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.gotop.html">
-                            <img src="../img/codeimg2.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>JQuery回到頂端</h2>
-                                <p>此編篇為JQuery回到頂端用法</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.gotop2.html">
-                            <img src="../img/gotop.png" alt="" class="jsList">
-                            <div>
-                                <h2>原生JS回到頂端</h2>
-                                <p>既然JQuery都可以有回到頂端的動畫及功能，那麼原生的JS沒道理不能夠完成吧?來看看原生JS提供的方法吧!</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.fontAry.html">
-                            <img src="../img/codeimg7.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>檔名副檔名分割的方法</h2>
-                                <p>
-                                    當使用&linput type="file"&gt這個標籤時，所取得的檔名會是包含副檔名的名稱，當需要將附檔名及檔名都個別取出時，
-                                    就需要將其分割，此章介紹兩種方法。
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.dblclick.html">
-                            <img src="../img/codeimg_dblcklick.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>使用click事件完成dblclick事件</h2>
-                                <p>
-                                    我自己在開發時曾經遇到過想使用dblclick事件卻因為與插件使用的API衝突的困擾發生。所以自己鑽研了一個以click的方式完成dblclick事件...
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <div class="article">
+                    <h2>原生go top 回到頂端的方法</h2>
+                    <p>其實在原生中就有一種gotop的方法，根本就不需要去使用JQuery套件。</p>
+                    <p>除了使用錨點外，還可以使用scrollIntoView()這個方法，這個方法除了擁有錨點的跳轉外，還有平滑移動的動畫效果</p>
+                    <p>那我們就直接先來看code吧!</p>
+                    <pre class="code">
+    <span class="fn">document</span>.querySelector('<span class="str">#step3</span>').<span class="fn2">scrollIntoView</span>({
+        <span class="fn2">block</span>:'<span class="str">center</span>', //垂直卷軸的位置
+        <span class="fn2">behavior</span>:'<span class="str">smooth</span>',//轉移方式
+        <span class="fn2">inline</span>:'<span class="str">center</span>'水平卷軸的位置
+    });
+</pre>
+<p>首先scrollIntoView地使用邏輯是這樣的:</p>
+<p>我們指定的dom會將會是畫面要移動到的位置。其次裡面的屬性分別是垂直卷軸的位置、轉移方式、水平卷軸的位置。</p>
+<h4>block(垂直卷軸位置):</h4>
+<p>這個屬性決定了垂直捲軸的位置，接受 start、center、end 和 nearest 四種。預設為 start</p>
+<p>用途為移動時對其卷軸的位置。其中 start 代表對齊垂直捲軸的頂部，end 對齊垂直底部，center 自然就是對齊中心點，而 nearest 則是依據元素當下位置來判斷最近的位置來對齊</p>
+<h4>inline(水平卷軸位置):</h4>
+<p>這個屬性則是決定了水平捲軸的位置。接受 start、center、end 和 nearest 四種。預設為 nearest</p>
+<p>start代表水平卷軸的左側。end代表水平右側、center 對齊中心點。至於nearest與垂直相同。</p>
+<h4>behavior(轉移方式):</h4>
+<p>這個屬性共有兩個值，決定轉移方式為跳轉or動畫滑動</p>
+<p>auto為跳。smooth則是平滑移動。預設則是 auto 跳的</p>
+<h4>go top</h4>
+<p>因此若是要使用gotop回到頂端，就將目標位置對向最頂端的dom即可。</p>
+<p>以上就是本篇介紹。若有疑問可以與我聯絡。</p>
+<p>本篇參考至<a href="https://ithelp.ithome.com.tw/articles/10279669?sc=hot">這邊文章</a>。</p>
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -195,7 +166,9 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

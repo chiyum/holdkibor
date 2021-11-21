@@ -69,68 +69,59 @@
                     <a href="./fornt.js.html">
                         > JavaScript
                     </a>
+                    <a href="./fornt.js.fontAry.html">
+                        > 檔名副檔名分割
+                    </a>
+                    <p>2021-11-22</p>
                 </div>
-                <ul>
-                    <li>
-                        <a href="./fornt.js.codeList.html">
-                            <img src="../img/codeimg.jpg" alt="" class="htmlList">
-                            <div>
-                                <h2>code 列表</h2>
-                                <p>這邊簡略的整理原生JS的code並且提供簡易介紹以供使用。</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.AJAX.html">
-                            <img src="../img/codeimg5.jpg" alt="" class="cssList">
-                            <div>
-                                <h2>原生AJAX介紹</h2>
-                                <p>本篇介紹入門款原生AJAX及相關資訊。最基本的POST、GET及操作原理...</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.gotop.html">
-                            <img src="../img/codeimg2.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>JQuery回到頂端</h2>
-                                <p>此編篇為JQuery回到頂端用法</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.gotop2.html">
-                            <img src="../img/gotop.png" alt="" class="jsList">
-                            <div>
-                                <h2>原生JS回到頂端</h2>
-                                <p>既然JQuery都可以有回到頂端的動畫及功能，那麼原生的JS沒道理不能夠完成吧?來看看原生JS提供的方法吧!</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.fontAry.html">
-                            <img src="../img/codeimg7.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>檔名副檔名分割的方法</h2>
-                                <p>
-                                    當使用&linput type="file"&gt這個標籤時，所取得的檔名會是包含副檔名的名稱，當需要將附檔名及檔名都個別取出時，
-                                    就需要將其分割，此章介紹兩種方法。
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./fornt.js.dblclick.html">
-                            <img src="../img/codeimg_dblcklick.jpg" alt="" class="jsList">
-                            <div>
-                                <h2>使用click事件完成dblclick事件</h2>
-                                <p>
-                                    我自己在開發時曾經遇到過想使用dblclick事件卻因為與插件使用的API衝突的困擾發生。所以自己鑽研了一個以click的方式完成dblclick事件...
-                                </p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                <div class="article">
+                    <h2>檔名副檔名分割方法</h2>
+                    <p>當使用file上傳檔案時。我們可能會需要將檔名及副檔名分割並做出對應的動作。在這邊會提供兩個分割的方法供各位參考。</p>
+                    <p>兩個方法的作用一樣，作法其實也相似，差別在於使用不同的API</p>
+                    <p>第一種:pop()與split( )的搭配:</p>
+                    <pre class="code">
+    <span class="var">let</span> i = '<span class="str">test.text.docx</span>';?//此次所分割的字串
+
+    <span class="var">let</span> name = i.<span class="fn2">name.split</span>('<span class="str">.</span>');
+    //將字串中以"."為界線進行分割並組成字串
+    //此時的name = ['test','text','docx'];
+
+    <span class="var">let</span> type = name[name.<span class="fn">length</span> - <span class="str2">1</span>];
+    //抓出副檔名
+    //因為陣列最後一個必然是副檔名，所以我們索引為最後一個值，也就是副檔名的字串docx。
+        
+    name.<span class="fn2">pop()</span>;//移除副檔名
+    //接著我們將副檔名的索引移除
+    //pop的功能就是將最後一個索引移除
+
+    name = name.<span class="fn2">join</span>('<span class="str">.</span>');
+    //最後將剩餘的字串再以原先為界線分割的'.'再次組合起來為字串
+    //join的功用就是將陣列中的值，以('')使用者指定的字串組合起來
+    //拿範例來說明就是將剩餘的test,text間加入.並轉為字串
+    //所以最後的name = '<span class="str">test.text</span>'
+</pre>
+                    <p>第二種:substring( )與split( )的搭配:</p>
+                    <pre class="code">
+    <span class="var">let</span> i = '<span class="str">test.text.docx</span>';?//此次所分割的字串
+
+    <span class="var">let</span> name = i.<span class="fn2">name.split</span>('<span class="str">.</span>');
+    //將字串中以"."為界線進行分割並組成字串
+    //此時的name = ['test','text','docx'];
+
+    <span class="var">let</span> type = name[name.<span class="fn">length</span> - <span class="str2">1</span>];
+    //抓出副檔名
+    //因為陣列最後一個必然是副檔名，所以我們索引為最後一個值，也就是副檔名的字串docx。
+        
+    name = i.<span class="fn2">substring(0,str_length - 5)</span>;//移除副檔名
+    //substring的型態:(開始位置,擷取數量)，用途是擷取指定字串並回傳。
+    //例如字串為apple使用substring(0,3)。結果會是app。
+    //所以上面的程式碼擷取了字串總數-5的字串。
+    //name = '<span class="str">test.text</span>'
+    //而之所以會-5是因為我們不擷取副檔名及含.的部分
+</pre>
+                    <p>整體來說會是POP的方法較為簡潔，因為副檔名的種類繁多，字數並非都是固定的。若使用第二種方法substring的話，會需要再寫判斷式來進行判斷。</p>
+                    <p>以上就是今天所提供的兩個分割字串的方法，有任何問題可以與我聯絡。</p>
+                </div>
             </div>
         </div>
         <div class="footer">
@@ -195,7 +186,9 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
