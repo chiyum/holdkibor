@@ -2,7 +2,8 @@
 
 @extends('system.layouts.default')
 
-
+<!-- 目前差圖片縮圖，等壓縮圖片有了以後再處理 -->
+<!-- embed 套入微軟的檔案預覽-->
 @section('js')
 <!-- 導入的JS -->
 
@@ -11,7 +12,7 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script>
-        let b =`[{"id":"0","text":"選單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"0"},"a_attr":{"href":"#","id":"0_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"#","type":"file"},{"id":"1","text":"群益數位","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"1"},"a_attr":{"href":"#","id":"1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_10","text":"公司聯絡資訊","icon":"https://v2.volkssii.com/img/fileIcon/WORD.svg","li_attr":{"id":"j1_10"},"a_attr":{"href":"#","id":"j1_10_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/JPG.svg"},"parent":"1","type":"word"},{"id":"2","text":"設計圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"2"},"a_attr":{"href":"#","id":"2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_8","text":"一樓大廳","icon":"https://v2.volkssii.com/img/fileIcon/PNG.svg","li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PDF.svg"},"parent":"2","type":"png"},{"id":"j1_9","text":"客房布局","icon":"https://v2.volkssii.com/img/fileIcon/XLS.svg","li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PDF.svg"},"parent":"2","type":"xls"},{"id":"3","text":"施工圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"3"},"a_attr":{"href":"#","id":"3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_6","text":"地基鋪設","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PNG.svg"},"parent":"3","type":"jpg"},{"id":"4","text":"契約書","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"4"},"a_attr":{"href":"#","id":"4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"5","text":"廠商資訊","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"5"},"a_attr":{"href":"#","id":"5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"6","text":"瑞展工程行","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6"},"a_attr":{"href":"#","id":"6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"6_1","text":"報價單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6_1"},"a_attr":{"href":"#","id":"6_1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"6","type":"file"},{"id":"j1_5","text":"大廳牆面切割","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/PNG.svg"},"parent":"6_1","type":"jpg"},{"id":"7","text":"漢堂建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"7"},"a_attr":{"href":"#","id":"7_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"8","text":"大宇建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"8"},"a_attr":{"href":"#","id":"8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"}]`
+        let b =`[{"id":"0","text":"選單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"0"},"a_attr":{"href":"#","id":"0_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"#","type":"file"},{"id":"1","text":"群益數位","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"1"},"a_attr":{"href":"#","id":"1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_10","text":"公司聯絡資訊","icon":"https://v2.volkssii.com/img/fileIcon/WORD.svg","li_attr":{"id":"j1_10"},"a_attr":{"href":"#","id":"j1_10_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/wordfile.docx"},"parent":"1","type":"word"},{"id":"2","text":"設計圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"2"},"a_attr":{"href":"#","id":"2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_8","text":"一樓大廳","icon":"https://v2.volkssii.com/img/fileIcon/PNG.svg","li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/pngfile.png"},"parent":"2","type":"png"},{"id":"j1_9","text":"客房布局","icon":"https://v2.volkssii.com/img/fileIcon/XLS.svg","li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/excelfile.xlsx"},"parent":"2","type":"xls"},{"id":"3","text":"施工圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"3"},"a_attr":{"href":"#","id":"3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_6","text":"地基鋪設攝影","icon":"https://v2.volkssii.com/img/fileIcon/MP4.svg","li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/video.mp4"},"parent":"3","type":"mp4"},{"id":"4","text":"契約書","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"4"},"a_attr":{"href":"#","id":"4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"5","text":"廠商資訊","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"5"},"a_attr":{"href":"#","id":"5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"6","text":"瑞展工程行","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6"},"a_attr":{"href":"#","id":"6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"6_1","text":"報價單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6_1"},"a_attr":{"href":"#","id":"6_1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"6","type":"file"},{"id":"j1_5","text":"大廳牆面切割","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/jpgfile2.jpg"},"parent":"6_1","type":"jpg"},{"id":"j1_99","text":"大廳牆面切割詳細報價單","icon":"https://v2.volkssii.com/img/fileIcon/PDF.svg","li_attr":{"id":"j1_99"},"a_attr":{"href":"#","id":"j1_99_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-22","fack":"https://v2.volkssii.com/img/fileIcon/pdffile.pdf"},"parent":"6_1","type":"pdf"},{"id":"7","text":"漢堂建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"7"},"a_attr":{"href":"#","id":"7_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"8","text":"大宇建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"8"},"a_attr":{"href":"#","id":"8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"}]`
         let dataAry = JSON.parse(localStorage.getItem('資料'))|| localStorage.setItem('資料',b);//若前者有資料，那取得資料。若沒有則取得後者。
         if(dataAry == undefined){//若無資料重整
             window.location.reload();
@@ -270,7 +271,44 @@
               tree = ref.create_node(DOM,{ "type": i.type,"text":i.name});
             };
             tree = ref.get_node(tree)//將tree轉換物件
-            tree.data = {time:now,fack:'https://v2.volkssii.com/img/sidebar_logo/01.svg'}//暫時載入假檔
+            switch (tree.type) {//塞入假資料
+                case 'avi':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  break;
+                case 'gif':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/giffile.gif'}//暫時載入假檔
+                  break;
+                case 'jpg':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/jpgfile2.jpg'}//暫時載入假檔
+                  break;
+                case 'mov':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  break;
+                case 'mp4':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  break;
+                case 'pdf':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pdffile.pdf'}//暫時載入假檔
+                  break;
+                case 'png':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pngfile.png'}//暫時載入假檔
+                  break;
+                case 'rar':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/rarfile.rar'}//暫時載入假檔
+                  break;
+                case 'txt':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/txtfile.txt'}//暫時載入假檔
+                  break;
+                case 'word':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/wordfile.docx'}//暫時載入假檔
+                  break;
+                case 'xls':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/excelfile.xlsx'}//暫時載入假檔
+                  break;
+                case 'zip':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/zipfile.zip'}//暫時載入假檔
+                  break;
+              }
           }
           updata();//將資料儲存入數據庫
           document.querySelector('.tip').classList.remove('active');//上傳中彈窗
@@ -452,8 +490,8 @@
               document.querySelector('#tree').style['height'] = right.clientHeight + 'px';
             }//錨點
             else if(right.clientHeight < 1000){
-              left.style['height'] = 86.5 +'vh';
-              document.querySelector('#tree').style['height'] = 81.5 +'vh';
+              left.style['height'] = 85.5 +'vh';
+              document.querySelector('#tree').style['height'] = 80.5 +'vh';
             };
         };
         //說明:判斷是判斷左邊的高弱小於右邊的話，與右同高。
@@ -544,7 +582,44 @@
                 tree = ref.create_node(DOM,{ "type":doc_return_type,"text":`${doc_return_name}`})
               };
               tree = ref.get_node(tree)//將tree轉換物件
-              tree.data = {time:now,fack:'https://v2.volkssii.com/img/sidebar_logo/01.svg'}//暫時載入假檔
+              switch (tree.type) {//塞入假資料
+                case 'avi':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  break;
+                case 'gif':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/giffile.gif'}//暫時載入假檔
+                  break;
+                case 'jpg':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/jpgfile2.jpg'}//暫時載入假檔
+                  break;
+                case 'mov':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  break;
+                case 'mp4':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  break;
+                case 'pdf':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pdffile.pdf'}//暫時載入假檔
+                  break;
+                case 'png':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pngfile.png'}//暫時載入假檔
+                  break;
+                case 'rar':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/rarfile.rar'}//暫時載入假檔
+                  break;
+                case 'txt':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/txtfile.txt'}//暫時載入假檔
+                  break;
+                case 'word':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/wordfile.docx'}//暫時載入假檔
+                  break;
+                case 'xls':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/excelfile.xlsx'}//暫時載入假檔
+                  break;
+                case 'zip':
+                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/zipfile.zip'}//暫時載入假檔
+                  break;
+              }
               clickDom.click();//因為啟用編輯模式會使後續的新增失效，故使用.click取消，這樣跑下一次的迴圈時就不會阻擋新增。
               updata();//將資料儲存入數據庫
             };
@@ -723,14 +798,24 @@
           let id = e.target.dataset.num;
           let ref = $('#tree').jstree(true);
           id = ref.get_node(id);
-          let a = document.createElement('a');
-          a.setAttribute('href',`${id.icon}`)
-          a.setAttribute('data-lightbox','comment-2')
-          a.style.display ='none';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          select_num =0;
+          let type = id.type;//判斷類型
+
+          if(type =='jpg'||type =='png'){//為圖檔的話，開啟燈箱
+            let a = document.createElement('a');
+            a.setAttribute('href',`${id.data.fack}`)
+            a.setAttribute('data-lightbox','comment-2')
+            a.style.display ='none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }else if(type =='zip'||type =='rar'||type =='gif'||type=='txt'){//為zip及rar檔的話直接下載
+            download(id.data.fack)
+          }else if(type =='xls'||type =='word'){
+            window.open(`https://view.officeapps.live.com/op/view.aspx?src=${id.data.fack}`);
+          }else{//其他開啟預覽
+            document.querySelector('.render').classList.remove('active'); //開啟預覽區塊
+            document.querySelector('#objectId').setAttribute('data',`${id.data.fack}`);//開啟url
+          };
         });
           
 
@@ -763,8 +848,9 @@
           let DOM = getDOM();
           let data_open;
           for(let i = 0; i < DOM.length ;i++){
-            if(ref.get_node(DOM[i]).type =='file'){//判斷點選節點是否為forder，是的話return
+            if(ref.get_node(DOM[i]).type =='file'){//判斷點選節點是否為folder，是的話return
               console.log(ref.get_node(DOM[i]).type)
+              alert('資料夾不可下載，請改由檔案下載。')
               return
             };
             data_open = ref.get_node(DOM[i]).data.fack;//取得data內的檔案資訊
@@ -966,24 +1052,40 @@
                 setTimeout(() => {
                   select_num=0;
                 }, 200);
-               }else{
-                 document.querySelector('.column').setAttribute('data-num',node.node.id);
-                  right_list_update(node.node.id);
+               }else{ //若點到資料夾
+                 document.querySelector('.column').setAttribute('data-num',node.node.id);//設置column父層id
+                  right_list_update(node.node.id);//重整右邊介面
                   select_num =0;
                };
                if(select_num ==2){
                   // download(node.node.data.fack);
                   //開啟燈箱
-                  let a = document.createElement('a');
-                  a.setAttribute('href',`${node.node.icon}`)
-                  a.setAttribute('data-lightbox','comment-2')
-                  a.style.display ='none';
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
-                  select_num =0;
+                  let type = node.node.type;//判斷類型
+
+                  if(type =='jpg'||type =='png'){//為圖檔的話，開啟燈箱
+                    let a = document.createElement('a');
+                    a.setAttribute('href',`${node.node.data.fack}`)
+                    a.setAttribute('data-lightbox','comment-2')
+                    a.style.display ='none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                  }else if(type =='zip'||type =='rar'||type =='gif'||type=='txt'){//為zip及rar檔的話直接下載
+                    download(node.node.data.fack)
+                  }else if(type =='xls'||type =='word'){
+                    window.open(`https://view.officeapps.live.com/op/view.aspx?src=${node.node.data.fack}`);
+                  }
+                  else{//其他開啟預覽
+                    document.querySelector('.render').classList.remove('active'); //開啟預覽區塊
+                    document.querySelector('#objectId').setAttribute('data',`${node.node.data.fack}`);//開啟url
+                  };
+                  select_num =0;//點擊計算歸零
                };
           });
+          
+          $('.render_close_icon').click(()=>{
+            document.querySelector('.render').classList.add('active'); 
+          })
           // $('#close_all_id').click(()=>{
           //   let ref = $('#tree').jstree(true);
           //   ref.close_all(0);
@@ -1016,7 +1118,7 @@
 }
 
 .vakata-context {
-  z-index: 999 !important;//jstree顯示
+  z-index: 10 !important;//jstree顯示
 }
 
 /* .jstree-anchor {
@@ -1026,6 +1128,7 @@
 } */
 
 .main {
+  /* position: relative; */
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1068,7 +1171,7 @@
   -webkit-box-shadow: 1px 0px 3px 3px #8b8585;
           box-shadow: 1px 0px 3px 3px #8b8585;
   /* overflow:hidden; */
-  min-height:86.5vh;
+  min-height:85.5vh;
 }
 /* 左邊錨點 */
 .main .left #tree {
@@ -1076,7 +1179,7 @@
   padding-top: 10px;
   /* min-height: 100vh;
   height: 100%; */
-  min-height:81.5vh;
+  min-height:80.5vh;
   overflow:scroll;
 }
 
@@ -1424,7 +1527,7 @@
   z-index: 0;
   width: 76.2%;
   width: calc(100%-392px);
-  height: 86.5vh;
+  height: 85.5vh;
 }
 
 .main .right .right_nav.active {
@@ -1549,7 +1652,7 @@
   height: 100%;
   padding-left: 30px;
   padding-top: 6px;
-  height: 100vh;
+  height: 80vh;
   background-color: #f2f2f2;
   overflow:auto;
 }
@@ -2034,11 +2137,76 @@
   background-color: #04a6c8;
 }
 
-    
+.main .render
+{
+  position: absolute;
+  top: -57px;
+  left: 0;
+  width: 100%;
+  height: 99.9vh;
+  background:rgba(10,10,10,0.25);
+  z-index: 1040;
+}
+
+.main .render.active
+{
+  visibility: hidden;
+}
+
+.main .render.active object
+{
+  transform:scale(0.5);
+  transition: none;
+}
+
+.main .render object
+{
+  padding-top: 52px;
+  padding-bottom: 100px;
+  padding-left: 5%;
+  padding-right: 5%;
+  width: 100%;
+  height: 100%;
+  transform:scale(1);
+  transition: all 0.5s;
+}
+
+.main .render .render_close_icon
+{
+  position: absolute;
+  bottom: 50px;
+  right:4%;
+  font-size:3.5em;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+
 
 @media (max-width: 1670px) {
   .main .left {
     width: 392px;
+  }
+}
+
+@media (max-width: 1260px) {
+  .main .render object{
+    padding-top:57px;
+    padding-bottom:157px;
+  }
+  .main .render .render_close_icon{
+    bottom: 107px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .main .render object{
+    padding-top:137px;
+    padding-bottom:187px;
+  }
+  .main .render .render_close_icon{
+    bottom: 137px;
   }
 }
 
@@ -2069,6 +2237,11 @@
           <li class="renameBtn"><span>重新命名</span></li>
           <li><span>刪除</span></li>
         </ul> -->
+        <div class="render active">
+          <object data="https://v2.volkssii.com/img/fileIcon/pdffile.pdf" type="" id="objectId">
+          </object>
+          <ion-icon name="close-outline" class="render_close_icon"></ion-icon>
+        </div>
         <div class="tip active">
             <div class="loading active">
                 <div class="top">

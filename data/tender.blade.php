@@ -9,13 +9,13 @@
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-<script src="https://unpkg.com/vue@next"></script>
+<!-- <script src="https://unpkg.com/vue@next"></script> -->
 <script>
    
    const table_data =[
     {
       id:'a',
-      name:'電氣工程',
+      name:'壹丙_電氣工程',
       child_id:'a_0',
       class:'table_list1',
       parent_icon:'aboveAll_hide',
@@ -29,7 +29,7 @@
     {
       id:'a_0',
       parentid:'a',
-      name:'A_低壓配電盤設備工程',
+      name:'壹丙A_低壓配電盤設備工程',
       child_id:'a_01',
       class:'table_list2',
       parent_icon:'aboveAll_hide',
@@ -43,7 +43,7 @@
     {
       id:'a_01',
       parentid:'a_0',
-      name:'(一)_P1.P1-1台電受電箱',
+      name:'壹丙A(1)_(一)_P1.P1-1台電受電箱',
       child_id:['a_02','a_03','a_04','a_05'],
       class:'table_list3',
       parent_icon:'aboveAll_hide',
@@ -57,11 +57,11 @@
     {
       parentid:'a_01',
       id:'a_02',
-      name:'1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',//名稱
+      name:'壹丙A(1_1)_1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',//名稱
       unit:'座', //單位
-      price:1727,//價格
+      price:'1,727',//價格
       quantity:2, //數量
-      total: 3454,//複數
+      total: '3,454',//複數
       profit:'',//利潤
       materials:'',//物料
       manpower:'',//人力
@@ -77,11 +77,11 @@
     {
       parentid:'a_01',
       id:'a_03',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丙A(1_2)_NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:121,
-      quantity:11590, 
-      total: 1402390,
+      quantity:'11,590', 
+      total: '1,402,390',
       profit:'',
       materials:'',
       manpower:'',
@@ -97,11 +97,11 @@
     {
       parentid:'a_01',
       id:'a_04',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丙A(1_3)_NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:181,
-      quantity:8721, 
-      total: 1578501,
+      quantity:'8,721', 
+      total: '1,578,501',
       profit:'',
       materials:'',
       manpower:'',
@@ -117,11 +117,11 @@
     {
       parentid:'a_01',
       id:'a_05',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丙A(1_4)_NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:421,
-      quantity:2869, 
-      total: 1207849,
+      quantity:'2,869', 
+      total: '1,207,849',
       unit:'只',  
       profit:'',
       materials:'',
@@ -138,7 +138,7 @@
     // 
     {
       id:'b',
-      name:'電氣工程',
+      name:'壹丁_電氣工程',
       child_id:'b_0',
       class:'table_list1',
       parent_icon:'aboveAll_hide',
@@ -152,7 +152,7 @@
     {
       id:'b_0',
       parentid:'b',
-      name:'A_低壓配電盤設備工程',
+      name:'壹丁A_低壓配電盤設備工程',
       child_id:'b_01',
       class:'table_list2',
       parent_icon:'aboveAll_hide',
@@ -166,7 +166,7 @@
     {
       id:'b_01',
       parentid:'b_0',
-      name:'(一)_P1.P1-1台電受電箱',
+      name:'壹丁A(1)_(一)_P1.P1-1台電受電箱',
       child_id:['b_02','b_03','b_04','b_05'],
       class:'table_list3',
       parent_icon:'aboveAll_hide',
@@ -180,11 +180,11 @@
     {
       parentid:'b_01',
       id:'b_02',
-      name:'1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',
+      name:'壹丁A(1_1)_1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',
       unit:'座',  
-      price:1727,
+      price:'1,727',
       quantity:2, 
-      total: 3454,
+      total: '3,454',
       profit:'',
       materials:'',
       manpower:'',
@@ -200,11 +200,11 @@
     {
       parentid:'b_01',
       id:'b_03',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丁A(1_2)_NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:121,
-      quantity:11590, 
-      total: 1402390,
+      quantity:'11,590', 
+      total: '1,402,390',
       profit:'',
       materials:'',
       manpower:'',
@@ -220,11 +220,11 @@
     {
       parentid:'b_01',
       id:'b_04',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丁A(1_3)NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:181,
-      quantity:8721, 
-      total: 1578501,
+      quantity:'8,721', 
+      total: '1,578,501',
       profit:'',
       materials:'',
       manpower:'',
@@ -240,11 +240,11 @@
     {
       parentid:'b_01',
       id:'b_05',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丁A(1_4)NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:421,
-      quantity:2869, 
-      total: 1207849,
+      quantity:'2,869', 
+      total: '1,207,849',
       profit:'',
       materials:'',
       manpower:'',
@@ -262,7 +262,7 @@
   const table_data2 =[
     {
       id:'a',
-      name:'切割工程',
+      name:'壹丁_切割工程',
       child_id:'a_0',
       class:'table_list1',
       parent_icon:'aboveAll_hide',
@@ -276,7 +276,7 @@
     {
       id:'a_0',
       parentid:'a',
-      name:'A_各樓層管路連接工程',
+      name:'壹丁A_各樓層管路連接工程',
       child_id:'a_01',
       class:'table_list2',
       parent_icon:'aboveAll_hide',
@@ -290,7 +290,7 @@
     {
       id:'a_01',
       parentid:'a_0',
-      name:'(一)_P1.P1-愛在七期專案',
+      name:'壹丁A(1)_(一)_P1.P1-愛在七期專案',
       child_id:['a_02','a_03','a_04','a_05'],
       class:'table_list3',
       parent_icon:'aboveAll_hide',
@@ -304,11 +304,11 @@
     {
       parentid:'a_01',
       id:'a_02',
-      name:'1_CASE 600W*2000H*600D SPHC 2.0預測進出管路切割',//名稱
+      name:'壹丁A(1_1)_1_CASE 600W*2000H*600D SPHC 2.0預測進出管路切割',//名稱
       unit:'座', //單位
-      price:1727,//價格
+      price:'1,727',//價格
       quantity:2, //數量
-      total: 3454,//複數
+      total: '3,454',//複數
       profit:'',//利潤
       materials:'',//物料
       manpower:'',//人力
@@ -324,11 +324,11 @@
     {
       parentid:'a_01',
       id:'a_03',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丁A(1_2)_NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:121,
-      quantity:11590, 
-      total: 1402390,
+      quantity:'11,590', 
+      total: '1,402,390',
       profit:'',
       materials:'',
       manpower:'',
@@ -344,11 +344,11 @@
     {
       parentid:'a_01',
       id:'a_04',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丁A(1_3)_NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:181,
-      quantity:8721, 
-      total: 1578501,
+      quantity:'8,721', 
+      total: '1,578,501',
       profit:'',
       materials:'',
       manpower:'',
@@ -364,11 +364,11 @@
     {
       parentid:'a_01',
       id:'a_05',
-      name:'NBF 3P 400AF 400AT 380V 30KA',
+      name:'壹丁A(1_4)_NBF 3P 400AF 400AT 380V 30KA',
       unit:'只',  
       price:421,
-      quantity:2869, 
-      total: 1207849,
+      quantity:'2,869', 
+      total: '1,207,849',
       profit:'',
       materials:'',
       manpower:'',
@@ -465,28 +465,33 @@ Vue.createApp({
         this.listColor_reset();
     },
     listColor_reset(){
+      // setTimeout(() => {
+      //   let temp_ary = [];
+      //   let li = document.querySelectorAll('.table_main ul li');
+      //   for(let i = 0;i<li.length;i++){
+      //     if(li[i].className!='aboveAll_hide'){//判斷是否為隱藏，若隱藏則不加入轉換名單中
+      //       //就算只抓取非隱藏起來的DOM，他們在陣列中的順序也是不會改變的，所以需要想辦法抓取新的順序
+      //       //抓取歸抓取但還是不能打亂原先的順序，因此在抓取新的順序並賦予值以後，還需要賦予以後讓他們回歸並套用新的樣式
+      //       temp_ary.push(li[i]);
+      //     };     
+      //   };
+      //   temp_ary.forEach((data,i)=>{
+      //     if(i % 2 ==0){ //透過餘數去偵測每個li的順序
+      //       //餘數為0為偶數
+      //       data.style['background'] = '#ffffff';
+      //       // data.style['transition'] = 'all 0.4s';
+      //     }else{
+      //       data.style['background'] = '#cdcdcd';
+      //       // data.style['transition'] = 'all 0.4s';
+      //     };
+      //   });
+      //   //目前發現的問題是，掃for迴圈時，抓不到開啟的那一些元素，所以使用settimeout解決
+      // }, 0);
       setTimeout(() => {
-        let temp_ary = [];
-        let li = document.querySelectorAll('.table_main ul li');
-        for(let i = 0;i<li.length;i++){
-          if(li[i].className!='aboveAll_hide'){//判斷是否為隱藏，若隱藏則不加入轉換名單中
-            //就算只抓取非隱藏起來的DOM，他們在陣列中的順序也是不會改變的，所以需要想辦法抓取新的順序
-            //抓取歸抓取但還是不能打亂原先的順序，因此在抓取新的順序並賦予值以後，還需要賦予以後讓他們回歸並套用新的樣式
-            temp_ary.push(li[i]);
-          };     
-        };
-        temp_ary.forEach((data,i)=>{
-          if(i % 2 ==0){ //透過餘數去偵測每個li的順序
-            //餘數為0為偶數
-            data.style['background'] = '#ffffff';
-            // data.style['transition'] = 'all 0.4s';
-          }else{
-            data.style['background'] = '#cdcdcd';
-            // data.style['transition'] = 'all 0.4s';
-          };
-        });
-        //目前發現的問題是，掃for迴圈時，抓不到開啟的那一些元素，所以使用settimeout解決
-      }, 10);
+        $('.table_main ul li:even').css('background-color','#cdcdcd');
+        $('.table_main ul li:odd').css('background-color','#ffffff');
+      }, 0);
+     
     },
     open_all(){//全展開
       console.log('展開觸發')
@@ -647,7 +652,7 @@ li {
   margin: 0 10px;
   margin-bottom: -9px;
   width: 99%;
-  min-width: 1100px;
+  min-width: 1280px;
   height: calc(85.8vh);
   overflow: hidden;
   background-color: white;
@@ -941,6 +946,7 @@ li {
   margin: 0;
   padding: 0;
   width: 5.83%;
+  font-size: 14px;
   white-space: nowrap;
 }
 
