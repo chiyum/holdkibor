@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+
+    <div class="wrap">
+        <ul></ul>
+    </div>
+
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    table_data: [
+                        {
+                            id: 'a',
+                            name: '電氣工程',
+                            child_id: 'a_0',
+                            class: 'table_list1',
+                            parent_icon: 'aboveAll_hide',
+                            onStock: true,//是否有icon
+                            icon_onStock: false,//子元素隱藏icon
+                            hide: false,//收合時顯示與否
+                            isOpen_Stock: false,//收合時icon翻轉
+                            isSearch: false,
+                            unit: '',
+                            isb
+                        },
+                        {
+                            id: 'a_0',
+                            parentid: 'a',
+                            name: 'A_低壓配電盤設備工程',
+                            child_id: 'a_01',
+                            class: 'table_list2',
+                            parent_icon: 'aboveAll_hide',
+                            onStock: true,
+                            icon_onStock: false,
+                            hide: true,
+                            isOpen_Stock: false,
+                            isSearch: false,
+                            unit: '',
+                        },
+                        {
+                            id: 'a_01',
+                            parentid: 'a_0',
+                            name: '(一)_P1.P1-1台電受電箱',
+                            child_id: ['a_02', 'a_03', 'a_04', 'a_05'],
+                            class: 'table_list3',
+                            parent_icon: 'aboveAll_hide',
+                            onStock: true,
+                            icon_onStock: false,
+                            hide: true,
+                            isOpen_Stock: false,
+                            isSearch: false,
+                            unit: '',
+                        },
+                        {
+                            parentid: 'a_01',
+                            id: 'a_02',
+                            name: '1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',//名稱
+                            unit: '座', //單位
+                            price: 1727,//價格
+                            quantity: 2, //數量
+                            total: 3454,//複數
+                            profit: '',//利潤
+                            materials: '',//物料
+                            manpower: '',//人力
+                            manage: '',//管理
+                            device: '',//設備
+                            class: 'table_list4',//list階梯序
+                            onStock: false,//子元素不會有箭頭icon
+                            icon_onStock: true,//隱藏icon
+                            main_onStock: true,//隱藏後推padding-left:10px與上層對齊
+                            hide: true,//收合時顯示與否
+                            isSearch: false,
+                        },
+                        {
+                            parentid: 'a_01',
+                            id: 'a_03',
+                            name: 'NBF 3P 400AF 400AT 380V 30KA',
+                            unit: '只',
+                            price: 121,
+                            quantity: 11590,
+                            total: 1402390,
+                            profit: '',
+                            materials: '',
+                            manpower: '',
+                            manage: '',
+                            device: '',
+                            class: 'table_list4',
+                            onStock: false,
+                            icon_onStock: true,
+                            main_onStock: true,
+                            hide: true,
+                            isSearch: false,
+                        },
+                        {
+                            parentid: 'a_01',
+                            id: 'a_04',
+                            name: 'NBF 3P 400AF 400AT 380V 30KA',
+                            unit: '只',
+                            price: 181,
+                            quantity: 8721,
+                            total: 1578501,
+                            profit: '',
+                            materials: '',
+                            manpower: '',
+                            manage: '',
+                            device: '',
+                            class: 'table_list4',
+                            onStock: false,
+                            icon_onStock: true,
+                            main_onStock: true,
+                            hide: true,
+                            isSearch: false,
+                        },
+                        {
+                            parentid: 'a_01',
+                            id: 'a_05',
+                            name: 'NBF 3P 400AF 400AT 380V 30KA',
+                            unit: '只',
+                            price: 421,
+                            quantity: 2869,
+                            total: 1207849,
+                            unit: '只',
+                            profit: '',
+                            materials: '',
+                            manpower: '',
+                            manage: '',
+                            device: '',
+                            class: 'table_list4',
+                            onStock: false,
+                            icon_onStock: true,
+                            main_onStock: true,
+                            hide: true,
+                            isSearch: false,
+                        },
+                        // 
+                        {
+                            id: 'b',
+                            name: '電氣工程',
+                            child_id: 'b_0',
+                            class: 'table_list1',
+                            parent_icon: 'aboveAll_hide',
+                            onStock: true,
+                            icon_onStock: false,
+                            hide: false,
+                            isOpen_Stock: false,
+                            isSearch: false,
+                            unit: '',
+                        },
+                        {
+                            id: 'b_0',
+                            parentid: 'b',
+                            name: 'A_低壓配電盤設備工程',
+                            child_id: 'b_01',
+                            class: 'table_list2',
+                            parent_icon: 'aboveAll_hide',
+                            onStock: true,
+                            icon_onStock: false,
+                            hide: true,
+                            isOpen_Stock: false,
+                            isSearch: false,
+                            unit: '',
+                        },
+                        {
+                            id: 'b_01',
+                            parentid: 'b_0',
+                            name: '(一)_P1.P1-1台電受電箱',
+                            child_id: ['b_02', 'b_03', 'b_04', 'b_05'],
+                            class: 'table_list3',
+                            parent_icon: 'aboveAll_hide',
+                            onStock: true,
+                            icon_onStock: false,
+                            hide: true,
+                            isOpen_Stock: false,
+                            isSearch: false,
+                            unit: '',
+                        },
+                        {
+                            parentid: 'b_01',
+                            id: 'b_02',
+                            name: '1_CASE 600W*2000H*600D SPHC 2.0屋內粉體塗裝',
+                            unit: '座',
+                            price: 1727,
+                            quantity: 2,
+                            total: 3454,
+                            profit: '',
+                            materials: '',
+                            manpower: '',
+                            manage: '',
+                            device: '',
+                            class: 'table_list4',
+                            onStock: false,
+                            icon_onStock: true,
+                            main_onStock: true,
+                            hide: true,
+                            isSearch: false,
+                        },
+                        {
+                            parentid: 'b_01',
+                            id: 'b_03',
+                            name: 'NBF 3P 400AF 400AT 380V 30KA',
+                            unit: '只',
+                            price: 121,
+                            quantity: 11590,
+                            total: 1402390,
+                            profit: '',
+                            materials: '',
+                            manpower: '',
+                            manage: '',
+                            device: '',
+                            class: 'table_list4',
+                            onStock: false,
+                            icon_onStock: true,
+                            main_onStock: true,
+                            hide: true,
+                            isSearch: false,
+                        },
+                        {
+                            parentid: 'b_01',
+                            id: 'b_04',
+                            name: 'NBF 3P 400AF 400AT 380V 30KA',
+                            unit: '只',
+                            price: 181,
+                            quantity: 8721,
+                            total: 1578501,
+                            profit: '',
+                            materials: '',
+                            manpower: '',
+                            manage: '',
+                            device: '',
+                            class: 'table_list4',
+                            onStock: false,
+                            icon_onStock: true,
+                            main_onStock: true,
+                            hide: true,
+                            isSearch: false,
+                        },
+                        {
+                            parentid: 'b_01',
+                            id: 'b_05',
+                            name: 'NBF 3P 400AF 400AT 380V 30KA',
+                            unit: '只',
+                            price: 421,
+                            quantity: 2869,
+                            total: 1207849,
+                            profit: '',
+                            materials: '',
+                            manpower: '',
+                            manage: '',
+                            device: '',
+                            class: 'table_list4',
+                            onStock: false,
+                            icon_onStock: true,
+                            main_onStock: true,
+                            hide: true,
+                            isSearch: false,
+                        },
+                    ]
+                }
+            },
+            methods: {
+                remove(iteam) {
+                    this.list3.forEach(data => {
+
+                        if (data.name != iteam.name) {
+                            data.child.forEach((dataC, i) => {
+                                if (dataC.name == iteam.name) {
+                                    if (!dataC.child) { return }//若無child則return
+                                    dataC.child.map(dataC_C => {
+                                        dataC_C.isShow = true;
+                                    })
+                                }
+                            })
+
+
+                            return;
+                        };
+
+                        if (iteam.name == data.name) {
+                            data.child.forEach(child => {
+                                child.isShow = true;
+                            })
+                        }
+                    });
+                },
+            }
+        }).mount('.wrap')
+
+    </script>
+</body>
+
+</html>
