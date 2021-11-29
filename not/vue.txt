@@ -1429,6 +1429,7 @@ ol.修飾符(modifiers)
             .capture 事件由外而內查找 稱捕獲/捕捉
 
             .self 只會觸發自己的事件 也就是不會向內也不會向外觸發子父層的事件
+            //使用這個的話需子父層都套上，才不會點擊到子層，父層又觸發一次。
 
             .once 只觸發一次回調 白話說就是只會觸發一次
             //原生的 function once(){}
@@ -1436,3 +1437,168 @@ ol.修飾符(modifiers)
                 console.log('綁定一次');
             },{once: true});
 
+
+ol.option_API
+
+    目前我們學習的Vue撰寫方法就是optionAPI，但其實vue還有一種寫法名為compostionAPI。
+    兩者寫法差別極大，但效果可以是一樣的。因為compostionAPI難度較大，所以新手入門接觸都會推薦學習optionAPI
+    目前這章不會介紹到compostionAPI，都會著重於optionAPI的教學
+    ex.注意!使用option API不要使用箭頭函式。除非你已經在methods內以傳統函式建立。在傳統函式內使用箭頭函式才不會產生問題。
+
+        methods:
+            methods本身是一個物件
+            methods可以使用指令來觸發。也就是v-on:click以外呢，其他的options API都可以來觸發methods。
+            如生命週期、另外一個函式等
+            範例:
+                Vue.createApp({
+                    data(){
+                        return{
+
+                        };
+                    },
+                    created(){
+                        this.fn1();//可在生命週期觸發
+                    },
+                    methods:{
+                        fn1(){
+                            console.log('安安')
+                        },
+                        fn2(){
+                            fn1()//亦可以透過其他函式觸發
+                        },
+                    },
+
+                }).mount('#app');
+
+
+            參數帶入:
+                在原生的JS中，若我們建立一個參數，但使用時沒有帶參數進去，這時參數會是undefined
+                範例:
+                    function(a,b,c){
+                        console.log(a,b,c)//顯示undefined
+                    }
+
+                那當我們想要獲取事件回傳的資訊，也就是原生e.target等地資訊時，我們可以這麼做。
+                    範例:
+                        methods:{
+                            fn(a){//參數為自訂義。
+                                console.log(a)
+                            }
+                        }
+
+                    <buttom v-on:click="fn($event)"></buttom>//如此就可以取得你點擊後回傳的資訊
+
+                    若是原生JS則是要用addevent or on事件才會捕捉到事件回傳。
+                    若不使用$event的話，在v-on使用e.target是沒有用處的喔。
+                    補充:若有多個參數，則依據你在第幾個參數放上$event來決定參數代入的順序。
+
+
+            使用methods處理複雜資料:
+                vue常常用來開發電商網站，而電商網站最常用上的就是購物車
+                以下將會示範將商品加入購物車的基本操作。
+                範例:
+
+                    HTML:
+                        <div class="wrap">
+                            <ul>
+                                <li v-for="iteam in products" :key="iteam.name">
+                                    商品:{{iteam.name}}
+                                    <button type="button" v-on:click="toCar(iteam)">加入購物車</button>
+                                </li>
+                            </ul>
+                            <h3>購物車</h3>
+                            <ul>
+                                <li v-for="iteam in buy_car" :key="iteam.name">
+                                    {{iteam.name}}/{{iteam.price}}
+                                </li>
+                            </ul>
+                            {{filter(total_money)}}//這邊會呈現NT$ (計算後金額)
+                        </div>
+
+                    JS:
+                        
+                        Vue.createApp({
+                            data(){
+                                return{
+                                    products:[],//商品陳列
+                                    buy_car:[],//購物車 商品儲放處
+                                    total_money:'',//購物車內商品總金額
+                                };
+
+                            },
+                            created(){
+                                this.products = products_data;//取得商品資訊
+                            },
+                            methods:{
+                               toCar(iteam){//將取得的資訊代入
+                                    console.log(iteam);
+                                    //這邊取得的會是products物件抓出來的內容，但本身並不是products裡面的資訊。
+                                    //拿變數來說
+                                        let a = 1;
+                                        let b = a;
+                                        b = 2;
+                                        console.log(a);// 1
+                                        今天只是將a的資訊賦予給b
+                                        而非直接代入a變數的路徑。
+
+                                    this.buy_car.push(iteam);//將取得的資訊加入購物車陣列
+                                    this.total();
+                                    //因為總金額是看商品金額在更動。所以當商品更動時就重新計算一次。
+                                    //主要是雖然有function但沒有觸發funtciton就不會執行。所以這邊就是觸發執行
+
+                               },
+                               total(){
+                                    let total = 0;//建立一個數字當作載體
+                                    this.buy_car.forEach(data => {
+                                        total += data.price;//執行for將目前購物車的所有價格相加
+                                    });
+                                    this.car_total = total;//將相加後的金額加入資料中
+                               }
+                            },
+                            filter(price){
+                                return `NT$ ${price}`//這邊會回傳代入字串，可以置放於{{}}中顯示。就不需要在HTML撰寫字串
+                            }
+                        }).mount('.wrap')
+
+ol.computed
+    computed是當資料更動時，用來渲染網頁的功能。
+    以下將會介紹computed的運作。
+    使用computed可以跳過資料的部分直接渲染網頁。
+    範例:
+
+          Vue.createApp({
+                    data(){
+                        return{
+                            data = 100;
+                        };
+                    },
+                    computed:{//首先先在vue元件內新增一個computed物件
+
+                        total(){//緊接著新增一個function。這個function的結果會直接渲染網頁
+
+                            let total = 2
+                            this.data + total;
+
+                            return this.data;
+                        }
+
+                    }
+                    created(){
+                        this.fn1();//可在生命週期觸發
+                    },
+                    methods:{
+                        change(){
+                            data = 101;
+                        }
+                    },
+
+                }).mount('#app');
+
+
+            HTML:
+            {{ total }}//如此這邊就會顯示102
+
+        備註:
+        看似跟methods內的function很像，但其實是有差別的。
+        computed的total並沒有在任何一個methods的function內及指令來觸發。
+        computed是當資料更動以後，就會進行觸發。

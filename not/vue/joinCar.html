@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+      
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <ul>
+            <li v-for="iteam in products" :key="iteam.name">
+                商品:{{iteam.name}}
+                <button type="button" v-on:click="toCar(iteam)">加入購物車</button>
+            </li>
+        </ul>
+        <h3>購物車</h3>
+        <ul>
+            <li v-for="iteam in buy_car" :key="iteam.name">
+                {{iteam.name}}/{{iteam.price}}
+            </li>
+            <li>總金額:{{car_total}}</li>
+        </ul>
+    </div>
+    <script>
+      
+
+      const products_data = [
+            {
+                name: '奶茶',
+                name_english: 'milk tea',
+                price: 45,
+            },
+            {
+                name: '珍珠奶茶',
+                name_english: 'pearl milk tea',
+                price: 50,
+            },
+            {
+                name: '椰果奶茶',
+                name_english: 'Coconut Milk Tea',
+                price: 50,
+            },
+            {
+                name: '鮮奶茶',
+                name_english: 'Milk Tea',
+                price: 50,
+            },
+            {
+                name: '珍珠鮮奶茶',
+                name_english: 'pearl Milk Tea',
+                price: 55,
+            },
+            {
+                name: '椰果鮮奶茶',
+                name_english: 'Coconut Milk Tea',
+                price: 55,
+            },
+            {
+                name: '蜜香紅茶',
+                name_english: 'Black Tea',
+                price: 30,
+            },
+            {
+                name: '高山青茶',
+                name_english: 'Green Tea',
+                price: 30,
+            },
+            {
+                name: '茉莉綠茶',
+                name_english: 'Green Tea',
+                price: 30,
+            },
+            {
+                name: '黃金烏龍',
+                name_english: 'Oolong Tea',
+                price: 30,
+            },
+            {
+                name: '蜜香紅茶',
+                name_english: 'Black Tea',
+                price: 30,
+            },
+            {
+                name: '冬瓜茶(糖固定)',
+                name_english: 'Winter Melon Tea',
+                price: 30,
+            },
+            {
+                name: '薑母茶(熱飲)',
+                name_english: 'Ginger tea',
+                price: 50,
+            },
+
+        ];
+
+
+        Vue.createApp({
+            data(){
+                return{
+                    products:[],
+                    buy_car:[],
+                    car_total:0,
+                };
+                
+            },
+            created(){
+                this.products = products_data;
+            },
+            methods:{
+               toCar(iteam){//將取得的資訊代入
+                    console.log(iteam);
+                    console.log('觸發成功')
+                    this.buy_car.push(iteam);//將取得的資訊加入購物車陣列
+                    this.total();
+               },
+               total(){
+                   let total = 0;
+                   this.buy_car.forEach(data => {
+                       total += data.price;
+                   });
+                   this.car_total = total;
+               }
+            },
+        }).mount('.wrap')
+       
+    </script>
+</body>
+</html>

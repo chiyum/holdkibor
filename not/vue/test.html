@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .wrap
+        {
+            display: flex;
+        }
+        .wrap div
+        {
+            /* width: 50%; */
+            margin: 10px;
+            height: 100vh;
+            font-size: 20px;
+        }
+        .wrap div:nth-child(1){
+            border-right: 2px solid;
+            padding-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div>
+            <h2>物攻</h2>
+            <pre>
+武器:
+    雙手:
+        暗黑雙手*1 200T
+        V雙手*2 45T
+        X雙手*1 20T
+        red雙手*3 10T
+    單手:
+        V單手*2 45T
+        red單手*26 10T
+   
+飾品:
+    X飾品 *3 120T
+    X寵物 *4 45T
+    RED飾品物 *3 35T 
+    red寵物*1 5 T
+防具:
+    V防具*1 250T
+            </pre>
+        </div>
+        <div>
+            <h2>魔攻</h2>
+            <pre>
+武器
+雙手:
+    V雙手*1 20T
+    X雙手*3 6T
+    RED雙手*3 5
+單手:
+    X單手*2 6T
+    RED單手*4 5
+飾品:
+    V防具*1 100T
+    X防具*3 30 T
+    red防具*21 15 T
+    red寵物*3 5T
+    red飾品魔*5 10
+    </pre>
+        </div>
+        <button type="button" @click="fn($event)"></button>
+    </div>
+    <div class="btn">按鈕</div>
+  
+    <script>
+        fn = (a,b,c)=>{
+            console.log(a,b,c);
+        }
+
+        Vue.createApp({
+            data(){
+                return{
+
+                };
+            },
+            created(){
+
+            },
+            methods:{
+                fn(a){
+                    console.log(a)
+                },
+                fn2(e){
+                    console.log(e);
+                }
+            }
+        }).mount('.wrap')
+        // document.querySelector('.btn').addEventListener('click',(e)=>{
+        //     console.log(e)
+        // })
+
+        document.querySelector('.btn').onclick = (e)=>{
+            console.log(e)
+        }
+    </script>
+</body>
+</html>
