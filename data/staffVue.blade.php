@@ -8,6 +8,8 @@
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <!-- 導入的JS -->
 <!-- 型態:<script src="{{ asset('js/檔名.js?每次更新後的日期or亂數') }}"></script> -->
+
+
 <script>
     
     const data = [
@@ -29,9 +31,7 @@
             contactNumber:'0980-153699',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
         {
             companyName:'宏義工程股份有限公司',
@@ -50,9 +50,7 @@
             contactNumber:'0988-593699',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
         {
             companyName:'宏義工程股份有限公司',
@@ -71,9 +69,7 @@
             contactNumber:'0975-697531',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
         {
             companyName:'宏義工程股份有限公司',
@@ -92,9 +88,7 @@
             contactNumber:'0975-697531',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
         {
             companyName:'唐宋工程股份有限公司',
@@ -113,9 +107,7 @@
             contactNumber:'0975-697531',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
         {
             companyName:'宏義工程股份有限公司',
@@ -134,9 +126,7 @@
             contactNumber:'0975-697531',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
         {
             companyName:'宏義工程股份有限公司',
@@ -155,9 +145,7 @@
             contactNumber:'0975-697531',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
         {
             companyName:'宏義工程股份有限公司',
@@ -176,31 +164,10 @@
             contactNumber:'0975-697531',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
+            line_userid:'lineabc123'
         },
-        {
-            companyName:'宏義工程股份有限公司',
-            position:'施工人員',
-            name:'鐵木阿棒',
-            cardid:'M294467154',
-            id:'A00008',
-            sex:'女',
-            blood:'O',
-            aborad:'是',
-            birthday:'1992/10/10',
-            phoneNumber:'0800-092000',
-            email:'abc123456@gmail.com',
-            address:'台中市南屯區向心南路906巷55號2樓之7號',
-            contactPerson:'謝小姐',
-            contactNumber:'0975-697531',
-            isClose:false,
-            isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
-        },
+        
+
     ];
 
     Vue.createApp({
@@ -225,8 +192,6 @@
                   contactNumber:'',
                   isClose:false,
                   isShow:true,
-                  isbgg:false,
-                  isbgw:false,
                 },//彈窗占存用
                 temp_num:'',//占存刪除用
                 search:'',
@@ -251,28 +216,21 @@
             },
             searchKeyWord(){
                 let value  = this.search;//使用者輸入文字
-                if(value ==''||!value){//若為空值 清除顏色及取消全部隱藏
-                  this.peopleData.forEach( (data,i) => {
-                    data.isShow = true;//顯示資料
-                    data.isbgg = false;//灰色設定關閉
-                    data.isbgw = false;//白色設定關閉
-                  });
-                  return
-                }//若為空值則return
-                let num = 1;//顏色計數用
-                this.peopleData.forEach( (data,i) => {
-                    data.isShow = false;//先將所有的資料都隱藏
+                // let num = 0;
+                if(value ==''||!value){return}//若為空值則return
+                this.peopleData.forEach( data => {
+                    data.isShow = false;
                     if(data.companyName.indexOf(value.toUpperCase())>=0||data.companyName.indexOf(value.toLowerCase())>=0||data.position.indexOf(value.toUpperCase())>=0||data.position.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toUpperCase())>=0||data.name.indexOf(value.toLowerCase())>=0||data.cardid.indexOf(value.toUpperCase())>=0||data.cardid.indexOf(value.toLowerCase())>=0||data.id.indexOf(value.toUpperCase())>=0||data.id.indexOf(value.toLowerCase())>=0){
-                        data.isShow = true;//將符合關鍵字的資料顯示
-                        num++//計數+1
-                        if(num % 2 == 0){//若計數為偶數
-                          data.isbgw = true;//顏色切換白
-                        }else if(num %2 !=0){//若計數為奇術
-                          data.isbgg = true;//顏色切灰
-                        }
-                    };
+                        data.isShow = true;
+                    }
+                    // else if(data.companyName.indexOf(value.toUpperCase())!=0||data.companyName.indexOf(value.toLowerCase())!=0||data.position.indexOf(value.toUpperCase())!=0||data.position.indexOf(value.toLowerCase())!=0||data.name.indexOf(value.toUpperCase())!=0||data.name.indexOf(value.toLowerCase())!=0||data.cardid.indexOf(value.toUpperCase())!=0||data.cardid.indexOf(value.toLowerCase())!=0||data.id.indexOf(value.toUpperCase())!=0||data.id.indexOf(value.toLowerCase())!=0){
+                    //     num++
+                    // };
                 });
-                num = 1;//reset計數
+                // if(num == this.peopleData.length){
+                //     alert('搜尋紀錄')//此為搜尋無此紀錄時跳彈窗
+                // }
+                // num = 0;//清空
                 this.search = '';//清空輸入框
             },
             deldata_popup(iteam){//刪除彈窗跳出及取得欲刪除序列
@@ -281,43 +239,47 @@
                         this.temp_num = i;//占存刪除的檔案位址
                     }
                 });
-                $('#delModal').modal('show');
+                this.popupShow = true;//呼叫總彈窗
+                this.popup_delShow = true;//呼叫彈窗
             },
             deldata(){//刪除
                 this.peopleData.splice(this.temp_num,1);//將資料刪除
                 this.temp_num = '';//reset
-                $('#delModal').modal('hide');
+                this.popupShow = false;//選單隱藏
+                this.popup_delShow = false;
             },
             cxlDeldata(){//選單隱藏
-                $('#delModal').modal('hide')
-                $('#editModal').modal('hide')
+                this.popupShow = false;//選單隱藏
+                this.popup_delShow = false;//刪除選單隱藏
+                this.popup_editShow = false;//編輯選單隱藏
             },
             edit_popup(item){
-              $('#editModal').modal('show');
               this.popup_edit_title = '編輯';
+              this.popupShow = true;//總選單開啟
+              this.popup_editShow = true;//編輯選單開啟
               this.popup_edit_resetShow = true;//清除選單開啟
               let birthday = item.birthday;//生日字串轉換
               birthday = birthday.split('/');
               birthday = birthday.join('-')
               this.temp_obj.birthday = birthday;//取得生日
-              this.temp_obj.companyName = item.companyName;//取得公司名稱
-              this.temp_obj.position = item.position;//取得職位
-              this.temp_obj.name = item.name;//取得名字
-              this.temp_obj.cardid = item.cardid;//取得身分證號
-              this.temp_obj.id = item.id;//取得帳號
-              this.temp_obj.sex = item.sex;//取得性別
-              this.temp_obj.blood = item.blood;//取得血型
-              this.temp_obj.aborad = item.aborad;//取得移工與否資訊
-              this.temp_obj.phoneNumber = item.phoneNumber;//取得手機號碼
-              this.temp_obj.email = item.email;//取得email
-              this.temp_obj.address = item.address;//取得地址
-              this.temp_obj.contactPerson = item.contactPerson;//取得緊急人
-              this.temp_obj.contactNumber = item.contactNumber;//取得緊急電話
-              this.temp_obj.line_userid = item.line_userid;//取得line id
-              this.peopleData.find( (data,i) => {//取得資料位置
+              this.temp_obj.companyName = item.companyName;
+              this.temp_obj.position = item.position;
+              this.temp_obj.name = item.name;
+              this.temp_obj.cardid = item.cardid;
+              this.temp_obj.id = item.id;
+              this.temp_obj.sex = item.sex;
+              this.temp_obj.blood = item.blood;
+              this.temp_obj.aborad = item.aborad;
+              this.temp_obj.phoneNumber = item.phoneNumber;
+              this.temp_obj.email = item.email;
+              this.temp_obj.address = item.address;
+              this.temp_obj.contactPerson = item.contactPerson;
+              this.temp_obj.contactNumber = item.contactNumber;
+              this.temp_obj.line_userid = item.line_userid;
+              this.peopleData.find( (data,i) => {
                     if(item.id == data.id){
                         this.temp_num = i;//占存刪除的檔案位址
-                    };
+                    }
               });
             },
             edit_popup_reset(){ //清除
@@ -338,12 +300,12 @@
               this.temp_obj.contactNumber = '';
             },
             edit_popup_change(){ //儲存
-              if(this.temp_num ==''||!this.temp_num){//偵測不到位置為新增
-                let obj = {...this.temp_obj};//轉移資料
-                obj.isClose = true;//打開子列表
-                this.peopleData.push(obj);//上傳至檔案群組
-                obj = {};//清空臨時列表
-                this.edit_popup_reset();
+            
+              if(this.temp_num ==''||!this.temp_num){
+                let obj = {...this.temp_obj}
+                obj.isClose = true;
+                this.peopleData.push(obj);
+                obj = {};
               }else{
                 this.peopleData[this.temp_num].isClose = true;
                 this.peopleData[this.temp_num].companyName = this.temp_obj.companyName;
@@ -367,13 +329,14 @@
               this.edit_popup_reset();//清除預設
             },
             create_popup(){
-              this.temp_num = '';//新增前先清空位置
-              this.edit_popup_reset();//清空臨時資料
-              this.popup_edit_title = '新增';//更改視窗名稱
-              $('#editModal').modal('show');
+              this.popup_edit_title = '新增';
+              this.popupShow = true,//總彈窗
+              this.popup_editShow = true,//編輯新增彈窗
+              this.popup_edit_resetShow = false;//編輯選單開啟
             }
+            
         },
-    }).mount('.container-fluid');
+    }).mount('.main');
 
 
 </script>
@@ -1209,469 +1172,15 @@ p {
 .hide {
   display: none;
 }
-
-.must {
-  margin-left: 2px;
-  color: red !important;
-  font-size: 16px !important;
-  position: relative !important;
-  bottom: 0px;
-  right: 0px;
-}
-
-.must_fix {
-  right: 0 !important;
-}
-
-.delModal {
-  position: relative;
-  top: 30vh;
-  left: 5vw;
-  background: none;
-  width: 288px;
-}
-
-.delModal .modal-header {
-  padding: 5px;
-  color: #ffffff;
-  border-bottom: none;
-  border-radius: 10px 10px 0 0;
-  background-color: #e62d18;
-}
-
-.delModal .modal-header button {
-  margin-top: 3px !important;
-  margin-right: 5px !important;
-  font-size: 18px;
-  opacity: 1;
-}
-
-.delModal .modal-header button span {
-  color: #ffffff;
-}
-
-.delModal .modal-header .close {
-  padding: 0;
-  margin: 0;
-}
-
-.delModal .modal-header h5 {
-  font-size: 18px;
-  position: relative;
-  left: 10px;
-  top: 0px;
-}
-
-.delModal .modal-body {
-  text-align: center;
-  font-family: bolder;
-  font-size: 18px;
-  background: #ffffff;
-}
-
-.delModal .modal-footer {
-  padding: 0;
-  border-top: none;
-  border-radius: 0 0 10px 10px;
-  background: #ffffff;
-}
-
-.delModal .modal-footer button {
-  position: relative;
-  bottom: 10px;
-  right: 5px;
-  padding: 1px 15px;
-  border-radius: 0px;
-  border: none;
-}
-
-.delModal .modal-footer button:nth-child(1) {
-  margin-right: -4px;
-  color: #686868;
-  background: #f3f3f3;
-}
-
-.delModal .modal-footer button:nth-child(1):hover {
-  background: #efecec;
-}
-
-.delModal .modal-footer button:nth-child(2) {
-  background: #0aa0c8;
-}
-
-.delModal .modal-footer button:nth-child(2):hover {
-  background: #08aad6;
-}
-
-.editModal {
-  position: relative;
-  right: 10vw;
-  top: 15vw;
-  background: none;
-}
-
-.editModal .modal-header {
-  display: none;
-}
-
-.editModal .modal-footer {
-  display: none;
-}
-
-.editModal .modal-body {
-  padding: 0;
-  border: none;
-}
-
-.editModal .modal-body .edit_popup {
-  width: 864px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_title {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 0 10px;
-  height: 45px;
-  color: #ffffff;
-  border-radius: 10px 10px 0 0;
-  background-color: #0167a0;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_title h2 {
-  font-size: 18px;
-  position: relative;
-  top: 5px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_title .close_icon {
-  margin-top: 2px;
-  font-size: 24px;
-  font-weight: bolder;
-  cursor: pointer;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main {
-  background-color: #ffffff;
-  border-radius: 0 0 10px 10px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main input {
-  padding-left: 5px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding-top: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-bottom: 20px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col div {
-  width: 246px;
-  white-space: nowrap;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col div select {
-  padding-left: 5px;
-  height: 26px;
-  width: 223px;
-  font-size: 15px;
-  border-radius: 1px;
-  border-top: 0.5px solid #efecec;
-  -webkit-box-shadow: 1px 2px 3px 1px #c3c3c3;
-          box-shadow: 1px 2px 3px 1px #c3c3c3;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  outline: none;
-  border: none;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col div .select_icon {
-  position: relative;
-  right: 30px;
-  top: 6px;
-  font-size: 22px;
-  color: #b2b2b2;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col div input {
-  height: 25px;
-  border: none;
-  border-top: 0.5px solid #efecec;
-  outline: none;
-  -webkit-box-shadow: 1px 2px 3px 1px #c3c3c3;
-          box-shadow: 1px 2px 3px 1px #c3c3c3;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col .row div p {
-  margin-bottom: 3px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col .row div input {
-  width: 113px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col .row div:nth-child(2) {
-  position: relative;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col .middle {
-  position: relative;
-  top: 2px;
-  width: 262px;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col .right p {
-  position: relative;
-  top: 3px;
-  margin-bottom: 6px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col .right input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) p {
-  margin-bottom: 5px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(1) input {
-  width: 220px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(2) {
-  position: relative;
-  right: 8px;
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(2) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div {
-  position: relative;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div select {
-  width: 100px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div span {
-  position: absolute;
-  bottom: -5px;
-  right: 25px;
-  color: #b2b2b2;
-  font-size: 22px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div:nth-child(2) {
-  left: 22px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) p {
-  margin-bottom: 5px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(1) {
-  position: relative;
-  display: block;
-  width: 200px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(1) select {
-  width: 75px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(1) span {
-  position: absolute;
-  right: 40px;
-  bottom: -5px;
-  font-size: 22px;
-  color: #b2b2b2;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(2) {
-  position: relative;
-  right: 15px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(2) input {
-  width: 125px;
-  height: 27px;
-  font-size: 13px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(2) {
-  position: relative;
-  right: 8px;
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(2) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(3) {
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(3) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) {
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) p {
-  margin-bottom: 5px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div textarea {
-  width: 223px;
-  height: 61px;
-  padding-left: 5px;
-  border: none;
-  border-top: 0.5px solid #efecec;
-  -webkit-box-shadow: 1px 2px 3px 1px #c3c3c3;
-          box-shadow: 1px 2px 3px 1px #c3c3c3;
-  outline: none;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(2) {
-  position: relative;
-  right: 8px;
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(2) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(3) {
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(3) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .btn {
-  position: relative;
-  bottom: 10px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 20px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .btn span {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  border-radius: 6px;
-  padding: 3px 10px;
-  margin: 0px 2.5px;
-  margin-top: -25px;
-  cursor: pointer;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(1) {
-  background-color: #e62d18;
-  color: #ffffff;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(1):hover {
-  background-color: #ff1900;
-  color: #ffffff;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(2) {
-  background-color: #0aa0c8;
-  color: #ffffff;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(2):hover {
-  background-color: #0cbbe7;
-  color: #ffffff;
-}
-
-
-.isbgG
+.must
 {
-    background: #dbd6d6 !important;
+    margin-left: 2px;
+    color: red !important;
+    font-size: 16px !important;
+    position: relative !important;
+    bottom: 0px !important;
+    right: 0px !important;
 }
-
-.isbgW
-{
-    background: #ffffff !important;
-}
-
 /*# sourceMappingURL=people.css.map */
 </style>
 @endsection
@@ -1689,78 +1198,21 @@ p {
 <!-- html -->
 <div class="container-fluid">
     <div class="main">
-        <div class="table_head">
-            <div class="shop">
-                <div class="create_btn" @click="create_popup" ><ion-icon name="add-sharp" class="create_btn_icon"></ion-icon>新增人員列表</div>
-                <div class="search">
-                    <input type="text" v-model="search" v-on:keyup.enter="searchKeyWord">
-                    <span class="search_btn" @click="searchKeyWord"><ion-icon name="search-outline"></ion-icon></span>
+        <div class="popup" v-if="popupShow" @click.self="cxlDeldata">
+            <div class="del_popup"  v-if="popup_delShow">
+                <div class="del_popup_title">
+                    <h2>刪除</h2>
+                    <ion-icon name="close-outline" class="close_icon" @click="cxlDeldata"></ion-icon>
+                </div>
+                <div class="del_popup_main">
+                    <p>是否確定要刪除此資料?</p>
+                    <div>
+                        <span @click="cxlDeldata">取消</span>
+                        <span @click="deldata">刪除</span>
+                    </div>
                 </div>
             </div>
-            <div class="title">
-                <p>公司名稱</p>
-                <p>職稱</p>
-                <p>姓名</p>
-                <p>身分證字號</p>
-                <p>帳號</p>
-            </div>
-        </div>
-        <div class="table_main">
-            <ul>
-                <li v-for="iteam in peopleData" :key="iteam.id" v-show="iteam.isShow" :class="{isbgW:iteam.isbgw,isbgG:iteam.isbgg}">
-                    <div class="list_top">
-                        <div class="list_top_icon" v-on:click="switchOpen(iteam)" :class="{open:iteam.isClose}">
-                            <ion-icon name="caret-forward-outline"></ion-icon>
-                        </div>
-                        <p>@{{iteam.companyName}}</p>
-                        <p>@{{iteam.position}}</p>
-                        <p>@{{iteam.name}}</p>
-                        <p>@{{iteam.cardid}}</p>
-                        <p>@{{iteam.id}}</p>
-                        <div class="list_top_icon_edit">
-                            <div class="edit_btn" @click="edit_popup(iteam)" ><ion-icon name="pencil-outline"></ion-icon></div>
-                            <div class="del_btn" @click="deldata_popup(iteam)"><ion-icon name="trash"></ion-icon></div>
-                        </div>
-                    </div>
-                    <div class="list_bottom" v-if="iteam.isClose">
-                        <div class="list_bottom_title">
-                            <p>性別</p>
-                            <p>血型</p>
-                            <p>是否為移工</p>
-                            <p>生日</p>
-                            <p>連絡電話</p>
-                            <p>信箱</p>
-                            <p>通訊地址</p>
-                            <p>緊急聯絡人</p>
-                            <p>緊急連絡人電話</p>
-                        </div>
-                        <div class="list_bottom_data">
-                            <p>@{{iteam.sex}}</p>
-                            <p>@{{iteam.blood}}</p>
-                            <p>@{{iteam.aborad}}</p>
-                            <p>@{{iteam.birthday}}</p>
-                            <p>@{{iteam.phoneNumber}}</p>
-                            <p>@{{iteam.email}}</p>
-                            <p>@{{iteam.address}}</p>
-                            <p>@{{iteam.contactPerson}}</p>
-                            <p>@{{iteam.contactNumber}}</p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content editModal">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">刪除</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-        <div class="edit_popup">
+            <div class="edit_popup" v-if="popup_editShow">
                     <div class="edit_popup_title">
                         <h2>@{{popup_edit_title}}人員資料</h2>
                         <ion-icon name="close-outline" class="close_icon" @click="cxlDeldata"></ion-icon>
@@ -1803,7 +1255,7 @@ p {
                             </div>
                             <div>
                                 <div>
-                                    <p>性別<span class="must must_fix">*</span></p>
+                                    <p>性別<span class="must">*</span></p>
                                     <select v-model="temp_obj.sex">
                                         <option value="男">男</option>
                                         <option value="女">女</option>
@@ -1813,7 +1265,7 @@ p {
                                     </span>
                                 </div>
                                 <div>
-                                    <p>血型<span class="must must_fix">*</span></p>
+                                    <p>血型<span class="must">*</span></p>
                                     <select v-model="temp_obj.blood">
                                         <option value="A">A</option>
                                         <option value="B">B</option>
@@ -1829,7 +1281,7 @@ p {
                         <div class="col">
                           <div>
                             <div>
-                                <p>是否為移工<span class="must must_fix">*</span></p>
+                                <p>是否為移工<span class="must">*</span></p>
                                 <select v-model="temp_obj.aborad">
                                     <option value="否">否</option>
                                     <option value="是">是</option>
@@ -1873,33 +1325,67 @@ p {
                     </div>
                 </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary">確定</button>
+        <div class="table_head">
+            <div class="shop">
+                <div class="create_btn" @click="create_popup" ><ion-icon name="add-sharp" class="create_btn_icon"></ion-icon>新增人員列表</div>
+                <div class="search">
+                    <input type="text" v-model="search" v-on:keyup.enter="searchKeyWord">
+                    <span class="search_btn" @click="searchKeyWord"><ion-icon name="search-outline"></ion-icon></span>
+                </div>
+            </div>
+            <div class="title">
+                <p>公司名稱</p>
+                <p>職稱</p>
+                <p>姓名</p>
+                <p>身分證字號</p>
+                <p>帳號</p>
+            </div>
         </div>
-      </div>
+        <div class="table_main">
+            <ul>
+                <li v-for="iteam in peopleData" :key="iteam.id" v-show="iteam.isShow">
+                    <div class="list_top">
+                        <div class="list_top_icon" v-on:click="switchOpen(iteam)" :class="{open:iteam.isClose}">
+                            <ion-icon name="caret-forward-outline"></ion-icon>
+                        </div>
+                        <p>@{{iteam.companyName}}</p>
+                        <p>@{{iteam.position}}</p>
+                        <p>@{{iteam.name}}</p>
+                        <p>@{{iteam.cardid}}</p>
+                        <p>@{{iteam.id}}</p>
+                        <div class="list_top_icon_edit">
+                            <div class="edit_btn" @click="edit_popup(iteam)" ><ion-icon name="pencil-outline"></ion-icon></div>
+                            <div class="del_btn" @click="deldata_popup(iteam)"><ion-icon name="trash"></ion-icon></div>
+                        </div>
+                    </div>
+                    <div class="list_bottom" v-if="iteam.isClose">
+                        <div class="list_bottom_title">
+                            <p>性別</p>
+                            <p>血型</p>
+                            <p>是否為移工</p>
+                            <p>生日</p>
+                            <p>連絡電話</p>
+                            <p>信箱</p>
+                            <p>通訊地址</p>
+                            <p>緊急聯絡人</p>
+                            <p>緊急連絡人電話</p>
+                        </div>
+                        <div class="list_bottom_data">
+                            <p>@{{iteam.sex}}</p>
+                            <p>@{{iteam.blood}}</p>
+                            <p>@{{iteam.aborad}}</p>
+                            <p>@{{iteam.birthday}}</p>
+                            <p>@{{iteam.phoneNumber}}</p>
+                            <p>@{{iteam.email}}</p>
+                            <p>@{{iteam.address}}</p>
+                            <p>@{{iteam.contactPerson}}</p>
+                            <p>@{{iteam.contactNumber}}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
-  <!-- 刪除彈窗 -->
-  <div class="modal fade" id="delModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content delModal">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">刪除</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        確認是否刪除此筆資料?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-        <button type="button" class="btn btn-primary" @click="deldata">確定</button>
-      </div>
-    </div>
-  </div>
-  </div>
 </div>
 
 @endsection
