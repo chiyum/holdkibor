@@ -207,6 +207,7 @@
                 this.peopleData.find( (data,i) => {
                     if(iteam.id == data.id){
                         this.temp_num = i;//占存刪除的檔案位址
+                        this.temp_obj.companyName = data.companyName;
                     }
                 });
                 $('#delModal').modal('show');
@@ -221,6 +222,7 @@
                 $('#editModal').modal('hide')
             },
             edit_popup(item){
+              this.edit_popup_reset();//reset殘留資料
               $('#editModal').modal('show');
               this.popup_edit_title = '編輯';
               this.popup_edit_resetShow = true;//清除選單開啟
@@ -275,7 +277,7 @@
                 alert('儲存失敗!必填欄位請填寫。')
                 return
               }
-              if(this.temp_num ==''||!this.temp_num){//偵測不到位置為新增
+              if(this.temp_num ===''){//偵測不到位置為新增
                 let obj = {...this.temp_obj};//轉移資料
                 obj.isClose = true;//打開子列表
                 this.peopleData.push(obj);//上傳至檔案群組
@@ -1533,7 +1535,7 @@ p {
 
 
 @section('wrapper-head')
-<div class="wrapper-contentTitle"> 使用者總表</div>
+<div class="wrapper-contentTitle"> 公司總表</div>
 <!-- 預設樣式 -->
 @endsection
 
@@ -1721,7 +1723,7 @@ p {
         </button>
       </div>
       <div class="modal-body">
-        確認是否刪除此筆資料?
+        確認是否刪除@{{temp_obj.companyName}}的資料資料?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>

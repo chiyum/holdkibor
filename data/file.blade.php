@@ -172,7 +172,7 @@
                 // addfile.classList.remove('active');
                 addDocument.classList.add('active');
                 $('#addfileModal').modal('show');
-                addChooseList.style['display'] = 'none'
+                // addChooseList.style['display'] = 'none'
             }else if(e.target === Documentbtn){//點的是新增檔案選項
                 // addDocument.classList.remove('active');
                 addfile.classList.add('active');
@@ -391,19 +391,24 @@
         function del(ary) { 
             let ref = $('#tree').jstree(true);
             let DOM = getDOM();
+            if(DOM.length == 0){
+              alert('請選擇檔案')
+              return;
+            }
             if(DOM[0]==0){
               alert('主選單不可刪除');
               return;
             }
             if(confirm('確定要刪除檔案嗎?')==true){//跳提示
-                console.log('刪除成功')
+                alert('刪除成功')
             }else{
-                console.log('刪除失敗')
+                alert('刪除失敗')
                 return
             };
-            if(DOM.length == 0 ){//沒有選擇節點的話
+            if(DOM.length == 0 ){//tree沒選擇節點刪除右欄所選擇
               let active_length = get_targetId();//取得點選的檔案ID
               ref.delete_node(active_length)
+              console.log(ref.is_selected(0))
             }else{
               ref.delete_node(DOM);//指定ID執行刪除
             };
@@ -682,7 +687,7 @@
               docStr+=`
                   <li data-type="doc" data-num="${i.id}">
                         <div class="top" data-type="doc" data-num="${i.id}">
-                            <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="doc" data-num="${i.id}">
+                            <img src="${i.type =='png'&&i.data.fack||i.type =='jpg'&&i.data.fack||`{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}`}"" alt="icon" data-type="doc" data-num="${i.id}">
                         </div>
                         <div class="bottom" data-type="doc" data-num="${i.id}" title="${i.text}">
                             <div class="title" data-type="doc" data-num="${i.id}" title="${i.text}">
@@ -768,7 +773,7 @@
               docStr += `
                     <li data-type="doc" data-num="${i.id}">
                         <div class="top" data-type="doc" data-num="${i.id}">
-                            <img src="{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}" alt="icon" data-type="doc" data-num="${i.id}">
+                            <img src="${i.type =='png'&&i.data.fack||i.type =='jpg'&&i.data.fack||`{{ asset('./img/fileIcon/${i.type.toUpperCase()}.svg') }}`}" alt="icon" data-type="doc" data-num="${i.id}">
                         </div>
                         <div class="bottom" data-type="doc" data-num="${i.id}" title="${i.text}">
                             <div class="title" data-type="doc" data-num="${i.id}" title="${i.text}">
@@ -1741,6 +1746,7 @@
 
 .main .right .column ul li .top img {
   width: 90px;
+  height: 106px;
 }
 
 .main .right .column ul li .bottom.active{

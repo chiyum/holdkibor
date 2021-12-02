@@ -185,7 +185,7 @@
             position:'施工人員',
             name:'鐵木阿棒',
             cardid:'M294467154',
-            id:'A00008',
+            id:'A00009',
             sex:'女',
             blood:'O',
             aborad:'是',
@@ -235,6 +235,7 @@
                 popup_editShow:false,//編輯新增彈窗
                 popup_edit_resetShow:false,//編輯新增彈窗
                 popup_edit_title:'編輯',
+                popup_edit_btn:'清除',
             };
         },
         created(){
@@ -279,6 +280,7 @@
                 this.peopleData.find( (data,i) => {
                     if(iteam.id == data.id){
                         this.temp_num = i;//占存刪除的檔案位址
+                        this.temp_obj.name = data.name;
                     }
                 });
                 $('#delModal').modal('show');
@@ -293,10 +295,12 @@
                 $('#editModal').modal('hide')
             },
             edit_popup(item){
+              this.edit_popup_reset();//reset殘留資料
               $('#editModal').modal('show');
               this.edit_popup_reset();//清空臨時資料
               this.popup_edit_title = '編輯';
-              this.popup_edit_resetShow = true;//清除選單開啟
+              this.popup_edit_btn = '重製密碼';
+              this.popup_edit_resetShow = false;//清除icon關閉
               let birthday = item.birthday;//生日字串轉換
               birthday = birthday.split('/');
               birthday = birthday.join('-')
@@ -317,7 +321,7 @@
               this.temp_obj.line_userid = item.line_userid;//取得line id
               this.peopleData.find( (data,i) => {//取得資料位置
                     if(item.id == data.id){
-                        this.temp_num = i;//占存刪除的檔案位址
+                        this.temp_num = i;//占存儲存的檔案位址
                     };
               });
             },
@@ -338,17 +342,26 @@
               this.temp_obj.contactPerson = '';
               this.temp_obj.contactNumber = '';
             },
+            popup_btnFn(){
+              if(this.popup_edit_btn == '清除'){//若為清除則清除內容
+                this.edit_popup_reset();
+              }else{//若為重設則啟動重啟密碼的功能
+                alert('重製密碼已發送至您的信箱')
+              };
+            },
             edit_popup_change(){ //儲存
               if(this.temp_obj.companyName == ''||this.temp_obj.name == ''||this.temp_obj.cardid == ''||this.temp_obj.sex == ''||this.temp_obj.blood == ''||this.temp_obj.aborad == ''||this.temp_obj.contactPerson == ''||this.temp_obj.contactNumber == ''){
                 alert('儲存失敗!請確認必填欄位填寫正確');
                 return;
               }
-              if(this.temp_num ==''||!this.temp_num){//偵測不到位置為新增
+              if(this.temp_num ===''){//偵測不到位置為新增
                 let obj = {...this.temp_obj};//轉移資料
                 obj.isClose = true;//打開子列表
+                obj.birthday = obj.birthday.split('-').join('/');
                 this.peopleData.push(obj);//上傳至檔案群組
                 obj = {};//清空臨時列表
                 this.edit_popup_reset();
+                this.temp_num = '';
               }else{
                 this.peopleData[this.temp_num].isClose = true;
                 this.peopleData[this.temp_num].companyName = this.temp_obj.companyName;
@@ -360,7 +373,7 @@
                 this.peopleData[this.temp_num].sex = this.temp_obj.sex;
                 this.peopleData[this.temp_num].blood = this.temp_obj.blood;
                 this.peopleData[this.temp_num].aborad = this.temp_obj.aborad;
-                this.peopleData[this.temp_num].birthday = this.temp_obj.birthday;
+                this.peopleData[this.temp_num].birthday = this.temp_obj.birthday.split('-').join('/');//將生日的間隔符號更改
                 this.peopleData[this.temp_num].phoneNumber = this.temp_obj.phoneNumber;
                 this.peopleData[this.temp_num].email = this.temp_obj.email;
                 this.peopleData[this.temp_num].address = this.temp_obj.address;
@@ -375,6 +388,8 @@
               this.temp_num = '';//新增前先清空位置
               this.edit_popup_reset();//清空臨時資料
               this.popup_edit_title = '新增';//更改視窗名稱
+              this.popup_edit_btn = '清除';
+              this.popup_edit_resetShow = true;//清除icon開啟
               $('#editModal').modal('show');
             },
         },
@@ -1886,7 +1901,7 @@ p {
                             </div>
                         </div>
                         <div class="btn">
-                            <span v-on:click="edit_popup_reset" v-show="popup_edit_resetShow"><ion-icon name="trash"></ion-icon>清除</span>
+                            <span v-on:click="popup_btnFn"><ion-icon name="trash" v-show="popup_edit_resetShow"></ion-icon>@{{this.popup_edit_btn}}</span>
                             <span @click="edit_popup_change"><ion-icon name="cloud-upload"></ion-icon>儲存</span>
                         </div>
                     </div>
@@ -1910,7 +1925,7 @@ p {
         </button>
       </div>
       <div class="modal-body">
-        確認是否刪除此筆資料?
+        確認是否刪除@{{temp_obj.name}}的資料?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
