@@ -12,7 +12,8 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
     <script>
-        let b =`[{"id":"0","text":"選單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"0"},"a_attr":{"href":"#","id":"0_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"#","type":"file"},{"id":"1","text":"群益數位","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"1"},"a_attr":{"href":"#","id":"1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_10","text":"公司聯絡資訊","icon":"https://v2.volkssii.com/img/fileIcon/WORD.svg","li_attr":{"id":"j1_10"},"a_attr":{"href":"#","id":"j1_10_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/wordfile.docx"},"parent":"1","type":"word"},{"id":"2","text":"設計圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"2"},"a_attr":{"href":"#","id":"2_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_8","text":"一樓大廳","icon":"https://v2.volkssii.com/img/fileIcon/PNG.svg","li_attr":{"id":"j1_8"},"a_attr":{"href":"#","id":"j1_8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/pngfile.png"},"parent":"2","type":"png"},{"id":"j1_9","text":"客房布局","icon":"https://v2.volkssii.com/img/fileIcon/XLS.svg","li_attr":{"id":"j1_9"},"a_attr":{"href":"#","id":"j1_9_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/excelfile.xlsx"},"parent":"2","type":"xls"},{"id":"3","text":"施工圖","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"3"},"a_attr":{"href":"#","id":"3_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"j1_6","text":"地基鋪設攝影","icon":"https://v2.volkssii.com/img/fileIcon/MP4.svg","li_attr":{"id":"j1_6"},"a_attr":{"href":"#","id":"j1_6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/video.mp4"},"parent":"3","type":"mp4"},{"id":"4","text":"契約書","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"4"},"a_attr":{"href":"#","id":"4_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"5","text":"廠商資訊","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"5"},"a_attr":{"href":"#","id":"5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"0","type":"file"},{"id":"6","text":"瑞展工程行","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6"},"a_attr":{"href":"#","id":"6_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"6_1","text":"報價單","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"6_1"},"a_attr":{"href":"#","id":"6_1_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"6","type":"file"},{"id":"j1_5","text":"大廳牆面切割","icon":"https://v2.volkssii.com/img/fileIcon/JPG.svg","li_attr":{"id":"j1_5"},"a_attr":{"href":"#","id":"j1_5_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-3","fack":"https://v2.volkssii.com/img/fileIcon/jpgfile2.jpg"},"parent":"6_1","type":"jpg"},{"id":"j1_99","text":"大廳牆面切割詳細報價單","icon":"https://v2.volkssii.com/img/fileIcon/PDF.svg","li_attr":{"id":"j1_99"},"a_attr":{"href":"#","id":"j1_99_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{"time":"2021-11-22","fack":"https://v2.volkssii.com/img/fileIcon/pdffile.pdf"},"parent":"6_1","type":"pdf"},{"id":"7","text":"漢堂建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"7"},"a_attr":{"href":"#","id":"7_anchor"},"state":{"loaded":true,"opened":true,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"},{"id":"8","text":"大宇建設","icon":"http://v2.volkssii.com/img/fileIcon/FILE.svg","li_attr":{"id":"8"},"a_attr":{"href":"#","id":"8_anchor"},"state":{"loaded":true,"opened":false,"selected":false,"disabled":false},"data":{},"parent":"5","type":"file"}]`
+        let b =`[{"id":"0","text":"選單","parent":"#","type":"file"},{"id":"1","text":"廠商資訊","parent":"0","type":"file"},{"id":"2","text":"設計圖","parent":"1","type":"file"},{"id":"3","text":"施工圖","parent":"1","type":"file"}]`
+        // let b =`[{id:"0","text":"選單","type":"file"}]`
         let dataAry = JSON.parse(localStorage.getItem('資料'))|| localStorage.setItem('資料',b);//若前者有資料，那取得資料。若沒有則取得後者。
         if(dataAry == undefined){//若無資料重整
             window.location.reload();
@@ -168,8 +169,10 @@
             let addfile = document.querySelector('.addFile');
             let addDocument = document.querySelector('.addDocument');
             if(e.target === filebtn){//點的是新增資料夾選項
-                addfile.classList.remove('active');
+                // addfile.classList.remove('active');
                 addDocument.classList.add('active');
+                $('#addfileModal').modal('show');
+                addChooseList.style['display'] = 'none'
             }else if(e.target === Documentbtn){//點的是新增檔案選項
                 // addDocument.classList.remove('active');
                 addfile.classList.add('active');
@@ -199,11 +202,11 @@
                 addFile.classList.add('active');
             };
         };
-        // tree新建資料
-        let addFileBtn = document.querySelector('#fileBtnId');//子視窗中新增資料夾按鍵
+        // tree新建資料夾
+        let addFileBtn = document.querySelector('.addfileModal_footer_btn_2');//子視窗中新增資料夾按鍵
         addFileBtn.addEventListener('click',createNewfile);
         function createNewfile() {
-            let addfile_Value = document.querySelector('.addFile input')
+            let addfile_Value = document.querySelector('#add_forder_value')
             let ref = $('#tree').jstree(true);
             let DOM = getDOM();//獲取點選tree節點
             if(DOM.length == 0||ref.get_node(DOM).type!=='file'){//當沒指定時指定父層
@@ -216,8 +219,9 @@
             if (DOM) {
                 ref.edit(DOM,addfile_Value.value);//啟用編輯模式
             };
-            addChoose();//輸入後關閉
+            // addChoose();//輸入後關閉
             updata();//將檔案發送
+            $('#addfileModal').modal('hide');
             addfile_Value.value = '';
         };
         //開啟檔案選擇
@@ -273,40 +277,40 @@
             tree = ref.get_node(tree)//將tree轉換物件
             switch (tree.type) {//塞入假資料
                 case 'avi':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/video.mp4') }}`}//暫時載入假檔
                   break;
                 case 'gif':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/giffile.gif'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/giffile.gif') }}`}//暫時載入假檔
                   break;
                 case 'jpg':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/jpgfile2.jpg'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/jpgfile2.jpg') }}`}//暫時載入假檔
                   break;
                 case 'mov':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/video.mp4') }}`}//暫時載入假檔
                   break;
                 case 'mp4':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/video.mp4') }}`}//暫時載入假檔
                   break;
                 case 'pdf':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pdffile.pdf'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/pdffile.pdf') }}`}//暫時載入假檔
                   break;
                 case 'png':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pngfile.png'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/pngfile.png') }}`}//暫時載入假檔
                   break;
                 case 'rar':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/rarfile.rar'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/rarfile.rar') }}`}//暫時載入假檔
                   break;
                 case 'txt':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/txtfile.txt'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/txtfile.txt') }}`}//暫時載入假檔
                   break;
                 case 'word':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/wordfile.docx'}//暫時載入假檔
+                  tree.data = {time:now,fack:`https://chiyum.github.io/holdkibor/data/wordfile.docx`}//暫時載入假檔
                   break;
                 case 'xls':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/excelfile.xlsx'}//暫時載入假檔
+                  tree.data = {time:now,fack:`https://chiyum.github.io/holdkibor/data/excelfile.xlsx`}//暫時載入假檔
                   break;
                 case 'zip':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/zipfile.zip'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/zipfile.zip') }}`}//暫時載入假檔
                   break;
               }
           }
@@ -413,7 +417,6 @@
             localStorage.setItem('資料',dataAry)//將dataAry放入local  ex.已有function當重整時載入dataAry
             resetLeftHeight();//維持頁面高度
             right_list_update(document.querySelector('.column').getAttribute('data-num'));//重整右邊介面
-
         };
         // -----畫面調整-----
         // treeNav滾動
@@ -584,40 +587,40 @@
               tree = ref.get_node(tree)//將tree轉換物件
               switch (tree.type) {//塞入假資料
                 case 'avi':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/video.mp4') }}`}//暫時載入假檔
                   break;
                 case 'gif':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/giffile.gif'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/giffile.gif') }}`}//暫時載入假檔
                   break;
                 case 'jpg':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/jpgfile2.jpg'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/jpgfile2.jpg') }}`}//暫時載入假檔
                   break;
                 case 'mov':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/video.mp4') }}`}//暫時載入假檔
                   break;
                 case 'mp4':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/video.mp4'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/video.mp4') }}`}//暫時載入假檔
                   break;
                 case 'pdf':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pdffile.pdf'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/pdffile.pdf') }}`}//暫時載入假檔
                   break;
                 case 'png':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/pngfile.png'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/pngfile.png') }}`}//暫時載入假檔
                   break;
                 case 'rar':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/rarfile.rar'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/rarfile.rar') }}`}//暫時載入假檔
                   break;
                 case 'txt':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/txtfile.txt'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/txtfile.txt') }}`}//暫時載入假檔
                   break;
                 case 'word':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/wordfile.docx'}//暫時載入假檔
+                  tree.data = {time:now,fack:`https://chiyum.github.io/holdkibor/data/wordfile.docx`}//暫時載入假檔
                   break;
                 case 'xls':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/excelfile.xlsx'}//暫時載入假檔
+                  tree.data = {time:now,fack:`https://chiyum.github.io/holdkibor/data/excelfile.xlsx`}//暫時載入假檔
                   break;
                 case 'zip':
-                  tree.data = {time:now,fack:'https://v2.volkssii.com/img/fileIcon/zipfile.zip'}//暫時載入假檔
+                  tree.data = {time:now,fack:`{{ asset('img/fileIcon/zipfile.zip') }}`}//暫時載入假檔
                   break;
               }
               clickDom.click();//因為啟用編輯模式會使後續的新增失效，故使用.click取消，這樣跑下一次的迴圈時就不會阻擋新增。
@@ -808,18 +811,17 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-          }else if(type =='zip'||type =='rar'||type =='gif'||type=='txt'){//為zip及rar檔的話直接下載
+          }else if(type =='zip'||type =='rar'||type =='gif'){//為zip及rar檔的話直接下載
             download(id.data.fack)
           }else if(type =='xls'||type =='word'){
-            window.open(`https://view.officeapps.live.com/op/view.aspx?src=${id.data.fack}`);
+            // window.open(`https://view.officeapps.live.com/op/view.aspx?src=${id.data.fack}`);
+            $('#popupModal').modal('show');
+            document.querySelector('#iframeId').setAttribute('src',`https://view.officeapps.live.com/op/view.aspx?src=${id.data.fack}`);//開啟url
           }else{//其他開啟預覽
-            document.querySelector('.render').classList.remove('active'); //開啟預覽區塊
-            document.querySelector('#objectId').setAttribute('data',`${id.data.fack}`);//開啟url
+            $('#popupModal').modal('show');
+            document.querySelector('#iframeId').setAttribute('src',`${id.data.fack}`);//開啟url
           };
         });
-          
-
-
         //關閉選單
         function resetTree(){
           let ref = $('#tree').jstree(true);
@@ -1070,14 +1072,17 @@
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
-                  }else if(type =='zip'||type =='rar'||type =='gif'||type=='txt'){//為zip及rar檔的話直接下載
-                    download(node.node.data.fack)
+                  }else if(type =='zip'||type =='rar'||type =='gif'){//為zip及rar檔的話直接下載
+                    download(node.node.data.fack);
                   }else if(type =='xls'||type =='word'){
-                    window.open(`https://view.officeapps.live.com/op/view.aspx?src=${node.node.data.fack}`);
+                    $('#popupModal').modal('show');
+                    // window.open(`https://view.officeapps.live.com/op/view.aspx?src=${node.node.data.fack}`);//開啟另外的網頁
+                    document.querySelector('#iframeId').setAttribute('src',`https://view.officeapps.live.com/op/view.aspx?src=${node.node.data.fack}`);//開啟url
                   }
                   else{//其他開啟預覽
-                    document.querySelector('.render').classList.remove('active'); //開啟預覽區塊
-                    document.querySelector('#objectId').setAttribute('data',`${node.node.data.fack}`);//開啟url
+                    $('#popupModal').modal('show');
+                    document.querySelector('#iframeId').setAttribute('src',`${node.node.data.fack}`);//開啟url
+                    // document.querySelector('#objectId').setAttribute('data',`${node.node.data.fack}`);//開啟url
                   };
                   select_num =0;//點擊計算歸零
                };
@@ -1289,8 +1294,8 @@
       justify-content: space-around;
   z-index: 1;
   position: absolute;
-  top: 20px;
-  left: 130px;
+  top: 20vw;
+  left: 30vw;
   width: 275px;
   height: 100px;
   border: 1px #bbb7b7 solid;
@@ -2182,6 +2187,97 @@
   transition: all 0.3s;
 }
 
+.popupmodal
+{
+  position: absolute;
+  left: -10vw;
+  top: 9vw;
+  min-width:920px;
+  max-width: 960px;
+  height: 610px;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal_header
+{
+  background: #0066a1;
+  color: #ffffff;
+  border-radius: 10px 10px 0 0;
+}
+
+.font_color_white
+{
+  color: #ffffff;
+}
+.opacity_close
+{
+  opacity: 1;
+}
+
+
+.addfileModal
+{
+  position: relative;
+  top: 18vw;
+  left:5vw;
+  width: 360px;
+}
+
+.addfileModal_header
+{
+  padding: 10px;
+  border:none;
+}
+
+.addfileModal_header_closebtn
+{
+  position: relative;
+  top: 2px;
+}
+
+
+.addfileModal_body
+{
+  padding: 5px 20px;
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+.addfileModal_body input
+{
+  width: 100%;
+  outline: none;
+}
+
+.addfileModal_footer
+{
+  padding:0;
+  border:none;
+}
+
+.addfileModal_footer_btn_1
+{
+  margin-right: -4px;
+  background:#efefef;
+}
+
+.addfileModal_footer_btn_2
+{
+  background:#08a3c9;
+}
+
+.addfileModal_footer_btn
+{
+  position: relative;
+  right: 16px;
+  bottom: 5px;
+  padding: 3px 15px;
+  color: black;
+  border:none;
+  border-radius: 0px;
+}
+
+
 
 
 @media (max-width: 1670px) {
@@ -2474,6 +2570,43 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="addfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content addfileModal">
+        <div class="modal-header addfileModal_header">
+          <h5 class="modal-title" style="font-size:18px;">新增資料夾</h5>
+          <button type="button" class="close addfileModal_header_closebtn" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body addfileModal_body">
+          <input type="text" id="add_forder_value">
+        </div>
+        <div class="modal-footer addfileModal_footer">
+          <button type="button" class="btn btn-secondary addfileModal_footer_btn addfileModal_footer_btn_1" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary addfileModal_footer_btn addfileModal_footer_btn_2">建立</button>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="modal fade" id="popupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content popupmodal">
+        <div class="modal-header modal_header">
+          <h5 class="modal-title">檔案預覽</h5>
+          <button type="button" class="close opacity_close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="font_color_white">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <iframe src="{{ asset('./img/fileIcon/pdffile.pdf') }}" frameborder="0" style="width: 100%;height:100%;" id="iframeId"></iframe>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 
 

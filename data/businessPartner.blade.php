@@ -14,190 +14,116 @@
 
         {
             companyName:'宏義工程股份有限公司',
-            position:'經理',
-            name:'康民治',
-            cardid:'A146019079',
-            id:'A00001',
-            sex:'男',
-            blood:'AB',
-            aborad:'否',
-            birthday:'1960/10/10',
-            phoneNumber:'0800-092000',
-            email:'abc123456@gmail.com',
-            address:'台中市北區一中街125巷10號5樓3室',
-            contactPerson:'許小姐',
-            contactNumber:'0980-153699',
+            name:'宏義工程',
+            companyTel:'04-22288967',
+            companyFax:'04-22288168',
+            id:'896706634',
+            address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
+            service:'消防排煙/空調設備/防爆馬達(德國)/驅動器',
+            contactPerson1:'許小姐',
+            jobTitle1:'會計',
+            contactTel1:'04-22280513',
+            contactNumber1:'0980-092777',
+            contactEamil1:'abc999052@gmail.com',
+            contactPerson2:'謝小姐',
+            jobTitle2:'業務',
+            contactTel2:'04-22287794',
+            contactNumber2:'0980-092566',
+            contactEamil2:'abc123456@gmail.com',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
             isbgw:false,
             isbgg:false,
         },
         {
-            companyName:'宏義工程股份有限公司',
-            position:'工地主任',
-            name:'吳來福',
-            cardid:'L104728170',
-            id:'A00002',
-            sex:'男',
-            blood:'O',
-            aborad:'否',
-            birthday:'1960/10/10',
-            phoneNumber:'0800-092000',
-            email:'abc123456@gmail.com',
-            address:'台中市北屯區中山路一段125巷10號5樓',
-            contactPerson:'汪小姐',
-            contactNumber:'0988-593699',
+            companyName:'瑞展工程股份有限公司',
+            name:'瑞展工程',
+            companyTel:'04-22899738',
+            companyFax:'04-22420458',
+            id:'21452829',
+            address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
+            service:'切割鑽孔/植筋/道路切割',
+            contactPerson1:'黃先生',
+            jobTitle1:'總經理',
+            contactTel1:'04-22920458',
+            contactNumber1:'0932594115',
+            contactEamil1:'holdkibor09@gmail.com',
+            contactPerson2:'賴小姐',
+            jobTitle2:'副總',
+            contactTel2:'04-22287794',
+            contactNumber2:'0980-092566',
+            contactEamil2:'kpi123456@gmail.com',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
             isbgw:false,
             isbgg:false,
         },
         {
-            companyName:'宏義工程股份有限公司',
-            position:'施工人員',
-            name:'王欽興',
-            cardid:'L104728170',
-            id:'A00003',
-            sex:'男',
-            blood:'B',
-            aborad:'否',
-            birthday:'1960/10/10',
-            phoneNumber:'0800092000',
-            email:'abc123456@gmail.com',
-            address:'台中市北區一中街125巷10號5樓3室',
-            contactPerson:'黃小姐',
-            contactNumber:'0975-697531',
+            companyName:'微風實業股份有限公司',
+            name:'微風實業',
+            companyTel:'04-22288967',
+            companyFax:'04-22288168',
+            id:'89676633',
+            address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
+            service:'消防排煙/空調設備/防爆馬達(德國)/驅動器',
+            contactPerson1:'許小姐',
+            jobTitle1:'會計',
+            contactTel1:'04-22280513',
+            contactNumber1:'0980-092777',
+            contactEamil1:'abc999052@gmail.com',
+            contactPerson2:'謝小姐',
+            jobTitle2:'業務',
+            contactTel2:'04-22287794',
+            contactNumber2:'0980-092566',
+            contactEamil2:'abc123456@gmail.com',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
             isbgw:false,
             isbgg:false,
         },
         {
-            companyName:'宏義工程股份有限公司',
-            position:'施工人員',
-            name:'王嘉興',
-            cardid:'M110394010',
-            id:'A00004',
-            sex:'男',
-            blood:'O',
-            aborad:'否',
-            birthday:'1960/10/10',
-            phoneNumber:'0800092000',
-            email:'abc123456@gmail.com',
-            address:'台中市南區工學路一段230號10樓之2號',
-            contactPerson:'趙小姐',
-            contactNumber:'0975-697531',
+            companyName:'長春醫療股份有限公司',
+            name:'長春醫療',
+            companyTel:'04-22288967',
+            companyFax:'04-22288168',
+            id:'89670632',
+            address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
+            service:'消防排煙/空調設備/防爆馬達(德國)/驅動器',
+            contactPerson1:'許小姐',
+            jobTitle1:'會計',
+            contactTel1:'04-22280513',
+            contactNumber1:'0980-092777',
+            contactEamil1:'abc999052@gmail.com',
+            contactPerson2:'謝小姐',
+            jobTitle2:'業務',
+            contactTel2:'04-22287794',
+            contactNumber2:'0980-092566',
+            contactEamil2:'abc123456@gmail.com',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
             isbgw:false,
             isbgg:false,
         },
         {
-            companyName:'唐宋工程股份有限公司',
-            position:'施工人員',
-            name:'李白',
-            cardid:'M110394010',
-            id:'A00005',
-            sex:'男',
-            blood:'A',
-            aborad:'是',
-            birthday:'1701/05/19',
-            phoneNumber:'0800092000',
-            email:'abc123456@gmail.com',
-            address:'台中市西區英才路432號12樓',
-            contactPerson:'李小姐',
-            contactNumber:'0975-697531',
+            companyName:'國泰建設股份有限公司',
+            name:'國泰建設',
+            companyTel:'04-22288967',
+            companyFax:'04-22288168',
+            id:'89706631',
+            address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
+            service:'消防排煙/空調設備/防爆馬達(德國)/驅動器',
+            contactPerson1:'許小姐',
+            jobTitle1:'會計',
+            contactTel1:'04-22280513',
+            contactNumber1:'0980-092777',
+            contactEamil1:'abc999052@gmail.com',
+            contactPerson2:'謝小姐',
+            jobTitle2:'業務',
+            contactTel2:'04-22287794',
+            contactNumber2:'0980-092566',
+            contactEamil2:'abc123456@gmail.com',
             isClose:false,
             isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
-        },
-        {
-            companyName:'宏義工程股份有限公司',
-            position:'施工人員',
-            name:'謝宇賀',
-            cardid:'N127819354',
-            id:'A00006',
-            sex:'男',
-            blood:'O',
-            aborad:'否',
-            birthday:'1960/10/10',
-            phoneNumber:'0800-092000',
-            email:'abc123456@gmail.com',
-            address:'台中市北區一中街125巷10號5樓3室',
-            contactPerson:'黃小姐',
-            contactNumber:'0975-697531',
-            isClose:false,
-            isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
-        },
-        {
-            companyName:'宏義工程股份有限公司',
-            position:'施工人員',
-            name:'謝芷菱',
-            cardid:'M129819314',
-            id:'A00007',
-            sex:'女',
-            blood:'AB',
-            aborad:'否',
-            birthday:'1960/10/10',
-            phoneNumber:'0800-092000',
-            email:'abc123456@gmail.com',
-            address:'台中市南屯區向心南路906巷55號2樓之7號',
-            contactPerson:'魏小姐',
-            contactNumber:'0975-697531',
-            isClose:false,
-            isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
-        },
-        {
-            companyName:'宏義工程股份有限公司',
-            position:'施工人員',
-            name:'魏佳慧',
-            cardid:'M294467154',
-            id:'A00008',
-            sex:'女',
-            blood:'O',
-            aborad:'否',
-            birthday:'1992/10/10',
-            phoneNumber:'0800-092000',
-            email:'abc123456@gmail.com',
-            address:'台中市南屯區向心南路906巷55號2樓之7號',
-            contactPerson:'謝小姐',
-            contactNumber:'0975-697531',
-            isClose:false,
-            isShow:true,
-            line_userid:'lineabc123',
-            isbgw:false,
-            isbgg:false,
-        },
-        {
-            companyName:'宏義工程股份有限公司',
-            position:'施工人員',
-            name:'鐵木阿棒',
-            cardid:'M294467154',
-            id:'A00008',
-            sex:'女',
-            blood:'O',
-            aborad:'是',
-            birthday:'1992/10/10',
-            phoneNumber:'0800-092000',
-            email:'abc123456@gmail.com',
-            address:'台中市南屯區向心南路906巷55號2樓之7號',
-            contactPerson:'謝小姐',
-            contactNumber:'0975-697531',
-            isClose:false,
-            isShow:true,
-            line_userid:'lineabc123',
             isbgw:false,
             isbgg:false,
         },
@@ -208,25 +134,27 @@
             return{
                 peopleData:[],
                 temp_obj:{
-                  companyName:'',
-                  position:'',
+                  companyName:'',//必填
                   name:'',
-                  cardid:'',
-                  id:'',
-                  line_userid:'',
-                  sex:'',
-                  blood:'',
-                  aborad:'',
-                  birthday:'',
-                  phoneNumber:'',
-                  email:'',
-                  address:'',
-                  contactPerson:'',
-                  contactNumber:'',
+                  companyTel:'',//必填
+                  companyFax:'',
+                  id:'',//必填
+                  address:'',//必填
+                  service:'',//必填
+                  contactPerson1:'',//必填
+                  jobTitle1:'',
+                  contactTel1:'',//必填
+                  contactNumber1:'',//必填
+                  contactEamil1:'',
+                  contactPerson2:'',
+                  jobTitle2:'',
+                  contactTel2:'',
+                  contactNumber2:'',
+                  contactEamil2:'',
                   isClose:false,
                   isShow:true,
-                  isbgg:false,
                   isbgw:false,
+                  isbgg:false,
                 },//彈窗占存用
                 temp_num:'',//占存刪除用
                 search:'',
@@ -262,7 +190,7 @@
                 let num = 1;//顏色計數用
                 this.peopleData.forEach( (data,i) => {
                     data.isShow = false;//先將所有的資料都隱藏
-                    if(data.companyName.indexOf(value.toUpperCase())>=0||data.companyName.indexOf(value.toLowerCase())>=0||data.position.indexOf(value.toUpperCase())>=0||data.position.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toUpperCase())>=0||data.name.indexOf(value.toLowerCase())>=0||data.cardid.indexOf(value.toUpperCase())>=0||data.cardid.indexOf(value.toLowerCase())>=0||data.id.indexOf(value.toUpperCase())>=0||data.id.indexOf(value.toLowerCase())>=0){
+                    if(data.companyName.indexOf(value.toUpperCase())>=0||data.companyName.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toUpperCase())>=0||data.name.indexOf(value.toLowerCase())>=0||data.companyTel.indexOf(value.toUpperCase())>=0||data.companyTel.indexOf(value.toLowerCase())>=0||data.companyFax.indexOf(value.toUpperCase())>=0||data.companyFax.indexOf(value.toLowerCase())>=0||data.id.indexOf(value.toUpperCase())>=0||data.id.indexOf(value.toLowerCase())>=0){
                         data.isShow = true;//將符合關鍵字的資料顯示
                         num++//計數+1
                         if(num % 2 == 0){//若計數為偶數
@@ -294,27 +222,29 @@
             },
             edit_popup(item){
               $('#editModal').modal('show');
-              this.edit_popup_reset();//清空臨時資料
               this.popup_edit_title = '編輯';
               this.popup_edit_resetShow = true;//清除選單開啟
-              let birthday = item.birthday;//生日字串轉換
-              birthday = birthday.split('/');
-              birthday = birthday.join('-')
-              this.temp_obj.birthday = item.birthday;//取得生日
-              this.temp_obj.companyName = item.companyName;//取得公司名稱
-              this.temp_obj.position = item.position;//取得職位
-              this.temp_obj.name = item.name;//取得名字
-              this.temp_obj.cardid = item.cardid;//取得身分證號
-              this.temp_obj.id = item.id;//取得帳號
-              this.temp_obj.sex = item.sex;//取得性別
-              this.temp_obj.blood = item.blood;//取得血型
-              this.temp_obj.aborad = item.aborad;//取得移工與否資訊
-              this.temp_obj.phoneNumber = item.phoneNumber;//取得手機號碼
-              this.temp_obj.email = item.email;//取得email
-              this.temp_obj.address = item.address;//取得地址
-              this.temp_obj.contactPerson = item.contactPerson;//取得緊急人
-              this.temp_obj.contactNumber = item.contactNumber;//取得緊急電話
-              this.temp_obj.line_userid = item.line_userid;//取得line id
+              this.temp_obj.companyName = item.companyName;
+              this.temp_obj.name = item.name;
+              this.temp_obj.companyTel = item.companyTel;
+              this.temp_obj.companyFax = item.companyFax;
+              this.temp_obj.id = item.id;
+              this.temp_obj.address = item.address;
+              this.temp_obj.service = item.service;
+              this.temp_obj.contactPerson1 = item.contactPerson1;
+              this.temp_obj.jobTitle1 = item.jobTitle1;
+              this.temp_obj.contactTel1 = item.contactTel1;
+              this.temp_obj.contactNumber1 = item.contactNumber1;
+              this.temp_obj.contactEamil1 = item.contactEamil1;
+              this.temp_obj.contactPerson2 = item.contactPerson2;
+              this.temp_obj.jobTitle2 = item.jobTitle2;
+              this.temp_obj.contactTel2 = item.contactTel2;
+              this.temp_obj.contactNumber2 = item.contactNumber2;
+              this.temp_obj.contactEamil2 = item.contactEamil2;
+              this.temp_obj.isClose = false;
+              this.temp_obj.isShow = true;
+              this.temp_obj.isbgw = false;
+              this.temp_obj.isbgg = false;
               this.peopleData.find( (data,i) => {//取得資料位置
                     if(item.id == data.id){
                         this.temp_num = i;//占存刪除的檔案位址
@@ -323,25 +253,27 @@
             },
             edit_popup_reset(){ //清除
               this.temp_obj.companyName = '';
-              this.temp_obj.position = '';
               this.temp_obj.name = '';
-              this.temp_obj.cardid = '';
+              this.temp_obj.companyTel = '';
+              this.temp_obj.companyFax = '';
               this.temp_obj.id = '';
-              this.temp_obj.line_userid = '';
-              this.temp_obj.sex = '';
-              this.temp_obj.blood = '';
-              this.temp_obj.aborad = '';
-              this.temp_obj.birthday = '';
-              this.temp_obj.phoneNumber = '';
-              this.temp_obj.email = '';
               this.temp_obj.address = '';
-              this.temp_obj.contactPerson = '';
-              this.temp_obj.contactNumber = '';
+              this.temp_obj.service = '';
+              this.temp_obj.contactPerson1 = ''
+              this.temp_obj.jobTitle1 = '';
+              this.temp_obj.contactTel1 = '';
+              this.temp_obj.contactNumber1 = '';
+              this.temp_obj.contactEamil1 = '';
+              this.temp_obj.contactPerson2 = '';
+              this.temp_obj.jobTitle2 = '';
+              this.temp_obj.contactTel2 = '';
+              this.temp_obj.contactNumber2 = '';
+              this.temp_obj.contactEamil2 = '';
             },
             edit_popup_change(){ //儲存
-              if(this.temp_obj.companyName == ''||this.temp_obj.name == ''||this.temp_obj.cardid == ''||this.temp_obj.sex == ''||this.temp_obj.blood == ''||this.temp_obj.aborad == ''||this.temp_obj.contactPerson == ''||this.temp_obj.contactNumber == ''){
-                alert('儲存失敗!請確認必填欄位填寫正確');
-                return;
+              if(this.temp_obj.companyName ==''||this.temp_obj.companyTel ==''||this.temp_obj.id ==''||this.temp_obj.address ==''||this.temp_obj.service ==''||this.temp_obj.contactPerson1 ==''||this.temp_obj.contactTel1 ==''||this.temp_obj.contactNumber1 ==''){
+                alert('儲存失敗!必填欄位請填寫。')
+                return
               }
               if(this.temp_num ==''||!this.temp_num){//偵測不到位置為新增
                 let obj = {...this.temp_obj};//轉移資料
@@ -350,23 +282,26 @@
                 obj = {};//清空臨時列表
                 this.edit_popup_reset();
               }else{
-                this.peopleData[this.temp_num].isClose = true;
                 this.peopleData[this.temp_num].companyName = this.temp_obj.companyName;
-                this.peopleData[this.temp_num].position = this.temp_obj.position;
                 this.peopleData[this.temp_num].name = this.temp_obj.name;
-                this.peopleData[this.temp_num].cardid = this.temp_obj.cardid;
+                this.peopleData[this.temp_num].companyTel = this.temp_obj.companyTel;
+                this.peopleData[this.temp_num].companyFax = this.temp_obj.companyFax;
                 this.peopleData[this.temp_num].id = this.temp_obj.id;
-                this.peopleData[this.temp_num].line_userid = this.temp_obj.line_userid;
-                this.peopleData[this.temp_num].sex = this.temp_obj.sex;
-                this.peopleData[this.temp_num].blood = this.temp_obj.blood;
-                this.peopleData[this.temp_num].aborad = this.temp_obj.aborad;
-                this.peopleData[this.temp_num].birthday = this.temp_obj.birthday;
-                this.peopleData[this.temp_num].phoneNumber = this.temp_obj.phoneNumber;
-                this.peopleData[this.temp_num].email = this.temp_obj.email;
                 this.peopleData[this.temp_num].address = this.temp_obj.address;
-                this.peopleData[this.temp_num].contactPerson = this.temp_obj.contactPerson;
-                this.peopleData[this.temp_num].contactNumber = this.temp_obj.contactNumber;
-                this.temp_num = '';
+                this.peopleData[this.temp_num].service = this.temp_obj.service;
+                this.peopleData[this.temp_num].contactPerson1 = this.temp_obj.contactPerson1;
+                this.peopleData[this.temp_num].jobTitle1 = this.temp_obj.jobTitle1;
+                this.peopleData[this.temp_num].contactTel1 = this.temp_obj.contactTel1;
+                this.peopleData[this.temp_num].contactNumber1 = this.temp_obj.contactNumber1;
+                this.peopleData[this.temp_num].contactEamil1 = this.temp_obj.contactEamil1;
+                this.peopleData[this.temp_num].contactPerson2 = this.temp_obj.contactPerson2;
+                this.peopleData[this.temp_num].jobTitle2 = this.temp_obj.jobTitle2;
+                this.peopleData[this.temp_num].contactTel2 = this.temp_obj.contactTel2;
+                this.peopleData[this.temp_num].contactNumber2 = this.temp_obj.contactNumber2;
+                this.peopleData[this.temp_num].contactEamil2 = this.temp_obj.contactEamil2;
+                this.peopleData[this.temp_num].isClose = true;//打開面板
+                this.temp_num = '';//reset抓取位置
+
               }
               this.cxlDeldata();//隱藏選單
               this.edit_popup_reset();//清除預設
@@ -376,7 +311,7 @@
               this.edit_popup_reset();//清空臨時資料
               this.popup_edit_title = '新增';//更改視窗名稱
               $('#editModal').modal('show');
-            },
+            }
         },
     }).mount('.container-fluid');
 
@@ -432,6 +367,7 @@ p {
   width: 23%;
   max-width: 350px;
   height: 40px;
+  font-size: 18px;
   color: #ffffff;
   font-weight: bold;
   background: -webkit-gradient(linear, left top, left bottom, from(#07d895), to(#04b87f));
@@ -440,8 +376,8 @@ p {
 }
 
 .main .table_head .shop .create_btn .create_btn_icon {
-  margin-right: 5px;
   font-size: 18px;
+  margin-right: 5px;
   font-weight: bolder;
 }
 
@@ -1248,12 +1184,6 @@ p {
   background: #ffffff !important;
 }
 
-.select_set {
-  position: relative !important;
-  background: none !important;
-  z-index: 10 !important;
-}
-
 .delModal {
   position: relative;
   top: 30vh;
@@ -1493,151 +1423,56 @@ p {
   width: 100%;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) p {
-  margin-bottom: 5px;
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div {
+  width: 110px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(1) input {
-  width: 220px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(2) {
-  position: relative;
-  right: 8px;
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(2) input {
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div input {
   width: 100%;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div {
-  position: relative;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div select {
-  width: 100px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div span {
-  position: absolute;
-  bottom: -5px;
-  right: 25px;
-  color: #b2b2b2;
-  font-size: 22px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(3) div:nth-child(2) {
-  left: 22px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) p {
-  margin-bottom: 5px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(1) {
-  position: relative;
-  display: block;
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div:nth-child(1), .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div:nth-child(5) {
   width: 200px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(1) select {
-  width: 75px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(1) span {
-  position: absolute;
-  right: 40px;
-  bottom: -5px;
-  font-size: 22px;
-  color: #b2b2b2;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(2) {
-  position: relative;
-  right: 15px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(1) div:nth-child(2) input {
-  width: 125px;
-  height: 27px;
-  font-size: 13px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(2) {
-  position: relative;
-  right: 8px;
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(2) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(3) {
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(3) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) {
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) p {
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) p, .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) p {
   margin-bottom: 5px;
 }
 
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div, .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div {
+  width: 110px;
+}
+
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div input, .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div input {
+  width: 100%;
+}
+
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(5), .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(5) {
+  width: 270px;
+}
+
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div {
+  margin-right: 85px;
+}
+
 .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div textarea {
-  width: 223px;
-  height: 61px;
-  padding-left: 5px;
+  outline: none;
   border: none;
-  border-top: 0.5px solid #efecec;
   -webkit-box-shadow: 1px 2px 3px 1px #c3c3c3;
           box-shadow: 1px 2px 3px 1px #c3c3c3;
-  outline: none;
+  border-top: 0.5px solid #efecec;
+  height: 60px;
+  width: 280px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(2) {
-  position: relative;
-  right: 8px;
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(2) input {
-  width: 100%;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(3) {
-  width: 246px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(3) input {
-  width: 100%;
+.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(1) textarea {
+  width: 300px;
 }
 
 .editModal .modal-body .edit_popup .edit_popup_main .btn {
@@ -1691,7 +1526,7 @@ p {
   background-color: #0cbbe7;
   color: #ffffff;
 }
-/*# sourceMappingURL=people.css.map */
+/*# sourceMappingURL=conpany.css.map */
 </style>
 @endsection
 
@@ -1710,7 +1545,7 @@ p {
     <div class="main">
         <div class="table_head">
             <div class="shop">
-                <div class="create_btn" @click="create_popup" ><span class="create_btn_icon">✚</span>新增人員列表</div>
+                <div class="create_btn" @click="create_popup" ><span class="create_btn_icon">✚</span>新增廠商資訊</div>
                 <div class="search">
                     <input type="text" v-model="search" v-on:keyup.enter="searchKeyWord">
                     <span class="search_btn" @click="searchKeyWord"><ion-icon name="search-outline"></ion-icon></span>
@@ -1718,10 +1553,10 @@ p {
             </div>
             <div class="title">
                 <p>公司名稱</p>
-                <p>職稱</p>
-                <p>姓名</p>
-                <p>身分證字號</p>
-                <p>帳號</p>
+                <p>短名稱</p>
+                <p>電話</p>
+                <p>傳真</p>
+                <p>公司統編</p>
             </div>
         </div>
         <div class="table_main">
@@ -1732,9 +1567,9 @@ p {
                             <ion-icon name="caret-forward-outline"></ion-icon>
                         </div>
                         <p>@{{iteam.companyName}}</p>
-                        <p>@{{iteam.position}}</p>
                         <p>@{{iteam.name}}</p>
-                        <p>@{{iteam.cardid}}</p>
+                        <p>@{{iteam.companyTel}}</p>
+                        <p>@{{iteam.companyFax}}</p>
                         <p>@{{iteam.id}}</p>
                         <div class="list_top_icon_edit">
                             <div class="edit_btn" @click="edit_popup(iteam)" ><img src="{{ asset('img/ICON/edit_icon.svg') }}" alt="圖標"></div>
@@ -1788,101 +1623,77 @@ p {
                         <div class="col">
                             <div>
                                 <p>公司名稱<span class="must">*</span></p>
-                                <select v-model="temp_obj.companyName" class="select_set">
-                                    <option value="宏義工程股份有限公司">宏義工程股份有限公司</option>
-                                    <option value="唐宋工程股份有限公司">唐宋工程股份有限公司</option>
-                                </select> 
-                                <span class="select_icon" @click="click_company">
-                                    <ion-icon name="caret-down-outline"></ion-icon>
-                                </span>
+                                <input type="text" v-model="temp_obj.companyName">
                             </div>
-                            <div class="row middle">
-                                <div>
-                                    <p>職稱</p>
-                                    <input type="text" v-model="temp_obj.position" id="testId">
-                                </div>
-                                <div>
-                                    <p>姓名<span class="must">*</span></p>
-                                    <input type="text" v-model="temp_obj.name">
-                                </div>
+                            <div>
+                                <p>短名稱</p>
+                                <input type="text" v-model="temp_obj.name">
                             </div>
-                            <div class="right">
-                                <p>LINE ID</p>
-                                <input type="text" v-model="temp_obj.line_userid">
+                            <div>
+                                <p>電話<span class="must">*</span></p>
+                                <input type="text" v-model="temp_obj.companyTel">
+                            </div>
+                            <div>
+                                <p>傳真</p>
+                                <input type="text" v-model="temp_obj.companyFax">
+                            </div>
+                            <div>
+                                <p>公司統編<span class="must">*</span></p>
+                                <input type="text" v-model="temp_obj.id">
                             </div>
                         </div>
                         <div class="col">
                             <div>
-                                <p>身分證字號<span class="must">*</span></p>
-                                <input type="text" v-model="temp_obj.cardid"></input>
+                                <p>聯絡人1<span class="must">*</span></p>
+                                <input type="text" v-model="temp_obj.contactPerson1"></input>
                             </div>
                             <div>
-                                <p>帳號</p>
-                                <input type="text" v-model="temp_obj.id" ></input>
+                                <p>職稱</p>
+                                <input type="text" v-model="temp_obj.jobTitle1"></input>
                             </div>
                             <div>
-                                <div>
-                                    <p>性別<span class="must must_fix">*</span></p>
-                                    <select v-model="temp_obj.sex" class="select_set">
-                                        <option value="男">男</option>
-                                        <option value="女">女</option>
-                                    </select>
-                                    <span>
-                                        <ion-icon name="caret-down-outline"></ion-icon>
-                                    </span>
-                                </div>
-                                <div>
-                                    <p>血型<span class="must must_fix">*</span></p>
-                                    <select v-model="temp_obj.blood" class="select_set">
-                                        <option value="A">A</option>
-                                        <option value="B">B</option>
-                                        <option value="O">O</option>
-                                        <option value="AB">AB</option>
-                                    </select>
-                                    <span>
-                                        <ion-icon name="caret-down-outline"></ion-icon>
-                                    </span>
-                                </div>
+                                <p>電話<span class="must">*</span></p>
+                                <input type="text" v-model="temp_obj.contactTel1">
+                            </div>
+                            <div>
+                                <p>手機<span class="must">*</span></p>
+                                <input type="text" v-model="temp_obj.contactNumber1">
+                            </div>
+                            <div>
+                                <p>信箱</p>
+                                <input type="text" v-model="temp_obj.contactEamil1">
                             </div>
                         </div>
                         <div class="col">
-                          <div>
-                            <div>
-                                <p>是否為移工<span class="must must_fix">*</span></p>
-                                <select v-model="temp_obj.aborad" class="select_set">
-                                    <option value="否">否</option>
-                                    <option value="是">是</option>
-                                </select>
-                                <span>
-                                    <ion-icon name="caret-down-outline"></ion-icon>
-                                </span>
+                        <div>
+                                <p>聯絡人2</p>
+                                <input type="text" v-model="temp_obj.contactPerson2"></input>
                             </div>
                             <div>
-                                <p>生日</p>
-                                <input type="date" v-model="temp_obj.birthday">
+                                <p>職稱</p>
+                                <input type="text" v-model="temp_obj.jobTitle2"></input>
                             </div>
-                          </div>
-                          <div>
-                              <p>連絡電話</p>
-                              <input type="text" v-model="temp_obj.phoneNumber">
-                          </div>
-                          <div>
-                            <p>信箱</p>
-                            <input type="text" v-model="temp_obj.email">
-                        </div>
+                            <div>
+                                <p>電話</p>
+                                <input type="text" v-model="temp_obj.contactTel2">
+                            </div>
+                            <div>
+                                <p>手機</p>
+                                <input type="text" v-model="temp_obj.contactNumber2">
+                            </div>
+                            <div>
+                                <p>信箱</p>
+                                <input type="text" v-model="temp_obj.contactEamil2">
+                            </div>
                         </div>
                         <div class="col">
                             <div>
-                                <p>通訊地址</p>
+                                <p>通訊地址<span class="must">*</span></p>
                                 <textarea name="" id="" cols="28" rows="4" v-model="temp_obj.address"></textarea>
                             </div>
                             <div>
-                                <p>緊急聯絡人<span class="must">*</span></p>
-                                <input type="text" v-model="temp_obj.contactPerson">
-                            </div>
-                            <div>
-                                <p>緊急連絡人電話<span class="must">*</span></p>
-                                <input type="text" v-model="temp_obj.contactNumber">
+                                <p>產品/服務<span class="must">*</span></p>
+                                <textarea name="" id="" cols="28" rows="4" v-model="temp_obj.service"></textarea>
                             </div>
                         </div>
                         <div class="btn">

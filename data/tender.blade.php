@@ -18,6 +18,8 @@
       name:'壹丙_電氣工程',
       child_id:'a_0',
       class:'table_list1',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,//是否有icon
       icon_onStock:false,//子元素隱藏icon
@@ -32,6 +34,8 @@
       name:'壹丙A_低壓配電盤設備工程',
       child_id:'a_01',
       class:'table_list2',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,
       icon_onStock:false,
@@ -46,6 +50,8 @@
       name:'壹丙A(1)_(一)_P1.P1-1台電受電箱',
       child_id:['a_02','a_03','a_04','a_05'],
       class:'table_list3',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,
       icon_onStock:false,
@@ -67,7 +73,9 @@
       manpower:'',//人力
       manage:'',//管理
       device:'',//設備
-      class:'table_list4',//list階梯序
+      class:'table_list4',
+      isbgc:false,//list階梯序
+      isbgf:false,//list階梯序
       onStock:false,//子元素不會有箭頭icon
       icon_onStock:true,//隱藏icon
       main_onStock:true,//隱藏後推padding-left:10px與上層對齊
@@ -88,6 +96,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -108,6 +118,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -117,8 +129,7 @@
     {
       parentid:'a_01',
       id:'a_05',
-      name:'壹丙A(1_4)_NBF 3P 400AF 400AT 380V 30KA',
-      unit:'只',  
+      name:'壹丙A(1_4)_NBF 3P 400AF 400AT 380V 30KA',  
       price:421,
       quantity:'2,869', 
       total: '1,207,849',
@@ -129,6 +140,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -141,6 +154,8 @@
       name:'壹丁_電氣工程',
       child_id:'b_0',
       class:'table_list1',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,
       icon_onStock:false,
@@ -155,6 +170,8 @@
       name:'壹丁A_低壓配電盤設備工程',
       child_id:'b_01',
       class:'table_list2',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,
       icon_onStock:false,
@@ -169,6 +186,8 @@
       name:'壹丁A(1)_(一)_P1.P1-1台電受電箱',
       child_id:['b_02','b_03','b_04','b_05'],
       class:'table_list3',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,
       icon_onStock:false,
@@ -191,6 +210,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -211,6 +232,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -231,6 +254,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -251,6 +276,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -265,6 +292,8 @@
       name:'壹丁_切割工程',
       child_id:'a_0',
       class:'table_list1',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,//是否有icon
       icon_onStock:false,//子元素隱藏icon
@@ -279,6 +308,8 @@
       name:'壹丁A_各樓層管路連接工程',
       child_id:'a_01',
       class:'table_list2',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,
       icon_onStock:false,
@@ -293,6 +324,8 @@
       name:'壹丁A(1)_(一)_P1.P1-愛在七期專案',
       child_id:['a_02','a_03','a_04','a_05'],
       class:'table_list3',
+      isbgc:false,
+      isbgf:false,
       parent_icon:'aboveAll_hide',
       onStock:true,
       icon_onStock:false,
@@ -314,7 +347,9 @@
       manpower:'',//人力
       manage:'',//管理
       device:'',//設備
-      class:'table_list4',//list階梯序
+      class:'table_list4',
+      isbgc:false,//list階梯序
+      isbgf:false,//list階梯序
       onStock:false,//子元素不會有箭頭icon
       icon_onStock:true,//隱藏icon
       main_onStock:true,//隱藏後推padding-left:10px與上層對齊
@@ -335,6 +370,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -355,6 +392,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -375,6 +414,8 @@
       manage:'',
       device:'',
       class:'table_list4',
+      isbgc:false,
+      isbgf:false,
       onStock:false,
       icon_onStock:true,
       main_onStock:true,
@@ -392,6 +433,7 @@ Vue.createApp({
       temp_search:'',
       project_select:'成大瑞豪機電工程',
       btnName:'全展開',
+      temp_id:'',
     };
   },
   created(){
@@ -464,7 +506,96 @@ Vue.createApp({
         //li顏色重整
         this.listColor_reset();
     },
+    change_Color(iteam){//id更改顏色
+
+      this.product.find(data => {//使用find找尋id 因為id是唯一性的所以使用find find的特性為只抓取第一次符合的值
+        if(data.id == iteam){//讓顏色改為灰
+          data.isbgc = true;
+        };
+      });
+    },
+    search_this_ancestor(iteam){ //這邊代入的iteam是該層id
+      let id =iteam;
+      this.product.forEach((data,i)=>{
+        if(data.id == iteam){//找尋對應id
+          this.product[i].parentid ? this.search_this_ancestor(this.product[i].parentid): this.temp_id = iteam;//若有父層，將父層套入執行一次function
+        };
+      });
+    },
     listColor_reset(){
+    
+      //plan.1 以階層分隔
+      // this.product.forEach((data,i) => {
+        
+      //   if(data.isOpen_Stock == false && !data.parentid && i % 2 ==0){
+      //     this.product[i].isbgc = true;
+      //   }else{
+      //     this.product[i].isbgc = false;
+      //   }
+      //   // 未開啟時主選單色塊區分
+        
+      //   //開啟後區分色塊
+
+      //   if(data.class =='table_list1'||data.class =='table_list3'||data.class =='table_list5'){
+      //     // this.product[i].isbgc = false;
+      //   }else{
+      //     this.product[i].isbgc = true;
+      //   };
+
+      // });
+
+      // plan.2 黑白
+      setTimeout(() => {
+        $('.table_main ul li:visible:even').css('background-color','#cdcdcd');
+        $('.table_main ul li:visible:odd').css('background-color','#ffffff');
+      }, 0);
+
+      // $('.table_main ul li:visible:even').css('background-color','#cdcdcd');
+      // $('.table_main ul li:visible:odd').css('background-color','#ffffff');
+
+      // plan.2 vue版
+      // this.product.forEach((data,i) => {
+        
+      //   if(data.hide == false && i % 2 ==0){
+      //     data.isbgc = true;
+      //   }else if(data.hide ==false && i % 2 !=0){
+      //     data.isbgc = false;
+      //   }
+
+      // });
+
+
+      //plan.3
+      // this.product.forEach((data,i) => {
+        
+      //   if(data.isOpen_Stock == false && !data.parentid && i % 2 ==0){
+      //     this.product[i].isbgc = true;
+      //   }else{
+      //     this.product[i].isbgc = false;
+      //   }
+      //   //先準備標準區塊
+      //   if(!data.hide){ //以開啟的檔案給予class
+      //     if(data.class =='table_list1'||data.class =='table_list3'||data.class =='table_list5'){
+      //     // this.product[i].isbgc = false;
+      //     }else{
+      //       this.product[i].isbgc = true;
+      //     };
+      //   }
+      // });
+    
+      // setTimeout(() => {
+      //   let Ary_li = $('.table_main ul li:visible')
+      //   for(let i of Ary_li){
+
+      //     console.dir(i)
+      //     console.log(i.dataset.num)
+
+      //   }
+        
+      // }, 0);
+      
+
+
       // setTimeout(() => {
       //   let temp_ary = [];
       //   let li = document.querySelectorAll('.table_main ul li');
@@ -487,11 +618,7 @@ Vue.createApp({
       //   });
       //   //目前發現的問題是，掃for迴圈時，抓不到開啟的那一些元素，所以使用settimeout解決
       // }, 0);
-      setTimeout(() => {
-        $('.table_main ul li:even').css('background-color','#cdcdcd');
-        $('.table_main ul li:odd').css('background-color','#ffffff');
-      }, 0);
-     
+      
     },
     open_all(){//全展開
       console.log('展開觸發')
@@ -704,7 +831,7 @@ li {
 
 .main .head .head_left li h2 {
   color: #4e4e4e;
-  font-size: 28px;
+  font-size: 24px;
   margin: 0 10px;
 }
 
@@ -1101,6 +1228,14 @@ li {
 .search_result {
   color: red !important;
 }
+
+.bgc {
+  background: #cdcdcd;
+}
+
+.bgf {
+  background: #ffffff;
+}
 /*# sourceMappingURL=tender.css.map */
 </style>
 @endsection
@@ -1165,7 +1300,7 @@ li {
            </div>
            <div class="table_main">
              <ul>
-               <li v-for="i in product" :key="i.id" v-bind:class="{aboveAll_hide:i.hide,search_result:i.isSearch}" :title="i.name">
+               <li v-for="i in product" :key="i.id" v-bind:class="{aboveAll_hide:i.hide,search_result:i.isSearch,bgc:i.isbgc,bgf:i.isbgf}" :title="i.name" :data-num="i.id">
                    <div class="table_name" v-bind:class="i.class" >
                    <i v-bind:class="{opne_icon_active:i.isOpen_Stock}">
                     <ion-icon name="caret-forward-outline" v-bind:class="{icon_blue:i.onStock,aboveAll_hide:i.icon_onStock}" class="table_name_icon"  v-on:click="toggle_child(i)">
