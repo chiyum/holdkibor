@@ -1564,12 +1564,14 @@ ol.computed
     computed是當資料更動時，用來渲染網頁的功能。
     以下將會介紹computed的運作。
     使用computed可以跳過資料的部分直接渲染網頁。
+    也就是說他會取出資料進行處理並渲染。而非傳統的使用資料渲染後再由computed操作。
     範例:
 
           Vue.createApp({
                     data(){
                         return{
-                            data = 100;
+                            data:100,
+                            text:'測試文字',
                         };
                     },
                     computed:{//首先先在vue元件內新增一個computed物件
@@ -1601,4 +1603,197 @@ ol.computed
         備註:
         看似跟methods內的function很像，但其實是有差別的。
         computed的total並沒有在任何一個methods的function內及指令來觸發。
-        computed是當資料更動以後，就會進行觸發。
+        computed是當指定資料更動以後，就會進行觸發。
+        那何謂指定資料呢?以上面的範例來說就是在computed內的total()中
+        我們有使用到this.data。這就是所謂的指定資料。當這個this.data的值有更動時，total就會執行。
+        若this.data沒有變動只更動this.text，那麼total就不會執行。而是會保持讓上一個執行的結果，也稱為暫存結果。
+        暫存結果補充:所謂暫存結果就是執行後的結果，會占存在瀏覽器中。
+
+    ol.手法:
+        在computed中總共有兩種手法(用法)，為getter, setter。
+
+        一.getter
+        getter也就是上面所以使用的手法。將資料給取出做處理後渲染畫面。
+
+
+        二.setter
+        setter與getter相反。setter會將資料處理後再返回至資料庫中。
+        那麼setter該如何使用呢?
+        以下使用code範例進行解說:
+
+            <input type="number" v-model.number="num"> //這邊對應的是資料庫中的num
+            <button type="button" @click="total = num">更新</button>
+            //這邊@click = "total = num"的意思是 將 num 賦予到computed內的total的值。
+            //而total的值是set(val)中的val
+
+            total 的值：{{ total }}<br>//這邊total則是使用get return的值
+            sum 的值：{{ sum }}//sum則是資料庫中的值
+
+
+
+            const App = {
+              data() {
+                return {
+                  num: 10,
+                  search: '',
+                  products: [
+                    {
+                      name: '蛋餅',
+                      price: 30,
+                      vegan: false
+                    },
+                    {
+                      name: '飯糰',
+                      price: 35,
+                      vegan: false
+                    },
+                    {
+                      name: '小籠包',
+                      price: 60,
+                      vegan: false
+                    },
+                    {
+                      name: '蘿蔔糕',
+                      price: 30,
+                      vegan: true
+                    },
+                  ],
+                  carts: [],
+                  sum: 0,
+                }
+              },
+              computed: {
+                total: {//這時的total是個物件
+                  get(el) { // computed get 會把 data 裡面的資料取出
+                    console.log('get', el); //這邊el的參數是vue的相關資料
+                    let total2 = 0;
+                    this.carts.forEach(item => {
+                      total2 += item.price;
+                    });
+                    return this.sum || total2;
+                  },
+                  //前面提過當指定的資料更動時會觸發get
+
+                  set(val) {
+                    console.log('set', val); 
+                    this.sum = val;
+                  }
+                   //set 是把資料重新調整好後，寫入到資料及裡面
+                   //而當computed要被設值時，set就會觸發
+                   //@click="total = num" 就是在設total的值
+                   //這邊total是對應total()這個物件
+                }
+              },
+              methods: {
+                addToCart(product) {
+                  this.carts.push(product)
+                },
+              },
+              created() {
+                console.log(this);
+              }
+            };
+            Vue.createApp(App).mount('#app');
+
+        
+ol.watch 監聽單一的資料
+    watch與computed有些類似，當監聽(指定)的值有更動的時候就會進行觸發。
+    watch的差別是:
+        1.總共有兩個參數 分別為此次帶入的值及上一次帶入的值
+        範例:
+            watch:{//一樣使用物件形式
+
+                template(n,o){// 這邊的template則是(指定)監聽的資料
+                    console.log(n,o)
+                    //這邊的n就是帶入此次的值，o則是上一次的值
+                }
+
+            }
+
+        2.一次僅能監聽一個資料 但可更改N個變數(這邊N個就是指無限多)
+        補充:而computed則是可以一次監聽多個事件，並且會產生一個值，也就是return的值。可以用來呈現於畫面上。
+        甚麼意思呢?也就是我可以直接將computed中的function套入{{}}中讓{{}}呈現return的值
+        假設return的值是10這個數字，那我在填寫{{function名稱}}會回傳的則是return的值
+        
+        3.載入時不會觸發而會等到更動時。
+            若使用computed當載入時就會進行一次資料的更動。而watch則是載入不會更動，等到使用者處理的時候才進行更動。
+
+
+    watch監聽多個資料(深層監聽):
+        其實watch亦可以進行多個資料監聽，但較為複雜。
+        首先監聽的資料要是同一個物件內的值。
+        其次watch的監聽方式也要改變。
+        範例:
+            watch:{
+                obj:{//這邊是物件名稱
+                    headler(n,o){//這是監聽的控制器 一樣會產生新值與舊值
+                        console.log(n,o)//此時的值是回傳一整個物件，而非單一值 
+                    },
+                    deep:true;//這個deep則是當有使用到深層監聽時才會使用到的變數。預設都是false。當使用深層監聽時要將其開為true
+
+                }
+            }
+
+ol.Vue元件生命週期
+    雖然這邊講解到元件，但其實Vue本身就是一堆元件所組成的概念。
+    下一章將會理解到元件，所以先理解生命週期會更好的學習元件這個部分。
+
+    Vue.createApp本身就是一個元件，而此元件底下也有大大小小的元件。如methods等。
+    而為甚麼會被稱為是生命週期呢?
+    因為Vue在載入不同的資料時，元件其實都是在卸載及加載，每一個卸載及加載被稱為一個週期，而這正是一個循環的週期，也被稱為生命周期。
+    而各個周期也可以在元件中監聽:
+    例如:
+    Vue.createApp({
+        data(){
+            return{
+                text:'測試文字'
+            }
+        },
+        beforeCreate(){//只要在元件中加上生命週期的名稱即可監聽。當觸發到這個生命週期時，這個function就會啟動。
+            console.log(this.text)
+        },
+    })
+
+    生命週期順序為:
+
+    一.beforeCreate 先準備資料
+        這時資料還在準備中，所以是無法取得資料狀態的，若強行取得只會顯示undefined
+
+    二.create 資料準備完成
+        這時就可以取得資料資料
+
+    三.beforeMount 已經先準備好HTML的結構 但還未渲染
+
+    四.mounted HTML已經渲染 但還不能操縱JS元素。
+        雖然HTML已經渲染，但在mounted這個狀態時其實是暫停的狀態，也就是在進行渲染但未完成，所以若是要用JS操作元素的話，一定要在mounted之後。
+        而當過了mounted以後，基本上Vue基本的元件已經加載完成，剩下的則是資料的更動及離開前的銷毀。
+    
+    五.beforeUpdate 資料更動前
+        當資料更動時畫面自然就要重新渲染。beforeUpdate及updated就是渲染前與後。
+
+    六.updated 當資料更動後
+
+    七.activated 占存資料啟用
+        當講解到這兩個狀態時就不得不提到v-if與v-show差別。
+
+        v-if是會將資料卸載並重新加載的
+        而若是不想要讓資料重新加載但又想要使用v-if的使用功能時，就需要用到keep-alive這個標籤
+        而當使用keep-alive這個標籤時就會觸發activated及deactivated這個生命週期。
+
+        使用方法為:
+        <keep-alive>//只需要將不想重新加載資料的v-if元素放在keep-alive內即可。
+            <p v-if="isShow"></p>
+        </keep-alive>
+
+
+        v-show則純粹只會讓元素跟資料display:none or 顯示
+
+    八.deactivated 占存資料不啟用。
+
+    九.beforeUnmount 卸載過程 尚可抓到資料
+
+    十.Unmounted 卸載完成 尚可抓到資料
+
+
+
+    

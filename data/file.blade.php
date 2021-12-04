@@ -340,7 +340,7 @@
                      </div>`
           };
           document.querySelector('.tip .loading .bottom').innerHTML = str;
-          console.log(document.querySelector('.tip .loading .bottom'));
+          // console.log(document.querySelector('.tip .loading .bottom'));
         };
         function add_file_cancel(){//取消上傳檔案
           document.querySelector('.addFile input').value = '';
@@ -540,8 +540,10 @@
             let str_length; //數字長度
             let doc = e.dataTransfer.files;//擷取的檔案
             let tree;//tree載體
+            let dom2 = ref.get_node(DOM);
+            console.log(dom2);
             // console.log(doc.length);
-            if(DOM.length == 0){//當沒指定時指定父層
+            if(DOM.length == 0||dom2.type!='file'){//當沒指定時指定父層
               ref.select_node(document.querySelector('.column').getAttribute('data-num'));
               ref.open_node(document.querySelector('.column').getAttribute('data-num'));
               DOM[0] = document.querySelector('.column').getAttribute('data-num');

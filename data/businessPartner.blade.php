@@ -107,9 +107,55 @@
         {
             companyName:'國泰建設股份有限公司',
             name:'國泰建設',
-            companyTel:'04-22288967',
+            companyTel:'04-92421737',
             companyFax:'04-22288168',
             id:'89706631',
+            address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
+            service:'消防排煙/空調設備/防爆馬達(德國)/驅動器',
+            contactPerson1:'許小姐',
+            jobTitle1:'會計',
+            contactTel1:'04-22280513',
+            contactNumber1:'0980-092777',
+            contactEamil1:'abc999052@gmail.com',
+            contactPerson2:'謝小姐',
+            jobTitle2:'業務',
+            contactTel2:'04-22287794',
+            contactNumber2:'0980-092566',
+            contactEamil2:'abc123456@gmail.com',
+            isClose:false,
+            isShow:true,
+            isbgw:false,
+            isbgg:false,
+        },
+        {
+            companyName:'國泰建設股份有限公司',
+            name:'國泰建設',
+            companyTel:'04-92421737',
+            companyFax:'04-22288168',
+            id:'89706641',
+            address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
+            service:'消防排煙/空調設備/防爆馬達(德國)/驅動器',
+            contactPerson1:'許小姐',
+            jobTitle1:'會計',
+            contactTel1:'04-22280513',
+            contactNumber1:'0980-092777',
+            contactEamil1:'abc999052@gmail.com',
+            contactPerson2:'謝小姐',
+            jobTitle2:'業務',
+            contactTel2:'04-22287794',
+            contactNumber2:'0980-092566',
+            contactEamil2:'abc123456@gmail.com',
+            isClose:false,
+            isShow:true,
+            isbgw:false,
+            isbgg:false,
+        },
+        {
+            companyName:'國泰建設股份有限公司',
+            name:'國泰建設',
+            companyTel:'04-22288967',
+            companyFax:'04-22288168',
+            id:'89706641',
             address:'台中市龍井區工業路256巷10號/台北市三重區興德路100號8樓',
             service:'消防排煙/空調設備/防爆馬達(德國)/驅動器',
             contactPerson1:'許小姐',
@@ -182,25 +228,25 @@
                 if(value ==''||!value){//若為空值 清除顏色及取消全部隱藏
                   this.peopleData.forEach( (data,i) => {
                     data.isShow = true;//顯示資料
-                    data.isbgg = false;//灰色設定關閉
-                    data.isbgw = false;//白色設定關閉
+                    // data.isbgg = false;//灰色設定關閉
+                    // data.isbgw = false;//白色設定關閉
                   });
                   return
                 }//若為空值則return
-                let num = 1;//顏色計數用
+                // let num = 1;//顏色計數用
                 this.peopleData.forEach( (data,i) => {
                     data.isShow = false;//先將所有的資料都隱藏
                     if(data.companyName.indexOf(value.toUpperCase())>=0||data.companyName.indexOf(value.toLowerCase())>=0||data.name.indexOf(value.toUpperCase())>=0||data.name.indexOf(value.toLowerCase())>=0||data.companyTel.indexOf(value.toUpperCase())>=0||data.companyTel.indexOf(value.toLowerCase())>=0||data.companyFax.indexOf(value.toUpperCase())>=0||data.companyFax.indexOf(value.toLowerCase())>=0||data.id.indexOf(value.toUpperCase())>=0||data.id.indexOf(value.toLowerCase())>=0){
                         data.isShow = true;//將符合關鍵字的資料顯示
-                        num++//計數+1
-                        if(num % 2 == 0){//若計數為偶數
-                          data.isbgw = true;//顏色切換白
-                        }else if(num %2 !=0){//若計數為奇術
-                          data.isbgg = true;//顏色切灰
-                        }
+                        // num++//計數+1
+                        // if(num % 2 == 0){//若計數為偶數
+                        //   data.isbgw = true;//顏色切換白
+                        // }else if(num %2 !=0){//若計數為奇術
+                        //   data.isbgg = true;//顏色切灰
+                        // }
                     };
                 });
-                num = 1;//reset計數
+                // num = 1;//reset計數
                 // this.search = '';//清空輸入框
             },
             deldata_popup(iteam){//刪除彈窗跳出及取得欲刪除序列
@@ -309,6 +355,7 @@
               this.edit_popup_reset();//清除預設
             },
             create_popup(){
+              this.popup_edit_resetShow = false;//清除選單開啟
               this.temp_num = '';//新增前先清空位置
               this.edit_popup_reset();//清空臨時資料
               this.popup_edit_title = '新增';//更改視窗名稱
@@ -437,7 +484,7 @@ p {
 
 .main .table_main ul {
   overflow: auto;
-  height: 75vh;
+  height: 74vh;
 }
 
 .main .table_main ul li:nth-child(odd) {
@@ -534,7 +581,6 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: #a1e6df;
   padding: 5px 0;
   font-weight: bold;
 }
@@ -624,7 +670,6 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background: #bef2ef;
   padding: 5px 0;
   font-weight: 500;
 }
@@ -1186,12 +1231,16 @@ p {
   background: #ffffff !important;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 .delModal {
-  position: relative;
-  top: 30vh;
-  left: 5vw;
+  max-width: 420px;
+}
+
+.delModal .modal-content {
   background: none;
-  width: 288px;
 }
 
 .delModal .modal-header {
@@ -1267,14 +1316,26 @@ p {
 }
 
 .editModal {
-  position: relative;
-  right: 10vw;
-  top: 15vw;
+  max-width: 864px;
+}
+
+.editModal .modal-content {
   background: none;
 }
 
 .editModal .modal-header {
-  display: none;
+  height: 60px;
+  color: #ffffff;
+  border-radius: 10px 10px 0 0;
+  background-color: #0167a0;
+}
+
+.editModal .modal-header button {
+  opacity: 1;
+}
+
+.editModal .modal-header button span {
+  color: #ffffff;
 }
 
 .editModal .modal-footer {
@@ -1286,11 +1347,7 @@ p {
   border: none;
 }
 
-.editModal .modal-body .edit_popup {
-  width: 864px;
-}
-
-.editModal .modal-body .edit_popup .edit_popup_title {
+.editModal .modal-body .edit_popup_title {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1307,29 +1364,29 @@ p {
   background-color: #0167a0;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_title h2 {
+.editModal .modal-body .edit_popup_title h2 {
   font-size: 18px;
   position: relative;
   top: 5px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_title .close_icon {
+.editModal .modal-body .edit_popup_title .close_icon {
   margin-top: 2px;
   font-size: 24px;
   font-weight: bolder;
   cursor: pointer;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main {
+.editModal .modal-body .edit_popup_main {
   background-color: #ffffff;
   border-radius: 0 0 10px 10px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main input {
+.editModal .modal-body .edit_popup_main input {
   padding-left: 5px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col {
+.editModal .modal-body .edit_popup_main .col {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1345,12 +1402,12 @@ p {
   margin-bottom: 20px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col div {
+.editModal .modal-body .edit_popup_main .col div {
   width: 246px;
   white-space: nowrap;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col div select {
+.editModal .modal-body .edit_popup_main .col div select {
   padding-left: 5px;
   height: 26px;
   width: 223px;
@@ -1366,7 +1423,7 @@ p {
   border: none;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col div .select_icon {
+.editModal .modal-body .edit_popup_main .col div .select_icon {
   position: relative;
   right: 30px;
   top: 6px;
@@ -1374,7 +1431,7 @@ p {
   color: #b2b2b2;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col div input {
+.editModal .modal-body .edit_popup_main .col div input {
   height: 25px;
   border: none;
   border-top: 0.5px solid #efecec;
@@ -1383,7 +1440,7 @@ p {
           box-shadow: 1px 2px 3px 1px #c3c3c3;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col .row {
+.editModal .modal-body .edit_popup_main .col .row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1395,19 +1452,19 @@ p {
           justify-content: space-between;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col .row div p {
+.editModal .modal-body .edit_popup_main .col .row div p {
   margin-bottom: 3px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col .row div input {
+.editModal .modal-body .edit_popup_main .col .row div input {
   width: 113px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col .row div:nth-child(2) {
+.editModal .modal-body .edit_popup_main .col .row div:nth-child(2) {
   position: relative;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col .middle {
+.editModal .modal-body .edit_popup_main .col .middle {
   position: relative;
   top: 2px;
   width: 262px;
@@ -1415,55 +1472,55 @@ p {
       flex-wrap: nowrap;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col .right p {
+.editModal .modal-body .edit_popup_main .col .right p {
   position: relative;
   top: 3px;
   margin-bottom: 6px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col .right input {
+.editModal .modal-body .edit_popup_main .col .right input {
   width: 100%;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div {
+.editModal .modal-body .edit_popup_main .col:nth-child(1) div {
   width: 110px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div input {
+.editModal .modal-body .edit_popup_main .col:nth-child(1) div input {
   width: 100%;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div:nth-child(1), .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(1) div:nth-child(5) {
+.editModal .modal-body .edit_popup_main .col:nth-child(1) div:nth-child(1), .editModal .modal-body .edit_popup_main .col:nth-child(1) div:nth-child(5) {
   width: 200px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) p, .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) p {
+.editModal .modal-body .edit_popup_main .col:nth-child(2) p, .editModal .modal-body .edit_popup_main .col:nth-child(3) p {
   margin-bottom: 5px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div, .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div {
+.editModal .modal-body .edit_popup_main .col:nth-child(2) div, .editModal .modal-body .edit_popup_main .col:nth-child(3) div {
   width: 110px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div input, .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div input {
+.editModal .modal-body .edit_popup_main .col:nth-child(2) div input, .editModal .modal-body .edit_popup_main .col:nth-child(3) div input {
   width: 100%;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(2) div:nth-child(5), .editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(3) div:nth-child(5) {
+.editModal .modal-body .edit_popup_main .col:nth-child(2) div:nth-child(5), .editModal .modal-body .edit_popup_main .col:nth-child(3) div:nth-child(5) {
   width: 270px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) {
+.editModal .modal-body .edit_popup_main .col:nth-child(4) {
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div {
+.editModal .modal-body .edit_popup_main .col:nth-child(4) div {
   margin-right: 85px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div textarea {
+.editModal .modal-body .edit_popup_main .col:nth-child(4) div textarea {
   outline: none;
   border: none;
   -webkit-box-shadow: 1px 2px 3px 1px #c3c3c3;
@@ -1473,11 +1530,11 @@ p {
   width: 280px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .col:nth-child(4) div:nth-child(1) textarea {
+.editModal .modal-body .edit_popup_main .col:nth-child(4) div:nth-child(1) textarea {
   width: 300px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .btn {
+.editModal .modal-body .edit_popup_main .btn {
   position: relative;
   bottom: 10px;
   display: -webkit-box;
@@ -1492,7 +1549,7 @@ p {
   padding: 0 20px;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .btn span {
+.editModal .modal-body .edit_popup_main .btn span {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1509,22 +1566,22 @@ p {
   cursor: pointer;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(1) {
+.editModal .modal-body .edit_popup_main .btn span:nth-child(1) {
   background-color: #e62d18;
   color: #ffffff;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(1):hover {
+.editModal .modal-body .edit_popup_main .btn span:nth-child(1):hover {
   background-color: #ff1900;
   color: #ffffff;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(2) {
+.editModal .modal-body .edit_popup_main .btn span:nth-child(2) {
   background-color: #0aa0c8;
   color: #ffffff;
 }
 
-.editModal .modal-body .edit_popup .edit_popup_main .btn span:nth-child(2):hover {
+.editModal .modal-body .edit_popup_main .btn span:nth-child(2):hover {
   background-color: #0cbbe7;
   color: #ffffff;
 }
@@ -1563,64 +1620,63 @@ p {
         </div>
         <div class="table_main">
             <ul>
-                <li v-for="iteam in peopleData" :key="iteam.id" v-show="iteam.isShow" :class="{isbgW:iteam.isbgw,isbgG:iteam.isbgg}">
-                    <div class="list_top">
-                        <div class="list_top_icon" v-on:click="switchOpen(iteam)" :class="{open:iteam.isClose}">
-                            <ion-icon name="caret-forward-outline"></ion-icon>
-                        </div>
-                        <p>@{{iteam.companyName}}</p>
-                        <p>@{{iteam.name}}</p>
-                        <p>@{{iteam.companyTel}}</p>
-                        <p>@{{iteam.companyFax}}</p>
-                        <p>@{{iteam.id}}</p>
-                        <div class="list_top_icon_edit">
-                            <div class="edit_btn" @click="edit_popup(iteam)" ><img src="{{ asset('img/ICON/edit_icon.svg') }}" alt="圖標"></div>
-                            <div class="del_btn" @click="deldata_popup(iteam)"><img src="{{ asset('img/ICON/del_icon.svg') }}" alt="圖標"></div>
-                        </div>
-                    </div>
-                    <div class="list_bottom" v-if="iteam.isClose">
-                        <div class="list_bottom_title">
-                            <p>性別</p>
-                            <p>血型</p>
-                            <p>是否為移工</p>
-                            <p>生日</p>
-                            <p>連絡電話</p>
-                            <p>信箱</p>
-                            <p>通訊地址</p>
-                            <p>緊急聯絡人</p>
-                            <p>緊急連絡人電話</p>
-                        </div>
-                        <div class="list_bottom_data">
-                            <p>@{{iteam.sex}}</p>
-                            <p>@{{iteam.blood}}</p>
-                            <p>@{{iteam.aborad}}</p>
-                            <p>@{{iteam.birthday}}</p>
-                            <p>@{{iteam.phoneNumber}}</p>
-                            <p>@{{iteam.email}}</p>
-                            <p>@{{iteam.address}}</p>
-                            <p>@{{iteam.contactPerson}}</p>
-                            <p>@{{iteam.contactNumber}}</p>
-                        </div>
-                    </div>
-                </li>
+                <template v-for="iteam in peopleData" :key="iteam.id">
+                  <li v-if="iteam.isShow" :class="{isbgW:iteam.isbgw,isbgG:iteam.isbgg}">
+                      <div class="list_top">
+                          <div class="list_top_icon" v-on:click="switchOpen(iteam)" :class="{open:iteam.isClose}">
+                              <ion-icon name="caret-forward-outline"></ion-icon>
+                          </div>
+                          <p>@{{iteam.companyName}}</p>
+                          <p>@{{iteam.name}}</p>
+                          <p>@{{iteam.companyTel}}</p>
+                          <p>@{{iteam.companyFax}}</p>
+                          <p>@{{iteam.id}}</p>
+                          <div class="list_top_icon_edit">
+                              <div class="edit_btn" @click="edit_popup(iteam)" ><img src="{{ asset('img/ICON/edit_icon.svg') }}" alt="圖標"></div>
+                              <div class="del_btn" @click="deldata_popup(iteam)"><img src="{{ asset('img/ICON/del_icon.svg') }}" alt="圖標"></div>
+                          </div>
+                      </div>
+                  </li>
+                  <li v-if="iteam.isClose">
+                    <div class="list_bottom" >
+                          <div class="list_bottom_title">
+                              <p>性別</p>
+                              <p>血型</p>
+                              <p>是否為移工</p>
+                              <p>生日</p>
+                              <p>連絡電話</p>
+                              <p>信箱</p>
+                              <p>通訊地址</p>
+                              <p>緊急聯絡人</p>
+                              <p>緊急連絡人電話</p>
+                          </div>
+                          <div class="list_bottom_data">
+                              <p>@{{iteam.sex}}</p>
+                              <p>@{{iteam.blood}}</p>
+                              <p>@{{iteam.aborad}}</p>
+                              <p>@{{iteam.birthday}}</p>
+                              <p>@{{iteam.phoneNumber}}</p>
+                              <p>@{{iteam.email}}</p>
+                              <p>@{{iteam.address}}</p>
+                              <p>@{{iteam.contactPerson}}</p>
+                              <p>@{{iteam.contactNumber}}</p>
+                          </div>
+                      </div>
+                  </li>
+                </template>
             </ul>
         </div>
     </div>
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content editModal">
+    <div class="modal-dialog editModal modal-dialog-centered">
+      <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">刪除</h5>
+          <h5 class="modal-title">@{{popup_edit_title}}人員資料</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-        <div class="edit_popup">
-                    <div class="edit_popup_title">
-                        <h2>@{{popup_edit_title}}人員資料</h2>
-                        <ion-icon name="close-outline" class="close_icon" @click="cxlDeldata"></ion-icon>
-                    </div>
                     <div class="edit_popup_main">
                         <div class="col">
                             <div>
@@ -1703,7 +1759,6 @@ p {
                             <span @click="edit_popup_change"><ion-icon name="cloud-upload"></ion-icon>儲存</span>
                         </div>
                     </div>
-                </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -1713,17 +1768,17 @@ p {
     </div>
   </div>
   <!-- 刪除彈窗 -->
-  <div class="modal fade" id="delModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content delModal">
+  <div class="modal fade" id="delModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered delModal">
+    <div class="modal-content ">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">刪除</h5>
+        <h5 class="modal-title">刪除</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        確認是否刪除@{{temp_obj.companyName}}的資料資料?
+        確認是否刪除<span class="bold">@{{temp_obj.companyName}}</span>的資料資料?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
