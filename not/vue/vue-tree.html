@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+   
+    <div class="wrap">
+        <testlist></testlist>
+    </div>
+    <script>
+        let test = '測試文字';
+        const tree = {
+            name:'主選單',
+            nodes:[
+                {
+                    name:'選單一',
+                    nodes:[
+                        {
+                            name:'選單一_子選單1',
+                            nodes:[
+                        {
+                            name:'選單一_子選單1'
+                        },
+                        {
+                            name:'選單一_子選單1',
+                            nodes:[
+                            {
+                                name:'選單一_子選單1'
+                            },
+                            ],
+                        },
+                    ]
+                        },
+                        {
+                            name:'選單一_子選單1'
+                        },
+                    ]
+                },
+                {
+                    name:'選單二',
+                    nodes:[
+                        {
+                            name:'選單二_子選單1'
+                        },
+                        {
+                            name:'選單二_子選單1'
+                        },
+                    ]
+                },
+            ]
+        }
+
+        const app = Vue.createApp({
+             
+        })
+        
+        app.component('testlist',{
+            data(){
+                return{
+                    treedata:tree,//導入外部tree結構
+                }
+            },
+                    //此元件為根目錄
+            template:`<ul id="tree">
+                        <item :treedata="treedata"></item>
+                      </ul>`
+                      //這邊使用props將tree結構導入到item
+        })
+
+        app.component('item',{
+            template:`
+            <li @click.stop="toggle">
+                {{treedata.name}}
+                <ul v-show="open">
+                    <item v-for="(node, index) in treedata.nodes" :treedata="node" :key="index"></item>
+                </ul>
+            </li>
+            `,
+            props:['treedata'],//prors導入的資料
+            data(){
+                return{
+                    open:true
+                }
+            },
+            methods: {
+              toggle(){
+                if(this.treedata.node && this.treedata.node.length > 0){
+                  this.open = !this.open
+                  console.log(this.treedata.node)   
+                }
+                console.log('執行與否')
+              }
+            }
+        })
+
+        app.mount('.wrap')
+    </script>
+</body>
+</html>

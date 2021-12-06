@@ -85,7 +85,6 @@
               
             },
             computed:{
-                
                 select_list(){
         
                     if(this.select =='男'){
@@ -112,6 +111,7 @@
                     }
                     this.temp_list.forEach( data=>{
                         data.isShow = false;
+                        let result = data.name.match(this.search);
                         if(data.name.indexOf(this.search)>=0){
                             data.isShow = true;
                         }
@@ -121,6 +121,7 @@
             }
         }).mount('.wrap')
        
+        var string = "Welcome to GEEKS for geeks!";
     </script>
 </body>
 </html>

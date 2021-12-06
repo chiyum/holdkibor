@@ -1795,5 +1795,380 @@ ol.Vue元件生命週期
     十.Unmounted 卸載完成 尚可抓到資料
 
 
+ol.元件:
+
+    看到這裡大概都知道元件實際上是甚麼東西了。那為甚麼會需要使用到元件呢?
+    因為使用元件有幾樣特色:
+
+    一.增加程式碼的使用性
+        何謂增加使用程式碼的使用性呢?好比說今天你有兩個地方需要用到相同的function。
+        那妳可以使用元件的function。那麼就只需要撰寫一個function即可。
+        若有需要修改也不需要兩個地方的function都修改，只要修改元件的funcion，那兩個地方都會同步的更新。
+
+    二.避免單一檔案過大及方便管理
+        當你在撰寫專案時，程式碼會有幾百行是常見的事情，所以你可以使用元件，讓要使用的區塊加上要使用的功能元件即可。
+        一來避免檔案過大，二來修改的時候方便管理及更新。
+
+    三.元件功能獨立
+        假設今天你有多個區塊，例如head、main等。而你只要在main的區塊導入外部資料使用AJAX。那你只要在main這個元件中使用即可。
+        head的功能不會因此而受到影響。
 
     
+    註冊元件的手法:
+
+        註冊元件須知:
+        1.需再createApp後，mount前進行定義。
+
+        2.元件需指定一個名稱，所以需要將Vue主元件(createApp)賦予變數。
+        範例:
+            app = Vue.createApp({//這也被稱為根元件
+                data(){
+                    return{
+                        text:'外部元件文字'
+                    };
+                },
+            });
+
+
+            app.mount('#app');//這正是mount，所以定義元件需要在這之前。
+            這邊定義的Vue寫法與一直以來不同，但其實原理是一樣的，只是因為需要註冊子元件，
+            所以與原先的寫法才會有差別。
+    
+        3.元件結構與最外層的根源建結構無異。(除了增加template的片段)
+            直接看範例解說:
+            app = Vue.createApp({//這也被稱為根元件
+                data(){
+                    return{
+                        text:'子元件文字'
+                    };
+                },
+            });
+                .component('自訂義名稱',{
+                    data(){
+                        return{
+
+                        }
+                    },
+                    template:`<div>{{text}}</div>`//被稱為元件的樣板
+                });
+
+
+            app.mount('#app');
+
+
+            <自定義名稱></自定義名稱>//template的用途就是渲染畫面
+
+            //如同上面所敘述。增加子元件需要再createApp之後及mount之前。
+            //而子元件的註冊(增加)只需要在createApp後使用類似Axios的.then的方式即可註冊。
+            //並且註冊的元件除了增加template外，其他的都與根元件(createApp)無差別。
+            //而template的作用是將資料及標籤渲染到網頁上
+            //template的使用方式有些不同。首先我們需要在template建立好預設的標籤及要帶入的資料。
+            //其次我們要以子元件的名稱定義一個標籤。如此標籤就會帶入我們預先建立好的tempalte資料與標籤。
+            //記住，每個元件名稱都為獨立，不可使用相同名稱。
+            補充:
+                除了用以上形式來掛載子元件外，還可以使用以下方式來掛載。方式與規則都一樣，都需要再createApp後mount前:
+                app.component('name',{
+                    data(){
+                        return{
+
+                        };
+                    },
+                    template:`<div>{{text}}</div>`
+                })
+
+                app.mount(#app) 
+
+
+
+
+        4.另有prop,emits等資料傳遞及事件傳遞
+            每個元件的資料、事件都是獨立的，若有需要引用到外部or內部元件就需要使用prop、emits的功能。
+
+    全預註冊與區域註冊:
+
+        全域註冊
+            就是直接將子元件給掛載到跟createApp同層。就如同剛才的範例。
+            全域註冊常用於中小型專案、一般頁面開發。
+
+
+        區域註冊
+            區域註冊則以範例進行說明:
+
+            app2 = {//首先會先在VueCreateApp外建立一個物件
+
+                data(){
+                    return{
+                        text:'區域註冊'
+                    }
+                },
+                template:<div>{{text}}</div>
+            }
+            //物件內的內容就是建立子元件的樣板
+
+
+            接著選定要掛載的元件，並加上components:{}的物件並加入上方所建立的子元件樣板。
+
+            app = Vue.createApp({
+                data(){
+                    return{
+                        text:'子元件文字'
+                    };
+                },
+                components:{
+                    app2,
+                }
+            });
+              
+            app.mount('#app');
+            //如此這樣就算註冊完成。
+
+            而區域註冊會用在甚麼時候呢?與全域註冊又有甚麼差別?
+            區域註冊是會限定在特定元件下才能使用。限定使用可以理解，但要怎麼在特定元件下呢?
+            其實也就是將區域註冊的標籤加入到掛載的template中
+            讓我們看看範例:
+                 app.component('name',{
+                    data(){
+                        return{
+                            text:''
+                        };
+                    },
+                    components:{
+                        app2,
+                    },
+                    template:`<div>
+                        {{text}}
+                        <app2></app2>
+                    </div>`
+                })
+
+            而區域註冊常用於Vue cli。原因是便於管理。
+
+
+    模組化:
+        其實模組化並不難理解。其實只是將元件獨立為一個檔案，並透過ESModule導入而已。
+        直接上範例:
+        
+        外部JS檔:
+        export default{//此為物件
+            data(){
+                return{
+                    text:''
+                };
+            },
+            template:`<div>{{text}}</div>`
+        }
+
+        導入:
+
+        import name4 from '路徑'//這個name4就是導入的檔案在全域下的變數名稱
+
+         app.component('name',{
+            data(){
+                return{
+                    text:''
+                };
+            },
+            components:{
+                name4,
+            },
+            template:`<div>
+                {{text}}
+                <name4></name4>
+            </div>`
+        })
+        補充:
+        若是要掛載到根元件底下，那就直接使用components:{}後直接加到HTML的標籤即可。
+
+    
+    元件樣板製作及綁定方式:
+        所謂樣板就是HTML。本章介紹的就是樣板有哪幾種建構方式及如何使用綁定並運用到畫面上。
+
+        樣板的建立方式:
+
+            template:
+                在前面的範例都有提到，簡單的來說在建立元件時裡面都有一個template屬性
+                而template的使用方式就是使用反引號 ` 並在內使用HTML的標籤
+                若要運用template的話，就使用元件的名稱建立標籤並加入到HTML的body內即可。
+
+            x-template:
+                x-template與template的運用有些差異。
+                元件建立方式一樣，只不過元件的template則是使用單引號
+                範例如下:
+                
+                首先先建立一個元件並掛載。
+                app.component('alert',{
+                    data(){
+                        return{
+
+                        };
+                    },
+                    template:'#alert_template',//這邊帶入的會是一個名稱。對應script的id。這邊須注意''內是使用DOM的方式指定
+                })
+
+                其次到HTML標籤新增一個script
+
+                <script type="text/x-template" id="alert_template"></script>
+                //這個script需要給予一個type="text/x-template"及id。這個id將會對應到我們template的名稱。
+
+                而script內就是放置template的標籤
+
+                <script type="text/x-template" id="alert_template">
+                
+                    <div>
+                    {{text}}
+                    </div>
+
+                </script>
+
+                最後直接將元件名稱以標籤的形式置放在HTML即可。
+                <alert></alert>
+
+            單文件元件:
+                這其中就包含了JS、HTML、CSS
+                這個章節並不會介紹。在cil課程將會教學。使用上與x-template較為接近。
+
+    props 向內層元件傳遞資料
+
+        靜態傳遞 由外部傳入內部:
+        使用範例來解說:
+
+        Vue.createApp({
+            data(){
+                return{
+                    imgUrl:'https://chiyum.github.io/holdkibor/img/logo.png'
+                }
+            },
+        })
+            .component('photo',{
+                props:['url']//導入外部資料用。可以是陣列也可以是其他形式
+                template:`<img :src="url">`//這邊注意src是用v-bind 抓的是上方的url
+            })
+
+        <photo url="https://chiyum.github.io/holdkibor/img/logo.png"><photo>//由標籤靜態傳遞資料 將網址傳給props
+
+        總結:資料導入流程是這樣的 由標籤導入網址賦予給props的url > 接下來template內的src再去抓取prors的url資料。
+
+
+        動態傳遞:由外元件導入:
+
+        一樣使用上方的範例:
+
+            <photo v-bind:url="imgUrl"><photo>//這邊的話使用v-bind的方式將外部資料給導入到photo的v-bind:url的屬性中，再由url套入到props
+            與靜態同樣都是從標籤導入資料，而兩者差別在於，靜態的是你需要操控DOM或者親手改變url的值。動態是透過v-bind，那你只需要更改Vue資料庫的資料就可以做更換。
+
+            口訣:看到這邊可能還不太明白或是在開發時容易搞混props的傳遞方法，所以可以計下這個口訣"前內、後外"
+            所謂前內就是掛載的子元件，因為在內部所以稱為內。
+            而後外就是外部所導入的資料。
+
+
+        單向數據流:
+            看到這邊都理解如何由外部導入資料給予內部，但還有一點需要注意，那就是資料的導入是單向性的，所以你怎麼從內部更改，外部的資料也不會改變。
+            範例:
+
+
+            .component('photo',{
+                props:['url']
+                template:`<img :src="url">
+                          <input v-model="url">//不管在這個url如何更改，資料都是不會修改的。
+                `
+            })
+
+        命名限制:
+            所謂命名限制就是HTML的屬性都會是以小寫的方式進行命名，所以當你使用大寫命名時並自動幫你轉小寫，那麼就對不上你在元件中的變數。
+            那若要解決怎麼做?
+
+            範例如下:
+
+            <photo v-bind:test-url="imgUrl"><photo>//屬性這邊改為-
+
+            .component('photo',{
+                props:['testUrl'],//props這邊以小駝峰呈現
+                template:`<img :src="url">
+                          <input v-model="url">//不管在這個url如何更改，資料都是不會修改的。
+                `
+            })
+
+            總結:若資料想使用小駝峰形式，那屬性的部分就只需要將要轉變為大寫前的文字前加個-並都改為小寫即可。
+
+
+    元件型別與驗證:
+
+        props型別技巧:
+            當我們在使用prors傳入資料時，若使用v-bind及HTML原本的屬性所導入的type其實是不一樣的。
+            原本屬性再帶入值時，這個值一率都會是字串。
+            而若使用v-bind的話，資料本身是甚麼形式就會帶入甚麼樣的形式。
+            範例:
+
+                Vue.createApp({
+                    data(){
+                        return{
+                            outsideMoney:300,
+                        }
+                    },
+                })
+                .component('data',{
+                    props:['money']//導入外部資料用。可以是陣列也可以是其他形式
+                    template:`<div> value:{{money}} typeof:{{typeof(money)}} </div>`
+                })
+
+
+            <data money="300"></data>//顯示為字串形式
+            <data :money="outsideMoney"></data>//顯示為數字形式
+            補充:v-bind是可以使用表達式。
+
+        定義及型別驗證:
+            在實戰中不太會用到全部所學的技巧，但常用的有:
+
+            一.型別驗證
+                若需要使用型別驗證的話，prors的值就需要改成物件。
+                範例:
+
+                Vue.createApp({
+                    data(){
+                        return{
+                            dataA:fn()=>{return 'a'}
+                            dataB:300,
+                           
+                        }
+                    },
+                })
+
+                .component('data',{
+                    props:{
+                        propA:Function,//值寫的是指定型別，若非指定型別就會跳錯但不會影響運作
+                        propB:[String,Number],//若有多個型別檢查，可以使用陣列
+
+                    },
+                    template:`<div>A:{{propA}} B:{{propB}}</div>`
+                })
+
+                <data :prop-a="dataA" :prop-b="dataB"></data>
+                補充:null,undefined會直接通過
+
+            二.預設值、是否必填
+
+                是否必填,必要值:
+                呈上範例:
+                若有需要必要值及同時型別判斷可以這樣使用。
+                
+                 .component('data',{
+                    props:{
+                        propA:{//這邊轉為物件
+                            type:Number,//type為型別判斷
+                            required:true,//是否存在這個值
+                        },
+                        propA:{
+                            type:Number,
+                            default:300,//預設值。當外不沒有值，就使用預設值。
+                        },
+                    },
+                    template:`<div>A:{{propA}} B:{{propB}}</div>`
+                })
+
+                <data :prop-a="dataA" :prop-b="dataB"></data>
+        
+
+    emits 向外傳遞事件:
+        上一章已經解說完外部導入內部資料的props
+        這章開始介紹emits將內部資料給外層接收。但這章會比props來得更複雜一些。
+        emits在傳遞時，它其實是一個事件。所以不一定要傳遞資料，它也可以傳遞事件來觸發外層事件。
