@@ -462,7 +462,7 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding-right: 1px;
+  padding: 0 30px;
   background: #808080;
 }
 
@@ -473,9 +473,9 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   padding: 5px 0;
   width: 25%;
   font-size: 18px;
@@ -507,6 +507,7 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding: 0 30px;
 }
 
 .main .table_main ul li .list_top .list_top_icon {
@@ -565,191 +566,71 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   padding: 5px 0;
-  width: 25%;
+  width: 20%;
   font-size: 18px;
   font-weight: 500;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 5px 0;
-  font-weight: bold;
+.main .table_main ul li .list_bottom {
+  padding: 0 30px;
+  background: #C9E2DE;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(1), .main .table_main ul li .list_bottom .list_bottom_title p:nth-child(2) {
+.main .table_main ul li .list_bottom div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 5%;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  font-size: 18px;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(3), .main .table_main ul li .list_bottom .list_bottom_title p:nth-child(4) {
+.main .table_main ul li .list_bottom div p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 7.5%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(5) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(6), .main .table_main ul li .list_bottom .list_bottom_title p:nth-child(7) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 3px 0;
   width: 20%;
+  font-size: 18px;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(8) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
+.main .table_main ul li .list_bottom div p span {
+  white-space: nowrap;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(9) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 15%;
+.main .table_main ul li .list_bottom div:nth-child(3) p {
+  width: 50%;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_data {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 5px 0;
-  font-weight: 500;
+.main .table_main ul li .list_bottom div:nth-child(3) p strong {
+  display: block;
+  font-weight: 400;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(1), .main .table_main ul li .list_bottom .list_bottom_data p:nth-child(2) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 5%;
+.main .table_main ul li .list_bottom div:nth-child(3) p strong:nth-child(1) {
+  white-space: nowrap;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(3), .main .table_main ul li .list_bottom .list_bottom_data p:nth-child(4) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 7.5%;
+.main .table_main ul li .list_bottom div:nth-child(3) p:nth-child(1) {
+  width: 40%;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(5) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(6), .main .table_main ul li .list_bottom .list_bottom_data p:nth-child(7) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 20%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(8) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(9) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 15%;
+.main .table_main ul li .list_bottom div:nth-child(3) p:nth-child(2) {
+  width: 60%;
 }
 
 .main .popup {
@@ -1636,31 +1517,25 @@ p {
                               <div class="del_btn" @click="deldata_popup(iteam)"><img src="{{ asset('img/ICON/del_icon.svg') }}" alt="圖標"></div>
                           </div>
                       </div>
-                  </li>
-                  <li v-if="iteam.isClose">
-                    <div class="list_bottom" >
-                          <div class="list_bottom_title">
-                              <p>性別</p>
-                              <p>血型</p>
-                              <p>是否為移工</p>
-                              <p>生日</p>
-                              <p>連絡電話</p>
-                              <p>信箱</p>
-                              <p>通訊地址</p>
-                              <p>緊急聯絡人</p>
-                              <p>緊急連絡人電話</p>
-                          </div>
-                          <div class="list_bottom_data">
-                              <p>@{{iteam.sex}}</p>
-                              <p>@{{iteam.blood}}</p>
-                              <p>@{{iteam.aborad}}</p>
-                              <p>@{{iteam.birthday}}</p>
-                              <p>@{{iteam.phoneNumber}}</p>
-                              <p>@{{iteam.email}}</p>
-                              <p>@{{iteam.address}}</p>
-                              <p>@{{iteam.contactPerson}}</p>
-                              <p>@{{iteam.contactNumber}}</p>
-                          </div>
+                      <div class="list_bottom" v-if="iteam.isClose">
+                             <div>
+                               <p><span>聯絡人1：</span>@{{iteam.contactPerson1}}</p>
+                               <p><span>職稱：</span>@{{iteam.jobTitle1}}</p>
+                               <p><span>電話：</span>@{{iteam.contactTel1}}</p>
+                               <p><span>手機：</span>@{{iteam.contactNumber1}}</p>
+                               <p><span>信箱：</span>@{{iteam.contactEamil1}}</p>
+                             </div>
+                             <div>
+                             <p><span>聯絡人1：</span>@{{iteam.contactPerson2}}</p>
+                               <p><span>職稱：</span>@{{iteam.jobTitle2}}</p>
+                               <p><span>電話：</span>@{{iteam.contactTel2}}</p>
+                               <p><span>手機：</span>@{{iteam.contactNumber2}}</p>
+                               <p><span>信箱：</span>@{{iteam.contactEamil2}}</p>
+                             </div>
+                             <div>
+                               <p><strong>服務/產品：</strong><strong>@{{iteam.service}}</strong></p>
+                               <p><strong>通訊地址：</strong><strong>@{{iteam.address}}</strong></p>
+                             </div>
                       </div>
                   </li>
                 </template>

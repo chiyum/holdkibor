@@ -250,7 +250,7 @@
                     iteam.isClose = true;//切換為關閉
                 };
             },
-            searchKeyWord(){
+            searchKeyWord(){//這邊的邏輯是強行取代原本的顏色，原先的顏色是由CSS預設給予奇偶行。 
                 let value  = this.search;//使用者輸入文字
                 if(value ==''||!value){//若為空值 清除顏色及取消全部隱藏
                   this.peopleData.forEach( (data,i) => {
@@ -493,6 +493,7 @@ p {
       -ms-flex-align: center;
           align-items: center;
   padding-right: 1px;
+  padding: 0 30px;
   background: #808080;
 }
 
@@ -503,13 +504,17 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   padding: 5px 0;
-  width: 25%;
+  width: 20%;
   font-size: 18px;
   font-weight: bolder;
+}
+
+.main .table_head .title p:nth-child(2) {
+  padding-left: 15px;
 }
 
 .main .table_main ul {
@@ -537,6 +542,7 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  padding: 0 30px;
 }
 
 .main .table_main ul li .list_top .list_top_icon {
@@ -595,193 +601,50 @@ p {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   padding: 5px 0;
-  width: 25%;
+  width: 20%;
   font-size: 18px;
   font-weight: 500;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background: #a1e6df;
-  padding: 5px 0;
-  font-weight: bold;
+.main .table_main ul li .list_top .p2 {
+  padding-left: 15px;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(1), .main .table_main ul li .list_bottom .list_bottom_title p:nth-child(2) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 5%;
+.main .table_main ul li .list_bottom {
+  padding: 0 30px;
+  background: #C9E2DE;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(3), .main .table_main ul li .list_bottom .list_bottom_title p:nth-child(4) {
+.main .table_main ul li .list_bottom div {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 7.5%;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(5) {
+.main .table_main ul li .list_bottom div p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  padding: 3px 0;
+  width: 34%;
+  font-size: 18px;
+  white-space: normal;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(6), .main .table_main ul li .list_bottom .list_bottom_title p:nth-child(7) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 20%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(8) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_title p:nth-child(9) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 15%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background: #bef2ef;
-  padding: 5px 0;
-  font-weight: 500;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(1), .main .table_main ul li .list_bottom .list_bottom_data p:nth-child(2) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 5%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(3), .main .table_main ul li .list_bottom .list_bottom_data p:nth-child(4) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 7.5%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(5) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(6), .main .table_main ul li .list_bottom .list_bottom_data p:nth-child(7) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 20%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(8) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 10%;
-}
-
-.main .table_main ul li .list_bottom .list_bottom_data p:nth-child(9) {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 15%;
+.main .table_main ul li .list_bottom div p span {
+  white-space: nowrap;
 }
 
 .main .popup {
@@ -1367,6 +1230,7 @@ p {
 }
 
 .editModal .modal-header {
+  height: 60px;
   border-radius: 10px 10px 0 0;
   background: #0167a0;
   color: #ffffff;
@@ -1755,7 +1619,7 @@ p {
                             <ion-icon name="caret-forward-outline"></ion-icon>
                         </div>
                         <p>@{{iteam.companyName}}</p>
-                        <p>@{{iteam.position}}</p>
+                        <p class="p2">@{{iteam.position}}</p>
                         <p>@{{iteam.name}}</p>
                         <p>@{{iteam.cardid}}</p>
                         <p>@{{iteam.id}}</p>
@@ -1765,28 +1629,24 @@ p {
                         </div>
                     </div>
                     <div class="list_bottom" v-if="iteam.isClose">
-                        <div class="list_bottom_title">
-                            <p>性別</p>
-                            <p>血型</p>
-                            <p>是否為移工</p>
-                            <p>生日</p>
-                            <p>連絡電話</p>
-                            <p>信箱</p>
-                            <p>通訊地址</p>
-                            <p>緊急聯絡人</p>
-                            <p>緊急連絡人電話</p>
-                        </div>
-                        <div class="list_bottom_data">
-                            <p>@{{iteam.sex}}</p>
-                            <p>@{{iteam.blood}}</p>
-                            <p>@{{iteam.aborad}}</p>
-                            <p>@{{iteam.birthday}}</p>
-                            <p>@{{iteam.phoneNumber}}</p>
-                            <p>@{{iteam.email}}</p>
-                            <p>@{{iteam.address}}</p>
-                            <p>@{{iteam.contactPerson}}</p>
-                            <p>@{{iteam.contactNumber}}</p>
-                        </div>
+                      <div>
+                        <p><span>性別：</span>@{{iteam.sex}}</p>
+                        <p><span>是否為移工：</span>@{{iteam.aborad}}</p>
+                        <p><span>緊急連絡人電話：</span>@{{iteam.phoneNumber}}</p>
+                      </div>
+                      <div>
+                        <p><span>血型：</span>@{{iteam.blood}}</p>
+                        <p><span>生日：</span>@{{iteam.birthday}}</p>
+                        <p><span>信箱：</span>@{{iteam.email}}</p>
+                      </div>
+                      <div>
+                        <p><span>緊急聯絡人：</span>@{{iteam.contactPerson}}</p>
+                        <p><span>連絡電話：</span>@{{iteam.contactNumber}}</p>
+                        <p><span>通訊地址：</span>@{{iteam.address}}</p>
+                      </div>
+                      <div>
+                        <p><span>LINE ID：</span>@{{iteam.line_userid}}</p>
+                      </div>
                     </div>
                 </li>
             </ul>
