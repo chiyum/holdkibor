@@ -1,72 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tree初版</title>
-    <script src="https://unpkg.com/vue@next"></script>
-</head>
-<body>
-   
-    <div class="wrap">
-        <testlist></testlist>
-    </div>
-    <script>
-        let test = '測試文字';
-        const tree = {
-            name:'主選單',
-            nodes:[
-                {
-                    name:'選單一',
-                    nodes:[
-                        {
-                            name:'選單一_子選單1',
-                            nodes:[
-                        {
-                            name:'選單一_子選單1'
-                        },
-                        {
-                            name:'選單一_子選單1',
-                            nodes:[
-                            {
-                                name:'選單一_子選單1'
-                            },
-                            ],
-                        },
-                    ]
-                        },
-                        {
-                            name:'選單一_子選單1'
-                        },
-                    ]
-                },
-                {
-                    name:'選單二',
-                    nodes:[
-                        {
-                            name:'選單二_子選單1'
-                        },
-                        {
-                            name:'選單二_子選單1'
-                        },
-                    ]
-                },
-            ]
-        }
 
         const app = Vue.createApp({
+
+            components:{
+                
+            }
              
         })
         
-        app.component('testlist',{
+        app.component('treelist',{
             data(){
                 return{
                     treedata:tree,//導入外部tree結構
                 }
             },
                     //此元件為根目錄
-            template:`<ul id="tree">
+            template:`<ul>
                         <item :treedata="treedata"></item>
                       </ul>`
                       //這邊使用props將tree結構導入到item
@@ -79,14 +27,14 @@
         app.component('item',{
             template:`
             <li @click.stop="toggle">
-                {{treedata.name}}
-                <ul v-if="treedata.nodes && treedata.nodes.length > 0"  v-show="open">
+                {{treedata.text}}
+                <ul v-if="treedata.nodes && treedata.nodes.length > 0"  v-show="treedata.isOpen">
                     <item v-for="(node, index) in treedata.nodes" :treedata="node" :key="index"></item>
                 </ul>
             </li>
             `,
             //item的用途則是產生子目錄，原理是這樣的:
-            //首先treedata.name好理解，導入資料後自然抓地到物件的資料。
+            //首先treedata.text好理解，導入資料後自然抓地到物件的資料。
             //ul內的v-if判斷是 若有nodes這個key，並且nodeskey大於0的話就顯示，如果沒有就不顯示
             //item的部分因為item本身就是一個li，所以外層並不需要再包一層li
             //v-for的部分是如何做到無限子層的呢?
@@ -96,23 +44,18 @@
             //呈上範例先從子層說起，子層接收到父層這個好理解，那孫層是怎麼接收到子層的資料的呢?
             //接收資料從頭到尾只有子層，而子層使用for的時候，這個孫層的item(li)已經是孫層那一格資料了。
             //所以孫層會去判斷ul的v-if是否有子層來產生下一層。若有子層item就會再延續，而v-for跑出來的item就會是孫層的那一層資料了，依此類推。
-            props:['treedata'],//prors導入的資料。接收從testlist層所導入到標籤的資料
-            data(){
-                return{
-                    open:false,
-                }
-            },
+            //至於v-show則是顯示與否。
+            props:['treedata'],//prors導入的資料。接收從treelist層所導入到標籤的資料
             methods: {
               toggle(){
                 if(this.treedata.nodes && this.treedata.nodes.length > 0){//邏輯是當如果有nodes並且nodes大於0的話，決定開關
-                  this.open = !this.open
+                  this.treedata.isOpen = !this.treedata.isOpen;//父層收合
+                  this.treedata.nodes.forEach( data => {//當父層收何時子層亦收合
+                      data.isOpen = false;
+                  });
                 }
-                console.log('執行與否')
-              }
+              },
             }
         })
 
-        app.mount('.wrap')
-    </script>
-</body>
-</html>
+        app.mount('#Vtree')

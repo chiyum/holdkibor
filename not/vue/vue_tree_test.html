@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta text="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.18/dist/vue.global.min.js"></script>
+    <style>
+        .active
+        {
+            background: linear-gradient(to bottom,#beebff 0,#a8e4ff 100%);
+        }
+    </style>
+</head>
+<body>
+   
+    <div id="Vtree">
+        <button type="button">新增</button>
+        <button type="button">刪除</button>
+        <ul>
+            <item :treedata="treedata">
+                v-on:test="testfn"
+            </item>
+        </ul>
+    </div>
+    <script>
+        const tree = {
+           
+            text:'主選單',
+            id:"#",
+            nodes:[
+                {
+                    parentid:'#',
+                    id:'A',
+                    text:'選單A',
+                    nodes:[
+                        {
+                            parentid:'A',
+                            id:'A_0',
+                            text:'選單A_0'
+                        },
+                        {
+                            parentid:'A',
+                            id:'A_1',
+                            text:'選單A_1'
+                        },
+                    ]
+                },
+                {
+                    parentid:'#',
+                    id:'B',
+                    text:'選單B',
+                    nodes:[
+                        {
+                            parentid:'B',
+                            id:'B_0',
+                            text:'選單B_0'
+                        },
+                        {
+                            parentid:'B',
+                            id:'B_1',
+                            text:'選單B_1'
+                        },
+                    ]
+                },
+            ]
+        }
+
+        const app = Vue.createApp({
+            data(){
+                return{
+                    treedata:tree,//導入外部tree結構
+                }
+            },
+            created(){
+               this.giveFunction(this.treedata.nodes);//帶入子層陣列
+            },
+            methods:{
+                giveFunction(item){//給予資料功能
+                    item.forEach( data =>{
+                        data.isOpen = false;//子層收合
+                        data.isActive = false;//是否被點選
+                        if(data.nodes){this.giveFunction(data.nodes)}
+                    })
+                },
+                testfn(){
+                    console.log('觸發外層事件')
+                }
+            },
+        })
+        
+        app.component('item',{
+            template:`
+            <li @click.stop="toggle" @click="click" :class="{active:treedata.isActive}">
+                {{treedata.text}}
+                <ul v-if="treedata.nodes && treedata.nodes.length > 0"  v-show="treedata.isOpen">
+                    <item v-for="node in treedata.nodes" :treedata="node" :key="node.id"></item>
+                </ul>
+            </li>
+            `,
+            //item的用途則是產生子目錄，原理是這樣的:
+            //首先treedata.text好理解，導入資料後自然抓地到物件的資料。
+            //ul內的v-if判斷是 若有nodes這個key，並且nodeskey大於0的話就顯示，如果沒有就不顯示
+            //item的部分因為item本身就是一個li，所以外層並不需要再包一層li
+            //v-for的部分是如何做到無限子層的呢?
+            //首先我們要先理解根目錄用item的時候就已經產生一個li的子目錄，而子目錄內有個產生孫目錄的li
+            //而在這個li內也有一個產生曾孫目錄的li依此類推，所以可以有無限子層。
+            //那資料是怎麼傳遞的呢?
+            //呈上範例先從子層說起，子層接收到父層這個好理解，那孫層是怎麼接收到子層的資料的呢?
+            //接收資料從頭到尾只有子層，而子層使用for的時候，這個孫層的item(li)已經是孫層那一格資料了 注意我們有一個:treedata="node"的v-bind。這個就是將目前層的資料使用props傳遞給子層。
+            //所以孫層會去判斷ul的v-if是否有子層來產生下一層。若有子層item就會再延續，而v-for跑出來的item就會是孫層的那一層資料了，依此類推。
+            //至於v-show則是顯示與否。
+            props:['treedata'],//prors導入的資料。接收從treelist層所導入到標籤的資料
+            methods: {
+              toggle(){//開關
+                if(this.treedata.nodes && this.treedata.nodes.length > 0){//邏輯是當如果有nodes並且nodes大於0的話，決定開關
+                  this.treedata.isOpen = !this.treedata.isOpen;//父層收合
+                  this.treedata.nodes.forEach( data => {//當父層收何時子層亦收合
+                      data.isOpen = false;
+                  });
+                }
+              },
+              click(){
+                  console.log('click');
+                  this.$emit('test');
+              }
+            }
+        })
+        app.mount('#Vtree')
+
+    </script>
+</body>
+</html>
+
+<!-- 
+
+    開發項目:
+
+        點擊顏色及資料取得:
+            目前卡在事件層，因為使用兩個component，所以需要去進修了解事件傳遞
+
+
+        刪除、新增:
+        
+
+        右鍵選單:
+            估計會有剪下、重新命名、刪除、新增等功能
+
+
+
+
+ -->
