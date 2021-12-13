@@ -9,7 +9,197 @@
 
 
 <script>
-    //JS
+  
+
+  const data = {
+        //tree資料基礎結構 typefolder為資料夾 data為資料
+        parentid:'',//父層id
+        id:'#',//本身id
+        text:'主選單',//名稱
+        type:'folder',//種類 預計靠種類來給予icon及子層數量顯示與否
+        nodes:[//子層
+            {
+                parentid:'#',
+                id:'B',
+                text:'1月會議',
+                type:'folder',
+                nodes:[
+                  {
+                    parentid:'B',
+                    id:'B1',
+                    text:'2022/1/15 尾牙地點討論',
+                    type:'data',
+                  }
+                ]
+            },
+            {
+                parentid:'#',
+                id:'A',
+                text:'2月會議',
+                type:'folder',
+                nodes:[
+                  {
+                    parentid:'A',
+                    id:'A1',
+                    text:'2022/2/10 專案討論',
+                    type:'data',
+                  }
+                ]
+            },
+        ]
+  };         
+  
+
+
+  const app = Vue.createApp({
+    data(){
+      return{
+        treedata:{},//tree結構及資料
+        isedit:false,//編輯模式boolean 切換用
+        number:20,
+      }
+    },
+    created(){
+      this.treedata = data;//導入資料 這邊之後用axios帶入
+      this.giveFunction(this.treedata.nodes);//帶入子層陣列 給予功能boolean
+      this.treedata.isOpen = false;//主選單給予 收合boolean
+      this.treedata.isHover = false;//主選單給予 滑過boolean
+      this.treedata.isActive = false;//主選單給予 點擊boolean
+      this.treedata.level = 1;
+    },
+    methods:{
+      giveFunction(item,level = 1){//給予資料功能
+        let num = level + 1;// 第一層為自動帶入1，之後每層+1來決定不同階層
+        item.forEach( data =>{
+            data.isOpen = false;//子層收合
+            data.isHover = false;//是否被hover
+            data.isActive = false;//是否被點選
+            data.level = num;//給予層級
+            if(data.nodes){this.giveFunction(data.nodes,num)}//若有子層再次執行
+        })
+      },
+      edit_store(){
+        this.isedit = false;
+        // 功能待寫
+      },
+      active(item){//點選的資料回傳到參數中
+        console.log('外層觸發');
+        if(item.id ==this.treedata.id){ //若點選的為主層
+          this.treedata.isActive = true;//樣式改為被點選
+          this.remove_active(this.treedata.nodes);//並將底下的樣式都改為非點選
+        }else{//若非主層則向下尋找
+          this.active_search(this.treedata.nodes,item);
+          this.treedata.isActive = false;//樣式改為非點選
+        }
+      },
+      active_search(ary,item){//ary為陣列 最一開始會從主元件的treedata開始找 item則是要尋找的對象
+      
+        ary.forEach( data => {
+          data.isActive = false;//同層的都改為非點選
+          if(item.id == data.id){//若該層物件內有符合點選的資訊
+            data.isActive = true;//將樣式改為被點選
+            if(data.nodes){//若有子層則將子層也改為非點選狀態
+              this.remove_active(data.nodes);
+            }
+          }else if(data.nodes){//若該層沒有找到符合資訊並且有子層就向下尋找並且item也繼續往下帶
+            this.active_search(data.nodes,item);
+          };
+        });
+        //這邊的邏輯是執行的陣列中，都先給予非點選狀態。
+        //接著若有符合則改為點選狀態，並且子層都改為非點選狀態
+        //若不符合且有子層則繼續往下找。
+        //而今天我點選A層的第二層，會讓B層的第二層移除狀態的原因是
+        //forEach是會執行到底的，當A層在執行data.isActive=false時，B層也會處理
+        //呈上範例，在我點選A層第二層符合if item.id == data.id的時候
+        //B層則也會執行這段，只是因為不符合，所以只會執行在開頭的data.isActive = false;
+      },
+      remove_active(item){
+        item.forEach( data => {
+          data.isActive = false;//將該層狀態更改為非選取狀態
+          if(data.nodes){this.remove_active(data.nodes)}//若有子層則向下繼續動作
+        });
+      }
+    },
+  })
+
+  app.component('item',{
+    template:`
+    <li>
+      <div @mouseenter="hover_enter" @mouseout="hover_left" @click="thisactive(treedata)" :class="{isHover:treedata.isHover,isActive:treedata.isActive}" :style="{paddingLeft: treedata.level * 15 + 'px'}">
+        <span @mouseenter="hover_enter" @mouseout="hover_left"  class="icon"  @click.stop="toggle" :class="{isOpen:treedata.isOpen}" onselectstart="return false">▶</span>
+        <img  @mouseenter="hover_enter" @mouseout="hover_left" ondragstart="return false" src="{{ asset('img/fileIcon/FILE.svg') }}" alt="" v-if="treedata.type == 'folder'" v-show="treedata.isOpen == false">
+        <img  @mouseenter="hover_enter" @mouseout="hover_left" ondragstart="return false" src="{{ asset('img/fileIcon/FILEOPEN.svg') }}" alt="" v-if="treedata.type == 'folder'" v-show="treedata.isOpen == true">
+        <p @mouseenter="hover_enter" @mouseout="hover_left" class="text">@{{treedata.text}}</p>
+        <p @mouseenter="hover_enter" @mouseout="hover_left" class="file_length" v-if="treedata.type == 'folder'">(@{{treedata.nodes.length}})</p>
+      </div>
+      <ul v-if="treedata.nodes && treedata.nodes.length > 0"  v-show="treedata.isOpen">
+          <item  v-on:remove="thisactive" v-for="node in treedata.nodes" :treedata="node" :key="node.id"></item>
+      </ul>
+    </li>
+    `,
+    props:['treedata'],
+    methods:{
+      toggle(){//開關
+        if(this.treedata.nodes && this.treedata.nodes.length > 0){//邏輯是當如果有nodes並且nodes大於0的話，決定開關
+          this.treedata.isOpen = !this.treedata.isOpen;//父層收合
+          this.treedata.nodes.forEach( data => {//當父層收何時子層亦收合
+              data.isOpen = false;
+          });
+        }
+      },
+      hover_enter(){
+        // console.log('hover開始')
+        this.treedata.isHover = true;
+      },
+      hover_left(){
+        // console.log('hover結束')
+        this.treedata.isHover = false;
+      },
+      thisactive(item){
+        
+        this.$emit('remove',item);
+        //目前是透過第一層觸發active這個function
+        //其他層則是透過觸發層層thisactive傳遞直到第一層的thisactive
+        //讓第一層的thisactive觸發active
+
+        // console.log('觸發次數')
+        //從觸發次數可以看到，假設點選的節點是在第三層，那麼thisactive就會觸發3次
+        //而我們設定每個thisactive都會將自己的資料套入參數中，
+        //那為何傳到最外層的資訊是我們點選的而非被其他層給取代呢?
+        //原因是我們只有點選一次thisactive並將資料給套入
+        //而其他的thisactive則是透過emit觸發的，只會不停地向外傳遞資料及觸發事件
+        //並不會把資料給套入，所以我們點選的資料就一層一層的向外傳遞。
+
+        //預想
+        //這邊就需要使用到emit將資訊導入外部function
+        //先將id導入外部，接著跑for讓所有被點過的isActive轉為false
+        //接著讓導出的id的isActive開啟
+        console.log('內層觸發');
+      }
+    }
+  })
+
+  app.mount('.main');
+
+  //使按鈕不能被複製文字 如此當使用者點選按鈕就不會因為預設功能將按鈕文字給框起
+  // document.querySelectorAll('button').forEach( data => {
+  //   data.addEventListener('dragstart',()=> false )
+  // });
+  // document.querySelectorAll('.btn').forEach( data => {
+  //   data.addEventListener('dragstart',()=> false )
+  // });
+  // document.querySelectorAll('.BTN').forEach( data => {
+  //   data.addEventListener('dragstart',()=> false )
+  // });
+  // document.querySelector('#addeventId').addEventListener('click',()=>{
+
+  // })
+
+
+  const golist = ()=>{
+    window.open('http://v2.com/viewtest/list')
+  }
+
 </script>
 @endsection
 
@@ -109,14 +299,44 @@ input, button, select, textarea {
 }
 
 .main .left .left_main {
-  padding-left: 10px;
   height: 93%;
   overflow: auto;
   background: #ffffff;
 }
 
-.main .left .left_main ul {
-  margin: 10px;
+.main .left .left_main ul li {
+  cursor: pointer;
+}
+
+.main .left .left_main ul li div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  padding: 5px 0;
+}
+
+.main .left .left_main ul li div .icon {
+  margin-right: 3px;
+  position: relative;
+  color: #7e7e7e;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.main .left .left_main ul li div .file_length {
+  color: #4f4f4f;
+}
+
+.main .left .left_main ul li div .text {
+  margin: 0 5px;
+}
+
+.main .left .left_main ul li div img {
+  width: 24px;
 }
 
 .main .right {
@@ -375,6 +595,7 @@ input, button, select, textarea {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
+  min-height: 250px;
 }
 
 .main .right .right_main .meet_data .attached p strong {
@@ -400,24 +621,35 @@ input, button, select, textarea {
 }
 
 .main .right .right_main .meet_data .attached ul li {
-  width: 100px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 140px;
 }
 
 .main .right .right_main .meet_data .attached ul li img {
-  width: 90%;
+  width: 90px;
 }
 
 .main .right .right_main .meet_data .attached ul li p {
   width: 100%;
+  text-align: center;
   font-size: 15px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }
 
 .ess {
   position: relative;
-  bottom: 3px;
+  bottom: 5px;
   color: #e52c17;
   font-size: 25px;
 }
@@ -437,7 +669,39 @@ input, button, select, textarea {
 .ul_border {
   border: 1px solid;
 }
+
+.isOpen {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.isHover {
+  background: #e8f0ff;
+}
+
+.isActive {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #beebff), to(#a8e4ff));
+  background: linear-gradient(to bottom, #beebff 0, #a8e4ff 100%);
+}
+
+.border {
+  border: 1px solid #c1bbbb;
+}
 /*# sourceMappingURL=meet.css.map */
+
+
+.list_1{
+  padding-left:10px !important;
+}
+.list_2{
+  padding-left:10px !important;
+}
+.list_3{
+  padding-left:10px !important;
+}
+.list_4{
+  padding-left:10px !important;
+}
 </style>
 @endsection
 
@@ -453,200 +717,243 @@ input, button, select, textarea {
 @section('wrapper-main')
 <!-- html -->
 <div class="container-fluid">
-<div class="main">
-<div class="main">
-            <div class="left">
-                <div class="left_head">
-                    <div class="create btn">
-                        <div class="icon anicon add"></div>新增
+  <div class="main">
+    <div class="left">
+        <div class="left_head">
+            <div class="create btn">
+                <div class="icon anicon add"></div>新增
+            </div>
+            <div class="del btn">
+                <div class="icon anicon ashbin"></div>刪除
+            </div>
+            <!-- <div class="download">
+                <div class="icon anicon download"></div>下載
+            </div> -->
+        </div>
+        <div class="left_main">
+            <ul class="root">
+                <item :treedata="treedata" v-on:remove="active"></item>
+                <!-- <li>
+                    <div>
+                        <span class="icon isOpen">▶</span>
+                        <img src="{{ asset('img/fileIcon/FILEOPEN.svg') }}" alt="">
+                        <p class="text">主選單</p>
+                        <p class="file_length">(3)</p>
                     </div>
-                    <div class="del btn">
-                        <div class="icon anicon ashbin"></div>刪除
-                    </div>
-                    <!-- <div class="download">
-                        <div class="icon anicon download"></div>下載
-                    </div> -->
-                </div>
-                <div class="left_main">
                     <ul>
-                        <li>主選單
+                        <li>
+                            <div>
+                                <span class="icon isOpen">▶</span>
+                                <img src="{{ asset('img/fileIcon/FILEOPEN.svg') }}" alt="">
+                                <p class="text">子選單</p>
+                                <p class="file_length">(3)</p>
+                            </div>
                             <ul>
                                 <li>
-                                    子選單
+                                    <div>
+                                        <span class="icon isOpen">▶</span>
+                                        <img src="{{ asset('img/fileIcon/FILEOPEN.svg') }}" alt="">
+                                        <p class="text">孫選單</p>
+                                        <p class="file_length">(3)</p>
+                                    </div>
                                     <ul>
-                                        <li>孫選單</li>
+                                        <li>
+                                            <div>
+                                                <span class="icon">▶</span>
+                                                <img src="" alt="">
+                                                <p class="text">2022/01/21 會議</p>
+                                                <p class="file_length">(3)</p>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul>
                         </li>
                     </ul>
-                </div>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <div class="right_head" style="padding-right: 10px;">
+            <div class="search">
+                <input type="text">
+                <span class="search_btn anicon search"></span>
             </div>
-            <div class="right">
-                <div class="right_head" style="padding-right: 10px;">
-                    <div class="search">
-                        <input type="text" style="padding: 7px 10px;">
-                        <span class="search_btn anicon search"></span>
-                    </div>
-                    <div class="btn">
-                        <div class="BTN edit_b">
-                            <div class="icon anicon edit"></div>編輯
-                        </div>
-                        <div class="BTN print">
-                            <div class="icon anicon printer"></div>列印
-                        </div>
-                        <div class="BTN del">
-                            <div class="icon anicon ashbin"></div>刪除
-                        </div>
-                        <div class="BTN send">
-                            <div class="icon anicon sendMail"></div>寄信
-                        </div>
-                        <div class="BTN send_record">
-                            <div class="icon anicon sendMail"></div>寄件紀錄
-                        </div>
-                        <div class="BTN store">
-                            <div class="icon anicon upload"></div>儲存
-                        </div>
-                    </div>
+            <div class="btn">
+                <div class="BTN edit_b" @click="isedit = true"  v-if="!isedit">
+                    <div class="icon anicon edit"></div>編輯
                 </div>
-                <div class="right_main">
-                    <div class="meet_data">
-                        <div class="addevent">
-                            <div class="icon anicon add"></div>創建代辦事項
-                        </div>
-                        <h1>會議記錄</h1>
-                        <div>
-                            <span><strong class="ess">⁎</strong> 主旨：</span>
-                            <span>今年尾牙吃甚麼?</span>
-                            <input type="text">
-                        </div>
-                        <div>
-                            <span><strong class="ess">⁎</strong> 日期：</span>
-                            <span>2022/01/21</span>
-                            <input type="date">
-                        </div>
-                        <div>
-                            <span><strong class="ess">⁎</strong> 時間：</span>
-                            <span>13:00</span>
-                            時:
-                            <select>
-                                <option value="01">01</option>
-                            </select>
-                            秒:
-                            <select>
-                                <option value="01">01</option>
-                            </select>
-                        </div>
-                        <div>
-                            <span><strong class="ess">⁎</strong>地點：</span>
-                            <span>公司會議室</span>
-                            <input type="text">
-                        </div>
-                        <div>
-                            <span><strong class="ess">⁎</strong>主席：</span>
-
-                            <span>主任一林富強<strong class="remove">✕</strong></span>
-                            <!-- 使用v-for跑編輯 ^ -->
-                            <button type="button"><div class="icon anicon add"></div>相關人員</button>
-                            <span>
-                                <!-- 非編輯這邊使用陣列.join將人員顯現 -->
-                            </span>
-                        </div>
-                        <div>
-                            <span><strong class="ess">⁎</strong>紀錄：</span>
-                            <span>經理秘書一許雅芳<strong class="remove">✕</strong></span>
-                            <!-- 使用v-for跑編輯 ^ -->
-                            <button type="button"><div class="icon anicon add"></div>相關人員</button>
-                            <span>
-                                <!-- 非編輯這邊使用陣列.join將人員顯現 -->
-                            </span>
-                        </div>
-                        <div>
-                            <span><strong class="ess">⁎</strong>與會人員：</span>
-                            <span>工程師一康民治<strong class="remove">✕</strong></span>
-                            <!-- 使用v-for跑編輯 ^ -->
-                            <button type="button"><div class="icon anicon add"></div>相關人員</button>
-                            <span>
-                                <!-- 非編輯這邊使用陣列.join將人員顯現 -->
-                            </span>
-                        </div>
-                        <div>
-                            <span><strong class="ess" style="visibility: hidden;">⁎</strong>應出席人員：</span>
-                            <span></span>
-                            <!-- 編輯模式消失 從勾選的出席人員判斷 -->
-                        </div>
-                        <div>
-                            <span><strong class="ess" style="visibility: hidden;">⁎</strong>已出席人員：</span>
-                            <span></span>
-                            <!-- 編輯模式消失 -->
-                        </div>
-                        <div>
-                            <span><strong class="ess" style="visibility: hidden;">⁎</strong>未出席人員：</span>
-                            <span></span>
-                            <!-- 編輯模式消失 -->
-                        </div>
-                        <div>
-                            <span><strong class="ess">⁎</strong>會議內容：</span>
-                            <button type="button" class="discussion"><div class="icon anicon add"></div>新增會議資訊</button>
-                        </div>
-                        <ul class="list">
-                            <li>
-                               <div>
-                                    <strong>▶</strong>
-                                    <span class="title">議題1:</span>
-                                    <!-- <p class="para" style="top: 2px;">asdasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p> -->
-                                    <textarea rows="1"></textarea>
-                               </div>
-                               <div>
-                                    <strong style="visibility: hidden;">▶</strong>
-                                    <span class="title">決議1:</span>
-                                    <!-- <p class="para" style="top: 2px;">asdasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p> -->
-                                    <textarea rows="1"></textarea>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                     <strong>▶</strong>
-                                     <span class="title">議題1:</span>
-                                     <!-- <p class="para" style="top: 2px;">asdasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p> -->
-                                     <textarea rows="1"></textarea>
-                                </div>
-                                <div>
-                                     <strong style="visibility: hidden;">▶</strong>
-                                     <span class="title">決議1:</span>
-                                     <!-- <p class="para" style="top: 2px;">asdasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p> -->
-                                     <textarea rows="1"></textarea>
-                                 </div>
-                             </li>
-                        </ul>
-                        <div class="attached">
-                            <p>其他附件：<strong>新增附件</strong></p>
-                            <ul>
-                                <li>
-                                    <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單">
-                                    <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
-                                </li>
-                                <li>
-                                    <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單">
-                                    <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
-                                </li>
-                                <li>
-                                    <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單">
-                                    <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
-                                </li>
-                                <li>
-                                    <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單">
-                                    <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
-                                </li>
-                                <li>
-                                    <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單">
-                                    <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="BTN print"  v-if="!isedit">
+                    <div class="icon anicon printer"></div>列印
+                </div>
+                <div class="BTN del"  v-if="!isedit">
+                    <div class="icon anicon ashbin"></div>刪除
+                </div>
+                <div class="BTN send"  v-if="!isedit">
+                    <div class="icon anicon sendMail"></div>寄信
+                </div>
+                <div class="BTN send_record"  v-if="!isedit">
+                    <div class="icon anicon sendMail"></div>寄件紀錄
+                </div>
+                <div class="BTN store"  v-if="isedit" @click="edit_store">
+                    <div class="icon anicon upload"></div>儲存
                 </div>
             </div>
         </div>
+        <div class="right_main">
+            <div class="meet_data">
+                <div class="addevent" id="addeventId" onselectstart="return false" onclick="golist()">
+                    <div class="icon anicon add"></div>
+                    創建代辦事項
+                </div>
+                <h1>會議記錄</h1>
+                <div>
+                    <span><strong class="ess">⁎</strong> 主旨：</span>
+                    <span v-if="!isedit">今年尾牙吃甚麼?</span>
+                    <input type="text" v-if="isedit">
+                </div>
+                <div>
+                    <span><strong class="ess">⁎</strong> 日期：</span>
+                    <span v-if="!isedit">2022/01/21</span>
+                    <input type="date" v-if="isedit">
+                </div>
+                <div>
+                    <span><strong class="ess">⁎</strong> 時間：</span>
+                    <span v-if="!isedit">13:00</span>
+                    <strong v-if="isedit">時:</strong>
+                    <select v-if="isedit">
+                        <option value="01">01</option>
+                    </select>
+                    <strong v-if="isedit">秒:</strong>
+                    <select v-if="isedit">
+                        <option value="01">01</option>
+                    </select>
+                </div>
+                <div>
+                    <span><strong class="ess">⁎</strong>地點：</span>
+                    <span v-if="!isedit">公司會議室</span>
+                    <input type="text" v-if="isedit">
+                </div>
+                <div>
+                    <span><strong class="ess">⁎</strong>主席：</span>
+                    <span v-if="isedit">主任一林富強<strong class="remove">✕</strong></span>
+                    <!-- 使用v-for跑編輯 ^ -->
+                    <button type="button" v-if="isedit"><div class="icon anicon add"></div>相關人員</button>
+                    <span v-if="!isedit">
+                        <!-- 非編輯這邊使用陣列.join將人員顯現 -->
+                        主任一林富強
+                    </span>
+                </div>
+                <div>
+                    <span><strong class="ess">⁎</strong>紀錄：</span>
+                    <span v-if="isedit">經理秘書一許雅芳<strong class="remove">✕</strong></span>
+                    <!-- 使用v-for跑編輯 ^ -->
+                    <button type="button" v-if="isedit"><div class="icon anicon add"></div>相關人員</button>
+                    <span v-if="!isedit">
+                        <!-- 非編輯這邊使用陣列.join將人員顯現 -->
+                        經理秘書一許雅芳
+                    </span>
+                </div>
+                <div>
+                    <span><strong class="ess">⁎</strong>與會人員：</span>
+                    <span v-if="isedit">工程師一康民治<strong class="remove">✕</strong></span>
+                    <!-- 使用v-for跑編輯 ^ -->
+                    <button type="button" v-if="isedit"><div class="icon anicon add"></div>相關人員</button>
+                    <span v-if="!isedit">
+                        <!-- 非編輯這邊使用陣列.join將人員顯現 -->
+                        工程師一康民治
+                    </span>
+                </div>
+                <div v-if="!isedit">
+                    <span><strong class="ess" style="visibility: hidden;">⁎</strong>應出席人員：</span>
+                    <span></span>
+                    <!-- 編輯模式消失 從勾選的出席人員判斷 -->
+                </div>
+                <div v-if="!isedit">
+                    <span><strong class="ess" style="visibility: hidden;">⁎</strong>已出席人員：</span>
+                    <span></span>
+                    <!-- 編輯模式消失 -->
+                </div>
+                <div v-if="!isedit">
+                    <span><strong class="ess" style="visibility: hidden;">⁎</strong>未出席人員：</span>
+                    <span></span>
+                    <!-- 編輯模式消失 -->
+                </div>
+                <div>
+                    <span><strong class="ess">⁎</strong>會議內容：</span>
+                    <button type="button" class="discussion" v-if="isedit"><div class="icon anicon add"></div>新增會議資訊</button>
+                </div>
+                <ul class="list">
+                    <li>
+                       <div>
+                            <strong>▶</strong>
+                            <span class="title">議題1:</span>
+                            <p class="para" v-if="!isedit">尾牙地點討論</p>
+                            <textarea rows="1" v-if="isedit"></textarea>
+                       </div>
+                       <div>
+                            <strong style="visibility: hidden;">▶</strong>
+                            <span class="title">決議1:</span>
+                            <p class="para" v-if="!isedit">与玥樓年菜套餐</p>
+                            <textarea rows="1" v-if="isedit"></textarea>
+                        </div>
+                    </li>
+                </ul>
+                <div class="attached" :class="{border:isedit}">
+                    <p>其他附件：<strong onselectstart="return false">新增附件</strong></p>
+                    <ul>
+                        <li>
+                            <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單" ondragstart="return false">
+                            <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
+                        </li>
+                        <li>
+                            <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單" ondragstart="return false">
+                            <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
+                        </li>
+                        <li>
+                            <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單" ondragstart="return false">
+                            <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
+                        </li>
+                        <!-- <li>
+                            <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單" ondragstart="return false">
+                            <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
+                        </li>
+                        <li>
+                            <img src="http://v2.com/img/fileIcon/PDF.svg" alt="icon" title="与玥樓福氣豪華年菜一菜單" ondragstart="return false">
+                            <p title="与玥樓福氣豪華年菜一菜單">与玥樓福氣豪華年菜一菜單</p>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
 </div>
 @endsection
+
+<!-- 
+  tree資料基礎結構
+  let treedata = [
+    {
+        parentid:'#',//父層id
+        id:'B',//本身id
+        text:'選單B',//名稱
+        type:'folder',//種類 預計靠種類來給予icon及子層數量顯示與否
+        isOpen:false,//開關子層
+        nodes:[//子層
+            {
+                parentid:'B',
+                id:'B1_0',
+                text:'子層B',
+                type:'data',
+                isOpen:false,
+            },
+        ]
+    },            
+  ]
+
+  預計功能:
+    拖曳、右鍵選單
+
+ -->

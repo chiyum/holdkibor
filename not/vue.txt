@@ -1103,6 +1103,8 @@ ol.樣式切換 v-bind:class運用
         範例:
         <p v-bind:style="[objStyle,{backgroundColor:'black',},objStyle2]"></p>//記得這邊值是字串
 
+        補充:在key值也可以插入資料例如{paddingLeft: 資料路徑 + 'px'}
+
 
 ol.資料綁定v-model 與表單:
     v-model在對應每個input type所產生的效果是不一樣的，以下我們來一一介紹:
@@ -2172,4 +2174,45 @@ ol.元件:
         上一章已經解說完外部導入內部資料的props
         這章開始介紹emits將內部資料給外層接收。但這章會比props來得更複雜一些。
         emits在傳遞時，它其實是一個事件。所以不一定要傳遞資料，它也可以傳遞事件來觸發外層事件。
-        
+        範例:
+
+            子層端:
+
+              .component('data',{
+                    template:`<div @click="active"></div>`,//這邊一樣是v-on的觸發方式
+                    data(){
+                        return{
+                            text:'內部文字',
+                        }
+                    },
+                    methods:{
+                        active(){
+                            
+                            this.$emit('test',this.text);//('')為自定義名稱，這邊以test作為範例。而this.text則是此元件的資料，我們要將其傳遞到外元件
+                            console.log('內層觸發');//這邊可以使用console.log來讓自己知道是否有觸發子層事件
+                        }
+                    }
+                })
+
+
+
+            外層端:
+
+                <data v-on:test="active"></data>
+                //當內層建構完成後，接著在外層的元件標籤上操作
+                //一樣記住口訣。"前內、後外"
+                //前面test是我們$emit所定義的名稱
+                //後面的active則是外層元件methods的事件
+
+
+                methods:{//這邊的methods是外層的
+
+                    active(text){//外層設置參數，這個參數會是子層$emit所傳回來的資訊
+                        console.log('觸發外層');
+                        this.text = text;//將子層回傳的資訊套入父層的元件中
+                        console.log(this.text);
+                    }
+
+                }
+
+                如此便完成了傳遞。若是不需要傳遞資訊則省略$emit後面的元件資料即可
