@@ -10,6 +10,44 @@
 
 <script>
   
+  // const data = {
+  //       //tree資料基礎結構 typefolder為資料夾 data為資料
+  //       parentid:'',//父層id
+  //       id:'#',//本身id
+  //       text:'主選單',//名稱
+  //       type:'folder',//種類 預計靠種類來給予icon及子層數量顯示與否
+  //       nodes:[//子層
+  //           {
+  //               parentid:'#',
+  //               id:'B',
+  //               text:'1月會議',
+  //               type:'folder',
+  //               nodes:[
+  //                 {
+  //                   parentid:'B',
+  //                   id:'B1',
+  //                   text:'2022/1/15 尾牙地點討論',
+  //                   type:'data',
+  //                 }
+  //               ]
+  //           },
+  //           {
+  //               parentid:'#',
+  //               id:'A',
+  //               text:'2月會議',
+  //               type:'folder',
+  //               nodes:[
+  //                 {
+  //                   parentid:'A',
+  //                   id:'A1',
+  //                   text:'2022/2/10 專案討論',
+  //                   type:'data',
+  //                 }
+  //               ]
+  //           },
+  //       ]
+  // };         
+  //最基本架構
 
   const data = {
         //tree資料基礎結構 typefolder為資料夾 data為資料
@@ -29,6 +67,67 @@
                     id:'B1',
                     text:'2022/1/15 尾牙地點討論',
                     type:'data',
+                    data:{
+                      title:'新方向討論',
+                      date:'2022-01-21',
+                      hour:'13',
+                      minute:'01',
+                      place:'公司會議室',
+                      host:[{
+                        id:'A0001',
+                        companyid:'宏義工程股份有限公司',
+                        first_name:'高',
+                        last_name:'民志',
+                        job_title:'經理',
+                      }],
+                      recorder:[{
+                        id:'A0012',
+                        companyid:'宏義工程股份有限公司',
+                        first_name:'許',
+                        last_name:'美惠',
+                        job_title:'秘書',
+                      }],
+                      member:[
+                        {
+                          id:'A0002',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'吳',
+                          last_name:'來福',
+                          job_title:'工地主任',
+                        },
+                        {
+                          id:'A0003',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'王',
+                          last_name:'欽興',
+                          job_title:'工程師',
+                        },
+                        {
+                          id:'A0004',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'謝',
+                          last_name:'宇賀',
+                          job_title:'工程師',
+                        },
+                        {
+                          id:'A0005',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'謝',
+                          last_name:'芷菱',
+                          job_title:'工程師',
+                        },
+                      ],
+                      discussion:[
+                        {
+                          subject:'尾牙地點討論',
+                          decision:'与玥樓',
+                        },
+                        {
+                          subject:'價格預算',
+                          decision:'尾牙套餐',
+                        }
+                      ]
+                    },
                   }
                 ]
             },
@@ -43,6 +142,67 @@
                     id:'A1',
                     text:'2022/2/10 專案討論',
                     type:'data',
+                    data:{
+                      title:'新方向討論',
+                      date:'2022-01-21',
+                      hour:'13',
+                      minute:'01',
+                      place:'公司會議室',
+                      host:[{
+                        id:'A0001',
+                        companyid:'宏義工程股份有限公司',
+                        first_name:'高',
+                        last_name:'民志',
+                        job_title:'經理',
+                      }],
+                      recorder:[{
+                        id:'A0012',
+                        companyid:'宏義工程股份有限公司',
+                        first_name:'許',
+                        last_name:'美惠',
+                        job_title:'秘書',
+                      }],
+                      member:[
+                        {
+                          id:'A0002',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'吳',
+                          last_name:'來福',
+                          job_title:'工地主任',
+                        },
+                        {
+                          id:'A0003',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'王',
+                          last_name:'欽興',
+                          job_title:'工程師',
+                        },
+                        {
+                          id:'A0004',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'謝',
+                          last_name:'宇賀',
+                          job_title:'工程師',
+                        },
+                        {
+                          id:'A0005',
+                          companyid:'宏義工程股份有限公司',
+                          first_name:'謝',
+                          last_name:'芷菱',
+                          job_title:'工程師',
+                        },
+                      ],
+                      discussion:[
+                        {
+                          subject:'尾牙地點討論',
+                          decision:'与玥樓',
+                        },
+                        {
+                          subject:'價格預算',
+                          decision:'尾牙套餐',
+                        }
+                      ]
+                    },
                   }
                 ]
             },
@@ -54,9 +214,28 @@
   const app = Vue.createApp({
     data(){
       return{
-        treedata:{},//tree結構及資料
+        treedata:{},//tree結構及會議資料
+        people:[],//人員資料
         isedit:false,//編輯模式boolean 切換用
-        number:20,
+        hour_list:[],
+        minute_list:[],
+        temp_list:{      
+          parentid:'',
+          id:'',
+          text:'',
+          type:'',
+          data:{
+            title:'',
+            date:'',
+            hour:'',
+            minute:'',
+            place:'',
+            host:[],
+            recorder:[],
+            member:[],
+            discussion:[]
+          },
+        },//右欄顯示用
       }
     },
     created(){
@@ -65,7 +244,8 @@
       this.treedata.isOpen = false;//主選單給予 收合boolean
       this.treedata.isHover = false;//主選單給予 滑過boolean
       this.treedata.isActive = false;//主選單給予 點擊boolean
-      this.treedata.level = 1;
+      this.treedata.level = 1;//預設層級
+      this.hourANDminute_set();
     },
     methods:{
       giveFunction(item,level = 1){//給予資料功能
@@ -91,6 +271,13 @@
           this.active_search(this.treedata.nodes,item);
           this.treedata.isActive = false;//樣式改為非點選
         }
+        //tree部分完成，下半部分就是將資料給打到右欄顯示內
+        //因為資料是從主元件傳遞，所以主元件資料更改，底層資料也會更改。
+        //所以這邊只需要更改主層資料即可。
+        if(item.type == 'data'){//若為會議記錄檔才將資料輸入
+          this.temp_list = item;//將資料輸入至temp顯示至右欄
+        }
+
       },
       active_search(ary,item){//ary為陣列 最一開始會從主元件的treedata開始找 item則是要尋找的對象
       
@@ -113,11 +300,29 @@
         //呈上範例，在我點選A層第二層符合if item.id == data.id的時候
         //B層則也會執行這段，只是因為不符合，所以只會執行在開頭的data.isActive = false;
       },
-      remove_active(item){
+      remove_active(item){//更改子層非選取狀態
         item.forEach( data => {
           data.isActive = false;//將該層狀態更改為非選取狀態
           if(data.nodes){this.remove_active(data.nodes)}//若有子層則向下繼續動作
         });
+      },
+      hourANDminute_set(){//此為設定時間用
+        for(let i = 0;i < 24 ;i++){
+
+          if(i < 9){
+            this.hour_list.push('0'+ i);
+          }else{
+            this.hour_list.push( i );
+          }
+        };
+        for(let i = 0; i<60;i++){
+         
+          if(i < 10){
+            this.minute_list.push('0'+ i);
+          }else{
+            this.minute_list.push( i );
+          }
+        }
       }
     },
   })
@@ -520,11 +725,13 @@ input, button, select, textarea {
 
 .main .right .right_main .meet_data div input {
   height: 24px;
+  outline: none;
 }
 
 .main .right .right_main .meet_data div select {
   height: 24px;
   font-size: 14px;
+  outline: none;
 }
 
 .main .right .right_main .meet_data div button {
@@ -688,20 +895,6 @@ input, button, select, textarea {
   border: 1px solid #c1bbbb;
 }
 /*# sourceMappingURL=meet.css.map */
-
-
-.list_1{
-  padding-left:10px !important;
-}
-.list_2{
-  padding-left:10px !important;
-}
-.list_3{
-  padding-left:10px !important;
-}
-.list_4{
-  padding-left:10px !important;
-}
 </style>
 @endsection
 
@@ -802,7 +995,7 @@ input, button, select, textarea {
             </div>
         </div>
         <div class="right_main">
-            <div class="meet_data">
+            <div class="meet_data" v-if="temp_list.id != ''">
                 <div class="addevent" id="addeventId" onselectstart="return false" onclick="golist()">
                     <div class="icon anicon add"></div>
                     創建代辦事項
@@ -810,60 +1003,76 @@ input, button, select, textarea {
                 <h1>會議記錄</h1>
                 <div>
                     <span><strong class="ess">⁎</strong> 主旨：</span>
-                    <span v-if="!isedit">今年尾牙吃甚麼?</span>
+                    <span v-if="!isedit">@{{temp_list.data.title}}</span>
                     <input type="text" v-if="isedit">
                 </div>
                 <div>
                     <span><strong class="ess">⁎</strong> 日期：</span>
-                    <span v-if="!isedit">2022/01/21</span>
-                    <input type="date" v-if="isedit">
+                    <span v-if="!isedit">@{{temp_list.data.date.split('-').join('/')}}</span>
+                    <input type="date" v-if="isedit" v-model="temp_list.data.date">
                 </div>
                 <div>
                     <span><strong class="ess">⁎</strong> 時間：</span>
-                    <span v-if="!isedit">13:00</span>
+                    <span v-if="!isedit">@{{temp_list.data.hour + '：' + temp_list.data.minute}}</span>
                     <strong v-if="isedit">時:</strong>
-                    <select v-if="isedit">
-                        <option value="01">01</option>
+                    <select v-if="isedit" v-model="temp_list.data.hour">
+                        <option v-for="item in hour_list" :value="item" :key="item">@{{item}}</option>
                     </select>
-                    <strong v-if="isedit">秒:</strong>
-                    <select v-if="isedit">
-                        <option value="01">01</option>
+                    <strong v-if="isedit">分:</strong>
+                    <select v-if="isedit" v-model="temp_list.data.minute">
+                      <option v-for="item in minute_list" :value="item" :key="item">@{{item}}</option>
                     </select>
                 </div>
                 <div>
                     <span><strong class="ess">⁎</strong>地點：</span>
-                    <span v-if="!isedit">公司會議室</span>
+                    <span v-if="!isedit">@{{temp_list.data.place}}</span>
                     <input type="text" v-if="isedit">
                 </div>
                 <div>
                     <span><strong class="ess">⁎</strong>主席：</span>
-                    <span v-if="isedit">主任一林富強<strong class="remove">✕</strong></span>
-                    <!-- 使用v-for跑編輯 ^ -->
+                    <template v-for="item in temp_list.data.host">
+                      <span v-if="isedit">@{{item.job_title + '一' +item.first_name + item.last_name}}<strong class="remove">✕</strong></span>
+                      <!-- 使用v-for跑編輯 ^ -->
+                    </template>
                     <button type="button" v-if="isedit"><div class="icon anicon add"></div>相關人員</button>
-                    <span v-if="!isedit">
-                        <!-- 非編輯這邊使用陣列.join將人員顯現 -->
-                        主任一林富強
-                    </span>
+                    <template v-for="item in temp_list.data.host">
+                      <span v-if="!isedit">
+                          <!-- 非編輯這邊使用陣列.join將人員顯現 -->
+                          @{{item.job_title + '一' +item.first_name + item.last_name}}
+                          <em v-if="temp_list.data.host > 1">、</em>
+                      </span>
+                    </template>
+                    
                 </div>
                 <div>
                     <span><strong class="ess">⁎</strong>紀錄：</span>
-                    <span v-if="isedit">經理秘書一許雅芳<strong class="remove">✕</strong></span>
-                    <!-- 使用v-for跑編輯 ^ -->
+                    <template v-for="item in temp_list.data.recorder">
+                      <span v-if="isedit">@{{item.job_title + '一' +item.first_name + item.last_name}}<strong class="remove">✕</strong></span>
+                      <!-- 使用v-for跑編輯 ^ -->
+                    </template>
                     <button type="button" v-if="isedit"><div class="icon anicon add"></div>相關人員</button>
-                    <span v-if="!isedit">
-                        <!-- 非編輯這邊使用陣列.join將人員顯現 -->
-                        經理秘書一許雅芳
-                    </span>
+                    <template v-for="item in temp_list.data.recorder">
+                      <span v-if="!isedit">
+                        @{{item.job_title + '一' +item.first_name + item.last_name}}
+                        <em v-if="temp_list.data.recorder > 1">、</em>
+                      </span>
+                    </template>
+                    
                 </div>
                 <div>
                     <span><strong class="ess">⁎</strong>與會人員：</span>
-                    <span v-if="isedit">工程師一康民治<strong class="remove">✕</strong></span>
-                    <!-- 使用v-for跑編輯 ^ -->
+                    <template v-for="item in temp_list.data.member">
+                      <span v-if="isedit">@{{item.job_title + '一' +item.first_name + item.last_name}}<strong class="remove">✕</strong></span>
+                      <!-- 使用v-for跑編輯 ^ -->
+                    </template>
                     <button type="button" v-if="isedit"><div class="icon anicon add"></div>相關人員</button>
-                    <span v-if="!isedit">
-                        <!-- 非編輯這邊使用陣列.join將人員顯現 -->
-                        工程師一康民治
-                    </span>
+                    <template v-for="item in temp_list.data.member">
+                      <span v-if="!isedit">
+                          <!-- 非編輯這邊使用陣列.join將人員顯現 -->
+                          @{{item.job_title + '一' +item.first_name + item.last_name}}
+                          <em v-if="temp_list.data.member.length > 1">、</em>
+                      </span>
+                    </template>
                 </div>
                 <div v-if="!isedit">
                     <span><strong class="ess" style="visibility: hidden;">⁎</strong>應出席人員：</span>
