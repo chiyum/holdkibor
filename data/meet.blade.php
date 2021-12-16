@@ -189,9 +189,28 @@
         people:[],//人員資料
         isedit:false,//編輯模式boolean 切換用
         addbtn_isOpen:false,//新增節點用
-        created_text:'',
-        Search_text:'',
-        active_num:'',
+        created_text:'',//新增資料夾取名用
+        Search_text:'',//搜尋用
+        directory_text:'新增相關人員',//通訊錄用 根據字串決定功能
+        active_num:[
+          {      
+            parentid:'',
+            id:'',
+            text:'',
+            type:'',
+            data:{
+              title:'',
+              date:'',
+              hour:'',
+              minute:'',
+              place:'',
+              host:[],
+              recorder:[],
+              member:[],
+              discussion:[]
+            },
+          },
+        ],//點擊的資料
         hour_list:[],
         minute_list:[],
         temp_list:{      
@@ -238,16 +257,23 @@
             if(data.nodes){this.giveFunction(data.nodes,num)}//若有子層再次執行
         })
       },
-      active(item){//點選的資料回傳到參數中
-        // console.log('外層觸發');
-        if(item.id ==this.treedata.id){ //若點選的為主層
-          this.treedata.isActive = true;//樣式改為被點選
-          this.remove_active(this.treedata.nodes);//並將底下的樣式都改為非點選
-        }else{//若非主層則向下尋找
-          this.active_search(this.treedata.nodes,item);
-          // this.treedata.isRename = false;//rename狀態移除
-          this.treedata.isActive = false;//樣式改為非點選
+      active(item,event){//點選的資料回傳到參數中
+        if(event.ctrlKey && false){//點擊時有按下Ctrl
+          //此為後續複選功能新增區 暫時先為單選
+        }else{
+          this.active_num = [];//若為單選擇清空ary
+          if(item.id ==this.treedata.id){ //若點選的為主層
+            this.treedata.isActive = true;//樣式改為被點選
+            this.active_num.push(this.treedata);
+            // console.log(this.active_num)
+            this.remove_active(this.treedata.nodes);//並將底下的樣式都改為非點選
+          }else{//若非主層則向下尋找
+            this.active_search(this.treedata.nodes,item);
+            // this.treedata.isRename = false;//rename狀態移除
+            this.treedata.isActive = false;//樣式改為非點選
+          }
         }
+       
         //tree部分完成，下半部分就是將資料給打到右欄顯示內
         //因為資料是從主元件傳遞，所以主元件資料更改，底層資料也會更改。
         //所以這邊只需要更改主層資料即可。
@@ -263,20 +289,28 @@
         //點選是active_search的function所處理的功能
         //邏輯是這樣的，我們從最底層觸發thisactive一層打一層，直接最外層則觸發active並將資料給帶入
       },
-      active_search(ary,item){//ary為陣列 最一開始會從主元件的treedata開始找 item則是要尋找的對象
-        ary.forEach( data => {
-          data.isActive = false;//同層的都改為非點選
-          // data.isRename = false;//關閉rename
-          if(item.id == data.id){//若該層物件內有符合點選的資訊
-            data.isActive = true;//將樣式改為被點選
-            this.active_num = data.id;//取得目前被點選的資料
-            if(data.nodes){//若有子層則將子層也改為非點選狀態
-              this.remove_active(data.nodes);
-            }
-          }else if(data.nodes){//若該層沒有找到符合資訊並且有子層就向下尋找並且item也繼續往下帶
-            this.active_search(data.nodes,item);
-          };
-        });
+      active_search(ary,item,boolean = false){//ary為陣列 最一開始會從主元件的treedata開始找 item則是要尋找的對象 boolean是否複選
+        if(boolean){
+          console.log('複選功能')
+          //複選功能待新增
+        }else{
+          ary.forEach( data => {
+            data.isActive = false;//同層的都改為非點選
+            // data.isRename = false;//關閉rename
+            if(item.id == data.id){//若該層物件內有符合點選的資訊
+              data.isActive = true;//將樣式改為被點選
+              this.active_num.push(data);//取得目前被點選的資料
+              // console.log(this.active_num);
+              if(data.nodes){//若有子層則將子層也改為非點選狀態
+                this.remove_active(data.nodes);
+              }
+            }else if(data.nodes){//若該層沒有找到符合資訊並且有子層就向下尋找並且item也繼續往下帶
+              this.active_search(data.nodes,item);
+            };
+          });
+
+        }
+       
         //這邊的邏輯是執行的陣列中，都先給予非點選狀態。
         //接著若有符合則改為點選狀態，並且子層都改為非點選狀態
         //若不符合且有子層則繼續往下找。
@@ -298,6 +332,11 @@
         //ary 為執行for的陣列 item為id file為資料 switch為功能 boolean是否開啟相關功能
         switch (switchFn) {
           case 'create_folder'://新建資料夾API
+            if(item.type != 'folder'){//非資料夾不可新增
+              $('#create_folder_Modal').modal('hide');//彈窗收回
+              alert('非資料夾不可新增資料夾');
+              return
+            }
             if(item.id ==this.treedata.id){//若點選的是主選單
               let push_list ={
                 parentid:'#',
@@ -347,6 +386,10 @@
             };
             break;
           case 'create_file'://新增檔案API
+            if(item.type != 'folder'){//非資料夾不可新增
+              alert('非資料夾不可新增檔案');
+              return
+            }
             if(item.id == this.treedata.id){//若點選的是主選單
               let push_list ={
                 parentid:'#',
@@ -524,10 +567,17 @@
 
           case 'del':
             //代入指定id，從資料庫尋找後並刪除
-            //ary 搜尋陣列 / item 指定id / switch功能
-            console.log(item)
-            console.log(file)
-
+            //ary 搜尋陣列 / item 指定物件 / switch功能
+            let num = '';
+            ary.forEach( (data,index) => {
+              if(data.id == item.id){ 
+                ary.splice(index,1);
+              }else{
+                if(data.nodes){this.siwtch_fn(data.nodes,item,'','del')}
+              }
+            });
+            
+            $('#del_Modal').modal('hide');//離開彈窗
             break;
         
           // default:
@@ -562,13 +612,21 @@
           }
         }
       },
+      callDel_Modal(){
+        if(this.active_num[0].id == this.treedata.id){
+          alert('錯誤! 主選單不可刪除');
+        }else{
+          $('#del_Modal').modal('show');//彈窗跳出
+        }
+      },
     },
   })
 
   app.component('item',{
     template:`
     <li>
-      <div @mouseenter="hover_enter" @mouseout="hover_left" @click="thisactive(treedata)" :class="{isHover:treedata.isHover,isActive:treedata.isActive,isSearch:treedata.isSearch}" :style="{paddingLeft: treedata.level * 20 + 'px'}">
+      <div @mouseenter="hover_enter" @mouseout="hover_left" @click="thisactive(treedata,$event)" :class="{isHover:treedata.isHover,isActive:treedata.isActive,isSearch:treedata.isSearch}" :style="{paddingLeft: treedata.level * 20 + 'px'}">
+        <p class="top_spacing" @mouseenter="hover_enter" @mouseout="hover_left"></p>
         <span @mouseenter="hover_enter" @mouseout="hover_left"  class="icon"  @click.stop="toggle" :class="{isOpen:treedata.isOpen,isData:treedata.type == 'data'}" onselectstart="return false">▶</span>
         <img  @mouseenter="hover_enter" @mouseout="hover_left" ondragstart="return false" src="{{ asset('img/fileIcon/PDF.svg') }}" alt="" v-if="treedata.type == 'data'">
         <img  @mouseenter="hover_enter" @mouseout="hover_left" ondragstart="return false" src="{{ asset('img/fileIcon/FILE.svg') }}" alt="" v-if="treedata.type == 'folder'" v-show="treedata.isOpen == false">
@@ -576,6 +634,7 @@
         <p @mouseenter="hover_enter" @mouseout="hover_left" class="text" v-show="!treedata.isRename" >@{{treedata.text == '' ? treedata.data.date.split('-').join('/') + ' ' + treedata.data.title :treedata.text}}</p>
         <p @mouseenter="hover_enter" @mouseout="hover_left" class="file_length" v-show="!treedata.isRename" v-if="treedata.type == 'folder'">(@{{treedata.nodes.length}})</p>
         <input type="text" v-model="treedata.text" v-if="treedata.isRename" @keyup.enter="treedata.isRename = false">
+        <p class="bottom_spacing" @mouseenter="hover_enter" @mouseout="hover_left"></p>
       </div>
       <ul v-if="treedata.nodes && treedata.nodes.length > 0"  v-show="treedata.isOpen">
           <item  v-on:remove="thisactive" v-for="node in treedata.nodes" :treedata="node" :key="node.id"></item>
@@ -610,9 +669,9 @@
         // console.log('hover結束')
         this.treedata.isHover = false;
       },
-      thisactive(item){
+      thisactive(item,e){
         
-        this.$emit('remove',item);
+        this.$emit('remove',item,e);
         //目前是透過第一層觸發active這個function
         //其他層則是透過觸發層層thisactive傳遞直到第一層的thisactive
         //讓第一層的thisactive觸發active
@@ -849,6 +908,7 @@ input, button, select, textarea {
 }
 
 .main .left .left_main ul li div {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -881,6 +941,22 @@ input, button, select, textarea {
 
 .main .left .left_main ul li div input {
   width: 80px;
+}
+
+.main .left .left_main ul li div .top_spacing {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  top: 0;
+  left: 0;
+}
+
+.main .left .left_main ul li div .bottom_spacing {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  bottom: 0;
+  left: 0;
 }
 
 .main .right {
@@ -1243,6 +1319,10 @@ input, button, select, textarea {
   visibility: hidden;
 }
 
+.isSearch {
+  font-weight: bolder;
+}
+
 .create_folder_Modal {
   width: 330px;
 }
@@ -1327,11 +1407,430 @@ input, button, select, textarea {
   background: #08aad6;
 }
 
-.isSearch
-{
-    font-weight: bolder;
+.create_file_Modal {
+  width: 330px;
 }
 
+.create_file_Modal .modal-content {
+  background: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.create_file_Modal .modal-content .modal-header {
+  padding: 5px;
+  color: #ffffff;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  background-color: #0167a0;
+}
+
+.create_file_Modal .modal-content .modal-header button {
+  margin-top: 3px !important;
+  margin-right: 5px !important;
+  font-size: 18px;
+  opacity: 1;
+}
+
+.create_file_Modal .modal-content .modal-header button span {
+  color: #ffffff;
+}
+
+.create_file_Modal .modal-content .modal-header .close {
+  padding: 0;
+  margin: 0;
+}
+
+.create_file_Modal .modal-content .modal-header h5 {
+  font-size: 18px;
+  position: relative;
+  left: 10px;
+  top: 0px;
+}
+
+.create_file_Modal .modal-content .modal-body {
+  background: #ffffff;
+}
+
+.create_file_Modal .modal-content .modal-body div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.create_file_Modal .modal-content .modal-body div span {
+  white-space: nowrap;
+}
+
+.create_file_Modal .modal-content .modal-body input {
+  padding-left: 5px;
+  width: 100%;
+  outline: none;
+}
+
+.create_file_Modal .modal-content .modal-footer {
+  padding: 0;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: #ffffff;
+}
+
+.create_file_Modal .modal-content .modal-footer button {
+  position: relative;
+  bottom: 10px;
+  right: 5px;
+  padding: 1px 15px;
+  border-radius: 0px;
+  border: none;
+}
+
+.create_file_Modal .modal-content .modal-footer button:nth-child(1) {
+  margin-right: -4px;
+  color: #686868;
+  background: #f3f3f3;
+}
+
+.create_file_Modal .modal-content .modal-footer button:nth-child(1):hover {
+  background: #efecec;
+}
+
+.create_file_Modal .modal-content .modal-footer button:nth-child(2) {
+  background: #0aa0c8;
+}
+
+.create_file_Modal .modal-content .modal-footer button:nth-child(2):hover {
+  background: #08aad6;
+}
+
+.del_Modal {
+  width: 330px;
+}
+
+.del_Modal .modal-content {
+  background: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.del_Modal .modal-content .modal-header {
+  padding: 5px;
+  color: #ffffff;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  background-color: #e93925;
+}
+
+.del_Modal .modal-content .modal-header button {
+  margin-top: 3px !important;
+  margin-right: 5px !important;
+  font-size: 18px;
+  opacity: 1;
+}
+
+.del_Modal .modal-content .modal-header button span {
+  color: #ffffff;
+}
+
+.del_Modal .modal-content .modal-header .close {
+  padding: 0;
+  margin: 0;
+}
+
+.del_Modal .modal-content .modal-header h5 {
+  font-size: 18px;
+  position: relative;
+  left: 10px;
+  top: 0px;
+}
+
+.del_Modal .modal-content .modal-body {
+  text-align: center;
+  background: #ffffff;
+}
+
+.del_Modal .modal-content .modal-footer {
+  padding: 0;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: #ffffff;
+}
+
+.del_Modal .modal-content .modal-footer button {
+  position: relative;
+  bottom: 10px;
+  right: 5px;
+  padding: 1px 15px;
+  border-radius: 0px;
+  border: none;
+}
+
+.del_Modal .modal-content .modal-footer button:nth-child(1) {
+  margin-right: -4px;
+  color: #686868;
+  background: #f3f3f3;
+}
+
+.del_Modal .modal-content .modal-footer button:nth-child(1):hover {
+  background: #efecec;
+}
+
+.del_Modal .modal-content .modal-footer button:nth-child(2) {
+  background: #0aa0c8;
+}
+
+.del_Modal .modal-content .modal-footer button:nth-child(2):hover {
+  background: #08aad6;
+}
+
+.directory_Modal {
+  width: 700px;
+  max-width: 700px;
+}
+
+.directory_Modal .modal-content {
+  background: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.directory_Modal .modal-content .modal-header {
+  padding: 5px;
+  color: #ffffff;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  background-color: #0167a0;
+}
+
+.directory_Modal .modal-content .modal-header button {
+  margin-top: 3px !important;
+  margin-right: 5px !important;
+  font-size: 18px;
+  opacity: 1;
+}
+
+.directory_Modal .modal-content .modal-header button span {
+  color: #ffffff;
+}
+
+.directory_Modal .modal-content .modal-header .close {
+  padding: 0;
+  margin: 0;
+}
+
+.directory_Modal .modal-content .modal-header h5 {
+  font-size: 18px;
+  position: relative;
+  left: 10px;
+  top: 0px;
+}
+
+.directory_Modal .modal-content .modal-body {
+  background: #ffffff;
+  padding: 0;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head {
+  background: #B3B3B3;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .top {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 5px 0;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .top p {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 3%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .top p:nth-child(1) {
+  width: 11%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .top p:nth-child(2) {
+  width: 25%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .top p:nth-child(3) {
+  width: 21%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .top p:nth-child(4) {
+  width: 19%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding-bottom: 5px;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div {
+  position: relative;
+  margin: 0 3%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #e6e6e6;
+  border-radius: 2px;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div input, .directory_Modal .modal-content .modal-body .directory_head .bottom div select {
+  padding: 2.5px 0;
+  padding-left: 5px;
+  width: 100%;
+  font-size: 14px;
+  background: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  outline: none;
+  border: none;
+  z-index: 1;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div .icon_select {
+  position: absolute;
+  right: 0px;
+  top: 4px;
+  width: 21px;
+  height: 21px;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div .icon_search {
+  position: absolute;
+  right: 2px;
+  top: -1;
+  width: 18px;
+  height: 18px;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div:nth-child(1) {
+  width: 11%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div:nth-child(2) {
+  width: 25%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div:nth-child(3) {
+  width: 21%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_head .bottom div:nth-child(4) {
+  width: 19%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main {
+  height: 406px;
+  overflow: auto;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 2.5px 0;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li p {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 0 3%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li p:nth-child(1) {
+  width: 11%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li p:nth-child(2) {
+  width: 25%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li p:nth-child(3) {
+  width: 21%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li p:nth-child(4) {
+  width: 19%;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li:nth-child(odd) {
+  background: #e6e6e6;
+}
+
+.directory_Modal .modal-content .modal-body .directory_main ul li:nth-child(even) {
+  background: #ffffff;
+}
+
+.directory_Modal .modal-content .modal-footer {
+  padding: 10px;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background: #ffffff;
+}
+
+.directory_Modal .modal-content .modal-footer button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  bottom: 0px;
+  right: 0px;
+  padding: 1px 10px;
+  font-size: 18px;
+  border-radius: 3px;
+  border: none;
+}
+
+.directory_Modal .modal-content .modal-footer button:nth-child(1) {
+  margin-right: 0px;
+  color: #ffffff;
+  background: #e93925;
+}
+
+.directory_Modal .modal-content .modal-footer button:nth-child(1):hover {
+  background: #e52c17;
+}
+
+.directory_Modal .modal-content .modal-footer button:nth-child(2) {
+  background: #0aa0c8;
+}
+
+.directory_Modal .modal-content .modal-footer button:nth-child(2):hover {
+  background: #08aad6;
+}
+
+.directory_Modal .modal-content .modal-footer button:nth-child(3) {
+  background: #01c587;
+}
 /*# sourceMappingURL=meet.css.map */
 </style>
 @endsection
@@ -1360,11 +1859,11 @@ input, button, select, textarea {
                   <span data-type="addBtn">新增資料夾</span>
               </li>
               <li class="line" data-type="addBtn"></li>
-              <li class="add_btn_li" data-type="addBtn" @click="siwtch_fn(this.treedata.nodes,temp_list_folder,'','create_file')">
+              <li class="add_btn_li" data-type="addBtn" onclick="$('#create_file_Modal').modal('show');">
                   <div class="icon anicon addFile" data-type="addBtn"></div>新增會議紀錄
               </li>
             </ul>
-            <div class="del btn" @click="siwtch_fn(0,temp_list,temp_list_folder,'del')">
+            <div class="del btn" @click="callDel_Modal">
                 <div class="icon anicon ashbin"></div>刪除
             </div>
             <!-- <div class="download">
@@ -1374,44 +1873,6 @@ input, button, select, textarea {
         <div class="left_main">
             <ul class="root">
                 <item :treedata="treedata" v-on:remove="active"></item>
-                <!-- <li>
-                    <div>
-                        <span class="icon isOpen">▶</span>
-                        <img src="{{ asset('img/fileIcon/FILEOPEN.svg') }}" alt="">
-                        <p class="text">主選單</p>
-                        <p class="file_length">(3)</p>
-                    </div>
-                    <ul>
-                        <li>
-                            <div>
-                                <span class="icon isOpen">▶</span>
-                                <img src="{{ asset('img/fileIcon/FILEOPEN.svg') }}" alt="">
-                                <p class="text">子選單</p>
-                                <p class="file_length">(3)</p>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div>
-                                        <span class="icon isOpen">▶</span>
-                                        <img src="{{ asset('img/fileIcon/FILEOPEN.svg') }}" alt="">
-                                        <p class="text">孫選單</p>
-                                        <p class="file_length">(3)</p>
-                                    </div>
-                                    <ul>
-                                        <li>
-                                            <div>
-                                                <span class="icon">▶</span>
-                                                <img src="" alt="">
-                                                <p class="text">2022/01/21 會議</p>
-                                                <p class="file_length">(3)</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li> -->
             </ul>
         </div>
     </div>
@@ -1600,7 +2061,271 @@ input, button, select, textarea {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary" @click="siwtch_fn(treedata.nodes,temp_list_folder,'','create_folder')">確定</button>
+          <button type="button" class="btn btn-primary" @click="siwtch_fn(treedata.nodes,active_num[0],'','create_folder')">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="del_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog del_Modal modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">刪除</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          確定刪除@{{active_num[0].text == '' ?active_num[0].data.date.split('-').join('/') + ' ' + active_num[0].data.title :active_num[0].text}}的資料?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" @click="siwtch_fn(treedata.nodes,active_num[0],'','del')">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="create_file_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog create_file_Modal modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">新增會議資訊</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <span>主旨</span>
+            <textarea></textarea>
+          </div>
+          <div>
+            <span>日期</span>
+            <input type="date">
+          </div>
+        <div>
+          <span>選擇範本：</span>
+          <select>
+            <option value="">會議範本</option>
+          </select>
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" @click="siwtch_fn(this.treedata.nodes,active_num[0],'','create_file')">確定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="directory_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog directory_Modal modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">新增相關人員</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="directory_head">
+              <div class="top">
+                  <p>選項</p>
+                  <p>公司名稱</p>
+                  <p>職稱</p>
+                  <p>姓名</p>
+                  <span></span>
+              </div>
+              <div class="bottom">
+                  <div>
+                      <select>
+                          <option value="">請選擇</option>
+                          <option value="">未選取</option>
+                          <option value="">已選取</option>
+                      </select>
+                      <span class="icon_select anicon arrow"></span>
+                  </div>
+                  <div>
+                      <select>
+                          <option value="宏義工程股份有限公司">宏義工程股份有限公司</option>
+                          <option value="宏義工程股份有限公司">宏義工程股份有限公司</option>
+                      </select>
+                      <span class="icon_select anicon arrow"></span>
+                  </div>
+                  <div>
+                      <input type="text">
+                      <span class="icon_search anicon search"></span>
+                  </div>
+                  <div>
+                      <input type="text">
+                      <span class="icon_search anicon search"></span>
+                  </div>
+              </div>
+          </div>
+          <div class="directory_main">
+              <ul>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+                  <li>
+                      <p><input type="checkbox"></p>
+                      <p>宏義工程股份有限公司</p>
+                      <p>工地主任</p>
+                      <p>康民治</p>
+                  </li>
+              </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><span class="icon anicon ashbin"></span>清除篩選</button>
+          <button type="button" v-if="directory_text == '新增相關人員'" class="btn btn-primary">確定</button>
+          <button type="button" v-if="directory_text !== '新增相關人員'" class="btn btn-primary"><span class="icon anicon add"></span>新增收件人</button>
         </div>
       </div>
     </div>
