@@ -1605,7 +1605,7 @@ ol.computed
         備註:
         看似跟methods內的function很像，但其實是有差別的。
         computed的total並沒有在任何一個methods的function內及指令來觸發。
-        computed是當指定資料更動以後，就會進行觸發。
+        computed是當指定資料更動以後並且物件內的fuction有出現HTML內(不管是作為參數或是文字顯示)，就會進行觸發。
         那何謂指定資料呢?以上面的範例來說就是在computed內的total()中
         我們有使用到this.data。這就是所謂的指定資料。當這個this.data的值有更動時，total就會執行。
         若this.data沒有變動只更動this.text，那麼total就不會執行。而是會保持讓上一個執行的結果，也稱為暫存結果。
