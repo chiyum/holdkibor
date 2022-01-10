@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let data = [1,2,3,4,5,6,7,8,9];
+        // let data = [5,1,6,2,3,7,9,8,4,10,39,26];
+        let data = [3,2,1,5,4,9,6,8,7];
+        let ts = [
+            {
+                id:'0',
+                parentid:'#'
+            },
+            {
+                id:'1',
+                parentid:'#'
+            },
+            {
+                id:'2',
+                parentid:'#'
+            },
+            {
+                id:'3',
+                parentid:'2'
+            },
+            {
+                id:'4',
+                parentid:'3'
+            },
+        ]
+        // data = data.sort(function(a,b){
+        //     return a-b
+        // })
+        // console.log(data);
+
+        //上方為sort解法
+        //下方為個人解法
+
+
+        let indexSort = (ary)=>{
+            //比對的邏輯
+            // 總共會有兩個陣列。一個是排序完成，另一個則是待排序
+            // 使用已排序完成的資料去對比待排序的資料，若待排序的被對比資料大於已排序
+            // 便將被對比資料給加入到對比資料中
+            let temp =[ary[0]];            
+            ary.splice(0,1)
+            temp.forEach((data,i)=>{//對比資料下去跑
+                ary.forEach((item,o)=>{
+                    if(data < item){//被比對資料大於比對資料的話
+                        temp.splice(i + 1,0,item);//將被比對資料給插入到比對資料後
+                    }else{
+                        temp.splice(i,0,item);//若為小則插入比對資料前
+                    }
+                })    
+            })
+            console.log(temp)
+        }
+
+        indexSort(data)
+
+        // indexSort(data);
+        function give_parent_level(ary) {//比對pid給予level的function
+          let level = 0;//層數為0
+          let temp = ['#'];//預設的比對的id
+          let next = [];//佔存的ary
+
+          while(temp.length) {
+            //使用while的原因是因為若()內有實值，就會不斷執行直到為0
+            //利用這個特性，若是還有要比對的id，while內的程式碼就會持續執行直到將所有值都比對完
+            //直到沒有要比對的id
+            temp.forEach(p =>
+              //比對id下去跑for
+              ary.forEach(data => {
+                  //被比對資料跑for
+                if (data.parentid === p) {
+                    //若比對資料的pid == 比對的id
+                  data.level = level;
+                  //給予其level
+                  if (!next.includes(data.id))
+                    //若在比對資料中找不到此資料
+                    next.push(data.id);
+                    //將資料給加入占存ary中，為的是下一次比對資料中
+                }
+              })
+            );
+            level++;//讓level +1
+            temp = next; //將下一個要比對的資料加入比對的id ary中
+            console.log(temp)
+            next = [];//清空占存ary
+          }
+        }
+        // give_parent_level(ts);
+        // console.log(ts)
+
+    </script>
+</body>
+</html>
