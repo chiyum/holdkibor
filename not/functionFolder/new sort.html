@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let data = [1,2,3,4,5,6,7,8,9];
+        // let data = [5,1,6,2,3,7,9,8,4,10,39,26];
+        let data = [3,2,1,5,4,9,6,8,7];
+        let ts = [
+            {
+                id:'0',
+                parentid:'#',
+                time:'2021-01-05'
+            },
+            {
+                id:'1',
+                parentid:'#',
+                time:'2021-01-04'
+            },
+            {
+                id:'2',
+                parentid:'#',
+                time:'2021-01-06'
+            },
+            {
+                id:'3',
+                parentid:'2',
+                time:'2021-01-07'
+            },
+            {
+                id:'4',
+                parentid:'3',
+                time:'2021-01-01'
+            },
+            {
+                id:'4',
+                parentid:'3',
+                time:'2020-01-01'
+            },
+            {
+                id:'4',
+                parentid:'3',
+                time:'2020-01-08'
+            },
+        ];
+
+        function time_between(date1,date2,ary,key){//參數代入 時間一 時間二 要搜尋的ary 日期的key
+            date1 = new Date(date1).getTime();
+            date2 = new Date(date2).getTime();
+            ary.forEach((data)=>{//先將時間轉為毫秒
+             data.seconds = new Date(data[key]).getTime();
+            });
+            let inside = ary.filter(data =>{
+                return data.seconds >= date1 && data.seconds <=date2; 
+            })
+            ary.forEach((data)=>{//移除毫秒的key
+                delete data.seconds;
+            });
+        }
+
+
+        function time_sort(ary,key){//參數代入要排序ary key代入日期的key
+           ary.forEach((data)=>{//先將時間轉為毫秒
+            data.seconds = new Date(data[key]).getTime();
+           });
+           ary.sort((a,b)=>{//進行排序
+               return a.seconds - b.seconds;
+           });
+           ary.forEach((data)=>{//移除毫秒的key
+            delete data.seconds;
+           });
+        }
+        time_sort(ts,'time')//執行排序
+        time_between('2021-01-01','2021-01-07',ts,'time');
+        console.log(ts);
+        console.log('排序完成');
+
+
+
+    </script>
+</body>
+</html>
