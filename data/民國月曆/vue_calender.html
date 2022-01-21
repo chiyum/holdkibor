@@ -30,11 +30,7 @@
         let app = Vue.createApp({
             data() {
                 return {
-                    year: [1, 2, 3, 4],
-                    month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
                     chose_text: '110年',
-                    tip: false,
-                    tipText: '',
                 }
             },
             methods: {
@@ -277,22 +273,22 @@
                     switch (days.type) {
                         case 'this':
                             // console.log('本月');
-                            result = `${this.chose_year}-${this.addzero(this.chose_month)}-${days.date}`
+                            result = `${this.chose_year -1911}-${this.addzero(this.chose_month)}-${days.date}`
                             break;
                         case 'last':
                             // console.log('上月');
                             if(this.chose_month === 1){//若本月為1月，那上月就會是去年12月
-                                result = `${this.chose_year - 1}-${this.addzero(12)}-${days.date}`
+                                result = `${this.chose_year - 1 -1911}-${this.addzero(12)}-${days.date}`
                             }else{
-                                result = `${this.chose_year}-${this.addzero(this.chose_month - 1)}-${days.date}`
+                                result = `${this.chose_year -1911}-${this.addzero(this.chose_month - 1)}-${days.date}`
                             };
                             break;
                         case 'next':
                             // console.log('次月');
                             if(this.chose_month === 12){//若本月為12月 那麼次月就會是明年一月
-                                result = `${this.chose_year + 1}-${'01'}-${days.date}`
+                                result = `${this.chose_year + 1 -1911}-${'01'}-${days.date}`
                             }else{
-                                result = `${this.chose_year}-${this.addzero(this.chose_month + 1)}-${days.date}`
+                                result = `${this.chose_year -1911}-${this.addzero(this.chose_month + 1)}-${days.date}`
                             }
                             break;
                     }
