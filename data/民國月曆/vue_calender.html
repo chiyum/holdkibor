@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue TW日期 推空白而不推上月</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.18/dist/vue.global.min.js"></script>
+    <link rel="stylesheet" href="./ca.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+            background: #e8f0ff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrap">
+        <calendar v-on:add_date="accept"></calendar>
+        <!-- add_date導入主元件事件接收 這個accept則是主元件接收參數的function -->
+    </div>
+    <script>
+        let app = Vue.createApp({
+            data() {
+                return {
+                    year: [1, 2, 3, 4],
+                    month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    chose_text: '110年',
+                    tip: false,
+                    tipText: '',
+                }
+            },
+            methods: {
+                accept(ac_date){//接收參數之主元件
+                    console.log(ac_date);
+                }
+            }
+
+        })
+
+        app.component('calendar', {
+            data() {
+                return {
+                    month: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    year: [],
+                    days: [],
+                    chose_text: '110年',
+                    chose_year: '',
+                    chose_month: '',
+                    default_date: this.seconds_change(new Date()),
+                }
+            },
+            template: `
+            <div class="tw_calender">
+              <div class="tw_calender_header">
+                <div>
+                    <select v-model="chose_year" v-on:change="aset_date">
+                        <option  v-for="item in year" :key="item" :value="item + 1911">{{ item }}</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" class="last" v-on:click="last_month">❰</button>
+                    {{ chose_text }}
+                    <button type="button" class="next" v-on:click="next_month">❱</button>
+                </div>
+                <div>
+                    <select v-model="chose_month" v-on:change="aset_date">
+                        <option v-for="(item,index) in month" :value="index + 1">{{ item }}</option>
+                    </select>
+                </div>
+              </div>
+              <div class="tw_calender_main">
+                <div class="week_list">
+                    <p>一</p>
+                    <p>二</p>
+                    <p>三</p>
+                    <p>四</p>
+                    <p>五</p>
+                    <p class="sat">六</p>
+                    <p class="sun">日</p>
+                </div>
+                <ul>
+                    <li v-for="item in days" :key="item" v-on:click="return_date(item)" :class="{isLast:item.type=='last',isNext:item.type=='next'}">
+                         {{ item.date }}
+                    </li>
+                </ul>
+              </div>
+            </div>
+            `,
+            created(){
+                this.give_year();//設置年份
+                this.set_default(this.default_date);
+                this.get_days(this.default_date);//預設套入本月份日期
+                this.aset_date();
+            },
+            methods:{
+                aset_date(){//類似change 當年日期被選擇時觸發
+                  let date = `${this.chose_year}-${this.chose_month}-1`; 
+                  this.get_days(date);
+                  this.chose_text = `${this.chose_year - 1911}年${this.chose_month}月`
+                },
+                give_year(){//產生年份
+                    for (let index = 0; index < 150; index++) {
+                        this.year.push(index + 1);
+                    };
+                },
+                give_days(num,today){//給予天數 num = 當月最後一天的數字,today則是當月第一天
+                    this.days = [];
+                    for (let index = 0; index < num; index++) {
+                        let obj = {
+                            date:this.addzero(index + 1),
+                            type:'this',
+                        };
+                        this.days.push(obj);
+                    };
+                    let last = new Date(new Date(today.getTime()) -  86400000).getDate();//取得資料
+                    let total_day = 42 - num;//總顯示日期數量 用於給予次月的日期數量
+                    switch (today.getDay()){//這邊抓取締一天的禮拜，去判斷要上月及次月的數量
+                        case 6://六
+                            for (let index = 0; index < 5; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 5;
+                            //total_day再刪除本月日期數量以後，再刪除上月數量就等於次月要顯示的數量
+                            //totalday總數為42，也就是總顯示日期為42天，扣去上月及本月的數量就會是次月的數量
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 5://五
+                            for (let index = 0; index < 4; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 4;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 4://四
+                            for (let index = 0; index < 3; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 3;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 3://三
+                            for (let index = 0; index < 2; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 2;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 2://二
+                            for (let index = 0; index < 1; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 1;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 1://一
+                            for (let index = 0; index < 0; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 0;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 0://日
+                            for (let index = 0; index < 6; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 6;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date:this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type:'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                    };
+                },
+                get_days(day){//取得日期進行轉換後觸發給予天數
+                    let today = new Date(day);//取得日期
+                    let year = today.getFullYear();//取得年月
+                    let month = today.getMonth() + 1;//取得月份
+                    let last_day = new Date(year,month,0).getDate();//取得月最後一天
+                    this.give_days(last_day,new Date(`${year}-${month}-1`));
+                },
+                set_default(date){//設定當日天數
+                    this.chose_year = new Date(date).getFullYear();//給予年
+                    this.chose_month = new Date(date).getMonth() + 1 ;//給予月份
+                },
+                seconds_change(second){//給予日期標準格式 參數丟入毫秒數、日期
+                  let day = new Date(second);
+                  return `${day.getFullYear()}-${this.addzero(day.getMonth() + 1)}-${this.addzero(day.getDate())}`
+                },
+                addzero(num) {//個位數以下給予0
+                    return num < 10 ? '0'+num : num;
+                },
+                return_date(days){
+                    let result;
+                    //這邊要寫判斷式 若為年底時月份的給予及年份的變換
+                    switch (days.type) {
+                        case 'this':
+                            // console.log('本月');
+                            result = `${this.chose_year}-${this.addzero(this.chose_month)}-${days.date}`
+                            break;
+                        case 'last':
+                            // console.log('上月');
+                            if(this.chose_month === 1){//若本月為1月，那上月就會是去年12月
+                                result = `${this.chose_year - 1}-${this.addzero(12)}-${days.date}`
+                            }else{
+                                result = `${this.chose_year}-${this.addzero(this.chose_month - 1)}-${days.date}`
+                            };
+                            break;
+                        case 'next':
+                            // console.log('次月');
+                            if(this.chose_month === 12){//若本月為12月 那麼次月就會是明年一月
+                                result = `${this.chose_year + 1}-${'01'}-${days.date}`
+                            }else{
+                                result = `${this.chose_year}-${this.addzero(this.chose_month + 1)}-${days.date}`
+                            }
+                            break;
+                    }
+                    this.$emit('add_date',result);
+                },
+                next_month(){
+                    if(this.chose_month ===12){
+                        this.chose_month = 1;
+                        this.chose_year += 1;
+                    }else{
+                        this.chose_month += 1;
+                    }
+                    this.aset_date();
+                },
+                last_month(){
+                    if(this.chose_month ===1){
+                        this.chose_month = 12;
+                        this.chose_year -= 1;
+                    }else{
+                        this.chose_month -= 1;
+                    }
+                    this.aset_date();
+                },
+            },
+        });
+
+        app.mount('.wrap');
+    </script>
+</body>
+
+</html>

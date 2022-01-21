@@ -1,0 +1,97 @@
+
+*
+{
+    margin: 0;padding: 0;
+}
+
+li
+{
+    list-style: none;
+}
+
+.tw_calender
+{
+    // position: absolute !important;
+    // top: 64px !important;
+    // left: 8px;
+    display: block !important;
+    width: 250px !important;
+    height: 220px !important;
+    background: #fff !important;
+    // box-shadow: 1px 1px 1px 1px #c3c3c3 !important;
+    z-index: 1090 !important;
+    .tw_calender_header
+    {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        // border-bottom: 1px solid #c3c3c3 !important;
+        select
+        {
+            width: 60px !important ;
+            outline: none !important ;
+            border: none !important ;
+            appearance: auto;
+            background: white;
+            box-shadow: 1px 1px 3px 1px #c3c3c3 !important ;
+        }
+        .next,.last
+        {
+            cursor: pointer;
+            padding: 0 3.5px;
+        }
+        
+    }
+    .tw_calender_main
+    {
+        // position: relative;
+        // left: 8px;
+        .week_list
+        {
+            margin-top: 10px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            p
+            {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 35.6px;
+            }
+            .sat
+            {
+                color: #60b4e4;
+            }
+            .sun
+            {
+                color: #e52c17;
+            }
+        }
+        ul
+        {
+            display: flex !important;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap !important;
+            width: 100%;
+            li
+            {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 5px 0px !important;
+                width: 35.6px !important;
+                cursor: pointer !important;
+            }
+            li:hover
+            {
+                background: #e8f0ff!important;
+            }
+            .isLast,.isNext
+            {
+                color: #cac0c0;
+            }
+        }
+    }
+}
