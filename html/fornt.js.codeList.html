@@ -92,18 +92,19 @@
     //或是可以用於插入(第幾筆開始,0,插入資料)
     //因為是新增插入所以刪除為0筆
     Array.<span class="fn2">pop()</span>//刪除陣列最後一筆並回傳陣列最後一筆
+    Array.<span class="fn2">shift()</span>//刪除陣列第一筆並回傳陣列第一筆資料 與上方的pop為相反的動作
     Array.<span class="fn2">join('指定字串')</span>//將陣列中元素、物件以('指定字串連接')並且轉為字串
     Array.<span class="fn">length</span>//陣列數量總數
     Array.<span class="fn2">concat</span>(array)//陣列串接
     Array.<span class="fn2">from()</span>//類陣列轉為陣列
-    Array.<span class="fn2">filter(<span class="def"><span class="var">function</span>(<span class="fn">iteams</span>){
-        <span class="var">return</span> iteams == 1;//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到iteams
+    Array.<span class="fn2">filter(<span class="def"><span class="var">function</span>(<span class="fn">item</span>){
+        <span class="var">return</span> item == 1;//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到item
     }</span>)</span>//取函式內的值並一一的代入參數中 會回傳符合的陣列
-    Array.<span class="fn2">map(<span class="def"><span class="var">function</span>(<span class="fn">iteams</span>){
-        console.log(<span class="fn">iteams</span>);//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到iteams
-    }</span>)</span>//與filter相似 差別是原先陣列內有幾個值或物件就回傳相同的數量
-    Array.<span class="fn2">forEach(<span class="def"><span class="var">function</span>(<span class="fn">iteams</span>,<span class="fn">i</span>){
-        console.log(<span class="fn">iteams</span>);//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到iteams
+    Array.<span class="fn2">map(<span class="def"><span class="var">function</span>(<span class="fn">item</span>){
+        <span class="var">item *2</span>;//假設陣列值是[1,2,3],那就會自動使用for一一地將值給取出到item並計算，之後回傳計算完成的ary
+    }</span>)</span>    
+    Array.<span class="fn2">forEach(<span class="def"><span class="var">function</span>(<span class="fn">item</span>,<span class="fn">i</span>){
+        console.log(<span class="fn">item</span>);//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到item
                             //而i這個參數則是值在陣列內的順序編號 呈上拿a來舉例就是 Array[1]
     }</span>)</span>//與前兩者的差別是純執行不會回傳任何值
     Strings.<span class="fn2">split('.')</span>//將字串以('')中的字串做分割並組成陣列
