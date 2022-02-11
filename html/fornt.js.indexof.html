@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/html.css">
+    <title>Holdkibor</title>
+    <link rel="shortcut icon" href="../img/logotitleIcon.png">
+    <meta name='description' content='Holdkibor本網為程式代碼分享交流及個人用，撰寫關於自身對程式語言心得及作品集' />
+    <meta property="og:title" content="HoldKibor Web程式語言分享網站">
+    <meta property="og:description" content="Holdkibor本網為程式代碼分享交流及個人用，撰寫關於自身對程式語言心得及作品集'">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chiyum.github.io/holdkibor/index.html">
+    <meta property="og:image" content="https://chiyum.github.io/holdkibor/img/logo.png">
+    <link href="../img/logo_icon.png" rel="apple-touch-icon" />
+    <meta name="keywords" content="Holdkibor, holdkibor, JQuery, Javascript, HTML, JS, CSS">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../img/logo.png" alt="logo">
+                    Holdkibor
+                </a>
+            </div>
+            <ul class="nav">
+                <li style="--i:1">
+                    <a href="../index.html" class="top">首頁</a>
+                    <div></div>
+                    <a href="../index.html" class="bottom">Home</a>
+                </li>
+                <li style="--i:2">
+                    <a href="./fornt.html" class="top">前端語言</a>
+                    <div></div>
+                    <a href="./fornt.html" class="bottom">front</a>
+                </li>
+                <li style="--i:3">
+                    <a href="./end.html" class="top">後端語言</a>
+                    <div></div>
+                    <a href="./end.html" class="bottom">back</a>
+                </li>
+                <li style="--i:4">
+                    <a href="./api.html" class="top">語言插件</a>
+                    <div></div>
+                    <a href="./api.html" class="bottom">API</a>
+                </li>
+                <li style="--i:5">
+                    <a href="./about.html" class="top">關於我們</a>
+                    <div></div>
+                    <a href="./about.html" class="bottom">about</a>
+                </li>
+            </ul>
+            <div class="mobile_btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="content">
+                <div class="address">
+                    <a href="./fornt.html">
+                        <ion-icon name="bookmarks-outline"></ion-icon>前端
+                    </a>
+                    <a href="./fornt.js.html">
+                        > JavaScript
+                    </a>
+                    <a href="./fornt.js.indexof.html">
+                        > 使用indexOf找尋相關的關鍵字及多條件篩選演算法
+                    </a>
+                    <p>2022-02-11</p>
+                </div>
+                <div class="article">
+                    <h2>使用indexOf找尋相關的關鍵字及多條件篩選演算法</h2>
+                    <p>
+                        如標題，此篇介紹使用indexOf找尋字串中是否有符合的關鍵字。例如在"蘋果"這個字串內，是否有果這個字。
+                    </p>
+                    <p>
+                        通常這個方法會用在篩選或是搜尋資料用。那我們廢話不多說直接上code。
+                    </p>
+                    <pre class="code">
+    <span class="var"> const</span> datas = [
+        {
+            id:'1',
+            text:'蘋果',
+            isfresh:false
+        },
+        {
+            id:'1',
+            text:'鳳梨',
+            isfresh:true
+        },
+        {
+            id:'1',
+            text:'香蕉',
+            isfresh:false
+        },
+    ];
+</pre>
+<p>此次演算法的用途是篩選object內的text，取得有符合的obj</p>
+            <pre class="code">
+    <span class="var">function</span> <span class="fn2">text_filter</span>(ary,keyword){//ary為篩選array keyword為關鍵字
+        <span class="var">let</span> temp = [];//佔存用array
+        <span class="fn">ary</span>.<span class="fn2">forEach</span>( data => {//array執行for 目的是抓取每個object
+            <span class="var">if</span>(data.text.indexOf(keyword) !== -1){//利用indexOf 沒找到會回傳-1的特性抓出有符合的資料
+                temp.<span class="fn2">push</span>(data);//上傳到佔存array
+            };
+        });
+        <span class="var">return</span> temp;//將資料回傳
+    };
+    <span class="var">let</span> get = text_filter(datas,<span class="str">'果'</span>);
+    console.log(get);//回傳蘋果的object
+</pre>
+<p>以上的演算法還可以更進一步的應用，接下來的演算法為多條件演算法。用於取得符合多個條件的資料。一樣使用上方的datas陣列進行篩選</p>
+    <pre class="code">
+    <span class="var">function</span> filters(ary,keywrod ='',boolean=''){//ary篩選的array keyword關鍵字 boolean為布林篩選判斷
+        <span class="var">let</span> temp = []
+        ary.<span class="fn2">forEach</span>( data => {
+            <span class="fn">data.leave</span> = true;//預設為true 表示符合
+            <span class="fn">data.leave</span> = <span class="fn">data.leave</span> && (keywrod ===<span class="str">''</span>||<span class="fn">data.text</span>.<span class="fn2">indexOf</span>(keywrod) !== -1) ? true:false;
+            //leave表示符合的留下，用於之後取得用符合的資料用。
+            //這次我們使用三元運算子來進行判斷，若符合則回傳true，不符合則false
+            //之所以會使用data.leave && (...)原因是若前一個條件已經判斷false，那就表示該筆資料不符合，也就不需要再浪費記憶體進行後續判斷
+            //而()內使用keyword的原因是因為，有時候只需要判斷一個值，並非需要每個都判斷。若此筆不需要判斷則直接回傳true
+            //data.indexOf(data.text)則就是上一筆的判斷內容，若有符合的關鍵字回傳true
+            <span class="fn">data.leave</span> = <span class="fn">data.leave</span> && (boolean ===<span class="str">''</span>||<span class="fn">data.isfresh</span> == boolean) ? true:false;
+            //這邊不使用indexOf的原因是我們只有兩個狀態需要去判斷而非要搜尋關鍵字，所以直接使用比較運算子"=="下去判斷即可。
+            //而isfresh == boolean沒有使用嚴格判斷是因為，通常篩選的值會從select或input標籤回傳，而這些回傳的value都會是字串。
+            //所以若使用 嚴格判斷的話會是這種情況 'true' === true。如此一定會回傳false
+            //那我個人的使用方法就是搭配0,1並搭配非嚴格判斷 因為0在非嚴格判斷下會轉代表false 而1則是true
+            <span class="var">if</span>(<span class="fn">data.leave</span>){//若最後依然有通過多個條件判斷的話
+                temp.push(data);//將資料push上佔存的array
+            }
+        });
+        <span class="var">return</span> temp;//將篩選完的資料回傳
+    };
+    //以上方法並非最優解，甚至有些多餘的code。但主要是因為個人的一些專案是不需要使用後須輸出，而是只要在原先的ary改變狀態而已，所以才使用這些方法
+    //因為本次示範的程式碼是要輸出到console.log。所以後面才會多一個判斷並單獨取出符合的資料。
+    <span class="fn2">filters</span>(datas,'鳳',1);//鳳梨 isfresh為true 且有鳳字
+    <span class="fn2">filters</span>(datas,'鳳',0);//街不符合回傳空陣列
+    <span class="fn2">filters</span>(datas,'果');//只判斷其中之一的條件，回傳蘋果的object
+</pre>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="contact">
+                <div class="logoFt">
+                    <a href="../index.html">
+                        <ion-icon name="star" class="icon"></ion-icon>
+                        <p>HoldKibor</p>
+                    </a>
+                </div>
+                <div class="massage">
+                    <a href="https://www.instagram.com/witcher0512/">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                        <p>Contact</p>
+                    </a>
+                </div>
+                <div class="mail">
+                    <a href="mailto:qcc870712@gmail.com">
+                        <ion-icon name="mail" class="icon"></ion-icon>
+                        <p>qcc870712@gmail.com</p>
+                    </a>
+                </div>
+            </div>
+            <div class="news">
+                <ul>
+                    <li>相關網站:</li>
+                    <li><a href="https://codepen.io/georgepray">CodePen</a></li>
+                    <li><a href="https://chiyum.github.io/testweb/">瑞展工程行</a></li>
+                    <li><a href="https://chiyum.github.io/restaurant/">ゆう海鮮 kaisen Yuu</a></li>
+                    <li><a href="https://chiyum.github.io/pesticide/">農藥稀釋比例計算網站</a></li>
+                </ul>
+                <p>
+                    <img src="../img/logoWhite.png" alt="logo">
+                    <br>
+                    <span>Copyright © 2021 Holdkibor.All rights reserved.</span>
+                    <span class="mobile_copyright">
+                        Copyright © 2021 Holdkibor.
+                        <br>
+                        All rights reserved.
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="mobile_nav">
+            <div class="close_nav">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </div>
+            <ul class="m_nav">
+                <li>
+                    <a href="../index.html" class="top" data-text="首頁">首頁</a>
+                </li>
+                <li>
+                    <a href="./fornt.html" class="top" data-text="前端語言">前端語言</a>
+                </li>
+                <li>
+                    <a href="./end.html" class="top" data-text="後端語言">後端語言</a>
+                </li>
+                <li>
+                    <a href="./api.html" class="top" data-text="語言插件">語言插件</a>
+                </li>
+                <li>
+                    <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
+                </li>
+        </div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="../js/html.js"></script>
+    <!-- <script>
+
+        let datas = [
+          {
+              id:'1',
+              text:'蘋果',
+              isfresh:false
+          },
+          {
+              id:'1',
+              text:'鳳梨',
+              isfresh:true
+          },
+          {
+              id:'1',
+              text:'香蕉',
+              isfresh:false
+          },
+        ];
+
+        function filters(ary,keywrod ='',boolean=''){//ary篩選的array keyword關鍵字 boolean為布林篩選判斷
+            let temp = []
+            ary.forEach( data => {
+                data.leave = true;//預設為true 表示符合
+                data.leave = data.leave && (keywrod ===''|| data.text.indexOf(keywrod) !== -1) ? true:false;
+                //leave表示符合的留下，用於之後取得用符合的資料用。
+                //這次我們使用三元運算子來進行判斷，若符合則回傳true，不符合則false
+                //之所以會使用data.leave && (...)原因是若前一個條件已經判斷false，那就表示該筆資料不符合，也就不需要再浪費記憶體進行後續判斷
+                //而()內使用keyword的原因是因為，有時候只需要判斷一個值，並非需要每個都判斷。若此筆不需要判斷則直接回傳true
+                //data.indexOf(data.text)則就是上一筆的判斷內容，若有符合的關鍵字回傳true
+                data.leave = data.leave && (boolean ===''||data.isfresh == boolean) ? true:false;
+                //這邊不使用indexOf的原因是我們只有兩個狀態需要去判斷而非要搜尋關鍵字，所以直接使用比較運算子"=="下去判斷即可。
+                //而isfresh == boolean沒有使用嚴格判斷是因為，通常篩選的值會從select或input標籤回傳，而這些回傳的value都會是字串。
+                //所以若使用 嚴格判斷的話會是這種情況 'true' === true。如此一定會回傳false
+                //那我個人的使用方法就是搭配0,1並搭配非嚴格判斷 因為0在非嚴格判斷下會轉代表false 而1則是true
+                if(data.leave){//若最後依然有通過多個條件判斷的話
+                    temp.push(data);//將資料push上佔存的array
+                }
+            });
+            console.log(temp)
+            return temp;//回傳篩選完的值
+        };
+        //以上方法並非最優解，甚至有些多餘的code。但主要是因為個人的一些專案是不需要使用後須輸出，而是只要在原先的ary改變狀態而已，所以才使用這些方法
+        //因為本次示範的程式碼是要輸出到console.log。所以後面才會多一個判斷並單獨取出符合的資料。
+        filters(datas,'鳳',1);//鳳梨 isfresh為true 且有鳳字
+        filters(datas,'鳳',0);//街不符合回傳空陣列
+        filters(datas,'果');//只判斷其中之一的條件，回傳蘋果的object
+    </script> -->
+</body>
+
+</html>

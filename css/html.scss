@@ -300,10 +300,11 @@ li{list-style: none;}
                        display: flex;
                        position: relative;
                        padding: 5px;
-                       img
-                       {
+                        img
+                        {
                             height: 220px;
                             width: 35%;
+                            max-width: 550px;
                         }
                         div
                         {

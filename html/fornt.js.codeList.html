@@ -96,12 +96,15 @@
     Array.<span class="fn2">join('指定字串')</span>//將陣列中元素、物件以('指定字串連接')並且轉為字串
     Array.<span class="fn">length</span>//陣列數量總數
     Array.<span class="fn2">concat</span>(array)//陣列串接
-    Array.<span class="fn2">from()</span>//類陣列轉為陣列
+    Array.<span class="fn2">includes</span>(判斷的內容)//判斷陣列是否包含特定的元素，並以此來回傳 true 或 false。
+    Array.<span class="fn2">indexOf</span>(判斷的內容)//回傳元素中第一個被找到的索引值，若不存在則回傳-1
+    //除了可用在ary外，亦可使用在字串，String.indexOf('判斷字串')。會回傳字串內判斷字串的索引位置，通常用於尋找關鍵字。可以參考我這邊文章<a href="fornt.js.indexof.html" style="color:#9ec5ed">點我前往</a>
+    Array.<span class="fn2">from(類陣列)</span>//類陣列轉為陣列
     Array.<span class="fn2">filter(<span class="def"><span class="var">function</span>(<span class="fn">item</span>){
         <span class="var">return</span> item == 1;//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到item
     }</span>)</span>//取函式內的值並一一的代入參數中 會回傳符合的陣列
     Array.<span class="fn2">map(<span class="def"><span class="var">function</span>(<span class="fn">item</span>){
-        <span class="var">item *2</span>;//假設陣列值是[1,2,3],那就會自動使用for一一地將值給取出到item並計算，之後回傳計算完成的ary
+        <span class="var">return</span>item * 2;//假設陣列值是[1,2,3],那就會自動使用for一一地將值給取出到item並計算，之後回傳計算完成的ary
     }</span>)</span>    
     Array.<span class="fn2">forEach(<span class="def"><span class="var">function</span>(<span class="fn">item</span>,<span class="fn">i</span>){
         console.log(<span class="fn">item</span>);//假設陣列值是[1,a,z],那就會自動使用for一一地將值給取出到item
