@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/html.css">
+    <title>Holdkibor</title>
+    <link rel="shortcut icon" href="../img/logotitleIcon.png">
+    <meta name='description' content='Holdkibor本網為程式代碼分享交流及個人用，撰寫關於自身對程式語言心得及作品集' />
+    <meta property="og:title" content="HoldKibor Web程式語言分享網站">
+    <meta property="og:description" content="Holdkibor本網為程式代碼分享交流及個人用，撰寫關於自身對程式語言心得及作品集'">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://chiyum.github.io/holdkibor/index.html">
+    <meta property="og:image" content="https://chiyum.github.io/holdkibor/img/logo.png">
+    <link href="../img/logo_icon.png" rel="apple-touch-icon" />
+    <meta name="keywords" content="Holdkibor, holdkibor, JQuery, Javascript, HTML, JS, CSS">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <a href="../index.html">
+                    <img src="../img/logo.png" alt="logo">
+                    Holdkibor
+                </a>
+            </div>
+            <ul class="nav">
+                <li style="--i:1">
+                    <a href="../index.html" class="top">首頁</a>
+                    <div></div>
+                    <a href="../index.html" class="bottom">Home</a>
+                </li>
+                <li style="--i:2">
+                    <a href="./fornt.html" class="top">前端語言</a>
+                    <div></div>
+                    <a href="./fornt.html" class="bottom">front</a>
+                </li>
+                <li style="--i:3">
+                    <a href="./end.html" class="top">後端語言</a>
+                    <div></div>
+                    <a href="./end.html" class="bottom">back</a>
+                </li>
+                <li style="--i:4">
+                    <a href="./api.html" class="top">語言插件</a>
+                    <div></div>
+                    <a href="./api.html" class="bottom">API</a>
+                </li>
+                <li style="--i:5">
+                    <a href="./about.html" class="top">關於我們</a>
+                    <div></div>
+                    <a href="./about.html" class="bottom">about</a>
+                </li>
+            </ul>
+            <div class="mobile_btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="content">
+                <div class="address">
+                    <a href="./fornt.html">
+                        <ion-icon name="bookmarks-outline"></ion-icon>前端
+                    </a>
+                    <a href="./fornt.js.html">
+                        > JavaScript
+                    </a>
+                    <a href="./fornt.js.fontAry.html">
+                        > vue
+                    </a>
+                    <a href="./fornt.vue.element.html">
+                        > vue元件介紹
+                    </a>
+                    <p>2022-02-14</p>
+                </div>
+                <div class="article">
+                    <h2>vue元件的介紹</h2>
+                    <p>本章介紹元件及相應的用法</p>
+                    <p>元件聽起來很抽象，但是以白話來說的話就是將每個區塊給分開管理。</p>
+                    <p>每個區塊都有各自的模板、樣式、功能並且可以被重複利用，也就是有可複用性。</p>
+                    <p>拿HTML結構來說，我們會將網頁結構分成header、content(main)、footer的概念是相似的，只不過換成了js而已</p>
+                    <img src="../img/element.png"  alt="">
+                    <h3>元件化的原因</h3>
+                    <p>思考一下我們將網頁結構分成三個大區塊的原因是甚麼?</p>
+                    <p>最大的原因就是因為便於管理，讓各個區塊發揮該有的功能。</p>
+                    <p>拿head來說，head通常是放置nav也就是連結至各分頁的選單。</p>
+                    <p>因此每當我們要修改分頁連結時，基本上都只會對head進行修改，而不是對main。因為該功能是屬於head。</p>
+                    <p>而這正是元件的概念之一，甚麼區塊負責甚麼功能。當然這只不過是元件其中之一的特性而已。</p>
+                    <h3>元件的特性</h3>
+                    <ul class="list">
+                        <li>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            增加程式碼的可複用性
+                        </li>
+                        <li>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            便於管理修改
+                        </li>
+                        <li>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            元件功能獨立化
+                        </li>
+                    </ul>
+                    <h5>增加程式碼的可複用性</h5>
+                    <p>vue元件除了區塊各自管理外，甚至可以在兩個不同的地方使用同一個元件，也就是說你只要撰寫一次程式碼你就可以使用在兩個地方。</p>
+                    <p>而這就是可複用性，撰寫的程式碼不是單單只用於某一個區塊而是有些通用性。如此一來便可以簡化程式碼，避免檔案大小過大及code數太長的問題。</p>
+                    <h5>便於管理及修改</h5>
+                    <p>接續上面所說明的功能，元件通用性讓元件可以應用於不同的區塊，這也就說明了兩個區塊是共用著一個元件。</p>
+                    <p>那麼當我們有修改功能的需求時，我們只要修改一個地方就好，不需要再將每個區塊的程式碼在拿出來一一修改。便於管理就是說這部分。</p>
+                    <h5>元件功能獨立化</h5>
+                    <p>顧名思義，就是每個元件有每個元件的獨立功能。</p>
+                    <p>假設有個側欄需要每隔一段時間就打一隻api來更新列表，代表我們要更動的部分只有側欄，其他部分不需要有任何操作及變動。</p>
+                    <p>如此我們只要在側欄元件進行api的操作，就不需要所有的程式碼都同步的進行更動而造成記憶體的佔用。</p>
+                    <p>另外每一個元件的資料都是各自獨立的。</p>
+                    <p>假設今天head元件有一個num的變數，其變數的值是10。但我在footer也有一個num的變數是100，兩者若不串接，資料是不會相通的。也就不會造成變數衝突的可能。</p>
+                    <p>ps.雖然兩個元件之間的資料是獨立的，但不代表無法進行傳遞及串接。這部分請看後續的說明。</p>
+                    <h3>註冊元件</h3>
+                    <p>說明元件的傳遞之前，我們得先了解元件是如何建構和使用的。</p>
+                    <p>首先當我們要使用元件時，就需要去建立元件，這個動作被稱為註冊。而註冊元件有幾個要點需要去注意及了解。</p>
+                    <ul class="list">
+                        <li>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            元件結構與根結構基本上無異，只差在一個template的屬性。
+                        </li>
+                        <li>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            元件需要指定一個名稱。
+                        </li>
+                        <li>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            元件需要放置在createApp後mount前
+                        </li>
+                        <li>
+                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
+                            元件可以溝通傳遞，共分為兩個模式。props及emit。
+                        </li>
+                    </ul>
+                    <h5>元件結構與根結構基本上無異，只差在一個template的屬性。</h5>
+                    <p>createApp其實就是一個大元件，通常被稱為根元件。其他元件都是依附在根元件底下，我們這裡稱呼為子元件。</p>
+                    <p>根元件及子元件同為元件自然也就不會有待多的差別，子元件只比根元件多一個template屬性，其他的功能與根元件並無差別。</p>
+                    <h5>元件需要指定一個名稱</h5>
+                    <p>子元件可以有很多個，每個元件都有每個元件不同的功能，所以我們需要藉由命名來區分這些元件並加以使用。</p>
+                    <h5>元件需要放置在createApp後mount前</h5>
+                    <p>子元件都是依附在根元件底下，而我們要決定根元件要使用那些子元件時就必須將子元件插入在兩者之間。</p>
+                    <h5>元件之間的傳遞溝通</h5>
+                    <p>元件之間是可以進行資料傳遞的，分別為props由外部向內傳遞以及emit由內部向外發送。</p>
+                    <p>props及emit的用法有一些區別。props是資料傳遞，而emit雖然也可以傳遞資料，但本身其實是事件。</p>
+                    
+                    <!-- <h3>元件間的溝通傳遞</h3>
+                    <p>剛才提到兩個元件的資料是各自獨立的，但那並不代表兩者不能夠進行資料的傳遞及事件的觸發。</p>
+                    <p>元件之間的資料傳遞共分為兩個模式，props及emit，分別是由外部向內部傳遞及內部往外部發送資料。</p> -->
+                    
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="contact">
+                <div class="logoFt">
+                    <a href="../index.html">
+                        <ion-icon name="star" class="icon"></ion-icon>
+                        <p>HoldKibor</p>
+                    </a>
+                </div>
+                <div class="massage">
+                    <a href="https://www.instagram.com/witcher0512/">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                        <p>Contact</p>
+                    </a>
+                </div>
+                <div class="mail">
+                    <a href="mailto:qcc870712@gmail.com">
+                        <ion-icon name="mail" class="icon"></ion-icon>
+                        <p>qcc870712@gmail.com</p>
+                    </a>
+                </div>
+            </div>
+            <div class="news">
+                <ul>
+                    <li>相關網站:</li>
+                    <li><a href="https://codepen.io/georgepray">CodePen</a></li>
+                    <li><a href="https://chiyum.github.io/testweb/">瑞展工程行</a></li>
+                    <li><a href="https://chiyum.github.io/restaurant/">ゆう海鮮 kaisen Yuu</a></li>
+                    <li><a href="https://chiyum.github.io/pesticide/">農藥稀釋比例計算網站</a></li>
+                </ul>
+                <p>
+                    <img src="../img/logoWhite.png" alt="logo">
+                    <br>
+                    <span>Copyright © 2021 Holdkibor.All rights reserved.</span>
+                    <span class="mobile_copyright">
+                        Copyright © 2021 Holdkibor.
+                        <br>
+                        All rights reserved.
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="mobile_nav">
+            <div class="close_nav">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </div>
+            <ul class="m_nav">
+                <li>
+                    <a href="../index.html" class="top" data-text="首頁">首頁</a>
+                </li>
+                <li>
+                    <a href="./fornt.html" class="top" data-text="前端語言">前端語言</a>
+                </li>
+                <li>
+                    <a href="./end.html" class="top" data-text="後端語言">後端語言</a>
+                </li>
+                <li>
+                    <a href="./api.html" class="top" data-text="語言插件">語言插件</a>
+                </li>
+                <li>
+                    <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
+                </li>
+        </div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="../js/html.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.18/dist/vue.global.min.js"></script>
+
+</body>
+
+</html>

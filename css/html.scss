@@ -190,6 +190,15 @@ li{list-style: none;}
                    max-width: 100%;
                 //    width: 100%;
                }
+               .pic
+                {
+                    display: block;
+                    margin: 1.5rem auto;
+                    border: 1px solid #eee;
+                    max-width: 90%;
+                    height: auto;
+                    max-height: 600px;
+                }
                h2
                {
                    font-size: 28px;
@@ -207,6 +216,7 @@ li{list-style: none;}
                }
                h5
                {
+                   margin: 10px 0;
                    font-size: 0.97em;
                 //    color: #98c379 ;
                }
@@ -287,6 +297,13 @@ li{list-style: none;}
                     background-color: white;
                     text-align: center;
                 }
+           }
+           .list
+           {
+               padding: 20px 0;
+               margin: 0;
+               padding: 0;
+               border: none;
            }
            ul
            {

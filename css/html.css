@@ -237,6 +237,15 @@ li {
   max-width: 100%;
 }
 
+.container .main .content .article .pic {
+  display: block;
+  margin: 1.5rem auto;
+  border: 1px solid #eee;
+  max-width: 90%;
+  height: auto;
+  max-height: 600px;
+}
+
 .container .main .content .article h2 {
   font-size: 28px;
   margin-bottom: 20px;
@@ -253,6 +262,7 @@ li {
 }
 
 .container .main .content .article h5 {
+  margin: 10px 0;
   font-size: 0.97em;
 }
 
@@ -334,6 +344,13 @@ li {
   border-radius: 10px;
   background-color: white;
   text-align: center;
+}
+
+.container .main .content .list {
+  padding: 20px 0;
+  margin: 0;
+  padding: 0;
+  border: none;
 }
 
 .container .main .content ul {

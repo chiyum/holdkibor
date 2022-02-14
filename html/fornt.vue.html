@@ -19,7 +19,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="vuelistId">
         <div class="header">
             <div class="logo">
                 <a href="../index.html">
@@ -68,7 +68,16 @@
                     </a>
                 </div>
                 <ul>
-                    <li>
+                    <li v-for="(item,index) in list" :key="index">
+                        <a href="#">
+                            <img :src="item.imgUrl" alt="" class="htmlList">
+                            <div>
+                                <h2>{{ item.title }}</h2>
+                                <p>{{ item.text }}</p>
+                            </div>
+                        </a>
+                    </li>
+                    <!-- <li>
                         <a href="#">
                             <img src="../img/vuelist.js.jpg" alt="" class="htmlList">
                             <div>
@@ -103,7 +112,7 @@
                                 <p>透過v-model讓input的value讓資料與資料儲存區雙向綁定，從此不必在使用傳統的innerHTML來渲染畫面了</p>
                             </div>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -169,12 +178,53 @@
                     <a href="./about.html" class="top" data-text="關於我們">關於我們</a>
                 </li>
         </div>
-        <div class="gotop active"><ion-icon name="arrow-up-outline"></ion-icon></div>
+        <div class="gotop active">
+            <ion-icon name="arrow-up-outline"></ion-icon>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.18/dist/vue.global.min.js"></script>
     <script src="../js/html.js"></script>
+    <script>
+        const vuelistData = [
+            {
+                imgUrl: '../img/vuelist.img4.jpg',
+                url: './fornt.vue.element.html',
+                title: 'vue元件章節',
+                text: `此章會介紹vue元件及相關用法，對於剛入門的編譯者對於元件這塊可能比較陌生，但其實元件這個功能可是大有用處...`,
+            },
+            {
+                imgUrl: '../img/vuelist.img2.jpg',
+                url: './fornt.vue.element.html',
+                title: 'vue元件章節',
+                text: `此章會介紹vue元件及相關用法，對於剛入門的編譯者對於元件這塊可能比較陌生，但其實元件這個功能可是大有用處...`,
+            },
+            {
+                imgUrl: '../img/vuelist.img1.jpg',
+                url: './fornt.vue.element.html',
+                title: 'vue元件章節',
+                text: `此章會介紹vue元件及相關用法，對於剛入門的編譯者對於元件這塊可能比較陌生，但其實元件這個功能可是大有用處...`,
+            },
+        ];
+
+        const vuelist = Vue.createApp({//vue列表的元件
+            data() {
+                return {
+                    list: [],
+                }
+            },
+            created() {
+                this.list = vuelistData;
+            },
+            methods: {
+
+            },
+        })
+
+        vuelist.mount('.container')
+    </script>
 </body>
 
 </html>

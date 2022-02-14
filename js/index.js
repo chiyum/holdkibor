@@ -82,3 +82,5 @@ index_go_html[2].addEventListener('click',function(){
 });
 
 
+// vue 列表
+
