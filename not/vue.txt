@@ -2216,3 +2216,148 @@ ol.元件:
                 }
 
                 如此便完成了傳遞。若是不需要傳遞資訊則省略$emit後面的元件資料即可
+
+
+slot 差巢:
+    slot差巢的用意是在根元件內插入一項可以由根元件控制的區塊，好處是此區塊是屬於根元件，不需要透過props或是emit即可操作。
+    那如何操作呢?
+
+    js部分:
+
+    app.component('test',{
+        template:`
+        <div>
+            <slot></slot>//js部分只需要在子元件內插入一個slot標籤即可
+        </div>
+        `
+    })
+
+    html:
+
+    <test>
+        <p>外部區塊控制文字</p>
+        //在html的部分就可以直接插入我們想要的標籤及內容
+        //外部的p標籤插入的位置就會是子元件中slot插入的位置
+    </test>
+
+    預設值:
+    有時候使用slot時，外層並不會有資料的話，那就可以使用預設值。當外層沒有插入內容，就會使用slot的預設值。
+    而預設值設定也很簡單，只需要在slot標籤中加入想要的標籤即可。
+    <slot>
+        <p>預設值文字</p>
+    </slot>
+
+
+    多個差巢(slot):
+    如果說想要一次在元件內插入多個slot也沒有問題，但如果有多個slot就需要有名稱來讓系統判別哪個slot要插在哪個部分。
+    js部分:
+
+    app.component('test',{
+        template:`
+        <div>
+            <slot name="head"></slot>//在slot的標籤使用name屬性給予系統判斷的標準
+            <slot ></slot>//若沒有填寫則為預設 對應外部的defualt名稱
+            <slot name="footer"></slot>
+        </div>
+        `
+    })
+
+    html:
+
+    <test>
+        <div v-slot:head><div>//標籤部分使用v-slot來給予對應名稱
+        <div v-slot:default><div>//若沒有填寫的slot對應此標籤
+        <div #footer><div>//v-slot的縮寫
+    </test>
+
+
+    slot的props:
+    slot也可以使用props來獲取包裹著slot子元件的資料，原理與普通的props一樣，只是用法些許不同。
+    ps.在實戰中較少使用。
+
+    js:
+    app.component('test',{
+        data(){
+            return{
+                text:'子元件文字'
+            },
+        }
+        template:`
+        <div>
+            <slot :test="text"></slot>
+            //一樣是前內後外 這邊的前代表slot 後則是表子元件的資料
+        </div>
+        `
+    })
+
+    html:
+
+    <div v-lost="default="test_text">//因為只有一個所以是預設值default 而test_text則是自定義名稱 不需要去對應js中":test"的名稱還是能將"子元件文字"給帶出來
+    {{test_text}}//呈現"子元件文字"
+    </div>
+
+    預設值:
+    slot props也可以使用預設值 當偵測不到值就會使用預設內容
+    <div slot:default="test_text = '預設值文字'">
+        {{ test_text }}//若子元件的slot標籤移除 :test="text" 的話 那test_text就會顯示"預設值文字"
+    </div>
+    
+
+    mitt插件 跨元件傳遞資料:
+    在原生vue中只能使用props及emit傳遞資料，但這限於子父層的關係，沒有辦法讓兩個元件互相傳遞。
+    而若是要使用跨元件傳遞資料就必須透過mitt這個插件。ps.mitt插件不限於vue 
+    https://github.com/developit/mitt <<插件網址
+
+    用法如下:
+    
+    目標是將test1元件的文字傳送到test2元件中
+
+
+    <script>
+
+        import '插件網址';//引入mitt插件
+
+        const mitter = mitt();//自定義變數名稱開啟插件
+
+        const app = Vue.createApp({//建立根元件
+
+        })
+
+        app.component('test1',{
+            data(){
+                return{
+                    text:'test1文字'
+                }
+            },
+            methods:{
+                add_text(){//當觸發此事件時傳遞資料
+                    mitter.emit('add',this.text);//與vue的emit方式很像 add是自定義名稱 this.text是要傳送的資料 如此便完成發送的動作
+                },
+            }
+        })
+
+        app.component('test2',{
+            data(){
+                return{
+                    text:''
+                }
+            },
+            created(){//建議將接收的動作放在create 當我們建立這個元件時就馬上啟用
+                mitter.on('add',(data=>{//此add名稱是發送動作所定義的名稱 可以理解為出發地跟目的地的概念。接著後面接一個事件，類似axios的then 參數就是emit發送過來的資料
+                    console.log(data);//呈現傳送過來的資料
+                    this.text = data;//將船送過來的資料賦予到此元件的text變數中
+                }))
+            }
+
+        })
+
+        app.mount('#id')
+
+
+
+
+
+
+    </script>
+
+

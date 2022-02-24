@@ -123,37 +123,112 @@
                     <p>首先當我們要使用元件時，就需要去建立元件，這個動作被稱為註冊。而註冊元件有幾個要點需要去注意及了解。</p>
                     <ul class="list">
                         <li>
-                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
-                            元件結構與根結構基本上無異，只差在一個template的屬性。
+                            <ion-icon name="ellipse" class="li_icon" style="font-size: 10px;"></ion-icon>
+                            <span class="font_bold">元件結構與根結構基本上無異，只差在template屬性及props屬性。</span>
+                            <p>createApp其實就是一個大元件，通常被稱為根元件。其他元件都是依附在根元件底下，我們這裡稱呼為子元件。</p>
+                            <p>根元件及子元件同為元件自然也就不會有待多的差別，子元件只比根元件多個template屬性及傳遞用的props屬性，其他的功能與根元件並無差別。</p>
                         </li>
                         <li>
-                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
-                            元件需要指定一個名稱。
+                            <ion-icon name="ellipse" class="li_icon" style="font-size: 10px;"></ion-icon>
+                            <span class="font_bold">元件需要指定一個名稱。</span>
+                            <p>子元件可以有很多個，每個元件都有每個元件不同的功能，所以我們需要藉由命名來區分這些元件並加以使用。</p>
+
                         </li>
                         <li>
-                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
-                            元件需要放置在createApp後mount前
+                            <ion-icon name="ellipse" class="li_icon" style="font-size: 10px;"></ion-icon>
+                            <span class="font_bold">元件需要放置在createApp後mount前</span>
+                            <p>子元件都是依附在根元件底下，而我們要決定根元件要使用那些子元件時就必須將子元件插入在兩者之間。</p>
+
                         </li>
                         <li>
-                            <ion-icon name="ellipse" style="font-size: 10px;"></ion-icon>
-                            元件可以溝通傳遞，共分為兩個模式。props及emit。
+                            <ion-icon name="ellipse" class="li_icon" style="font-size: 10px;"></ion-icon>
+                            <span class="font_bold">元件可以溝通傳遞，共分為兩個模式。props及emit。</span>
+                            <p>元件之間是可以進行資料傳遞的，分別為props由外部向內傳遞以及emit由內部向外發送。</p>
+                            <p>props及emit的用法有一些區別。props是資料傳遞，而emit雖然也可以傳遞資料，但本身其實是事件。</p>
                         </li>
                     </ul>
-                    <h5>元件結構與根結構基本上無異，只差在一個template的屬性。</h5>
-                    <p>createApp其實就是一個大元件，通常被稱為根元件。其他元件都是依附在根元件底下，我們這裡稱呼為子元件。</p>
-                    <p>根元件及子元件同為元件自然也就不會有待多的差別，子元件只比根元件多一個template屬性，其他的功能與根元件並無差別。</p>
-                    <h5>元件需要指定一個名稱</h5>
-                    <p>子元件可以有很多個，每個元件都有每個元件不同的功能，所以我們需要藉由命名來區分這些元件並加以使用。</p>
-                    <h5>元件需要放置在createApp後mount前</h5>
-                    <p>子元件都是依附在根元件底下，而我們要決定根元件要使用那些子元件時就必須將子元件插入在兩者之間。</p>
-                    <h5>元件之間的傳遞溝通</h5>
-                    <p>元件之間是可以進行資料傳遞的，分別為props由外部向內傳遞以及emit由內部向外發送。</p>
-                    <p>props及emit的用法有一些區別。props是資料傳遞，而emit雖然也可以傳遞資料，但本身其實是事件。</p>
-                    
-                    <!-- <h3>元件間的溝通傳遞</h3>
-                    <p>剛才提到兩個元件的資料是各自獨立的，但那並不代表兩者不能夠進行資料的傳遞及事件的觸發。</p>
-                    <p>元件之間的資料傳遞共分為兩個模式，props及emit，分別是由外部向內部傳遞及內部往外部發送資料。</p> -->
-                    
+                    <h5>註冊元件js範例:</h5>
+                    <pre class="code">
+<span class="var">let</span> app = <span class="fn">Vue</span>.createApp({//主元件
+    <span class="fn2">data</span>(){
+        <span class="var">return</span>{
+            text:'測試文字',//此變數會使用props傳遞到子元件
+        }
+    },
+    <span class="fn">methods</span>:{
+        <span class="fn2">wrap_fn</span>(inside_data){//此function會在受到子元件驅動後觸發
+            console.log(inside)//inside_data則是子元件所發送的資料
+        },
+    }
+})
+
+app.<span class="fn2">component</span>('item',{//元件名稱為item
+    <span class="fn">template</span>:<span class="str">`&ltdiv&gt {{inside_text}} &lt/div&gt`</span>,
+    <span class="fn">props</span>:[inside_text],
+    //子元件接收其他元件的接收變數，外部傳入的資料會加入到指定變數中。數量可以有複數。這裡的變數在接收以後就等同於跟test變數一樣是歸屬在data內的變數。
+    //ps.除了陣列外，亦可使用物件來接收變數。使用物件來承接變數大多都是用來對接收資料做型別驗證。
+    <span class="fn2">data</span>(){
+        <span class="var">return</span>{
+            test:'內部文字',//前面有說過各個元件的資料是不會衝突的，但為了好釐清這邊我們就不使用重複的變數以免容易搞混。
+        }
+    },
+    <span class="fn">methods</span>:{
+        <span class="fn2">inside_fn</span>(){//內部的function 當觸發inside_fn的時候，觸發$emit這個function
+            $emit('add',this.test);//將觸發外層事件並將test資料傳遞至外層事件內 
+        },
+    }
+})
+//元件在mount前createApp後
+
+app.<span class="fn2">mount</span>('#id');
+</pre>
+                    <h5>註冊元件HTML範例:</h5>
+                    <pre class="code">
+&lt<span class="fn">body</span> id="id"&gt
+
+    &lt<span class="fn">item</span> inside_text="text" v-on:add="wrap_fn"&gt
+    //這邊有個口訣"前內後外"。意思是不管是props還是emit前面的變數(事件)為子元件，後面的則是外部接收(傳遞)的元件
+    //inside_text 為item元件的變數 text則是外部傳遞下來的變數資料
+    //v-on:add 是我們在js$emit('add')所命名的事件名稱歸屬於子元件，"wrap_fn"則是外部元件的function 當add觸發時會將資料給帶到wrap_fn的參數中並且觸發wrap_fn
+    &lt/<span class="fn">item</span>&gt
+
+&lt/<span class="fn">body</span>&gt
+</pre>
+                    <h3>全域註冊及區域註冊</h3>
+                    <p>介紹完基本的元件註冊，那我們可以來了解區域註冊與全域註冊了。</p>
+                    <p>全域註冊與區域註冊元件的差別在於，全域註冊是所有的元件都可以掛載指定子元件。常用於中小型的專案</p>
+                    <p>而區域註冊則是指能夠在指定掛載的元件上應用，其他的元件使用區域元件標籤時並不會有任何的效果及事件呈現及觸發。通常會搭配vue cil來寫較大型的專案</p>
+                    <h5>全域註冊的方法</h5>
+                    <p>其實剛才所示範基本的註冊方法正是全域註冊，所以只要了解剛才的範例，那就學會了全域註冊。</p>
+                    <h5>區域註冊</h5>
+                    <p>區域註冊跟全域註冊的方法有一些不同，但大部分來說還是一樣的。</p>
+                    <p>首先得在非Vue元件內建立一個物件，物件的內容就是元件</p>
+                    <pre class="code">
+        <span class="var">const</span> element = {
+        <span class="fn">template</span>:'',
+        props:[],//其實若沒有要傳輸資料，props就不需要。
+        mthods:{
+            ...
+        },
+    }
+</pre>
+                    <p>接著只需要在Vue元件新建一個components的object並將上方物件給加入到物件內即可</p>
+                    <pre class="code">
+    <span class="fn">Vue</span>.createApp({
+        data(){
+            return{
+
+            }
+        },
+        <span class="fn">components</span>:{
+            element,//利用es6的方法將物件加入components的物件中
+        }
+    })
+</pre>
+<p>如此element的元件就可以在指定的元件中生效。而元件標籤名稱則是element</p>
+<p>ps.若需要在非根元件使用區域註冊，那麼在template的內加入元件名稱的標籤即可</p>
+<h3>補充</h3>
+<p>透過上面的案例可以看到如何使用區域註冊，而除了在原本的檔案內建立物件外，也可以透過ES模組(module)的方式來引入元件</p>
                 </div>
             </div>
         </div>

@@ -359,6 +359,10 @@ li {
   border-top: 1px #d6d6d6 solid;
 }
 
+.container .main .content ul li {
+  margin: 10px 0;
+}
+
 .container .main .content ul li a {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -556,6 +560,15 @@ li {
 .container .mobile_nav ul li a:hover::before {
   opacity: 1;
   letter-spacing: 6px;
+}
+
+.font_bold {
+  font-weight: bold;
+}
+
+.li_icon {
+  position: relative;
+  bottom: 3px;
 }
 
 .line_center {

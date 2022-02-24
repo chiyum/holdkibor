@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const list = [
+            {
+                id:0,
+            },
+            {
+                id:1,
+                pid:0
+            },
+            {
+                id:2,
+                pid:0
+            },
+            {
+                id:3,
+                pid:1
+            },
+            {
+                id:4,
+                pid:2
+            },
+            {
+                id:5,
+                pid:0
+            },
+            {
+                id:6,
+                pid:5
+            },
+            {
+                id:7,
+                pid:6
+            },
+        ];
+
+        function give_level(ary,rootid){//rootid為第一層id
+            let finish = [],temp = [...ary];
+            //finish的陣列用來存放已進行level給予的ary
+            //temp則是未分配賦予level的ary
+            temp.forEach((element,index) => {//跑for找出root的obj
+                if(element.id === rootid){
+                    element.level = 1;//給予第一階level
+                    finish.push(element);//上傳root
+                    temp.splice(index,1);//刪除原陣列的該obj
+                }
+            });
+            while (temp.length) {//只要temp還有資料就執行
+                finish.forEach( p =>{//由finish下去進行總搜尋
+                    temp.forEach((obj,index) =>{//搜尋temp內是否有pid等於finish id的
+                        if(p.id === obj.pid){//若有的話
+                            obj.level = p.level + 1//給予比原先level + 1 
+                            finish.push(obj);//上船被給予level的obj
+                            temp.splice(index,1);//刪除原陣列的該obj
+                        };
+                    });
+                });
+                // 如此當finish總搜尋完成以後，while會檢測temp是否還有沒分配到的obj，
+                //若有的話則繼續以新分配完成的finish進行分配
+            };
+            return finish;//當分配完成後回傳
+        };
+
+        let newList = give_level(list,0);
+        console.log(newList);
+        //有更精簡的作法。
+        //但這是為了讓使用者方便將資料丟入，排序完的資料return後直接使用
+        //所以增加了第一個tempfor
+    </script>
+</body>
+</html>
