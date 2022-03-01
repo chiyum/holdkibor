@@ -56,6 +56,7 @@ function pagination(jsonData, nowPage) { //jsonDate = 資料ary / nowPage = 當�
   // page 按鈕總數量公式 總資料數量 / 每一頁要顯示的資料
   // 這邊要注意，因為有可能會出現餘數，所以要無條件進位。
   // 範例: 假設總資料為70 那就是 70 / 20 = 3.5 (進位=> 4
+  // Math.ceil = 回傳整數
   const pageTotal = Math.ceil(dataTotal / perpage);
   
   // 當前頁數，對應現在當前頁數
@@ -98,6 +99,8 @@ function pagination(jsonData, nowPage) { //jsonDate = 資料ary / nowPage = 當�
   //將取得的資料跑迴圈，當資料介於我們算好的索引之間，就push到陣列，陣列內的資料就是當頁所顯示的資料。
   //而之所以num = index +1 是因為 上面minData的算式 我們算出來的筆數是從1開始而非0
   //所以這邊才需要 + 1 
+  //如果是0開始 那就是0 - 9才會是10筆資料了
+  //所以第一筆資料的index會是1
 
   // 用物件方式來傳遞資料
   const page = {
