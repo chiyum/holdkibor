@@ -19,32 +19,22 @@
 <body>
     <div class="container">
         <div class="row" id="content">
-            {{ text }}
+            <item v-for="(data,index) in show":key="index" :obj="data"></item>
         </div>
         <div class="d-flex justify-content-center">
             <nav aria-label="Page navigation example">
-                <ul class="pagination" id="pageid">
-                </ul>
+                <pages :data="list" v-on:return_list="accept"></pages>
             </nav>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const jsonUrl = 'https://api.kcg.gov.tw/api/service/Get/9c8e1450-e833-499c-8320-29b36b7ace5c';
         const content = document.getElementById('content');
         const pageid = document.getElementById('pageid');
-        let jsonData = {};
-
-        fetch(jsonUrl, { method: 'get' })
-        .then((response) => {
-            return response.json();
-        }).then((data) => {
-            jsonData = data.data.XML_Head.Infos.Info;
-            console.log(jsonData)
-            pagination(jsonData, 1);
-        })
-
+       
         function pagination(data,nowPage){//分頁 data所有資料 nowPage則為現在所在分頁
-
+            console.log(data);
             const dataTotal = data.length;//總比數
 
             const pageDate = 20;//每頁的比數
@@ -84,30 +74,123 @@
 
             const showArr = [];//預設要顯示的資料
 
-            dataTotal.forEach( (data,index) => {
-                let num = index + 1; //因為我們的筆數是從1開始 所以index 需要+1 ps.我們筆數還是從第0筆開始 只是使用索引值下去判斷而已
+            data.forEach( (data,index)=>{
+                let num = index + 1;
+                //因為我們的筆數是從1開始 所以index 需要+1 ps.我們筆數還是從第0筆開始 只是使用索引值下去判斷而已
+                //假設第一筆資料掃過迴圈 那此筆資料的num會是1 再去判斷num >=minDate && num <= maxDate
                 if(num >= minData && num <= maxDate){//若索引值 大於等於 minDate(第一筆) 以及小於等於 maxDate(最後筆數)就上傳 此區間的索引值為當筆分頁所要呈現的資料 
                     showArr.push(data);
                 };
             });
 
-            //待輸出returm資料格式
-            //next last now 頁數以及資料的輸出
-            //這邊分頁點選列表會是一個conponent 將資料丟進來交由此conponent去給篩選，然後吐回資料
+            let return_obj = {
+                pageTotal,//總頁數
+                current,//當前頁面
+                next:current < pageTotal,//當前頁面 < 總頁面 判斷是否有下一頁
+                last:current > 1,//當前頁面 > 1 判斷是否有顯示上一頁
+                showArr//範圍內資料
+            }
 
+            return return_obj;//回傳資料
+            //這邊分頁點選列表會是一個conponent 將資料丟進來交由此conponent去給篩選，然後吐回資料
         };
         
         const app = Vue.createApp({
             data(){
                 return{
-                    text:'test font'
+                    text:'test font',
+                    list:[],//佔存arr props用
+                    show:[],//顯示用arr
+
                 }
             },
+            created(){
+                this.getList();
+            },
             methods:{
-
+                getList(){
+                    axios.get(jsonUrl)
+                    .then(res=>{
+                        this.list = res.data.data.XML_Head.Infos.Info//賦予變數
+                    })
+                },
+                accept(ac){
+                    this.show = [...ac];//賦予到顯示用變數
+                }
             }
-        })
+        });
 
+        app.component('pages',{
+            template:`
+            <ul class="pagination" id="pageid" v-show="nowData.length !== 0">
+                <li v-on:click="setBtn(tempDate,now - 1)" v-if="last" class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li v-on:click="push_list" v-if="!last" class="page-item disabled"><span class="page-link">Previous</span></li>
+                <li v-on:click="setBtn(tempDate,item)" v-for="(item,index) in total" class="page-item" :class="{active:now === item}"><a class="page-link" href="#">{{ item }}</a></li>
+                <li v-on:click="setBtn(tempDate,now + 1)" v-if="next" class="page-item"><a class="page-link" href="#">Next</a></li>
+                <li v-if="!next" class="page-item disabled"><span class="page-link">Next</span></li>
+            </ul>
+            `,
+            props:['data'],
+            emits:['return_list'],
+            data(){
+                return{
+                    total:[],
+                    now:'',
+                    last:false,
+                    next:false,
+                    nowData:[],
+                    tempDate:[],
+                }
+            },
+            created(){
+                // console.log(this.data);
+            },
+            watch:{//從watch的原因是主元件一開始載入時並沒有數據，需要等到api打回來以後資料才是我們要取得的資料
+                data(value){
+                    let temp = this.setBtn(value,1);
+                    this.tempDate = value;//佔存
+                },
+            },
+            methods:{
+                setBtn(data,pageNum){
+                    let temp = pagination(data,pageNum);
+                    this.last = temp.last;//上一頁顯示與否
+                    this.next = temp.next;//下一頁顯示與否
+                    this.now = temp.current;//當前頁數
+                    this.nowData = temp.showArr;//篩選完列表
+                    this.total = [];//reset
+                    for (let index = 0; index < temp.pageTotal; index++) {//設定頁數
+                        this.total.push(index + 1);
+                    };
+                    this.push_list();
+                },
+                push_list(){
+                    this.$emit('return_list',this.nowData);
+                },
+            }
+        });
+
+        app.component('item',{//列表顯示項目
+            template:`<div class="col-md-6 py-2">
+                      <div class="card">
+                        <div class="card bg-dark text-white text-left">
+                          <img class="card-img-top img-cover" height="155" :src="obj.Picture1">
+                          <div class="card-img-overlay d-flex justify-content-between align-items-end p-0 px-3" style="background-color: rgba(0, 0, 0, .2)">
+                            <h5 class="card-img-title-lg">{{ obj.name }}</h5><h5 class="card-img-title-sm">{{ obj.Zone }}</h5>
+                          </div>
+                        </div>
+                        <div class="card-body text-left">
+                            <p class="card-text"><i class="far fa-clock fa-clock-time"></i>&nbsp;{{ obj.Opentime }}</p>
+                            <p class="card-text"><i class="fas fa-map-marker-alt fa-map-gps"></i>&nbsp;{{obj.Add}}</p>
+                            <p class="card-text"><i class="fas fa-mobile-alt fa-mobile"></i>&nbsp;{{ obj.Tel }}</p>
+                            <div v-if="obj.Ticketinfo">
+                                <p class="card-text"><i class="fas fa-tags text-warning"></i>&nbsp{{ obj.Ticketinfo }}</p>
+                            </div> 
+                        </div>
+                      </div>
+                    </div>`,
+            props:['obj'],
+        });
 
         app.mount('.container');
 

@@ -109,6 +109,7 @@ function pagination(jsonData, nowPage) { //jsonDate = 資料ary / nowPage = 當�
     hasPage: currentPage > 1,//上一頁的頁數
     hasNext: currentPage < pageTotal,//下一頁的頁數
   }
+  console.log(page);
   displayData(data);//渲染列表畫面
   pageBtn(page);//渲染頁數畫面
 }
