@@ -8,6 +8,8 @@
     <title>Vue TW日期 推空白而不推上月</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.18/dist/vue.global.min.js"></script>
     <link rel="stylesheet" href="./ca.css">
+    <!-- sweetalert2 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.4/sweetalert2.min.css">
     <style>
         body {
             display: flex;
@@ -26,7 +28,17 @@
         <calendar v-on:add_date="accept"></calendar>
         <!-- add_date導入主元件事件接收 這個accept則是主元件接收參數的function -->
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.4/sweetalert2.min.js"></script>
     <script>
+        function call_success(title,text){
+            Swal.fire({
+              icon: 'success',
+              title: title,
+              text: text,
+            })
+        };
+
+
         let app = Vue.createApp({
             data() {
                 return {
@@ -36,6 +48,8 @@
             methods: {
                 accept(ac_date){//接收參數之主元件
                     console.log(ac_date);
+                    call_success('儲存成功',`您選擇的日期為${ac_date}`)
+
                 }
             }
 
