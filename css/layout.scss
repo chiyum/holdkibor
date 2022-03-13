@@ -1,0 +1,136 @@
+// icon
+
+.svgicon
+{
+    position: relative;
+    margin-right: 2.5px;
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    float: left;
+    background-blend-mode: screen;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+// 新增加號icon
+.svgicon.add
+{
+    bottom: 1.5px;
+    background-image:url('../img/icon/add_wh.png');
+    width: 16px;
+    height: 16px;
+}
+// 刪除
+.svgicon.del
+{
+    bottom: 1.5px;
+    background-image:url('../img/icon/del_wh.png');
+    width: 16px;
+    height: 16px;
+}
+
+.svgicon.searchIcon
+{
+    width: 18px;
+    height: 18px;
+    background-image: url('../img/icon/search.png');
+}
+
+// 資料夾
+.svgicon.folder
+{
+    background-image: url('../img/icon/folder.svg');
+}
+
+// 資料夾開啟
+.svgicon.folderOpen
+{
+    background-image: url('../img/icon/folder_open.svg');
+}
+// 灰色箭頭
+.svgicon.arrow
+{
+    width: 16px;
+    height: 16px;
+    background-image: url('../img/icon/arrpw.png');
+}
+// 檔案
+.svgicon.document
+{
+    background-image: url('../img/icon/document.svg');
+}
+
+.svgicon.upload
+{
+    margin-right: -2px;
+    width: 26px;
+    height: 26px;
+    background-image: url('../img/icon/upload.png');
+}
+
+
+
+
+
+// 按鈕
+.setBtn
+{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 8px; 
+    margin: 0 2.5px; 
+    color: #fff;
+    border-radius: 6px;
+}
+
+.setBtn.darkBlue
+{
+    background: #016fa7;
+}
+
+.setBtn.red
+{
+    background: #e9291f;
+}
+
+.setInput{
+    border-radius: 6px;
+    padding: 0px 5px;
+    box-shadow: 1px 1px 4px #777;
+    border: 0.5px #999;
+    height: 29px;
+    background-color: #fff;
+    outline: none;
+}
+
+.btrp_modal
+{
+    .modal-dialog
+    {
+        .modal-content
+        {
+            .modal-header
+            {
+                .btn
+                {
+                    padding: 0;
+                    margin: 0;
+                }
+            }
+            .modal-header.darkBlue
+            {
+                background: #016fa7;
+            }
+            .modal-body
+            {
+                input
+                {
+                   width: 100%;
+                }
+            }
+        }
+    }   
+}

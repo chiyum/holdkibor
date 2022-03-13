@@ -1,0 +1,106 @@
+.svgicon {
+  position: relative;
+  margin-right: 2.5px;
+  width: 21px;
+  height: 21px;
+  text-align: center;
+  float: left;
+  background-blend-mode: screen;
+  background-size: contain;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.svgicon.add {
+  bottom: 1.5px;
+  background-image: url("../img/icon/add_wh.png");
+  width: 16px;
+  height: 16px;
+}
+
+.svgicon.del {
+  bottom: 1.5px;
+  background-image: url("../img/icon/del_wh.png");
+  width: 16px;
+  height: 16px;
+}
+
+.svgicon.searchIcon {
+  width: 18px;
+  height: 18px;
+  background-image: url("../img/icon/search.png");
+}
+
+.svgicon.folder {
+  background-image: url("../img/icon/folder.svg");
+}
+
+.svgicon.folderOpen {
+  background-image: url("../img/icon/folder_open.svg");
+}
+
+.svgicon.arrow {
+  width: 16px;
+  height: 16px;
+  background-image: url("../img/icon/arrpw.png");
+}
+
+.svgicon.document {
+  background-image: url("../img/icon/document.svg");
+}
+
+.svgicon.upload {
+  margin-right: -2px;
+  width: 26px;
+  height: 26px;
+  background-image: url("../img/icon/upload.png");
+}
+
+.setBtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 3px 8px;
+  margin: 0 2.5px;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.setBtn.darkBlue {
+  background: #016fa7;
+}
+
+.setBtn.red {
+  background: #e9291f;
+}
+
+.setInput {
+  border-radius: 6px;
+  padding: 0px 5px;
+  -webkit-box-shadow: 1px 1px 4px #777;
+          box-shadow: 1px 1px 4px #777;
+  border: 0.5px #999;
+  height: 29px;
+  background-color: #fff;
+  outline: none;
+}
+
+.btrp_modal .modal-dialog .modal-content .modal-header .btn {
+  padding: 0;
+  margin: 0;
+}
+
+.btrp_modal .modal-dialog .modal-content .modal-header.darkBlue {
+  background: #016fa7;
+}
+
+.btrp_modal .modal-dialog .modal-content .modal-body input {
+  width: 100%;
+}
+/*# sourceMappingURL=layout.css.map */

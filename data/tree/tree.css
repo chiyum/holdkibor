@@ -1,0 +1,219 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul, p, div {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100vh;
+}
+
+.wrap .sidebar {
+  position: relative;
+  width: calc(350px);
+  height: 100%;
+  -webkit-box-shadow: 1px 0px 3px 3px #8b8585;
+          box-shadow: 1px 0px 3px 3px #8b8585;
+  z-index: 1;
+}
+
+.wrap .sidebar .head {
+  height: 38px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#a4a4a4), to(#c3c3c3));
+  background: linear-gradient(to bottom, #a4a4a4, #c3c3c3);
+}
+
+.wrap .sidebar .head .btnList {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+}
+
+.wrap .sidebar .search {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 0;
+}
+
+.wrap .sidebar .search .setInput {
+  width: 95%;
+}
+
+.wrap .sidebar .search .searchIcon {
+  position: absolute;
+  right: 10px;
+}
+
+.wrap .sidebar .tree {
+  width: 100%;
+  overflow: overlay;
+}
+
+.wrap .sidebar .tree li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 10px;
+  cursor: default;
+}
+
+.wrap .sidebar .tree li .block {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 2px 0;
+  height: 26px;
+}
+
+.wrap .sidebar .tree li .block .folder, .wrap .sidebar .tree li .block .folderOpen {
+  cursor: default;
+}
+
+.wrap .sidebar .tree li .block .arrow {
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.wrap .sidebar .tree li .block .number {
+  color: #747272;
+}
+
+.wrap .sidebar .tree li:hover {
+  background: #e8f0ff;
+}
+
+.wrap .content {
+  position: relative;
+  width: calc(100% - 350px);
+  background: #f3f3f3;
+}
+
+.wrap .content .head {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  height: 38px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#a4a4a4), to(#c3c3c3));
+  background: linear-gradient(to bottom, #a4a4a4, #c3c3c3);
+}
+
+.wrap .content .main {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 30px 40px;
+  width: 80%;
+  height: 87%;
+  background: #fff;
+}
+
+.wrap .content .main .col {
+  position: relative;
+  margin: 10px 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.wrap .content .main .col .tw_calender {
+  position: absolute;
+  top: 54px;
+  height: 260px !important;
+  background: #beebff;
+}
+
+.wrap .content .main .col .tw_calender .tw_calender_main {
+  background: #d5ecf8;
+}
+
+.wrap .content .main .col .tw_calender .tw_calender_main .week_list {
+  margin-top: 0 !important;
+}
+
+.wrap .content .main .col .tw_calender .tw_calender_header {
+  background: #d5ecf8;
+}
+
+.wrap .content .main .col label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.wrap .content .main .col input {
+  width: 100%;
+}
+
+.wrap .content .main .col textarea {
+  height: 56vh;
+}
+
+.wrap .content .main .bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.isActive {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #beebff), to(#a8e4ff)) !important;
+  background: linear-gradient(to bottom, #beebff 0, #a8e4ff 100%) !important;
+}
+
+.isHide {
+  visibility: hidden;
+}
+
+.isOpen {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.isCallout {
+  color: #e9291f;
+}
+/*# sourceMappingURL=tree.css.map */

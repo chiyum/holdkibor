@@ -5,25 +5,933 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>筆記</title>
     <!-- sweetalert2 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.4/sweetalert2.min.css">
+    <!-- bootstreap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- vue3 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.18/dist/vue.global.min.js"></script>
+    <!-- page css -->
+    <link rel="stylesheet" href="../../css/layout.css">
+    <link rel="stylesheet" href="../calender/ca.css">
+    <link rel="stylesheet" href="./tree.css">
 
 </head>
 
 <body>
     <div class="wrap">
-        <ul class="tree">
-            <li></li>
-        </ul>
-        <div class="content"></div>
+        <div class="sidebar">
+            <div class="head">
+                <div class="btnList">
+                    <div class="dropdown">
+                        <button type="button" class="btn setBtn darkBlue" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false"><span class="svgicon add"></span>新增</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" v-on:click.prevent="call_folder_modal('根目錄')" href="#"
+                                    data-bs-toggle="modal" data-bs-target="#create_folder_modal">根目錄</a></li>
+                            <li v-if="accepType ==='folder'"><a class="dropdown-item"
+                                    v-on:click.prevent="call_folder_modal('資料夾')" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#create_folder_modal">資料夾</a></li>
+                            <li v-if="accepType ==='folder'"><a class="dropdown-item"
+                                    v-on:click.prevent="call_folder_modal('檔案')" href="#" data-bs-toggle="modal"
+                                    data-bs-target="#create_folder_modal">檔案</a></li>
+                        </ul>
+                    </div>
+                    <!-- <button type="button" class="btn setBtn darkBlue"><span class="svgicon add"></span>重新命名</button> -->
+                    <button type="button" class="btn setBtn red" v-on:click="del_event"><span
+                            class="svgicon del"></span>刪除</button>
+                </div>
+            </div>
+            <div class="search">
+                <input type="text" class="setInput" placeholder="請輸入搜尋項目" v-model="search_text" v-on:change="search"
+                    v-on:keyup.enter="search">
+                <span class="svgicon searchIcon" v-on:click="search"></span>
+            </div>
+            <treelist :list="accept_list" :store="temp" v-on:push="give_type" v-on:not="accept_not"></treelist>
+        </div>
+        <div class="content">
+            <div class="head">
+                <button v-if="not.id" v-on:click="store" type="button" class="btn setBtn darkBlue"><span
+                        class="svgicon upload" ></span>儲存</button>
+            </div>
+            <div class="main">
+                <div class="col" v-if="not.id">
+                    <label for="title">主題:</label>
+                    <input v-model="not.title" type="text" id="title" class="setInput" placeholder="今天的主題是?">
+                </div>
+                <div class="col" v-if="not.id">
+                    <label  v-on:click="calenderToggle = !calenderToggle">日期:</label>
+                    <input v-model="not.date" type="text" class="setInput" placeholder="請選擇日期" readonly v-on:click="calenderToggle = !calenderToggle">
+                    <calendar v-if="calenderToggle" v-on:add_date="accept_date"></calendar>
+                </div>
+                <div class="col" v-if="not.id">
+                    <label for="text">內容:</label>
+                    <textarea v-model="not.content" id="text" class="setInput" placeholder="輸入今天的筆記吧!"></textarea>
+                </div>
+                <div class="bg" v-if="!not.id">
+                    請點選左測資料夾，選擇筆記。
+                </div>
+            </div>
+        </div>
+        <!-- 新增資料夾 -->
+        <div class="modal fade btrp_modal" id="create_folder_modal" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-primary">
+                    <div class="modal-header darkBlue" style="color: #fff;">
+                        <h5 class="modal-title" id="staticBackdropLabel">新增{{create.type}}</h5>
+                        <button type="button" class="btn" data-bs-dismiss="modal" aria-label="Close"><span
+                                class="svgicon del"></span></button>
+                    </div>
+                    <div class="modal-body bg-light">
+                        <input type="text" class="setInput" v-model="create.text" placeholder="請輸入新增名稱">
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" id="close_modal" class="btn btn-secondary"
+                            data-bs-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary" v-on:click="created">新增</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <script>
-        
-    </script>
+    <!-- bootsteap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <!-- sweetalert2 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.4/sweetalert2.min.js"></script>
+    <!-- mitt跨元件 -->
+    <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+
+    <script>
+
+        const call_modal = new bootstrap.Modal(document.getElementById('create_folder_modal'), {//新增資料夾彈窗modal
+            keyboard: false
+        });
+
+        let data = [ //假資料
+            {
+                id: 6,
+                pid: 4,
+                type: 'file',
+                text: '筆記',
+                date: '111-03-06',
+                content: '今天天氣真好',//筆記內容
+            },
+            {
+                id: 1,
+                pid: 0,
+                type: 'folder',
+                text: '工作筆記'
+            },
+            {
+                id: 2,
+                pid: 0,
+                type: 'folder',
+                text: '私人日記'
+            },
+            {
+                id: 3,
+                pid: 1,
+                type: 'folder',
+                text: '3月'
+            },
+            {
+                id: 4,
+                pid: 2,
+                type: 'folder',
+                text: '3月'
+            },
+            {
+                id: 5,
+                pid: 4,
+                type: 'file',
+                text: '筆記',
+                date: '111-03-01',
+                content: '中午吃了一顆便當',//筆記內容
+            },
+        ]
+
+        let mitter = mitt();
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    text: '測試文字',
+                    accept_list: [],//接收的列表
+                    search_text: '',//搜尋輸入欄
+                    create: {
+                        text: '',
+                        type: '',
+                    },
+                    accepType: '',//目前點擊的type
+                    calenderToggle:false,
+                    not:{
+                        title:'',
+                        date:'',
+                        content:'',
+                        id:''
+                    },
+                    temp:{}
+                };
+            },
+            created() {
+                this.accept_list = data;
+            },
+            methods: {
+                search() {//搜尋 將資料傳輸到tree元件
+                    mitter.emit('search', this.search_text);
+                },
+                call_folder_modal(where) {
+                    this.create.type = where;
+                },
+                created() {//新增選擇
+                    let temp = {
+                        text: this.create.text,//新增文字
+                        type: this.create.type,//新增類別
+                    };
+                    document.querySelector('#close_modal').click();//因為bootsteap5 關閉有bug 所以使用click去觸發取消關閉視窗
+                    mitter.emit('created', temp);
+                    this.create.text = '';//reset
+                },
+                give_type(ac) {
+                    console.log(ac);
+                    this.accepType = ac;
+                },
+                del_event() {
+                    mitter.emit('dels',this.not.id);
+                    console.log('觸發刪除')
+                },
+                accept_not(ac) {//接收顯示右欄
+                    let temp = JSON.parse(JSON.stringify(ac));//深層複製
+                    this.not ={//加入至右欄顯示
+                        title:temp.text,
+                        date:temp.date,
+                        content:temp.content,
+                        id:temp.id,
+                    };
+                },
+                accept_date(ac){
+                    this.calenderToggle = false;//關閉彈窗
+                    this.not.date = ac;
+                },
+                store(){//儲存
+                    console.log('觸發外層');
+                    this.temp = this.not;//利用props觸發儲存 
+                }
+            }
+        })
+
+        app.component('treelist', {
+            template: `
+            <ul class="tree">
+                <template v-for="(item,index) in showList">
+                    <li :class="{isActive:item.isActive,isCallout:item.isSearch}" v-if="item.isShow" :style="{paddingLeft: item.level * 20 + 'px'}" v-on:click="active(item.id,{ctrlKey:false})">
+                        <div class="block">
+                            <span class="svgicon arrow" :class="{isHide:item.type ==='file',isOpen:item.isOpen}" v-on:click="toggle(item)"></span>
+                            <span class="svgicon folder" v-if="item.type==='folder' && !item.isOpen"></span>
+                            <span class="svgicon folderOpen" v-if="item.type==='folder' && item.isOpen"></span>
+                            <span class="svgicon document" v-if="item.type ==='file'"></span>
+                            <p>{{ item.date ? this.date_Specification(item.date) + ' ' +item.text : item.text}}</p>
+                            <p class="number" v-if="item.type ==='folder'">({{item.length}})</p>
+                        </div>
+                    </li>
+                </template>
+            </ul>`,
+            props: ['list','store'],
+            data() {
+                return {
+                    showList: [],
+                    active_id: '',
+                };
+            },
+            watch: {
+                store(value){
+                    console.log(value);
+                    this.showList.forEach(data=>{
+                        if(data.id === value.id){
+                            data.text = value.title;
+                            data.date = value.date;
+                            data.content = value.content;
+                            console.log(data);
+                        };
+                    })
+                    call_success('儲存成功','')
+                }
+            },
+            created() {
+                this.showList = [...this.list];
+                this.showList = this.sort_sequence(this.showList);//排序
+                this.give_parent_level(this.showList);//給予level
+                this.give_fn(this.showList, 0);//給予功能 及數量計算
+                console.log(this.showList);
+                mitter.on('search', data => {//接收主元件回傳資料(搜尋)
+                    this.keyword(data);
+                });
+                mitter.on('created', data => {//接收主元件回傳資料(新增)
+                    let obj = {
+                        text: data.text,//若無則預設為新資料夾
+                        isShow: true,
+                    };
+                    const push = (pid, obj, type) => {
+                        this.showList.forEach((data, index) => {
+                            if (pid === data.id) {//找到父層
+                                obj.level = data.level + 1; //給予父層 + 1的level
+                                obj.pid = pid;//給予pid
+                                if (type == 'file') {//若是檔案直接新增在最前方
+                                    this.showList.splice(index + 1, 0, obj)
+                                } else {//若為資料夾則新增在最後方
+                                    this.showList.splice(index + data.length + 1, 0, obj);
+                                }
+                                data.isOpen = true;//父層開啟狀態
+                            };
+                            if (data.pid === pid) {//同時顯示父層底下的子層
+                                data.isShow = true;//
+                            };
+                        });
+                    }
+                    switch (data.type) {
+                        case '根目錄':
+                            obj.text = obj.text ? obj.text : '新資料夾';
+                            obj.type = 'folder';
+                            obj.isOpen = false;
+                            obj.length = 0;//子層為空
+                            obj.pid = 0;//因為是根目錄所以給予pid = 0
+                            obj.id = new Date().getTime();//唯一性id
+                            obj.level = 1;
+                            this.showList.push(obj);
+                            break;
+                        case '資料夾':
+                            obj.text = obj.text ? obj.text : '新資料夾';
+                            obj.type = 'folder';
+                            obj.isOpen = false;
+                            obj.length = 0;//子層為空
+                            obj.id = new Date().getTime();//唯一性id
+                            push(this.active_id, obj, 'folder')
+                            break;
+                        case '檔案':
+                            obj.text = obj.text ? obj.text : '新筆記';
+                            obj.type = 'file';
+                            obj.id = new Date().getTime();//唯一性id
+                            obj.date = this.get_date(new Date().getTime());//唯一性id
+                            obj.content = '';//唯一性id
+                            push(this.active_id, obj, 'file')
+                            break;
+                    };
+                    console.log('執行新增');
+                });
+                mitter.on('dels', data => {
+                    setTimeout(() => {//利用settimeout延緩執行
+                        this.del(this.active_id,data);
+                        
+                    }, 0);
+                });
+            },
+            methods: {
+                sort_sequence(arr) {//排序
+                    let root = [], folder = [], temp = [...arr], finish = [];
+                    temp = temp.filter((data, index) => {//分類
+                        if (data.type == 'folder' && data.pid === 0) {//根目錄
+                            root.push(data);
+                        } else if (data.type == 'folder' && data.pid !== 0) {
+                            folder.push(data);
+                        } else {
+                            return data.type === 'file';
+                        }
+                    });
+                    // console.log(root,folder,temp);//分類完畢
+                    folder.sort((a, b) => { b.id - a.id });//先後排序
+                    folder.forEach(data => {
+                        root.forEach((item, index) => {
+                            if (data.pid == item.id) {
+                                root.splice(index + 1, 0, data);//將資料給插入到符合的pid後
+                            }
+                        });
+                    });
+                    // console.log(root);//folder找尋pid完畢
+                    root.forEach((data, index) => {
+                        let ary = [];
+                        temp.forEach(element => {
+                            if (element.pid === data.id) {//上傳符合的子元素
+                                ary.push(element);
+                            }
+                        });
+                        ary.sort((a, b) => { a.id - b.id });//先後排序
+                        ary.unshift(data);//上傳pid本身
+                        finish = [...finish, ...ary];//加入總列表中
+                    });
+                    // console.log(finish);//完成
+                    return finish;
+                },
+                give_parent_level(ary) {//給予level
+                    let level = 1;
+                    let temp = [0];
+                    let next = [];
+                    while (temp.length) {//while的邏輯是當為真值時就繼續執行 在進行level給予時，必須要先排列好順序
+                        temp.forEach(p =>//temp預設是根目錄 根目錄下去跑for若arypid是temp的話給予level
+                            ary.forEach(data => {
+                                if (data.pid === p) {
+                                    data.level = level;
+                                    if (!next.includes(data.id))//這邊下去判斷下一次執行for內的pid是否有該資料，沒有就push上去
+                                        next.push(data.id);
+                                }
+                            })
+                        );
+                        level++;//當temp跑完一周，level++ 
+                        temp = next;//將上一周給予level的資料，加入到temp。找尋ary中是否有pid為上一周給予level的資料
+                        next = [];//清空next進入下一個循環 因為temp為真值，所以此while還是會持續執行
+                    }
+                },
+                give_fn(ary, root) {//給予功能
+                    ary.forEach(data => {
+                        data.isOpen = false;//給予開啟與否狀態
+                        data.isActive = false;
+                        data.isContextmenu = false;//右鍵選單
+                        if (data.type === 'folder') {//若為資料夾則計算子元素數量
+                            data.length = give_length(data.id);
+                        }
+                        if (data.pid === root) {//給予顯示為根目錄則預設顯示
+                            data.isShow = true;
+                        } else {//其他一律隱藏
+                            data.isShow = false;
+                        };
+                    });
+                    function give_length(id) {//判斷數量用
+                        let num = 0;
+                        ary.forEach(data => {
+                            if (data.pid === id) {
+                                num++;//若資料內pid 符合id的 num++ 代表數量+1
+                            }
+                        });
+                        return num;
+                    }
+                },
+                toggle(obj) {//參數代入要開關的obj
+                    let next = [], temp = [];
+                    if (!obj.isOpen && obj.type === 'folder') {//若為關閉
+                        obj.isOpen = true;//狀態切換
+                        this.showList.forEach(data => {
+                            if (data.pid === obj.id) {
+                                data.isShow = true;
+                            }
+                        });
+                    } else if (obj.isOpen && obj.type === 'folder') {//若為開啟
+                        obj.isOpen = false;//狀態切換
+                        this.showList.forEach(data => {//找尋pid為開關的obj.id的資料
+                            if (data.pid === obj.id) {
+                                data.isShow = false;//關閉子層
+                                if (data.type === 'folder') {//若子層為folder
+                                    temp.push(data.id);//上傳id 用於關閉data的子層id
+                                    data.isOpen = false;//關閉開關狀態
+                                };
+                            }
+                        });
+                        while (temp.length) {
+                            temp.forEach(pid => {
+                                this.showList.forEach(data => {
+                                    if (pid === data.pid) {
+                                        data.isShow = false;//關閉顯示
+                                        if (data.type == 'folder') {//若子層還是為folder
+                                            next.push(data.id);//上傳id以用於更子層的關閉
+                                            next.isOpen = false;//關閉狀態
+                                        }
+                                    }
+                                });
+                            });
+                            temp = next;//給予子層關閉的ary;
+                            next = [];//清空next 如此當next為空 temp賦予過去的也會是空的 while就不會再次執行
+                        };
+                    };
+                },
+                active(id,e) {//點擊時給予點擊狀態
+                    // console.log(id + '被點選的id');
+                    let temp = {};
+                    if (false && e.ctrlKey) {//若有按下ctrl則不收回其他active 目前為限定單選 false移開即可有多選
+                        this.showList.forEach(data => {
+                            if (data.id === id) {
+                                data.isActive = true;
+                            }
+                        });
+                    } else {//若無則收回其他active，只有被點選的id會有active狀態
+                        this.showList.forEach((data, i) => {
+                            data.isActive = false;
+                            data.isContextmenu = false;//關閉右鍵選單
+                            if (data.id === id) {
+                                data.isActive = true;
+                                temp = data;
+                            }
+                        });
+                    };
+                    this.active_id = id;
+                    this.add_type(temp.type);
+                    if(temp.type ==='file'){//若為檔案的話上傳至右欄
+                        this.$emit('not',temp);
+                    }
+                },
+                add_type(type) {//發送目前type
+                    this.$emit('push', type);
+                },
+                keyword(value) {//搜尋 只要外面向內層傳遞資料，就執行。 資料的更動由外部決定
+                    if (value === '') {//為空則全部取消搜尋狀態
+                        this.showList.forEach(data => {
+                            data.isSearch = false;
+                        });
+                        return;
+                    };
+                    this.showList.forEach(data => {
+                        data.isSearch = false;
+                        if (data.text.indexOf(value) !== -1) {
+                            data.isSearch = true;//給予搜尋狀態
+                            // data.isShow = true;//給予顯示狀態
+                            this.add_status(data.pid, 'isShow', true, true);//父層開啟
+                            this.add_status(data.pid, 'isOpen', true, true);
+                            this.add_status(data.id, 'isShow', true, false, false, true);//開啟同層
+                        };
+                    });
+                },
+                add_status(id, key, value, top_boolean = false, bottom_boolean = false, broth = false) {//參數代入給予的id和要給予的key、value  /top_boolean是否要向上給予 boottom則是向下 預設都為false
+                    let top_next = [], top_temp = [], bottom_next = [], bottom_temp = [], broth_ary = [];
+                    this.showList.forEach(data => {
+                        if (data.id === id) {//若id符合
+                            data[key] = value;//給予id value
+                            if (broth) {//若有開啟同層開啟
+                                broth_ary.push(data.pid);
+                            };
+                            if (top_boolean && data.pid !== 0) {//若有開啟功能 判斷是否父層為root 若為root則不執行 不為root則將父層id給上傳
+                                top_temp.push(data.pid);
+                            };
+                            if (bottom_boolean && data.type === 'folder') {//若有開啟功能 判斷是否為資料夾 若有則代表有下層
+                                bottom_temp.push(data.id);//上傳id
+                            }
+                        };
+                    });
+                    console.log(broth_ary)
+                    while (broth_ary.length) {
+                        broth_ary.forEach(pid => {
+                            this.showList.forEach(data => {
+                                if (data.pid === pid) {
+                                    data[key] = value;
+                                }
+                            });
+                        });
+                        broth_ary = [];//reset
+                    };
+                    while (top_temp.length) {//由top_temp決定是否持續運行
+                        top_temp.forEach(gid => {//由上傳的id下去搜尋
+                            this.showList.forEach(data => {
+                                if (gid === data.id) {
+                                    data[key] = value;//id符合給予value
+                                    if (data.pid !== 0) {//若該id的pid不是root則上傳pid準備進行下一輪的給予狀態
+                                        top_next.push(data.pid);
+                                    };
+                                };
+                                if (gid === data.pid) {
+                                    //同時開啟id的pid為gid的資料 因為向上開啟有可能遇到父層有其他同層的時候 所以同層也需要開啟
+                                    //而向下就沒這個問題。因為向下是一系列開完後才開下一個項。
+                                    data[key] = value;
+                                }
+                            });
+                        });
+                        top_temp = top_next;
+                        top_next = [];
+                    }
+                    while (bottom_temp.length) {
+                        bottom_temp.forEach(pid => {
+                            this.showList.forEach(data => {
+                                if (data.pid === pid) {//若搜尋資料的pid符合上傳的id的話
+                                    data[key] = value;//給予value
+                                    if (data.type === 'folder') {//若為資料夾
+                                        bottom_next.push(data.id);//上傳id繼續向下給予id子層狀態
+                                    }
+                                }
+                            });
+                        });
+                        bottom_temp = bottom_next;
+                        bottom_next = [];
+                    }
+                },
+                date_Specification(date) {//轉換日期間隔樣式 
+                    if (date.indexOf('-') != -1) {
+                        return date.split('-').join('/')
+                    } else if (date.indexOf('/') != -1) {
+                        return date.split('/').join('-')
+                    };
+                },
+                get_date(second) {//給予日期標準格式 參數丟入毫秒數、日期
+                    let day = new Date(second);
+                    function addzero(num) {//個位數以下給予0
+                        return num < 10 ? '0' + num : num;
+                    };
+                    return `${day.getFullYear()}-${addzero(day.getMonth() + 1)}-${addzero(day.getDate())}`
+                },
+                del(id,notId) {//刪除 套入id
+                    let not = {
+                        id:'',
+                        text:'',
+                        content:'',
+                        date:'',
+                    }
+                    let id_ary = [id];
+                    let pid;
+                    let next = [], temp = [];
+                    id_ary.forEach(id => {//因支援多選刪除，所以id_ary會是裝滿id的ary
+                        this.showList.filter((data, index, ary) => {//在tree內找尋符合的id進行刪除
+                            if (id === data.id) {
+                                pid = data.pid;//抓取刪除的pid用於數量用
+                                if (data.type === 'folder') {//若刪除的節點為folder則也需一併刪除底下的節點
+                                    temp.push(data.id);//上傳id 找尋陣列內pid ==id的進行刪除
+                                };
+                                ary.splice(index, 1);//刪除該節點
+                            }
+                            if(notId ==data.id){//若刪除的是目前顯示欄未 reset
+                                this.$emit('not',not);
+                            }
+
+                        });
+                    });
+                    while (temp.length) {
+                        let num = [];
+                        temp.filter(p => {
+                            this.showList.forEach((data, index) => {
+                                if (data.pid === p) {
+                                    num.push(data.id);
+                                    if(notId ==data.id){//若刪除的是目前顯示欄未 reset
+                                        this.$emit('not',not);
+                                    }
+                                    if (data.type === 'folder') {
+                                        next.push(data.id);//若為資料夾 則底下節點也需一併刪除
+                                    };
+                                }
+                            });
+                        })
+                        num.forEach(id => {//之所以分兩次是因為若刪除與搜尋同層的話會出bug
+                            this.showList.filter((item, index, ary) => {
+                                if (item.id === id) {
+                                    ary.splice(index, 1);
+                                }
+                            })
+                        });
+                        temp = next;//若還有資料則進行下一次的輪迴
+                        next = [];
+                    };
+                    if (pid !== 0) {
+                        this.showList.forEach(data => {
+                            if (data.id === pid) {
+                                data.length--
+                            };
+                        })
+                    }
+
+                },
+            }
+        });
+
+        app.component('calendar', {
+            data() {
+                return {
+                    month: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    year: [],
+                    days: [],
+                    chose_text: '110年',
+                    chose_year: '',
+                    chose_month: '',
+                    default_date: this.seconds_change(new Date()),
+                }
+            },
+            template: `
+            <div class="tw_calender">
+              <div class="tw_calender_header">
+                <div>
+                    <select v-model="chose_year" v-on:change="aset_date">
+                        <option  v-for="item in year" :key="item" :value="item + 1911">{{ item }}</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" class="last" v-on:click="last_month">❰</button>
+                    {{ chose_text }}
+                    <button type="button" class="next" v-on:click="next_month">❱</button>
+                </div>
+                <div>
+                    <select v-model="chose_month" v-on:change="aset_date">
+                        <option v-for="(item,index) in month" :value="index + 1">{{ item }}</option>
+                    </select>
+                </div>
+              </div>
+              <div class="tw_calender_main">
+                <div class="week_list">
+                    <p>一</p>
+                    <p>二</p>
+                    <p>三</p>
+                    <p>四</p>
+                    <p>五</p>
+                    <p class="sat">六</p>
+                    <p class="sun">日</p>
+                </div>
+                <ul>
+                    <li v-for="item in days" :key="item" v-on:click="return_date(item)" :class="{isLast:item.type=='last',isNext:item.type=='next'}">
+                         {{ item.date }}
+                    </li>
+                </ul>
+              </div>
+            </div>
+            `,
+            created() {
+                this.give_year();//設置年份
+                this.set_default(this.default_date);
+                this.get_days(this.default_date);//預設套入本月份日期
+                this.aset_date();
+            },
+            methods: {
+                aset_date() {//類似change 當年日期被選擇時觸發
+                    let date = `${this.chose_year}-${this.chose_month}-1`;
+                    this.get_days(date);
+                    this.chose_text = `${this.chose_year - 1911}年${this.chose_month}月`
+                },
+                give_year() {//產生年份
+                    for (let index = 0; index < 150; index++) {
+                        this.year.push(index + 1);
+                    };
+                },
+                give_days(num, today) {//給予天數 num = 當月最後一天的數字,today則是當月第一天
+                    this.days = [];
+                    for (let index = 0; index < num; index++) {
+                        let obj = {
+                            date: this.addzero(index + 1),
+                            type: 'this',
+                        };
+                        this.days.push(obj);
+                    };
+                    let last = new Date(new Date(today.getTime()) - 86400000).getDate();//取得資料
+                    let total_day = 42 - num;//總顯示日期數量 用於給予次月的日期數量
+                    switch (today.getDay()) {//這邊抓取締一天的禮拜，去判斷要上月及次月的數量
+                        case 6://六
+                            for (let index = 0; index < 5; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 5;
+                            //total_day再刪除本月日期數量以後，再刪除上月數量就等於次月要顯示的數量
+                            //totalday總數為42，也就是總顯示日期為42天，扣去上月及本月的數量就會是次月的數量
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 5://五
+                            for (let index = 0; index < 4; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 4;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 4://四
+                            for (let index = 0; index < 3; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 3;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 3://三
+                            for (let index = 0; index < 2; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 2;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 2://二
+                            for (let index = 0; index < 1; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 1;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 1://一
+                            for (let index = 0; index < 0; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 0;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                        case 0://日
+                            for (let index = 0; index < 6; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(last),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'last',//type給予上個月
+                                };
+                                this.days.unshift(obj);
+                                last--;
+                            };
+                            total_day -= 6;
+                            for (let index = 0; index < total_day; index++) {
+                                let obj = {//建立資料
+                                    date: this.addzero(index + 1),//日期給予 addzero則是當日期為個位數時補0
+                                    type: 'next',//type給予上個月
+                                };
+                                this.days.push(obj);
+                            };
+                            break;
+                    };
+                },
+                get_days(day) {//取得日期進行轉換後觸發給予天數
+                    let today = new Date(day);//取得日期
+                    let year = today.getFullYear();//取得年月
+                    let month = today.getMonth() + 1;//取得月份
+                    let last_day = new Date(year, month, 0).getDate();//取得月最後一天
+                    this.give_days(last_day, new Date(`${year}-${month}-1`));
+                },
+                set_default(date) {//設定當日天數
+                    this.chose_year = new Date(date).getFullYear();//給予年
+                    this.chose_month = new Date(date).getMonth() + 1;//給予月份
+                },
+                seconds_change(second) {//給予日期標準格式 參數丟入毫秒數、日期
+                    let day = new Date(second);
+                    return `${day.getFullYear()}-${this.addzero(day.getMonth() + 1)}-${this.addzero(day.getDate())}`
+                },
+                addzero(num) {//個位數以下給予0
+                    return num < 10 ? '0' + num : num;
+                },
+                return_date(days) {
+                    let result;
+                    //這邊要寫判斷式 若為年底時月份的給予及年份的變換
+                    switch (days.type) {
+                        case 'this':
+                            // console.log('本月');
+                            result = `${this.chose_year - 1911}-${this.addzero(this.chose_month)}-${days.date}`
+                            break;
+                        case 'last':
+                            // console.log('上月');
+                            if (this.chose_month === 1) {//若本月為1月，那上月就會是去年12月
+                                result = `${this.chose_year - 1 - 1911}-${this.addzero(12)}-${days.date}`
+                            } else {
+                                result = `${this.chose_year - 1911}-${this.addzero(this.chose_month - 1)}-${days.date}`
+                            };
+                            break;
+                        case 'next':
+                            // console.log('次月');
+                            if (this.chose_month === 12) {//若本月為12月 那麼次月就會是明年一月
+                                result = `${this.chose_year + 1 - 1911}-${'01'}-${days.date}`
+                            } else {
+                                result = `${this.chose_year - 1911}-${this.addzero(this.chose_month + 1)}-${days.date}`
+                            }
+                            break;
+                    }
+                    this.$emit('add_date', result);
+                },
+                next_month() {
+                    if (this.chose_month === 12) {
+                        this.chose_month = 1;
+                        this.chose_year += 1;
+                    } else {
+                        this.chose_month += 1;
+                    }
+                    this.aset_date();
+                },
+                last_month() {
+                    if (this.chose_month === 1) {
+                        this.chose_month = 12;
+                        this.chose_year -= 1;
+                    } else {
+                        this.chose_month -= 1;
+                    }
+                    this.aset_date();
+                },
+            },
+        });
+
+
+        app.mount('.wrap');
+
+        function call_fail(title, text) {
+            Swal.fire({
+                icon: 'error',
+                title: title,
+                text: text,
+            })
+        };
+        function call_success(title, text) {
+            Swal.fire({
+                icon: 'success',
+                title: title,
+                text: text,
+            })
+        };
+        // function get_date(second){//給予日期標準格式 參數丟入毫秒數、日期
+        //     let day = new Date(second);
+        //     return `${day.getFullYear()}-${this.addzero(day.getMonth() + 1)}-${this.addzero(day.getDate())}`
+        // };
+        // function date_Specification(date){//轉換日期間隔樣式 
+        //     if(date.indexOf('-') != -1){
+        //       return date.split('-').join('/')
+        //     }else if(date.indexOf('/') != -1){
+        //       return date.split('/').join('-')
+        //     };
+        // }
+    </script>
 </body>
 
 </html>
