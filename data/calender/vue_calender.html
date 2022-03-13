@@ -27,6 +27,7 @@
     <div class="wrap">
         <calendar v-on:add_date="accept"></calendar>
         <!-- add_date導入主元件事件接收 這個accept則是主元件接收參數的function -->
+        <input type="text" v-model="showInput">
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.4/sweetalert2.min.js"></script>
     <script>
@@ -43,13 +44,14 @@
             data() {
                 return {
                     chose_text: '110年',
+                    showInput:'',
                 }
             },
             methods: {
                 accept(ac_date){//接收參數之主元件
                     console.log(ac_date);
-                    call_success('儲存成功',`您選擇的日期為${ac_date}`)
-
+                    alert(`儲存成功,您選擇的日期為${ac_date}`)
+                    this.showInput = ac_date;
                 }
             }
 
