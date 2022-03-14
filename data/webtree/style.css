@@ -1,0 +1,458 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+:root
+{
+  --black: #333;
+  --white: #fff;
+}
+
+header
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--white);
+    z-index: 1000;
+    transition: 0.5s;
+    /*box-shadow: 0 5px 15px rgba(0,0,0,0.05);*/
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+header.sticky
+{
+    padding: 10px 100px;
+}
+.logo
+{
+    position: relative;
+    display: inline-block;
+    color: var(--black);
+    text-decoration: none;
+    font-size: 1.5em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.menuToggle
+{
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background: url(menu.png);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+}
+.menuToggle.active
+{
+    background: url(close.png);
+    background-size: 25px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.navigation
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.25s;
+    z-index: 999;
+}
+.navigation.active
+{
+    visibility: visible;
+    opacity: 1;
+}
+.navigation li
+{
+    list-style: none;
+    margin: 10px 0;
+}
+.navigation li a
+{
+    color: var(--black);
+    font-size: 1.2em;
+    letter-spacing: 4px;
+    display: inline-block;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.25s;
+    text-transform: uppercase;
+}
+section
+{
+    position: relative;
+    padding: 100px;
+    width: 100%;
+    min-height: 100vh;
+    background: var(--white);
+}
+.cover
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.banner
+{
+    background: url(banner.jpg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.banner .contentBx
+{
+    position: relative;
+    z-index: 1;
+    background: var(--white);
+    padding: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.contentBx h2
+{
+    font-size: 2em;
+    font-weight: 500;
+    color: var(--black);
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.contentBx h4
+{
+    font-size: 1.2em;
+    font-weight: 300;
+    letter-spacing: 4px;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--black);
+}
+.btn
+{
+    position: relative;
+    display: inline-block;
+    padding: 8px 20px;
+    margin-top: 20px;
+    border: 2px solid var(--black);
+    color: var(--black);
+    text-decoration: none;
+    color: var(--black);
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: 0.25s;
+}
+.btn:hover
+{
+    background: var(--black);
+    color: var(--white);
+}
+.title
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.title h2
+{
+    position: relative;
+    font-weight: 500;
+    letter-spacing: 2px;
+    font-size: 1.4em;
+    text-transform: uppercase;
+    color: var(--black);
+}
+
+.title p
+{
+    margin-top: 40px;
+    max-width: 700px;
+    text-align: center;
+}
+.title h2:before
+{
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 6px;
+    background: var(--black);
+}
+p
+{
+    color: var(--black);
+    font-weight: 300;
+    text-align: justify;
+}
+.about .contentbx
+{
+    position: relative;
+    margin-top: 40px;
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: 1fr 1fr;
+}
+.contentbx .content
+{
+    position: relative;
+}
+.contentbx .content .imgBx
+{
+    min-height: 400px;
+}
+.post .contentBx
+{
+    position: relative;
+    display: grid;
+    margin-top: 20px;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.post .contentBx .postColumn
+{
+    position: relative;
+}
+.post .contentBx .postColumn .postBox
+{
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-top: 20px;
+}
+.post .contentBx .postColumn .postBox.extraHeight
+{
+    height: 600px;
+}
+.post .contentBx .postColumn .postBox .textBx
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--white);
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.25s;
+}
+.post .contentBx .postColumn .postBox:hover .textBx
+{
+    opacity: 0.9;
+    visibility: visible;
+}
+.post .contentBx .postColumn .postBox .textBx h3
+{
+    font-weight: 400;
+    font-size: 1em;
+    letter-spacing: 1px;
+    color: var(--black);
+}
+.post .contentBx .postColumn .postBox .textBx .btn
+{
+    padding: 4px 10px;
+    background: var(--black);
+    color: var(--white);
+    font-weight: 300;
+    font-size: 1em;
+}
+.mgt40
+{
+    margin-top: 60px;
+}
+
+
+
+
+.contact 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.contact .contactForm
+{
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin-top: 20px;
+}
+.contact .contactForm .row
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 20px;
+    margin-top: 20px;
+}
+.contact .contactForm .row2
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.contact .contactForm .row input,
+.contact .contactForm .row2 textarea
+{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: var(--black);
+    background: var(--white2);
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid var(--black);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+::placeholder 
+{
+    color: var(--black);
+}
+.contact .contactForm .row2 textarea
+{
+    resize: none;
+    height: 200px;
+}
+.contact .contactForm .row2 input[type="submit"]
+{
+    background: var(--white);
+    color:  var(--black);
+    border: 2px solid var(--black);
+    margin-top: 0px;
+    cursor: pointer;
+}
+
+.contact .contactForm .row2 input[type="submit"]:hover
+{
+    background: var(--black);
+    color:  var(--white);
+}
+
+
+
+
+
+footer
+{
+    padding: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #f8f8f8;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+footer .footerMenu
+{
+    display: flex;
+}
+footer .footerMenu li
+{
+    list-style: none;
+}
+footer .footerMenu li a
+{
+    display: inline-block;
+    text-decoration: none;
+    margin: 20px;
+    color: var(--black);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.copyrightText
+{
+    color: var(--black);
+    text-align: center;
+}
+
+@media (max-width: 991px)
+{
+    header
+    {
+        padding: 20px 20px;
+    }
+    header.sticky
+    {
+        padding: 10px 20px;
+    }
+    section
+    {
+        padding: 20px;
+    }
+    .banner .contentBx
+    {
+        padding: 40px 30px;
+    }
+    .about .contentbx,
+    .post .contentBx,
+    .contact .contactForm .row
+    {
+        grid-template-columns: repeat(1,1fr);
+    }
+    .post .contentBx .postColumn .postBox,
+    .post .contentBx .postColumn .postBox.extraHeight
+    {
+        height: 300px;
+    }
+    .title
+    {
+        padding-top: 50px;
+    }
+    footer
+    {
+        padding: 40px 20px;
+    }
+
+    footer .footerMenu
+    {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0; 
+    }
+    footer .footerMenu li a
+    {
+        margin: 5px 0;
+    }
+}
