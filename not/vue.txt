@@ -2361,3 +2361,99 @@ slot 差巢:
     </script>
 
 
+    vue進階api
+
+        refs:在以往使用原生或是jq開發的時候，我們取得調動元素(DOM)的頻率可以說是非常頻繁，而且基本上是必須的。
+        但使用了Vue以後，我們很少會需要再使用到DOM的部分，不過偶爾還是會有所需求。
+        當這個時候我們並不用去使用JQ或是原生JS，Vue就有提供快速取得DOM的方法"ref"
+        步驟:
+            首先我們需要在要取得的DOM上給予 ref的屬性並自訂義屬性的值。
+        
+            <input ref="someword">
+            //這邊注意並不需要使用v-bind
+
+            其次若我們需要在DOM剛載入時就取得的話，需要放在生命週期mounted內，若放在create的話有可能會找不到。
+            mounted(){
+                console.log(this.$refs);//如此便會取得所有的DOM
+                console.log(this.$refs.someword);//若要取得指定DOM只需要在refs後方加入ref的自訂義值即可。
+                this.$refs.someword.focus();//若有操作的需求就跟使用JS或JQ一樣即可。
+            }
+
+        telport:telport的用途是元件跨區塊。也就是說兩個不同的區塊但卻是共用同一組元件。
+        結構: <telport to="{ DOM名稱 }">
+
+        用法:
+            先在使用元件的template內建立telport
+
+                app.component('unit',{
+                    template:`
+                    <buttom type="buttom">點擊顯示<buttom>
+                    <telport to="{#someDom}">
+                        <p v-if="isShow">顯示的文字</p>
+                    </telport>
+                    `,
+                    data(){
+                        return{
+                            isShow:false,//利用此變數來決定顯示與否
+                        }
+                    }
+                });
+
+            DOM:
+                <div id="someDom"></div>
+                //這邊的用途是利用"點擊顯示"的btn來決定p標籤內的文字是否顯示
+                //在telport內加入標籤及內容以後，使用to來指定要顯示的位置
+                //如此telport的DOM就會顯示在someDom的元素內了
+
+        使用限制:
+            只可以在mount指定區塊內運行，超出的話Vue會跳錯誤訊息至console
+        
+        實用技巧:
+            o.取代標題
+                telport是可以取代掉head內的title的
+            
+            
+            多個telport:
+                在一個元件內可以有多個telport。
+
+
+        provide:
+            跨元件傳遞。這邊的跨元件傳遞資料是能夠將外層的資料傳遞到內層的資料。
+            與props不同，props是一層一層的傳遞。而provide可以一次跨過中間的父層，從祖層傳遞至子層。
+
+            用法:
+                首先需要在外層的元件內加入provide的屬性。provide可以是函式也可以是一個物件，兩者有些許的差異。
+                這邊先使用物件的方式做介紹
+                provide:{
+                    someword:{//要傳送的資料
+                        text:'外部資料',
+                    },
+                },
+
+                接著則是內部的元件加入inject
+
+                inject:['someword'],//與props的用法很像，如此內部的元件就可以接收到外部的資料
+
+                function的provide:
+                在大致上了解provide的用法以後，我們來了解provide函式的用法。
+                provide函式與物件的區別在於，函式可以直接取得元件內的資料。
+                provide(){
+                    return{
+                        someword:this.someword,
+                    }
+                }
+
+                
+            注意事項:
+                若使用provide物件的傳遞資料的話，兩者的資料是不同步的。也就是說我在內層修改了someword的text
+                外部的資料並不會受到影響，一樣是顯示外部資料。
+                但若是使用函式的方法的話，那麼兩者的資料就會同步，不管哪一層改變了資料，其資料都會被更動修改。
+                能夠更動資料的用法被稱為"響應式"。
+
+
+                
+
+                
+
+
+
