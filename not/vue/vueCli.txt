@@ -85,3 +85,17 @@
                 備註:輸入完成以後會跳出兩個路徑
                 local為本地端可看見
                 Netword則是區網可見
+
+            介紹npm創建的檔案:
+                readme:介紹指令等的檔案
+                package.json:此專案的配置，包含安裝了那些相關套件 //基本不會動到
+                package-lock.json:安裝套件版本及描述 //基本上不會動到
+                babel.config.js:babel相關設定 //基本上不會動到
+                editorconfig:編輯器的設定檔
+                browserslistrc:瀏覽器支援相關
+                src(folder):{
+                    main.js:載入套件、全域的設定檔、路由等。基本上所有檔案及設定都會串到main.js。被稱做進入點,
+                    assets(folder):放入scss或圖片等的資料夾
+                }
+                public(folder):跟進入點沒有相關聯的檔案，或不需要編譯的檔案、比較大的圖片等。除了index.html會被編譯。
+                node_modules(folder):運行資料夾所需要的延伸套件，根據package.json所安裝的套件
