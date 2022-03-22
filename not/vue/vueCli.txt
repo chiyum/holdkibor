@@ -99,3 +99,30 @@
                 }
                 public(folder):跟進入點沒有相關聯的檔案，或不需要編譯的檔案、比較大的圖片等。除了index.html會被編譯。
                 node_modules(folder):運行資料夾所需要的延伸套件，根據package.json所安裝的套件
+
+
+        在專案中引入scss,sass:
+        步驟：
+            1.在cli創建專案時需選擇CSS Pre-processors 使用 CSS 預處理器
+            2.於assets資料夾下創建sass的folder並新增scss檔
+            3.使用@import導入指定位置 or 頁面 or Component
+                導入的位置會帶來不同的效果
+                -.Component：導入component的話就只會在component內生效
+                -.app.vue:與component是差不多的,只是通常放在這邊的scss都運用於全局,所以不會使用scoped,但須注意的是這邊共享的是css而非scss(也就是說沒有辦法使用變數)
+                        舉個例子,假設在scss我們設定了 h1 {color:#000}
+                        但在app.vue設定為
+                        <style lang="scss">
+                            @import "assets/scss/main.scss"
+                            h1{
+                                color:#fff;
+                            }
+                        </style>
+                        在不考慮權重的情況下,其他專案的顏色會是#fff而非＃000
+                -.main.js:與app.vue差不多一樣,但是為編譯後的css而非全局導入scss,另外的差別在於導入的方式不同。
+                          導入的位置需要在所有import後,Vue.create之前。
+
+                          @import vue form "vue";
+                          @import "@/assets/scss/main.scss"
+                          Vue.createApp({})
+
+            ex.scoped屬性是為了避免父層污染到子層的css
