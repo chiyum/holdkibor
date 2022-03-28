@@ -1,0 +1,88 @@
+目前所說明的為vuex4：
+
+    用途：
+    vuex是將所有元件的資料都統一管理的狀態管理模式套件。
+    主要因應大型專案中元件間複雜的傳遞而生，通常會搭配vuecli。
+
+    解說：
+        首先要先了解狀態管理模式。
+        狀態管理總共分為三大類：狀態（data）、視圖(template)、操作(methods)
+
+    使用：
+
+        一.建立
+            首先需要創建一個資料存取槽。就如同元件的data是一個道理。只是這個data覆蓋了全局。通常會創建在main
+                import { createStore } from 'vuex'; //導入vuex
+
+                import { createApp } from 'vue'; //理所當然的vue也必須導入
+
+                const store = createStore({ // 創建資料庫
+                    state(){ state就好比data
+                        return{
+                            text:'文字'
+                        }
+                    },
+                    mutations:{ 
+                        //更動state的方法 類似emit
+                        //在這邊我們得了解我們是無法直接更動state內的資料的
+                        //而是必須透過事件觸發mutations內的事件，以此來更動state內的資料。
+                        changeText(state){
+                            state.text = '改變後文字'; //這邊的參數直接代表state
+                        }
+                    }
+                })
+
+                const app = createApp({})//根元件 store是掛在在根元件下的
+
+                app.use(store);
+
+
+        二.修改資料
+            在同個元件下（根元件）下可以直接使用以下code來調用state的資料
+            store.commit('changeText'); //透過此code 驅動mutations內的changeText事件來修改state的值
+            console.log(store.state.text); // 取得state的值
+
+            但在其他元件就必須要使用另一種方法：
+
+                引入元件：
+                首先必須要先引入store
+
+                import { useStore } from 'vuex';//引入
+
+                export default {
+
+                    const store = useStore();// 使用
+                    console.log(store.state.text) // 現在已經取得了store元件內容 這邊會顯示“文字”
+                    const callmutation_fn = () => { //寫個fn來驅動mutations的changeText
+                        store.commit('changeText');
+                    };
+                    return{
+                        callmutation_fn,
+                        store,
+                    };
+                }
+
+                又或者是不需引入，直接使用也可以。
+                this.$store.commit('changeText'); //驅動mutations內的changeText事件來修改state的值
+                console.log(this.$store.state.text); //取得state的值
+
+        三.常見用法：
+            如果要及時的接收state的最新資料。可以使用以下方法
+                非cli：
+                const testObject = {
+                    template:`<p> {{ count }} </p>`,
+                    computed:{
+                        count(){
+                            return this.$store.state.count
+                        },
+                    }
+                }
+                //透過computed偵測store的資料，若有更動就觸發事件回傳到元件。
+                //使用.vue的元件也是一樣的道理。在.vue不需要引入也可以使用this.$store來取state的資料。
+            
+
+                
+
+            
+            
+            

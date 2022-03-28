@@ -112,7 +112,7 @@
                         舉個例子,假設在scss我們設定了 h1 {color:#000}
                         但在app.vue設定為
                         <style lang="scss">
-                            @import "assets/scss/main.scss"
+                        @import "@/assets/scss/main.scss"
                             h1{
                                 color:#fff;
                             }
@@ -121,8 +121,56 @@
                 -.main.js:與app.vue差不多一樣,但是為編譯後的css而非全局導入scss,另外的差別在於導入的方式不同。
                           導入的位置需要在所有import後,Vue.create之前。
 
-                          @import vue form "vue";
-                          @import "@/assets/scss/main.scss"
+                          import vue form "vue";
+                          import "./assets/scss/main.scss"
                           Vue.createApp({})
 
             ex.scoped屬性是為了避免父層污染到子層的css
+
+        建立元件：
+            在cli建立元件與原先的版本不同。
+            建立元件的方式是在src底下的component資料夾建立.vue的檔案((一般.vue檔案的名稱第一個字都會為大寫
+            範例:
+            假設我們已經在component創立一個.vue的檔案
+            <template>
+                <div>
+                    {{text}}
+                </div>
+            </template>
+            //這邊注意，就算.vue內只有template也是可以運行的喔
+
+            import Component from '@/components/Component.vue';
+            //這邊的＠為src的縮寫
+
+            export default{
+                components:{
+                    Component,
+                },
+                data(){
+                    return{
+                        text:'測試文字'
+                    }
+                }
+            }
+
+            //這邊撰寫與原先的component差別不大，基本上可以理解為.vue就是一個compoenet
+            //template標籤就是原先的template屬p性。
+            //export default為整個元件的結構
+            //import則是將元件給導入到目前的.vue檔案中,接著再使用components屬性加入到component中
+
+            ex.view資料夾是放置獨立頁面
+
+
+        ESlint 及 vueCli的撰寫風格
+        因為lint的關係,所以會有一些龜毛的報錯以提升你程式碼品質,若已經沒有問題卻還是報錯可以使用
+        npm run lint -- --fix 來使系統自主修正錯誤
+        但多數的錯誤還是因為撰寫的樣式不符合vue的關係。
+        例如很常見的一點就是命名風格。vue為了不讓component與標籤有衝突,所以命名這塊都偏向於多個單詞組合而成。
+        像是：TestCard, BigFont等等諸如此類
+
+        
+        導入外部套件：
+        1.首先需要到要載入的套件取得npm安裝代碼
+            拿sweet alert2來舉例 npm install sweetalert2
+            在vscode終端機中直接輸入代碼即可。
+        2.
