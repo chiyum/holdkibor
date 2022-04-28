@@ -19,3 +19,118 @@ origin 預設的遠端資料庫主機名稱
         git remote rename 原名稱 修改名稱
 
         git push 主機名稱 分支名稱 //將更動推上去遠端資料庫
+
+
+        
+清除本地分支，保留 master
+git branch | grep -v "master" | xargs git branch -D
+遠端已刪，同步本地分支
+git fetch --all --prune
+拉分支的某個資料夾檔案
+$ git checkout -m remote/branch path/to/file
+拉一個專案的某個分支下來，沒有歷程紀錄
+$ git clone --depth=1 --branch <branch> <remote>
+**推流**
+```$ git status
+$ git add .
+$ git commit -m "leave your message"
+$ git push
+```
+**復原到前一次的 commit**
+```# 復原
+$ git revert HEAD
+$ git push
+```
+**復原到之前的 commit**
+```
+$ git log                                                           
+# 選擇 commit xxxxxxxxxxxxxxxxxxxxxxxxxx 你要的
+$ git reset xxxxxxxxxxxxxxxxxxxxxxxxxx
+$ git checkout -- Unstaged的檔案
+$ git push --force
+```
+**常用**
+```
+# 配置远程git版本库
+$ git remote add origin git@github.com:yeszao/dofiler.git         
+# 下载代码及快速合并
+$ git pull origin master                                          
+# 上传代码及快速合并 
+$ git push origin master                                          
+# 从远程库获取代码
+$ git fetch origin                                                
+# 显示所有分支
+$ git branch                                                      
+# 切换到master分支
+$ git checkout master                                             
+# 创建并切换到dev分支
+$ git checkout -b dev                                             
+# 提交
+$ git commit -m "first version"                                   
+# 查看状态
+$ git status                                                      
+# 查看提交历史
+$ git log                                                         
+# 可以查看你的HEAD@{}
+$ git reflog                                                       
+# 设置大小写敏感
+$ git config core.ignorecase false                                
+# 设置用户名
+$ git config --global user.name "YOUR NAME"                       
+# 设置邮箱
+$ git config --global user.email "YOUR EMAIL ADDRESS"             
+```
+**修改和提交**
+```
+$ git status                      # 查看状态
+$ git diff                        # 查看变更内容
+$ git add .                       # 跟踪所有改动过的文件
+$ git add <file>                  # 跟踪指定的文件
+$ git mv <old> <new>              # 文件改名
+$ git rm <file>                   # 删除文件
+$ git rm --cached <file>          # 停止跟踪文件但不删除
+$ git commit -m "commit message"  # 提交所有更新过的文件
+$ git commit --amend              # 修改最后一次提交
+```
+**查看提交歷史**
+```
+$ git log                         # 查看提交历史
+$ git log -p <file>               # 查看指定文件的提交历史
+$ git blame <file>                # 以列表方式查看指定文件的提交历史
+```
+**分支与标签**
+```
+$ git branch                      # 显示所有本地分支
+$ git checkout <branch/tag>       # 切换到指定分支或标签
+$ git branch <new-branch>         # 创建新分支
+$ git branch -d <branch>          # 删除本地分支
+$ git tag                         # 列出所有本地标签
+$ git tag <tagname>               # 基于最新提交创建标签
+$ git tag -d <tagname>            # 删除标签
+$ git checkout dev                # 合并特定的commit到dev分支上
+$ git cherry-pick 62ecb3
+```
+**合併與衍合**
+```
+$ git merge <branch>              # 合并指定分支到当前分支
+$ git rebase <branch>             # 衍合指定分支到当前分支
+```
+**遠程操作**
+```$ git remote -v                   # 查看远程版本库信息
+$ git remote show <remote>        # 查看指定远程版本库信息
+$ git remote add <remote> <url>   # 添加远程版本库
+$ git remote remove <remote>      # 删除指定的远程版本库
+$ git fetch <remote>              # 从远程库获取代码
+$ git pull <remote> <branch>      # 下载代码及快速合并
+$ git push <remote> <branch>      # 上传代码及快速合并
+$ git push <remote> :<branch/tag-name>          # 删除远程分支或标签
+$ git push --tags                             # 上传所有标签
+```
+**远程与本地合并**        
+如果在远程创建了代码仓，而且已经初始化，本地是具体的源代码，那么工作流程应该是：
+```$ git init                              # 初始化本地代码仓
+$ git add .                             # 添加本地代码
+$ git commit -m "add local source"      # 提交本地代码
+$ git pull origin master                # 下载远程代码
+$ git merge master                      # 合并master分支
+$ git push -u origin master             # 上传代码```

@@ -1,0 +1,34 @@
+node.js介紹
+    模組化：
+    //基本上與vue元件的概念一樣，都是將各個功能給切割開來。
+        模組化也就是將大功能分割為一個一個小功能（模組），最後再用一個主程式例如main.js串接起來，這就是模組化的概念。
+        如何模組化？：
+        與js module的import與export差不多
+            建立一個js檔案
+
+            let shop = somecoding
+
+            module.exports = shop(任何型別)
+
+    引入模組：
+        node.js與js的差別來了，在node.js中並不是使用import，而是使用require(模組路徑)。
+        例如：require(./path)
+        //注意通常都會在主程式引入
+
+    node.js/path用法:
+
+    node.js/require.content用法：
+        require.context為歷遍指定資料夾內的指定文件
+        require.context函数接受三个参数
+        1.directory {String} -读取文件的路径
+        2.useSubdirectories {Boolean} -是否遍历文件的子目录
+        3.regExp {RegExp} -匹配文件的正则
+
+        在執行完require.content後返回的是一個函數，而這個函數帶有三個屬性：
+        1.resolve {Function} -接受一個參數request,request為test文件夾下面匹配文件的相對路徑,返回這個匹配文件相對在整個資料夾中的相對路徑
+
+        2.keys {Function} -返回匹配成功模塊的名字組成的陣列。每個值都是匹配成功的檔案的相對路徑
+        
+        3.id {String} -執行環境的id,返回的是一個字符串,主要用在module.hot.accept,應該是熱加載?
+
+        而返回的函數本身在帶入路徑以後則返回的是關於該文件的module

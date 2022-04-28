@@ -77,7 +77,9 @@
                 這邊建議安裝:
                     css - processors 為CSS預處理器
                     liter / fornatter 程式碼品質檢測
-                3.按下enter以後會到vue版本選擇 之後會進行一系列的選擇
+                3.按下enter以後會到vue版本選擇 之後依照你的選擇項目會進行一系列的選擇
+                //這邊需要注意的是use history mode for route    r 須選n
+                //選擇y的用途是自行設定server
 
                 4.當安裝完成以後，使用vscode開啟利用快捷鍵 ctrl + 反引號(`)開啟終端機
                 5.輸入npm run serve 就可以把環境給運行起來
@@ -88,18 +90,22 @@
 
             介紹npm創建的檔案:
                 readme:介紹指令等的檔案
-                package.json:此專案的配置，包含安裝了那些相關套件 //基本不會動到
-                package-lock.json:安裝套件版本及描述 //基本上不會動到
+                package.json:此專案的配置，包含此專案使用了哪些相關套件 
+                //基本上不會動到，當你安裝套件以後會自動加上。
+                //或是當你下載其他專案時，套件並不會自動安裝，需要使用npm install，就會根據package.json來幫你安裝相應的套件
+                package-lock.json:實際安裝套件版本及描述 //基本上不會動到
                 babel.config.js:babel相關設定 //基本上不會動到
                 editorconfig:編輯器的設定檔
                 browserslistrc:瀏覽器支援相關
-                src(folder):{
+                src(folder):{ //基本上自行建立的資料夾都會在這
                     main.js:載入套件、全域的設定檔、路由等。基本上所有檔案及設定都會串到main.js。被稱做進入點,
                     assets(folder):放入scss或圖片等的資料夾
                 }
                 public(folder):跟進入點沒有相關聯的檔案，或不需要編譯的檔案、比較大的圖片等。除了index.html會被編譯。
-                node_modules(folder):運行資料夾所需要的延伸套件，根據package.json所安裝的套件
+                node_modules(folder):根據package.json所安裝的套件，當套件有安裝成功就會在此資料夾中
 
+        安裝套件：
+        到終端機並到有package.json的資料夾內使用npm install 套件名稱（通常在你所要使用的套件官網內會有安裝的方法，複製貼上即可。
 
         在專案中引入scss,sass:
         步驟：
@@ -126,6 +132,29 @@
                           Vue.createApp({})
 
             ex.scoped屬性是為了避免父層污染到子層的css
+            ex.在scss需要指定路徑時需要使用作為開頭~@/ 例如：~@/assets/images/withdraw/icon_bankcard.png
+
+        npm指令：
+        npm -v //查詢npm版本
+        npm install //安裝所有package.json的所有套件
+        npm install 套件 //安裝指定套件
+        npm update //更新所有套件 與install一樣 若是有指定套件就是指安裝該套件
+        npm install //卸載所有套件
+        npm view 套件 //查詢套件版本
+        npm cache clean //清空緩存資料夾
+        //提到view及chache就不得不提到npm安裝套件的流程了
+        //npm 模块仓库提供了一个查询服务，叫做 registry 。以 npmjs.org 为例，它的查询服务网址是 https://registry.npmjs.org/ 。
+        //这个网址后面跟上模块名，就会得到一个 JSON 对象，里面是该套件所有版本的信息。
+        //比如，访问 https://registry.npmjs.org/react，就会看到 react 套件所有版本的信息。
+        //到這邊就是npm view的功能，接著再下去則是npm install 也就是安裝套件的流程
+        //registry 网址的套件名后面，还可以跟上版本号或者标签，用来查询某个具体版本的信息。比如， 访问 https://registry.npmjs.org/react/v0.14.6 ，就可以看到 React 的 0.14.6 版。
+        //返回的 JSON 对象里面，有一个dist.tarball属性，是该版本压缩包的网址。
+        //dist: {
+        //  shasum: '2a57c2cf8747b483759ad8de0fa47fb0c5cf5c6a',
+        //  tarball: 'http://registry.npmjs.org/react/-/react-0.14.6.tgz' 
+        //},
+        //到这个网址下载压缩包，在本地解压，就得到了套件的源码。npm install和npm update命令，都是通过这种方式安装套件的。
+        //由此可知，npm安裝流程是這樣的：取得壓縮包網址 > 下載到本地緩存資料夾（.npm) > 進行解壓縮到專案內的node_modules資料夾
 
         建立元件：
             在cli建立元件與原先的版本不同。
