@@ -1,0 +1,187 @@
+Vue router 路由
+
+    解說：何謂路由？路由也就是網址中不同分頁的路徑就叫做路由。
+    例如：https://www.holdkibor.com/home
+    其中的home就是路由，表示目前在home這個頁面。
+    但正常情況下不是直接使用路徑來導入就好了嗎？何必需要使用vue router呢？
+    其實我們之前所使用的路由都是通過後端來切換，而若使用vue router的話則把這個任務交給前端。
+    那交給前端來切換的話有什麼好處呢？
+    1.可以在切換頁面時進行邏輯處理。
+    假設今天在Ａ頁面需要在背景執行函式，但Ｂ頁面不需要的話，就可以在router進行處理。
+    如此一來如果有多個頁面需要需要執行函示，就不需要在每個需要執行的頁面都導入一次函式。
+
+    2.可以限制使用者是否有權限前往。
+    有時候我們會需要有權限才能夠查看或前往指定頁面，例如登入後才能操作的修改資料等。
+    這個時候就可以使用router來判別，如果沒有登入的話就不跳轉或跳轉到指定頁面
+
+    以上只是一部分，使用vue router的好處及方便性只有在使用以後才能深切體會。
+
+    vue router路由範例：https://www.holdkibor.com/#/home
+
+    如何使用？
+
+        導入vue router：
+            使用cdn或者是在cli中加入vue router後導入
+
+            CDN:
+            <script src:"https://unpkg.com/vue-router@4.0.5/dist/vue-router.global.js"></script>
+
+            Cli:
+            yarn add vue-router@4 //安裝vue router 這邊使用yarn 來安裝
+
+            正常情況來說如果只要使用標籤形式來進行路由切換，只要完成安裝即可並不需要導入
+            標籤形式如 <router-link></router-link>，這個我們後面會解釋。
+            但如果說不是使用標籤形式的話就需要導入，導入方式如下：
+
+            import { useRouter } from "vue-router" //在想要使用的頁面導入
+
+            接下來則是開啟方法：
+            CompositionAPI:
+                setup(){
+                    const router = useRouter();
+                };
+
+            OptionAPI:
+                created(){
+                    const router = useRouter();
+                }
+        
+        建立路由：
+
+            const router = createRouter({
+              history: createWebHashHistory(import.meta.env.BASE_URL),
+              //網址路徑模式：這邊使用hash形式
+              routes: createRoutes(options),
+              //路由表 ps:也就是各個分頁
+            });
+            //建立router
+            
+            app.use(router); //在主元件使用router
+    
+            cli補充：簡單點可以在main.js直接使用，但如果要求架構的話可以專門建立js檔，使用導入的方式
+            範例：
+    
+            import router form "@/router.js" // @/是vue cli的導入路徑用法 @代表src的資料夾 不過通常都是使用./router 因為兩者會在同一層
+            app.use(router);
+        
+        建立路由表:
+
+            解說：vue router在切換頁面時其實是在元件中進行切換。
+                也就是說我們需要讓router有切換的依據，讓router知道目前有哪些路徑。
+                路由表就是讓router有這個依據，講白話就是管理路徑的總表。
+            
+            路由表範例：
+
+            const options = [
+                /* 形式 */
+                {
+                    path: "/路由" //自定義路由名稱
+                    component: 元件 //切換的元件
+                },
+                /* 一般頁面範例 */
+                {
+                    path: "/home",
+                    component: Home
+                },
+                /* cli範例 */
+                {
+                    path: "/home",
+                    component: () => import("@/pages/home.vue")
+                    //這邊是利用箭頭函示回傳的特性，回傳import的元件
+                }
+                // ps:在cli中除了上方的島入方式外，亦可以使用 import 導入元件以後並像一般頁面那樣插入元件，但做法會比上方範例繁瑣。
+            ]
+
+            const router = createRouter({
+              history: createWebHashHistory(),
+              routes: createRoutes(options), //導入路由表
+            });
+
+        建立路由顯示的位置：
+
+            解說：vue router有些類似 v-bind:is，因此勢必就要有個可以供替換和顯示元件的地方。
+                所以在我們建立完路由後，我們需要決定讓切換路由後顯示的位置。
+                這時我們就需要通過router-view這個標籤。
+                ps:若使用cli的話，router-view通常會建立在app.vue這個主元件上。
+
+                範例：
+                <div id="app">
+                    <router-view></router-view>
+                </div>
+
+                如此當路徑切換到 /home的時候 router-view就會是/home元件的內容
+
+                類似概念：
+                <div id="app">
+                    <div :is="component"></div>
+                </div>
+
+        切換路由：
+            解說：既然有顯示的位置了，那除了手動在網址列切換路由外，必然是會有切換路由的方法。
+
+            1.使用 router-link 標籤
+                在你要的指定位置加入router-link標籤即可
+                形式：<router-link to="路徑"></router-link>
+                範例：<router-link to="/home"></router-link>
+
+                ps:router-link在轉換成DOM後會是a標籤，所以在寫css的時候需要注意。
+
+            2.使用router的API
+                若要使用routerAPI就需要導入。（使用前面導入的方法
+                通常會使用到API大多用於需要判別的時候，例如先判斷是否為登入才切換。
+                router.push("/home"); //與router-link相同
+                router.replace("/home") 
+                //一樣是切換 差別在於不會在history新增紀錄，假設說由/login切換到/home的時候，
+                //上一頁並不會是/login 同時這個也可以作為標籤屬性加入到router-link中 <router-link to="/home" replace></router-link>
+
+    巢狀路由：
+        解說：在了解了vue router的基本用法後，我們接著往下了解更深入的用法。
+            首先我們先介紹巢狀路由。
+            何謂巢狀路由？顧名思義就是在路由中還有子路由。也就是router-view中還有router-view
+            而巢狀路由的路徑會長這樣：https://www.holdkibor.com/about/name  //about路由中的name
+
+        使用方法：
+
+            於路由表：
+            [
+                {
+                    path: "/about"
+                    component: ()=> import("./about")
+                    children: [ //於要顯示的路由中加入children的key，內容則是與路由表一樣。
+                        {
+                            path: "a",
+                            component: ()=> import("./a")
+                        }
+                        {
+                            path: "b",
+                            component: ()=> import("./b")
+                        }
+                    ]
+                }
+            ]
+
+            於元件的template: //與在主元件建立的路由表並無不同
+            <template>
+                <router-view></router-view>
+            </template>
+
+    具名視圖：
+        何謂具名視圖？講白話一點就是將router-view給命名，有名字的router-view。
+        而之所以要命名的緣故為當一個元件內有多個router-view，那麼就需要個依據讓系統知道哪個元件對應哪個router-view給命名。
+        如此便稱為具名視圖。
+        
+
+    layout佈局:待補充...
+
+
+
+    動態路由：
+        所謂動態路由就是藉由路由列傳入指定參數
+        例如https://www.com.tw/?id="1234",這段網址後面的?id="1234"就是參數
+        在vue router中的參數並不像上面的形式，但概念是一樣的。都是在路由中傳入參數。
+        通常會運用產品詳細資料。有著同樣的頁面，但資料不同。
+        比較常見的用法就是頁面中有著api，載入以後從參數獲得id並加入api來獲取指定資料。
+        vue router形式：https://www.com.tw/id/1234
+        在這個例子中。id是頁面，而參數則是1234。
+        白話來說就是在id這個頁面，有著參數1234的資料。
+        以在頁面中打api的例子就是會從路由列取得參數1234並使用api傳送出去來取得參數1234的資料。
