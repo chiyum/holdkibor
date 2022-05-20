@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.wrap {
+  margin: 0 auto;
+  width: 95%;
+  max-width: 1058.3px;
+  height: 90%;
+}
+
+.wrap .head {
+  height: 5%;
+  padding: 1%;
+  text-align: center;
+  border: 1px solid #000;
+}
+
+.wrap .main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  height: 94%;
+  overflow: scroll;
+  border-bottom: 1px solid;
+}
+
+.wrap .main ul {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.wrap .main .height {
+  min-width: 4rem;
+  height: 100%;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.wrap .main .height li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-bottom: 1px solid;
+}
+
+.wrap .main .height .height__title {
+  height: 4rem;
+  background: linear-gradient(45deg, #fff 0%, #fff 49%, #000 49%, #000 50%, #fff 50%, #fff 100%);
+}
+
+.wrap .main .price {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  overflow: overlay;
+  border-right: 1px solid #000;
+}
+
+.wrap .main .price ul {
+  min-width: 62px;
+}
+
+.border__b {
+  border-bottom: 1px solid;
+}
+
+.border__b_close {
+  border-bottom: none !important;
+}
+
+.border__r {
+  border-right: 1px solid;
+}
+
+.border__r_close {
+  border-right: none !important;
+}
+
+.small {
+  white-space: nowrap;
+  font-size: 12px;
+}
+/*# sourceMappingURL=price.css.map */
