@@ -18,93 +18,27 @@ body
     height: 100vh;
 }
 
-.wrap
+.content
 {
-    margin: 0 auto;
+    padding: 1rem;
     width: 95%;
-    max-width: 1058.3px;
-    height: 90%;
-    // border-bottom: none;
-    .head
+    background: #f6f6f6;
+    border-radius: 12px;
+    .label
     {
-        height: 5%;
-        padding: 1%;
-        text-align: center;
-        // border-bottom: 1px solid;
-        border: 1px solid #000;
-
+        padding: .5rem 0;
+        font-weight: bolder;
+    }
+    select
+    {
+        padding: .2rem;
+        width: 100%;
+        color: #888585;
+        border: 1px solid #c3c3c3;
+        border-radius: 3px;
     }
     .main
     {
-        display: flex;
-        align-items: stretch;
-        height: 94%;
-        overflow: scroll;
-        border-bottom: 1px solid;
-        ul
-        {
-            display: flex;
-            flex-direction: column;
-        }
-        .height
-        {
-            min-width: 4rem;
-            height: 100%;
-            border-left: 1px solid;
-            border-right: 1px solid;
-            li
-            {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                // border-right: 1px solid;
-                border-bottom: 1px solid;
-            }
-            .height__title
-            {
-                height: 4rem;
-                // width: 4rem;
-                // border-right: 1px solid;
-                // border-bottom: 1px solid;
-                background:linear-gradient( 45deg,
-                #fff 0%, #fff 49%,
-                #000 49%, #000 50%,
-                #fff 50%, #fff 100%);
-            }   
-        }
-        .price
-        {
-            display: flex;
-            overflow: overlay;
-            border-right: 1px solid #000;
-            // border-bottom: 1px solid #000;
-
-            ul
-            {
-                min-width: 62px;
-            }
-        }
+        padding: 2rem 0;
     }
-}
-
-.border__b
-{
-    border-bottom: 1px solid;
-}
-.border__b_close
-{
-    border-bottom: none !important;
-}
-.border__r
-{
-    border-right: 1px solid;
-}
-.border__r_close
-{
-    border-right: none !important;
-}
-.small
-{
-    white-space: nowrap;
-    font-size: 12px;
 }

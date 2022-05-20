@@ -11,44 +11,52 @@
 </head>
 
 <body>
-    <div class="wrap" id="app">
-        <div class="head">
-            <h2 class="title">鑽孔施工價目表</h2>
-        </div>
-        <div class="main">
-            <ul class="height">
-                <li class="flex-col height__title">
-                    <div class="px-0.5 w-full text-right">價格</div>
-                    <div class="px-0.5 w-full text-left">深度</div>
-                </li>
-                <li v-for="(num, index) in 18" class="item" :class="{ border__b_close:index == 17 }">
-                    {{ 15 + (index * 5) }}cm
-                </li>
-            </ul>
-            <div class="price">
-                <ul v-for="(item, index) in price" :key="item.size" class="border__r" :class="{ border__r_close:index +1 === price.length }">
-                    <li>
-                        <p class="flex flex-col items-center justify-center px-1 text-center text-sm border__b"
-                            style="height: 4rem">
-                            <span class="font-medium">{{ item.size }}"</span>
-                            <span class="small">{{ item.unit }}</span>
-                            <span class="small">m/m</span>
-                        </p>
-                    </li>
-                    <li v-for="(data, i) in item.list" :key="data.cm"
-                        class="flex items-center justify-center item border__b"
-                        :class="{ border__b_close: i +1 === item.list.length }">
-                        ${{ data.price }}
-                    </li>
-                </ul>
+    <div class="wrap flex items-center justify-center h-full w-full">
+        <div class="content">
+            <div class="">
+                <div>
+                    <div class="label">孔徑</div>
+                    <select v-model="form.format" @change="search">
+                        <option disabled value="">請選擇孔徑</option>
+                        <option v-for="item in list.format" :key="item.size" :value="item.size">
+                            {{ item.size }}"
+                        </option>
+                    </select>
+                </div>
+                <div class="line"></div>
+                <div>
+                    <div class="label">深度</div>
+                    <select v-model="form.height" @change="search">
+                        <option value="" disabled>請選擇深度</option>
+                        <option v-for="item in list.height" :key="item.cm" :value="item.cm">
+                            {{ item.cm }}cm
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="main flex flex-col items-center justify-center">
+                <div class="w-full">
+                    <span class="text-big">孔徑：</span>
+                    <span v-if="form.result !== ''" class="text-l">{{ form.format }}"</span>
+                </div>
+                <div class="w-full">
+                    <span class="text-big">深度：</span>
+                    <span v-if="form.result !== ''" class="text-l">{{ form.height }}cm</span>
+                </div>
+                <div class="w-full">
+                    <span class="text-big">價格：</span>
+                    <span v-if="form.result !== ''" class="text-l">${{ form.result }}</span>
+                </div>
             </div>
         </div>
     </div>
 </body>
 <script>
-    // const app = Vue.createApp();
+    // import { reactive } from "vue";
     const app = Vue.createApp({
         setup() {
+            const { reactive } = Vue;
+            console.log(reactive);
             const price = [
                 /* 1 or 2 */
                 {
@@ -57,77 +65,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 310
+                            price: 310,
                         },
                         {
                             cm: 20,
-                            price: 390
+                            price: 390,
                         },
                         {
                             cm: 25,
-                            price: 480
+                            price: 480,
                         },
                         {
                             cm: 30,
-                            price: 570
+                            price: 570,
                         },
                         {
                             cm: 35,
-                            price: 660
+                            price: 660,
                         },
                         {
                             cm: 40,
-                            price: 800
+                            price: 800,
                         },
                         {
                             cm: 45,
-                            price: 885
+                            price: 885,
                         },
                         {
                             cm: 50,
-                            price: 970
+                            price: 970,
                         },
                         {
                             cm: 55,
-                            price: 1185
+                            price: 1185,
                         },
                         {
                             cm: 60,
-                            price: 1310
+                            price: 1310,
                         },
                         {
                             cm: 65,
-                            price: 1455
+                            price: 1455,
                         },
                         {
                             cm: 70,
-                            price: 1590
+                            price: 1590,
                         },
                         {
                             cm: 75,
-                            price: 1800
+                            price: 1800,
                         },
                         {
                             cm: 80,
-                            price: 1970
+                            price: 1970,
                         },
                         {
                             cm: 85,
-                            price: 2220
+                            price: 2220,
                         },
                         {
                             cm: 90,
-                            price: 2380
+                            price: 2380,
                         },
                         {
                             cm: 95,
-                            price: 2540
+                            price: 2540,
                         },
                         {
                             cm: 100,
-                            price: 2710
-                        }
-                    ]
+                            price: 2710,
+                        },
+                    ],
                 },
                 /* 2.5 */
                 {
@@ -136,77 +144,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 350
+                            price: 350,
                         },
                         {
                             cm: 20,
-                            price: 425
+                            price: 425,
                         },
                         {
                             cm: 25,
-                            price: 535
+                            price: 535,
                         },
                         {
                             cm: 30,
-                            price: 640
+                            price: 640,
                         },
                         {
                             cm: 35,
-                            price: 750
+                            price: 750,
                         },
                         {
                             cm: 40,
-                            price: 900
+                            price: 900,
                         },
                         {
                             cm: 45,
-                            price: 980
+                            price: 980,
                         },
                         {
                             cm: 50,
-                            price: 1100
+                            price: 1100,
                         },
                         {
                             cm: 55,
-                            price: 1290
+                            price: 1290,
                         },
                         {
                             cm: 60,
-                            price: 1430
+                            price: 1430,
                         },
                         {
                             cm: 65,
-                            price: 1600
+                            price: 1600,
                         },
                         {
                             cm: 70,
-                            price: 1740
+                            price: 1740,
                         },
                         {
                             cm: 75,
-                            price: 1975
+                            price: 1975,
                         },
                         {
                             cm: 80,
-                            price: 2160
+                            price: 2160,
                         },
                         {
                             cm: 85,
-                            price: 2420
+                            price: 2420,
                         },
                         {
                             cm: 90,
-                            price: 2600
+                            price: 2600,
                         },
                         {
                             cm: 95,
-                            price: 2795
+                            price: 2795,
                         },
                         {
                             cm: 100,
-                            price: 2990
-                        }
-                    ]
+                            price: 2990,
+                        },
+                    ],
                 },
                 /* 3 */
                 {
@@ -215,77 +223,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 375
+                            price: 375,
                         },
                         {
                             cm: 20,
-                            price: 465
+                            price: 465,
                         },
                         {
                             cm: 25,
-                            price: 575
+                            price: 575,
                         },
                         {
                             cm: 30,
-                            price: 700
+                            price: 700,
                         },
                         {
                             cm: 35,
-                            price: 825
+                            price: 825,
                         },
                         {
                             cm: 40,
-                            price: 970
+                            price: 970,
                         },
                         {
                             cm: 45,
-                            price: 1100
+                            price: 1100,
                         },
                         {
                             cm: 50,
-                            price: 1220
+                            price: 1220,
                         },
                         {
                             cm: 55,
-                            price: 1360
+                            price: 1360,
                         },
                         {
                             cm: 60,
-                            price: 1520
+                            price: 1520,
                         },
                         {
                             cm: 65,
-                            price: 1730
+                            price: 1730,
                         },
                         {
                             cm: 70,
-                            price: 2050
+                            price: 2050,
                         },
                         {
                             cm: 75,
-                            price: 2210
+                            price: 2210,
                         },
                         {
                             cm: 80,
-                            price: 2520
+                            price: 2520,
                         },
                         {
                             cm: 85,
-                            price: 2640
+                            price: 2640,
                         },
                         {
                             cm: 90,
-                            price: 2850
+                            price: 2850,
                         },
                         {
                             cm: 95,
-                            price: 3070
+                            price: 3070,
                         },
                         {
                             cm: 100,
-                            price: 3250
-                        }
-                    ]
+                            price: 3250,
+                        },
+                    ],
                 },
                 /* 3.5 */
                 {
@@ -294,77 +302,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 410
+                            price: 410,
                         },
                         {
                             cm: 20,
-                            price: 500
+                            price: 500,
                         },
                         {
                             cm: 25,
-                            price: 655
+                            price: 655,
                         },
                         {
                             cm: 30,
-                            price: 800
+                            price: 800,
                         },
                         {
                             cm: 35,
-                            price: 930
+                            price: 930,
                         },
                         {
                             cm: 40,
-                            price: 1060
+                            price: 1060,
                         },
                         {
                             cm: 45,
-                            price: 1180
+                            price: 1180,
                         },
                         {
                             cm: 50,
-                            price: 1470
+                            price: 1470,
                         },
                         {
                             cm: 55,
-                            price: 1550
+                            price: 1550,
                         },
                         {
                             cm: 60,
-                            price: 1640
+                            price: 1640,
                         },
                         {
                             cm: 65,
-                            price: 1780
+                            price: 1780,
                         },
                         {
                             cm: 70,
-                            price: 2240
+                            price: 2240,
                         },
                         {
                             cm: 75,
-                            price: 2400
+                            price: 2400,
                         },
                         {
                             cm: 80,
-                            price: 2560
+                            price: 2560,
                         },
                         {
                             cm: 85,
-                            price: 2760
+                            price: 2760,
                         },
                         {
                             cm: 90,
-                            price: 2890
+                            price: 2890,
                         },
                         {
                             cm: 95,
-                            price: 3175
+                            price: 3175,
                         },
                         {
                             cm: 100,
-                            price: 3380
-                        }
-                    ]
+                            price: 3380,
+                        },
+                    ],
                 },
                 /* 4 */
                 {
@@ -373,77 +381,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 470
+                            price: 470,
                         },
                         {
                             cm: 20,
-                            price: 590
+                            price: 590,
                         },
                         {
                             cm: 25,
-                            price: 720
+                            price: 720,
                         },
                         {
                             cm: 30,
-                            price: 900
+                            price: 900,
                         },
                         {
                             cm: 35,
-                            price: 1020
+                            price: 1020,
                         },
                         {
                             cm: 40,
-                            price: 1190
+                            price: 1190,
                         },
                         {
                             cm: 45,
-                            price: 1340
+                            price: 1340,
                         },
                         {
                             cm: 50,
-                            price: 1480
+                            price: 1480,
                         },
                         {
                             cm: 55,
-                            price: 1630
+                            price: 1630,
                         },
                         {
                             cm: 60,
-                            price: 1730
+                            price: 1730,
                         },
                         {
                             cm: 65,
-                            price: 1820
+                            price: 1820,
                         },
                         {
                             cm: 70,
-                            price: 2330
+                            price: 2330,
                         },
                         {
                             cm: 75,
-                            price: 2450
+                            price: 2450,
                         },
                         {
                             cm: 80,
-                            price: 2620
+                            price: 2620,
                         },
                         {
                             cm: 85,
-                            price: 2820
+                            price: 2820,
                         },
                         {
                             cm: 90,
-                            price: 3000
+                            price: 3000,
                         },
                         {
                             cm: 95,
-                            price: 3390
+                            price: 3390,
                         },
                         {
                             cm: 100,
-                            price: 3575
-                        }
-                    ]
+                            price: 3575,
+                        },
+                    ],
                 },
                 /* 5 */
                 {
@@ -452,77 +460,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 595
+                            price: 595,
                         },
                         {
                             cm: 20,
-                            price: 750
+                            price: 750,
                         },
                         {
                             cm: 25,
-                            price: 910
+                            price: 910,
                         },
                         {
                             cm: 30,
-                            price: 1070
+                            price: 1070,
                         },
                         {
                             cm: 35,
-                            price: 1260
+                            price: 1260,
                         },
                         {
                             cm: 40,
-                            price: 1460
+                            price: 1460,
                         },
                         {
                             cm: 45,
-                            price: 1715
+                            price: 1715,
                         },
                         {
                             cm: 50,
-                            price: 1830
+                            price: 1830,
                         },
                         {
                             cm: 55,
-                            price: 2060
+                            price: 2060,
                         },
                         {
                             cm: 60,
-                            price: 2210
+                            price: 2210,
                         },
                         {
                             cm: 65,
-                            price: 2325
+                            price: 2325,
                         },
                         {
                             cm: 70,
-                            price: 2470
+                            price: 2470,
                         },
                         {
                             cm: 75,
-                            price: 2645
+                            price: 2645,
                         },
                         {
                             cm: 80,
-                            price: 2850
+                            price: 2850,
                         },
                         {
                             cm: 85,
-                            price: 3190
+                            price: 3190,
                         },
                         {
                             cm: 90,
-                            price: 3450
+                            price: 3450,
                         },
                         {
                             cm: 95,
-                            price: 3770
+                            price: 3770,
                         },
                         {
                             cm: 100,
-                            price: 4120
-                        }
-                    ]
+                            price: 4120,
+                        },
+                    ],
                 },
                 /* 6 */
                 {
@@ -531,77 +539,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 665
+                            price: 665,
                         },
                         {
                             cm: 20,
-                            price: 825
+                            price: 825,
                         },
                         {
                             cm: 25,
-                            price: 1000
+                            price: 1000,
                         },
                         {
                             cm: 30,
-                            price: 1180
+                            price: 1180,
                         },
                         {
                             cm: 35,
-                            price: 1380
+                            price: 1380,
                         },
                         {
                             cm: 40,
-                            price: 1740
+                            price: 1740,
                         },
                         {
                             cm: 45,
-                            price: 1880
+                            price: 1880,
                         },
                         {
                             cm: 50,
-                            price: 2050
+                            price: 2050,
                         },
                         {
                             cm: 55,
-                            price: 2200
+                            price: 2200,
                         },
                         {
                             cm: 60,
-                            price: 2350
+                            price: 2350,
                         },
                         {
                             cm: 65,
-                            price: 2650
+                            price: 2650,
                         },
                         {
                             cm: 70,
-                            price: 2840
+                            price: 2840,
                         },
                         {
                             cm: 75,
-                            price: 2990
+                            price: 2990,
                         },
                         {
                             cm: 80,
-                            price: 3300
+                            price: 3300,
                         },
                         {
                             cm: 85,
-                            price: 3730
+                            price: 3730,
                         },
                         {
                             cm: 90,
-                            price: 3970
+                            price: 3970,
                         },
                         {
                             cm: 95,
-                            price: 4230
+                            price: 4230,
                         },
                         {
                             cm: 100,
-                            price: 4770
-                        }
-                    ]
+                            price: 4770,
+                        },
+                    ],
                 },
                 /* 7 */
                 {
@@ -610,77 +618,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 900
+                            price: 900,
                         },
                         {
                             cm: 20,
-                            price: 1150
+                            price: 1150,
                         },
                         {
                             cm: 25,
-                            price: 1470
+                            price: 1470,
                         },
                         {
                             cm: 30,
-                            price: 1670
+                            price: 1670,
                         },
                         {
                             cm: 35,
-                            price: 1905
+                            price: 1905,
                         },
                         {
                             cm: 40,
-                            price: 2030
+                            price: 2030,
                         },
                         {
                             cm: 45,
-                            price: 2125
+                            price: 2125,
                         },
                         {
                             cm: 50,
-                            price: 2250
+                            price: 2250,
                         },
                         {
                             cm: 55,
-                            price: 2400
+                            price: 2400,
                         },
                         {
                             cm: 60,
-                            price: 2600
+                            price: 2600,
                         },
                         {
                             cm: 65,
-                            price: 2870
+                            price: 2870,
                         },
                         {
                             cm: 70,
-                            price: 3025
+                            price: 3025,
                         },
                         {
                             cm: 75,
-                            price: 3260
+                            price: 3260,
                         },
                         {
                             cm: 80,
-                            price: 3500
+                            price: 3500,
                         },
                         {
                             cm: 85,
-                            price: 3990
+                            price: 3990,
                         },
                         {
                             cm: 90,
-                            price: 4340
+                            price: 4340,
                         },
                         {
                             cm: 95,
-                            price: 4490
+                            price: 4490,
                         },
                         {
                             cm: 100,
-                            price: 4980
-                        }
-                    ]
+                            price: 4980,
+                        },
+                    ],
                 },
                 /* 8 */
                 {
@@ -689,77 +697,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 1170
+                            price: 1170,
                         },
                         {
                             cm: 20,
-                            price: 1500
+                            price: 1500,
                         },
                         {
                             cm: 25,
-                            price: 1870
+                            price: 1870,
                         },
                         {
                             cm: 30,
-                            price: 2270
+                            price: 2270,
                         },
                         {
                             cm: 35,
-                            price: 2700
+                            price: 2700,
                         },
                         {
                             cm: 40,
-                            price: 3325
+                            price: 3325,
                         },
                         {
                             cm: 45,
-                            price: 3590
+                            price: 3590,
                         },
                         {
                             cm: 50,
-                            price: 4170
+                            price: 4170,
                         },
                         {
                             cm: 55,
-                            price: 4980
+                            price: 4980,
                         },
                         {
                             cm: 60,
-                            price: 5480
+                            price: 5480,
                         },
                         {
                             cm: 65,
-                            price: 6180
+                            price: 6180,
                         },
                         {
                             cm: 70,
-                            price: 6645
+                            price: 6645,
                         },
                         {
                             cm: 75,
-                            price: 7090
+                            price: 7090,
                         },
                         {
                             cm: 80,
-                            price: 7470
+                            price: 7470,
                         },
                         {
                             cm: 85,
-                            price: 9075
+                            price: 9075,
                         },
                         {
                             cm: 90,
-                            price: 10130
+                            price: 10130,
                         },
                         {
                             cm: 95,
-                            price: 10580
+                            price: 10580,
                         },
                         {
                             cm: 100,
-                            price: 11480
-                        }
-                    ]
+                            price: 11480,
+                        },
+                    ],
                 },
                 /* 9 */
                 {
@@ -768,77 +776,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 1750
+                            price: 1750,
                         },
                         {
                             cm: 20,
-                            price: 2070
+                            price: 2070,
                         },
                         {
                             cm: 25,
-                            price: 2270
+                            price: 2270,
                         },
                         {
                             cm: 30,
-                            price: 2620
+                            price: 2620,
                         },
                         {
                             cm: 35,
-                            price: 3450
+                            price: 3450,
                         },
                         {
                             cm: 40,
-                            price: 3960
+                            price: 3960,
                         },
                         {
                             cm: 45,
-                            price: 4740
+                            price: 4740,
                         },
                         {
                             cm: 50,
-                            price: 5330
+                            price: 5330,
                         },
                         {
                             cm: 55,
-                            price: 6010
+                            price: 6010,
                         },
                         {
                             cm: 60,
-                            price: 7070
+                            price: 7070,
                         },
                         {
                             cm: 65,
-                            price: 7630
+                            price: 7630,
                         },
                         {
                             cm: 70,
-                            price: 8210
+                            price: 8210,
                         },
                         {
                             cm: 75,
-                            price: 9390
+                            price: 9390,
                         },
                         {
                             cm: 80,
-                            price: 10030
+                            price: 10030,
                         },
                         {
                             cm: 85,
-                            price: 11290
+                            price: 11290,
                         },
                         {
                             cm: 90,
-                            price: 12400
+                            price: 12400,
                         },
                         {
                             cm: 95,
-                            price: 13335
+                            price: 13335,
                         },
                         {
                             cm: 100,
-                            price: 14730
-                        }
-                    ]
+                            price: 14730,
+                        },
+                    ],
                 },
                 /* 10 */
                 {
@@ -847,77 +855,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 1990
+                            price: 1990,
                         },
                         {
                             cm: 20,
-                            price: 2250
+                            price: 2250,
                         },
                         {
                             cm: 25,
-                            price: 2670
+                            price: 2670,
                         },
                         {
                             cm: 30,
-                            price: 3260
+                            price: 3260,
                         },
                         {
                             cm: 35,
-                            price: 4050
+                            price: 4050,
                         },
                         {
                             cm: 40,
-                            price: 4910
+                            price: 4910,
                         },
                         {
                             cm: 45,
-                            price: 5880
+                            price: 5880,
                         },
                         {
                             cm: 50,
-                            price: 6500
+                            price: 6500,
                         },
                         {
                             cm: 55,
-                            price: 7725
+                            price: 7725,
                         },
                         {
                             cm: 60,
-                            price: 8300
+                            price: 8300,
                         },
                         {
                             cm: 65,
-                            price: 8900
+                            price: 8900,
                         },
                         {
                             cm: 70,
-                            price: 9710
+                            price: 9710,
                         },
                         {
                             cm: 75,
-                            price: 10540
+                            price: 10540,
                         },
                         {
                             cm: 80,
-                            price: 11800
+                            price: 11800,
                         },
                         {
                             cm: 85,
-                            price: 13110
+                            price: 13110,
                         },
                         {
                             cm: 90,
-                            price: 14050
+                            price: 14050,
                         },
                         {
                             cm: 95,
-                            price: 15875
+                            price: 15875,
                         },
                         {
                             cm: 100,
-                            price: 17330
-                        }
-                    ]
+                            price: 17330,
+                        },
+                    ],
                 },
                 /* 12 */
                 {
@@ -926,77 +934,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 2340
+                            price: 2340,
                         },
                         {
                             cm: 20,
-                            price: 2875
+                            price: 2875,
                         },
                         {
                             cm: 25,
-                            price: 3600
+                            price: 3600,
                         },
                         {
                             cm: 30,
-                            price: 4530
+                            price: 4530,
                         },
                         {
                             cm: 35,
-                            price: 5250
+                            price: 5250,
                         },
                         {
                             cm: 40,
-                            price: 6175
+                            price: 6175,
                         },
                         {
                             cm: 45,
-                            price: 6860
+                            price: 6860,
                         },
                         {
                             cm: 50,
-                            price: 7830
+                            price: 7830,
                         },
                         {
                             cm: 55,
-                            price: 8755
+                            price: 8755,
                         },
                         {
                             cm: 60,
-                            price: 10420
+                            price: 10420,
                         },
                         {
                             cm: 65,
-                            price: 11810
+                            price: 11810,
                         },
                         {
                             cm: 70,
-                            price: 13810
+                            price: 13810,
                         },
                         {
                             cm: 75,
-                            price: 15140
+                            price: 15140,
                         },
                         {
                             cm: 80,
-                            price: 16720
+                            price: 16720,
                         },
                         {
                             cm: 85,
-                            price: 18150
+                            price: 18150,
                         },
                         {
                             cm: 90,
-                            price: 20250
+                            price: 20250,
                         },
                         {
                             cm: 95,
-                            price: 21170
+                            price: 21170,
                         },
                         {
                             cm: 100,
-                            price: 23830
-                        }
-                    ]
+                            price: 23830,
+                        },
+                    ],
                 },
                 /* 14 */
                 {
@@ -1005,77 +1013,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 2690
+                            price: 2690,
                         },
                         {
                             cm: 20,
-                            price: 3500
+                            price: 3500,
                         },
                         {
                             cm: 25,
-                            price: 4530
+                            price: 4530,
                         },
                         {
                             cm: 30,
-                            price: 5800
+                            price: 5800,
                         },
                         {
                             cm: 35,
-                            price: 6450
+                            price: 6450,
                         },
                         {
                             cm: 40,
-                            price: 7440
+                            price: 7440,
                         },
                         {
                             cm: 45,
-                            price: 7840
+                            price: 7840,
                         },
                         {
                             cm: 50,
-                            price: 9160
+                            price: 9160,
                         },
                         {
                             cm: 55,
-                            price: 9875
+                            price: 9875,
                         },
                         {
                             cm: 60,
-                            price: 12540
+                            price: 12540,
                         },
                         {
                             cm: 65,
-                            price: 14720
+                            price: 14720,
                         },
                         {
                             cm: 70,
-                            price: 17910
+                            price: 17910,
                         },
                         {
                             cm: 75,
-                            price: 19740
+                            price: 19740,
                         },
                         {
                             cm: 80,
-                            price: 21640
+                            price: 21640,
                         },
                         {
                             cm: 85,
-                            price: 23190
+                            price: 23190,
                         },
                         {
                             cm: 90,
-                            price: 26540
+                            price: 26540,
                         },
                         {
                             cm: 95,
-                            price: 28725
+                            price: 28725,
                         },
                         {
                             cm: 100,
-                            price: 30330
-                        }
-                    ]
+                            price: 30330,
+                        },
+                    ],
                 },
                 /* 16 */
                 {
@@ -1084,77 +1092,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 3800
+                            price: 3800,
                         },
                         {
                             cm: 20,
-                            price: 4575
+                            price: 4575,
                         },
                         {
                             cm: 25,
-                            price: 5200
+                            price: 5200,
                         },
                         {
                             cm: 30,
-                            price: 6530
+                            price: 6530,
                         },
                         {
                             cm: 35,
-                            price: 7250
+                            price: 7250,
                         },
                         {
                             cm: 40,
-                            price: 8300
+                            price: 8300,
                         },
                         {
                             cm: 45,
-                            price: 9100
+                            price: 9100,
                         },
                         {
                             cm: 50,
-                            price: 10310
+                            price: 10310,
                         },
                         {
                             cm: 55,
-                            price: 11290
+                            price: 11290,
                         },
                         {
                             cm: 60,
-                            price: 14050
+                            price: 14050,
                         },
                         {
                             cm: 65,
-                            price: 16950
+                            price: 16950,
                         },
                         {
                             cm: 70,
-                            price: 19500
+                            price: 19500,
                         },
                         {
                             cm: 75,
-                            price: 21640
+                            price: 21640,
                         },
                         {
                             cm: 80,
-                            price: 23500
+                            price: 23500,
                         },
                         {
                             cm: 85,
-                            price: 25450
+                            price: 25450,
                         },
                         {
                             cm: 90,
-                            price: 28950
+                            price: 28950,
                         },
                         {
                             cm: 95,
-                            price: 31070
+                            price: 31070,
                         },
                         {
                             cm: 100,
-                            price: 33030
-                        }
-                    ]
+                            price: 33030,
+                        },
+                    ],
                 },
                 /* 18 */
                 {
@@ -1163,77 +1171,77 @@
                     list: [
                         {
                             cm: 15,
-                            price: 5700
+                            price: 5700,
                         },
                         {
                             cm: 20,
-                            price: 6865
+                            price: 6865,
                         },
                         {
                             cm: 25,
-                            price: 7800
+                            price: 7800,
                         },
                         {
                             cm: 30,
-                            price: 9795
+                            price: 9795,
                         },
                         {
                             cm: 35,
-                            price: 10875
+                            price: 10875,
                         },
                         {
                             cm: 40,
-                            price: 12450
+                            price: 12450,
                         },
                         {
                             cm: 45,
-                            price: 13650
+                            price: 13650,
                         },
                         {
                             cm: 50,
-                            price: 15195
+                            price: 15195,
                         },
                         {
                             cm: 55,
-                            price: 16935
+                            price: 16935,
                         },
                         {
                             cm: 60,
-                            price: 21075
+                            price: 21075,
                         },
                         {
                             cm: 65,
-                            price: 25425
+                            price: 25425,
                         },
                         {
                             cm: 70,
-                            price: 29250
+                            price: 29250,
                         },
                         {
                             cm: 75,
-                            price: 32460
+                            price: 32460,
                         },
                         {
                             cm: 80,
-                            price: 35250
+                            price: 35250,
                         },
                         {
                             cm: 85,
-                            price: 38175
+                            price: 38175,
                         },
                         {
                             cm: 90,
-                            price: 43425
+                            price: 43425,
                         },
                         {
                             cm: 95,
-                            price: 46605
+                            price: 46605,
                         },
                         {
                             cm: 100,
-                            price: 49545
-                        }
-                    ]
+                            price: 49545,
+                        },
+                    ],
                 },
                 /* 30 */
                 {
@@ -1242,103 +1250,235 @@
                     list: [
                         {
                             cm: 15,
-                            price: 6300
+                            price: 6300,
                         },
                         {
                             cm: 20,
-                            price: 7625
+                            price: 7625,
                         },
                         {
                             cm: 25,
-                            price: 8665
+                            price: 8665,
                         },
                         {
                             cm: 30,
-                            price: 10880
+                            price: 10880,
                         },
                         {
                             cm: 35,
-                            price: 12000
+                            price: 12000,
                         },
                         {
                             cm: 40,
-                            price: 13835
+                            price: 13835,
                         },
                         {
                             cm: 45,
-                            price: 15165
+                            price: 15165,
                         },
                         {
                             cm: 50,
-                            price: 16800
+                            price: 16800,
                         },
                         {
                             cm: 55,
-                            price: 18815
+                            price: 18815,
                         },
                         {
                             cm: 60,
-                            price: 23415
+                            price: 23415,
                         },
                         {
                             cm: 65,
-                            price: 28250
+                            price: 28250,
                         },
                         {
                             cm: 70,
-                            price: 32500
+                            price: 32500,
                         },
                         {
                             cm: 75,
-                            price: 36065
+                            price: 36065,
                         },
                         {
                             cm: 80,
-                            price: 39165
+                            price: 39165,
                         },
                         {
                             cm: 85,
-                            price: 42415
+                            price: 42415,
                         },
                         {
                             cm: 90,
-                            price: 48250
+                            price: 48250,
                         },
                         {
                             cm: 95,
-                            price: 51780
+                            price: 51780,
                         },
                         {
                             cm: 100,
-                            price: 55050
-                        }
-                    ]
+                            price: 55050,
+                        },
+                    ],
                 },
-            ]
+            ];
+            const form = reactive({
+                format: "",
+                height: "",
+                result: "",
+            });
+            const list = {
+                height: [
+                    {
+                        cm: 15,
+                    },
+                    {
+                        cm: 20,
+                    },
+                    {
+                        cm: 25,
+                    },
+                    {
+                        cm: 30,
+                    },
+                    {
+                        cm: 35,
+                    },
+                    {
+                        cm: 40,
+                    },
+                    {
+                        cm: 45,
+                    },
+                    {
+                        cm: 50,
+                    },
+                    {
+                        cm: 55,
+                    },
+                    {
+                        cm: 60,
+                    },
+                    {
+                        cm: 65,
+                    },
+                    {
+                        cm: 70,
+                    },
+                    {
+                        cm: 75,
+                    },
+                    {
+                        cm: 80,
+                    },
+                    {
+                        cm: 85,
+                    },
+                    {
+                        cm: 90,
+                    },
+                    {
+                        cm: 95,
+                    },
+                    {
+                        cm: 100,
+                    },
+                ],
+                format: [
+                    {
+                        size: `1-2`,
+                    },
+                    {
+                        size: `2.5`,
+                    },
+                    {
+                        size: `3`,
+                    },
+                    {
+                        size: `3.5`,
+                    },
+                    {
+                        size: `4`,
+                    },
+                    {
+                        size: `5`,
+                    },
+                    {
+                        size: `6`,
+                    },
+                    {
+                        size: `7`,
+                    },
+                    {
+                        size: `8`,
+                    },
+                    {
+                        size: `9`,
+                    },
+                    {
+                        size: `10`,
+                    },
+                    {
+                        size: `12`,
+                    },
+                    {
+                        size: `14`,
+                    },
+                    {
+                        size: `16`,
+                    },
+                    {
+                        size: `18`,
+                    },
+                    {
+                        size: `30`,
+                    },
+                ],
+            };
 
+            const search = () => {
+                form.format;
+                /* 給預設值 */
+                if (form.format === "") form.format = list.format[0].size;
+                if (form.height === "") form.height = list.height[0].cm;
+                /* 開始找尋條件 */
+                price.find((data) => {
+                    if (data.size === form.format) {
+                        data.list.find((item) => {
+                            if (item.cm === form.height) {
+                                return (form.result = item.price);
+                            }
+                        });
+                    }
+                });
+            };
             return {
+                form,
+                list,
                 price,
+                search,
             };
         },
     });
 
     app.mount(".wrap")
     /* 取table總高度 */
-    let content = window
-        .getComputedStyle(document.querySelector(".height"), null)
-        .getPropertyValue("height");
-    /* 取table_head總高度 */
-    let height = window
-        .getComputedStyle(document.querySelector(".height__title"), null)
-        .getPropertyValue("height");
-    /* 取剩下高度 */
-    let remainingHeight = content.substr(0, content.length - 2) - height.substr(0, height.length - 2);
-    let itemsHeight = remainingHeight / 18;
-    console.log(itemsHeight);
-    let items = document.querySelectorAll(".item");
-    for (const item of items) {
-        item.style.height = itemsHeight + "px";
-    };
+    // let content = window
+    //     .getComputedStyle(document.querySelector(".height"), null)
+    //     .getPropertyValue("height");
+    // /* 取table_head總高度 */
+    // let height = window
+    //     .getComputedStyle(document.querySelector(".height__title"), null)
+    //     .getPropertyValue("height");
+    // /* 取剩下高度 */
+    // let remainingHeight = content.substr(0, content.length - 2) - height.substr(0, height.length - 2);
+    // let itemsHeight = remainingHeight / 18;
+    // console.log(itemsHeight);
+    // let items = document.querySelectorAll(".item");
+    // for (const item of items) {
+    //     item.style.height = itemsHeight + "px";
+    // };
 </script>
 <script src="https://cdn.tailwindcss.com"></script>
 
